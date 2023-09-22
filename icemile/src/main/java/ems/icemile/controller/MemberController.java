@@ -41,6 +41,7 @@ public class MemberController {
 //		}
 		
 		boolean result2 = memberService.userCheck(memberDTO);
+		
 		if(result2) {
 			log.debug("로그인 성공!!!");
 		} else {
