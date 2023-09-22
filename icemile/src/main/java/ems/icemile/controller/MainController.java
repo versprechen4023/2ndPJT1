@@ -17,11 +17,19 @@ public class MainController {
 	@Inject
 	private MainService mainService;
 	
-	@GetMapping("/something")
-	public String something() {
+	@GetMapping("/index")
+	public String index() {
 		
-		log.debug("something");
+		log.debug("index");
 		
-		return "redirect:/main/something";
+		return "main/index";
 	}
+
+	@GetMapping("/tables")
+	public String tables() {
+		
+		log.debug("tables");
+		
+		return "main/tables";
+	}	
 }
