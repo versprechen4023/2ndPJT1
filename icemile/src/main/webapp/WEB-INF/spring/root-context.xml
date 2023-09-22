@@ -4,5 +4,39 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
+	
+	<!-- 히카리 커넥션풀 설정 -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+        <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+        <property name="jdbcUrl" value="jdbc:log4jdbc:mysql://192.168.1.182:3306/icemile?serverTimezone=Asia/Seoul"/>
+        <property name="username" value="root"/>
+        <property name="password" value="Mysql@123"/>
+    </bean>
+    <!-- 히카리 커넥션풀 설정 End-->
+
+	<!-- 히카리 커넥션풀 데이터소스 DB연결 정보 객체생성 세팅 -->
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig"/>
+	</bean>
+	<!-- 히카리 커넥션풀 데이터소스 DB연결 정보 객체생성 세팅 End-->
+	
+	<!-- 마이바티스 관련 설정파일, DB연결, 매퍼, SQL 실행 관련 세팅 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation" 
+					value="classpath:/mybatis-config.xml"/>
+		<property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"/>
+	</bean>
+	<!-- 마이바티스 관련 설정파일, DB연결, 매퍼, SQL 실행 관련 세팅 End -->
+	
+	<!-- 마이바티스 관련 SQL 종료(dbClose) 세팅 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" 
+			destroy-method="clearCache">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+	<!-- 마이바티스 관련 SQL 종료(dbClose) 세팅 End -->
+	
+		<!-- 스프링 시큐리티의 패스워드 엔코더의 의존성 주입을 위한 빈 객체생성 -->
+	<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+	
 </beans>

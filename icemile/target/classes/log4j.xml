@@ -10,15 +10,63 @@
 		</layout>
 	</appender>
 	
-	<!-- Application Loggers -->
+	<!-- 어플리케이션 로거 -->
 	<logger name="ems.icemile.home">
+		<level value="debug" />
+	</logger>
+	
+	<logger name="ems.icemile.controller">
+		<level value="debug" />
+	</logger>
+	
+	<logger name="ems.icemile.dao">
+		<level value="debug" />
+	</logger>
+	
+	<logger name="ems.icemile.dto">
+		<level value="debug" />
+	</logger>
+	
+	<logger name="ems.icemile.service">
+		<level value="debug" />
+	</logger>
+	
+	<!-- SQL Logger 레벨에 warn을 명시하면 경고관련만 info면 모든 로그 명시-->
+	<!-- 커넥션 관련 로그를 기록한다 커넥션이 열리고 닫히는걸 명시한다 -->
+	<logger name="jdbc.connection" additivity="false">
 		<level value="info" />
+		<appender-ref ref="console"/> 
+	</logger>
+	<!-- JDBC 호출 관련 로그를 남긴다 로그가 많으므로 에러 말고는 명시할 이유 없음 -->
+	<logger name="jdbc.audit" additivity="false"> 
+		<level value="warn"/>  
+		<appender-ref ref="console"/> 
+	</logger> 
+    <!-- 결과(ResultSet)을 포함한 모든 로그를 명시한다 로그가 많으므로 에러 말고는 명시할 이유 없음 -->
+	<logger name="jdbc.resultset" additivity="false">
+		<level value="warn" />
+		<appender-ref ref="console"/> 
+	</logger>
+	<!-- 사용되는 SQL구문을 기록한다 SQL구문에 값이 제대로 넘어가는지 확인하기위해 필요 -->
+	<logger name="jdbc.sqlonly" additivity="false"> 
+		<level value="info"/> 
+		<appender-ref ref="console"/> 
+	</logger>
+    <!-- SQL 쿼리 결과를 기록한다 조회가 제대로 되는지 확인하기위해 필요 -->
+	<logger name="jdbc.resultsettable" additivity="false"> 
+		<level value="info"/>  
+		<appender-ref ref="console"/> 
+	</logger>
+	<!-- 쿼리 검색과 결과도출까지 걸린 시간을 출력한다 SQL의 속도가 느려지면 정확하게 검색에 얼마나 소요되는지 확인하기위해 필요 -->
+	<logger name="jdbc.sqltiming" additivity="false">
+		<level value="warn" />
+		<appender-ref ref="console"/> 
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
-	</logger>
+	</logger>	
 	
 	<logger name="org.springframework.beans">
 		<level value="info" />
@@ -34,7 +82,7 @@
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
 	

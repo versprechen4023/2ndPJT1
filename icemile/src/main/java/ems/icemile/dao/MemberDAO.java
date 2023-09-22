@@ -1,0 +1,31 @@
+package ems.icemile.dao;
+
+import javax.inject.Inject;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
+import ems.icemile.dto.MemberDTO;
+import lombok.extern.slf4j.Slf4j;
+
+@Repository
+@Slf4j
+public class MemberDAO {
+	
+	@Inject // 마이바티스 객체 의존성 주입
+	private SqlSession sqlSession;
+	
+	// 네임 스페이스 사용을 위한 변수 선언
+	private static final String namespace = "mes.icemile.mappers.memberMapper.";
+	
+	public boolean memberInsert(MemberDTO memberDTO) {
+		log.debug("멤버인서트 DAO 도달");
+		return sqlSession.insert(namespace+"memberInsert",memberDTO) > 0;
+	}
+
+	public MemberDTO userCheck(MemberDTO memberDTO) {
+		log.debug("유저체크 DAO 도달");
+		return sqlSession.selectOne(namespace+"userCheck",memberDTO);
+	}
+
+}
