@@ -1,9 +1,9 @@
 package ems.icemile.home;
 
-import java.util.Locale;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -16,13 +16,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class HomeController {
 	
+	// 최초페이지 매핑
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public String home(HttpSession session) {
 		
 		log.debug("홈페이지");
 		
-//		return "home";
-		return "redirect:/member/login";
+		// 세션검증
+		if(session.getAttribute("emp_num") != null) {
+			return "redirect:/main/index";
+		} else {
+			return "redirect:/member/login";
+		}
 	}
 	
 }

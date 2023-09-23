@@ -13,5 +13,6 @@ public class ExceptionController {
 	@ExceptionHandler(Exception.class)
 	public void exceptionHandler(Exception e) {
 		log.debug("예외발생!!! "+e);
+		e.printStackTrace();
 	}
 }
