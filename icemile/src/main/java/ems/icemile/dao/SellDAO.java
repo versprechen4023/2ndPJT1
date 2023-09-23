@@ -1,5 +1,5 @@
 package ems.icemile.dao;
 
-public interface MainDAO {
+public interface SellDAO {
 
 }

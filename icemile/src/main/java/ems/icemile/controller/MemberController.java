@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ems.icemile.dto.MemberDTO;
-import ems.icemile.service.MemberService;
+import ems.icemile.service.MemberServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	
 	@Inject
-	private MemberService memberService;
+	private MemberServiceImpl memberService;
 	
 	@GetMapping("/login")
 	public String login() {
