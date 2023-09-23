@@ -31,5 +31,14 @@ public class MainController {
 		log.debug("tables");
 		
 		return "main/tables";
+	}
+	
+	@GetMapping("/form")
+	public String form() {
+		
+		log.debug("form");
+		
+		return "main/form";
 	}	
 }
+
