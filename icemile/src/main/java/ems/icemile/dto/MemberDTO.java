@@ -11,4 +11,6 @@ public class MemberDTO {
 	
 	private String id;
 	private String pass;
+	private String permission;
+	private String birthdate;
 }

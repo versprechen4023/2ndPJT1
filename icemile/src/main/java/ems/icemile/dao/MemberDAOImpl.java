@@ -19,6 +19,11 @@ public class MemberDAOImpl implements MemberDAO {
 	private static final String namespace = "mes.icemile.mappers.memberMapper.";
 	
 	@Override
+	public int getNewMemberId() {
+		return sqlSession.selectOne(namespace+"getNewMemberId");
+	}
+	
+	@Override
 	public boolean memberInsert(MemberDTO memberDTO) {
 		log.debug("멤버인서트 DAO 도달");
 		return sqlSession.insert(namespace+"memberInsert",memberDTO) > 0;

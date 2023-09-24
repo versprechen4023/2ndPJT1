@@ -97,7 +97,7 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        로그인정보
+                        로그인정보 ${sessionScope.emp_num}
                     </div>
                 </nav>
             </div>

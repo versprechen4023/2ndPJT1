@@ -41,7 +41,7 @@
                                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
                                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
                                 </div>
-                                <button>사원 등록 </button>
+                                <button onclick="location.href='../member/insert'">insert</button>
                             </div>
                         </div>
                         <div class="card mb-4">

@@ -3,10 +3,15 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mes.icemile.mappers.memberMapper">
-	
+
+  <select id="getNewMemberId" resultType="java.lang.Integer">
+  	SELECT count(*) + 1
+  		FROM user
+  </select>
+  
   <insert id="memberInsert">
-  	INSERT INTO user(id,pass)
-  		VALUES(#{id},#{pass})
+  	INSERT INTO user(id,pass,role)
+  		VALUES(CONCAT('IM', LPAD(#{id}, 6, '0')),#{pass}, #{permission})
   </insert>
   
   <select id="userCheck" resultType="ems.icemile.dto.MemberDTO">
