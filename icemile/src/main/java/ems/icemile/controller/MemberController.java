@@ -115,4 +115,11 @@ public class MemberController {
 		
 		return "member/ajax";
 	}
+	
+	@GetMapping("/chat")
+	public String chat() {
+		log.debug("멤버 chat");
+		
+		return "member/chat";
+	}
 }
