@@ -40,7 +40,8 @@ public class MemberController {
 		if(memberService.userCheck(memberDTO)) {
 			// 아이디랑 권한만 저장하면 될거같음 일단은
 			log.debug("로그인 성공!!!");
-			session.setAttribute("emp_num", memberDTO.getId());
+			session.setAttribute("emp_num", memberDTO.getEmp_num());
+			session.setAttribute("emp_role", memberDTO.getEmp_role());
 			return "redirect:/main/index";
 		} else {
 			log.debug("로그인 실패!!!");
@@ -58,10 +59,18 @@ public class MemberController {
 		return "member/insert";
 	}
 	
+	@GetMapping("/erg")
+	public String test() {
+		
+		log.debug("사용자 추가 페이지");
+		
+		return "member/Erg";
+	}
+	
 	@PostMapping("/insert")
 	public String insertMember(MemberDTO memberDTO) {
 		
-		log.debug("권한값"+memberDTO.getPermission());
+		log.debug("권한값"+memberDTO.getEmp_role());
 		String name = Position.fromNumber(1).getName();
 		
 //		if(memberService.memberInsert(memberDTO)) {
@@ -78,6 +87,13 @@ public class MemberController {
 		
 		log.debug("로그아웃 함");
 		session.invalidate();
+		return "redirect:/member/login";
+	}
+	
+	@GetMapping("/ajax")
+	public String ajax() {
+		log.debug("멤버 AJAX 진입");
+		
 		return "redirect:/member/login";
 	}
 }
