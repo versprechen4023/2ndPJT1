@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ems.icemile.dto.MemberDTO;
@@ -68,10 +69,9 @@ public class MemberController {
 	}
 	
 	@PostMapping("/insert")
-	public String insertMember(MemberDTO memberDTO) {
+	public String insertMember(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file) {
 		
-		log.debug("권한값"+memberDTO.getEmp_role());
-		String name = Position.fromNumber(1).getName();
+		log.debug("값 잘 넘어오나"+memberDTO.toString());
 		
 //		if(memberService.memberInsert(memberDTO)) {
 //			log.debug("사용자 추가 성공!!!");

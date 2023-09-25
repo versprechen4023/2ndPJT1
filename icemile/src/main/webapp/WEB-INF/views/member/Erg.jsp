@@ -27,14 +27,14 @@ h1 {
 </style>
 </head>
 <body>
-	<form action="#" method="POST" enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath }/member/insert" method="POST" enctype="multipart/form-data">
 		<h1>
 			<b>사원등록</b>
 		</h1>
 
 		<!-- 사진 등록 -->
 		 <img src="" alt="미리보기" id="preview" style="max-width: 100px; max-height: 100px; display: none;"> <br>
-		  <input type="file" id="file"> <br><br>
+		  <input type="file" id="file" name="file"> <br><br>
     
     <br><br>
 
@@ -67,7 +67,12 @@ h1 {
     		<option value="4">차장</option>
     		<option value="5">부장</option>
 		</select> <br> <br>
-
+		
+		<!-- 전화번호 -->
+		<label for="phone_num_label"><b>전화번호:</b></label> 
+		<input type="text" name="phone_num" id="phone_num">
+		<br> <br>
+		
 		<!-- 내선번호 -->
 		<label for="hotline_label"><b>내선번호:</b></label> 
 		<input type="text" name="hotline" id="hotline">
@@ -127,6 +132,7 @@ h1 {
 		</div>
 		<input type="hidden" id="emp_role" name="emp_role" value="">
 		<input type="hidden" id="email" name="email" value="">
+		<input type="hidden" id="address" name="address" value="">
 	</form>
 <!-- 데이트피커 J쿼리등을 사용하기위한 호출 -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -231,6 +237,7 @@ $(document).ready(function() {
         }
     });
     
+    // 서브밋 될때 실행
     $('form').on('submit', function () {
         // 체크된 체크박스들의 값을 합산할 변수 초기화
         var sum = 0;
@@ -242,6 +249,23 @@ $(document).ready(function() {
         
         // 합산된 값을 emp_role 입력 필드에 설정
         $('#emp_role').val(sum);
+        
+        // 이메일 값 합산 설정
+        // 입력이메일을 가져오기위한 변수선언
+        var emailId = $("#email_id").val();
+        var emailDns = $("#email_dns").val();
+		
+        // email_id와 email_dns를 합쳐서 email 필드에 저장
+        $("#email").val(emailId + "@" + emailDns);
+        
+        //주소값 합산 설정
+        // 주소값을 가져오기위한 변수선언
+        var addr1 = $("#addr1").val();
+        var addr2 = $("#addr2").val();
+        var addr3 = $("#addr3").val();
+        
+        // 주소값을 합쳐서 address 필드에 저장
+        $("#address").val(addr1 + "" + addr2 + " " + addr3);
     });
 	
     // 생년월일 데이트피커
