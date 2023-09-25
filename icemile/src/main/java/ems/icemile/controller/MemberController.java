@@ -1,5 +1,8 @@
 package ems.icemile.controller;
 
+import java.io.File;
+import java.util.UUID;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -60,9 +63,34 @@ public class MemberController {
 	}
 	
 	@PostMapping("/insert")
-	public String insertMember(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file) {
+	public String insertMember(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file, HttpSession session) throws Exception {
 		
 		log.debug("값 잘 넘어오나 "+memberDTO.toString());
+		
+		// 프로필 사진 업로드 처리
+		// 파일이 있다면 업로드 처리 시작
+		if(file.getSize() > 0 ) {
+	        
+			// 업로드 경로 지정
+			String uploadDir = "/resources/upload"; 
+			String saveDir = session.getServletContext().getRealPath(uploadDir);
+			
+			log.debug("실제 파일 업로드 주소 : "+saveDir);
+			
+			// 폴더가 없다면 생성
+			File uploadFolder = new File(saveDir);
+	        if (!uploadFolder.exists()) {
+	            uploadFolder.mkdirs();
+	        }
+			
+			// 사진 이름 얻어오기 중복되지않기 위해 랜덤값 부여 나중에 _전으로 잘라서 표기하면됨
+			String photo = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+			// 멤버 DTO에 등록
+			memberDTO.setProfilepic(photo);
+			
+			// 파일 저장 실행
+			file.transferTo(new File(saveDir + File.separator + photo));
+		}
 		
 		if(memberService.memberInsert(memberDTO)) {
 			log.debug("사용자 추가 성공!!!");
