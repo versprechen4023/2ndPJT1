@@ -52,7 +52,7 @@
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
                                             <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/raw">원자재재고</a>
-                                            <a class="nav-link" href="register.html">발주</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/rawOrder">발주</a>
                                             <a class="nav-link" href="password.html">입고</a>
                                             <a class="nav-link" href="password.html">거래처관리</a>
                                         </nav>
@@ -87,7 +87,7 @@
                                             <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/product">완제품재고</a>
                                             <a class="nav-link" href="register.html">수주</a>
                                             <a class="nav-link" href="password.html">출하</a>
-                                            <a class="nav-link" href="password.html">지점관리</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath }/sell/branch">지점관리</a>
                                         </nav>
                                 </nav>                          
                             </div>

@@ -21,12 +21,13 @@
         <div id="layoutSidenav">
 <!-- 사이드바 -->
 <jsp:include page="../include/sidebar.jsp"></jsp:include>
-<!-- 사이드바 --> 
+<!-- 사이드바 -->
         
             <div id="layoutSidenav_content">
                 <main>
+                <!-- 내용들어가는곳 -->
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">원자재</h1>
+                        <h1 class="mt-4">창고관리</h1>
                         <ol class="breadcrumb mb-4">
 <!--                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
@@ -48,14 +49,16 @@
                                         	<th>선택</th>
                                             <th>순서</th>
                                             <th>코드</th>
-                                            <th>품명</th>
-                                            <th>수량</th>
-                                            <th>단위</th>
-                                            <th>매입 단가</th>
-                                            <th>유통기한</th>
-                                            <th>거래처 코드</th>
-                                            <th>창고</th>
+                                            <th>이름</th>
+                                            <th>종류</th>
+                                            <th>위치</th>
+                                            <th>전화번호</th>
+                                            <th>가용상태</th>
+                                            <th>완제품 코드</th>
+                                            <th>원자재 코드</th>
+                                            <th>담당자</th>
                                             <th>비고</th>
+
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -65,14 +68,16 @@
                                         	<th>선택</th>
                                             <th>순서</th>
                                             <th>코드</th>
-                                            <th>품명</th>
-                                            <th>수량</th>
-                                            <th>단위</th>
-                                            <th>매입 단가</th>
-                                            <th>유통기한</th>
-                                            <th>거래처 코드</th>
-                                            <th>창고</th>
+                                            <th>이름</th>
+                                            <th>종류</th>
+                                            <th>위치</th>
+                                            <th>전화번호</th>
+                                            <th>가용상태</th>
+                                            <th>완제품 코드</th>
+                                            <th>원자재 코드</th>
+                                            <th>담당자</th>
                                             <th>비고</th>
+
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -80,14 +85,15 @@
                                         	<th class="eachCheck">
             					 				<input type="checkbox" name="cbox" class="eachCheckbox"></th>
                                             <th>1</th>
-                                            <th>MCM0001</th> <!-- 대충... 밀크 초콜릿 무스의 약자 -->
-                                            <th>밀크 초콜릿 무스</th>
-                                            <th>30</th>
-                                            <th>개</th>
-                                            <th>5,000원</th>
-                                            <th>2025-01-25</th>
-                                            <th>010126</th>
-                                            <th>WH0001R</th>
+                                            <th>WH0001P</th> <!-- 대충... -->
+                                            <th>1번 창고</th>
+                                            <th>2</th>
+                                            <th></th>
+                                            <th>051-111-1111</th>
+                                            <th>1(3/30)</th>
+                                            <th>PROD001</th>
+                                            <th></th>
+                                            <th>IM000001</th>
                                             <th></th>
                                         </tr>
                                     </tbody>
@@ -95,12 +101,12 @@
                             </div>
                         </div>
                     </div>
-                <!-- 내용 들어가는 곳 -->    
+                <!-- 내용 들어가는 곳 -->
                 </main>
                 
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
-<!-- 푸터 -->
+<!-- 푸터 -->  
                 
             </div>
         </div>

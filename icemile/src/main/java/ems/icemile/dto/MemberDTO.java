@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class MemberDTO {
-	
+
 	// 사원 번호
 	private String emp_num;
 	// 사원 비밀번호
@@ -37,5 +37,4 @@ public class MemberDTO {
 	private String profilepic;
 	// 권한
 	private String emp_role;
-
 }
