@@ -27,7 +27,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">사원정보조회</h1>
+                        <h1 class="mt-4">사원 정보 조회</h1>
                         <ol class="breadcrumb mb-4">
 <!--                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
@@ -42,6 +42,7 @@
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
+                                    <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
                                         <tr>
                                             <th>이름</th>
                                             <th>직급</th>
@@ -52,6 +53,8 @@
                                         </tr>
                                     </thead>
                                     <tfoot>
+                                    <!-- "테이블 바닥글"을 나타냅니다. 이 부분은 테이블의 하단 요약 정보나 추가 설명 등을 담습니다. -->
+                                    <!-- <tfoot> 부분은 없어도 될 것 같은데 기존 템플릿에 있던 태그라 그냥 둔 겁니다! -->
                                         <tr>
                                             <th>이름</th>
                                             <th>직급</th>
