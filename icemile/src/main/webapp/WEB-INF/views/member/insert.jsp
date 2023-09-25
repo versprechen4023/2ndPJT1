@@ -27,7 +27,7 @@ h1 {
 </style>
 </head>
 <body>
-	<form action="${pageContext.request.contextPath }/member/insert" method="POST" enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath }/member/insert" id="signup" name="signup" method="POST" enctype="multipart/form-data">
 		<h1>
 			<b>사원등록</b>
 		</h1>
@@ -40,43 +40,56 @@ h1 {
 
 		<!-- 이름 -->
 		<b>이름:</b> <input type="text" name="emp_name" id="emp_name">
-		<br><br>
-
+		<br>
+		<span id="namemsg"></span>
+		<br>
 		<!-- 생년월일 -->
 		<label for="birthdate"><b>생년월일:</b></label>
 		<input type="text" name="birthdate" id="birthdate" placeholder="생일을 선택해 주십시오" readonly>
-		<br><br>
+		<br>
+		<span id="birthmsg"></span>
+		<br>
 
 		<!-- 부서 -->
 		<label for="department_label"><b>부서 선택:</b></label>
 		<select name="dept_name" id="dept_name">
-			<option>부서를 선택하십시오</option>
+			<option value="">부서를 선택하십시오</option>
    			<option value="1">인사팀</option>
     		<option value="2">영업팀</option>
     		<option value="3">생산팀</option>
     		<option value="4">물류팀</option>
-		</select> <br> <br>
+		</select> 
+		<br> 
+		<span id="deptmsg"></span>
+		<br>
 
 		<!-- 직급 -->
 		<label for="position_label"><b>직급 선택:</b></label> 
 		<select name="position" id="position">
-			<option>직급을 선택하십시오</option>
+			<option value="">직급을 선택하십시오</option>
     		<option value="1">사원</option>
     		<option value="2">대리</option>
     		<option value="3">과장</option>
     		<option value="4">차장</option>
     		<option value="5">부장</option>
-		</select> <br> <br>
+		</select> 
+		<br>
+		<span id="positionmsg"></span>
+		<br>
 		
 		<!-- 전화번호 -->
 		<label for="phone_num_label"><b>전화번호:</b></label> 
 		<input type="text" name="phone_num" id="phone_num">
-		<br> <br>
+		<br> 
+		<span id="phonemsg"></span>
+		<br>
 		
 		<!-- 내선번호 -->
 		<label for="hotline_label"><b>내선번호:</b></label> 
 		<input type="text" name="hotline" id="hotline">
-		<br> <br>
+		<br> 
+		<span id="hotlinemsg"></span>
+		<br>
 
 		<label for="email_label"><b>이메일</b></label> 
 		<input type="text" name="email_id" id="email_id"> @ 
@@ -85,7 +98,10 @@ h1 {
 			<option value="">직접 입력</option>
 			<option value="hanmail.net">DAUM</option>
 			<option value="gmail.com">GOOGLE</option>
-		</select> <br> <br>
+		</select>
+		<br>
+		<span id="emailmsg"></span>
+		<br>
 
 
 
@@ -101,29 +117,35 @@ h1 {
 		<br>
 		<label for="addr3_label"><b>상세주소</b></label> 
 		<input type="text" name="addr3" id="addr3" placeholder="상세주소"> 
-		<br> <br>
+		<br>
+		<span id="addressmsg"></span>
+		<br>
 
 		<!-- 입사일 -->
 		<label for="hire_date_label"><b>입사일:</b></label> 
 		<input type="text" name="hire_date" id="hire_date" readonly>
-		<br> <br>
+		<br>
+		<span id="hiremsg"></span>
+		<br>
 
 
 		<!-- 권한 설정 -->
 		<label for="emp_role_label"><b>권한설정:</b></label> 
 		<label for="dept1">
-			<input type="checkbox" id="dept1" name="role" value="1" disabled>인사
+			<input type="checkbox" id="dept1" name="role" value="1000" disabled>인사
 		</label>
 		<label for="dept2">
-			<input type="checkbox" id="dept2" name="role" value="2" disabled>영업
+			<input type="checkbox" id="dept2" name="role" value="100" disabled>영업
 		</label>
 		<label for="dept3">
-			<input type="checkbox" id="dept3" name="role" value="4" disabled>생산
+			<input type="checkbox" id="dept3" name="role" value="10" disabled>생산
 		</label>
 		<label for="dept4">
-			<input type="checkbox" id="dept4" name="role" value="8" disabled>물류
+			<input type="checkbox" id="dept4" name="role" value="1" disabled>물류
 		</label>
-		<br> <br>
+		<br>
+		<span id="rolemsg"></span>
+		<br>
 
 
 		<!-- 등록 버튼 -->
@@ -147,6 +169,7 @@ h1 {
 <script>
 //전역변수 선언
 var selectedDept = '';
+var currentDate = new Date();
 
 // 우편번호 API 호출
 function call_Post_API() {
@@ -208,6 +231,72 @@ function updateEmailDns() {
 	// 선택한 도메인 값을 email_dns 입력 필드에 설정
 	emailDns.value = selectedDomain;
 }
+
+//서브밋 제어
+$('#signup').submit(function() {
+	
+	if($('#emp_name').val() == ""){
+		$('#namemsg').css('color','red');
+		$('#namemsg').text("이름을 입력하십시오."); 
+		$('#emp_name').focus();
+		return false;
+	}
+	
+	if($('#birthdate').val() == ""){
+		$('#birthmsg').css('color','red');
+		$('#birthmsg').text("생일을 입력하십시오.");
+		$('#birthdate').focus();
+		return false;
+	}
+	
+	if($('#dept_name').val() == ""){
+		$('#deptmsg').css('color','red');
+		$('#deptmsg').text("부서를 선택하십시오.");  
+		$('#dept_name').focus();
+		return false;
+	}
+	
+	if($('#position').val() == ""){
+		$('#positionmsg').css('color','red');
+		$('#positionmsg').text("직급을 선택하십시오.");
+		$('#position').focus();
+		return false;
+	}
+	
+	if($('#phone_num').val() == ""){
+		$('#phonemsg').css('color','red');
+		$('#phonemsg').text("전화번호를 입력해주세요.");
+		$('#phone_num').focus();
+		return false;
+	}
+	
+	if($('#hotline').val() == ""){
+		$('#hotlinemsg').css('color','red');
+		$('#hotlinemsg').text("내선번호를 입력하십시오.");
+		$('#hotline').focus();
+		return false;
+	}
+	
+	if($('#email_id').val() == "" || $('#email_dns').val() == ""){
+		$('#emailmsg').css('color','red');
+		$('#emailmsg').text("이메일을 입력하십시오.");
+		return false;
+	}
+	
+	if($('#emp_post').val() == "" || $('#addr1').val() == ""){
+		$('#addressmsg').css('color','red');
+		$('#addressmsg').text("주소를 입력하십시오.");
+		return false;
+	}
+	
+	if($('#hire_date').val() == ""){
+		$('#hiremsg').css('color','red');
+		$('#hiremsg').text("입사일을 입력하십시오.");
+		$('#hire_date').focus();
+		return false;
+	}
+
+});//submit기능 제어 끝
 
 // J쿼리 함수 시작지점
 $(document).ready(function() {
@@ -297,7 +386,9 @@ $(document).ready(function() {
     dayNamesShort: ['일','월','화','수','목','금','토'],
     dayNamesMin: ['일','월','화','수','목','금','토'],
     showMonthAfterYear: true,
-    yearSuffix: '년'
+    yearSuffix: '년',
+    maxDate: currentDate
+	
 	});
     
     // 이미지 파일 관리

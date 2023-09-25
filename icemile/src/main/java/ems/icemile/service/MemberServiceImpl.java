@@ -31,7 +31,7 @@ public class MemberServiceImpl implements MemberService {
 		memberDTO.setEmp_pw(memberDTO.getBirthdate().replaceAll("-", "").substring(2));
 		
 		// 관리자가 입력한 권한 2진수화
-		memberDTO.setEmp_role(Integer.toBinaryString(Integer.parseInt(memberDTO.getEmp_role())));
+		memberDTO.setEmp_role(String.format("%04d",(Integer.parseInt(memberDTO.getEmp_role()))));
 		
 		// 관리자가 입력한(날짜) 비밀번호 암호화
 		memberDTO.setEmp_pw(passwordEncoder.encode(memberDTO.getEmp_pw()));
