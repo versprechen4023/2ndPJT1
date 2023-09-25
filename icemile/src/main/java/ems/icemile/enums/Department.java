@@ -1,4 +1,4 @@
-package ems.icemile.dto;
+package ems.icemile.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

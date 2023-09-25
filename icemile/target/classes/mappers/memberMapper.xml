@@ -17,9 +17,13 @@
   </insert>
   
   <select id="userCheck" resultType="ems.icemile.dto.MemberDTO">
-  	SELECT id, pass
+  	SELECT emp_num, emp_pw
   		FROM emp
-  			WHERE id = #{emp_num}
+  			WHERE emp_num = #{emp_num}
   </select>
   
+  <select id="userList" resultType="ems.icemile.dto.MemberDTO">
+  	SELECT *
+  		FROM emp
+  </select>
 </mapper>

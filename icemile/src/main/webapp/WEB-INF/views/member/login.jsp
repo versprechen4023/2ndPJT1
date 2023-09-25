@@ -25,11 +25,11 @@
                                     <div class="card-body">
                                         <form action="${pageContext.request.contextPath }/member/login" method="post">
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="id" name="id" type="text" placeholder="name@example.com" />
+                                                <input class="form-control" id="emp_num" name="emp_num" type="text" placeholder="name@example.com" />
                                                 <label for="inputEmail">Email address</label>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="pass" name="pass" type="password" placeholder="Password" />
+                                                <input class="form-control" id="emp_pw" name="emp_pw" type="password" placeholder="Password" />
                                                 <label for="inputPassword">Password</label>
                                                 <c:if test="${not empty msg}">
                                                 	<span>${msg}</span>

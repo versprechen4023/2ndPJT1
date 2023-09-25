@@ -6,9 +6,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ems.icemile.dao.MemberDAOImpl;
-import ems.icemile.dto.Department;
 import ems.icemile.dto.MemberDTO;
-import ems.icemile.dto.Position;
+import ems.icemile.enums.Department;
+import ems.icemile.enums.Position;
 import lombok.extern.slf4j.Slf4j;
 
 @Service

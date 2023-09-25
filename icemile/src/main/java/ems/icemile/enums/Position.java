@@ -1,4 +1,4 @@
-package ems.icemile.dto;
+package ems.icemile.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +22,7 @@ public enum Position {
         return null;
     }
     
-    // 이름에 따른 직급명을 반환한다
+    // 직급명에 따른 숫자를 반환한다
     public static Position fromName(String name) {
         for (Position position : values()) {
             if (position.name.equals(name)) {

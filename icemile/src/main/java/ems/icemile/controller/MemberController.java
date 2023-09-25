@@ -113,6 +113,6 @@ public class MemberController {
 	public String ajax() {
 		log.debug("멤버 AJAX 진입");
 		
-		return "redirect:/member/login";
+		return "member/ajax";
 	}
 }
