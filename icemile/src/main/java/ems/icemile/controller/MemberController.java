@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ems.icemile.dto.MemberDTO;
-import ems.icemile.dto.Position;
 import ems.icemile.service.MemberServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,24 +59,16 @@ public class MemberController {
 		return "member/insert";
 	}
 	
-	@GetMapping("/erg")
-	public String test() {
-		
-		log.debug("사용자 추가 페이지");
-		
-		return "member/Erg";
-	}
-	
 	@PostMapping("/insert")
 	public String insertMember(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file) {
 		
-		log.debug("값 잘 넘어오나"+memberDTO.toString());
+		log.debug("값 잘 넘어오나 "+memberDTO.toString());
 		
-//		if(memberService.memberInsert(memberDTO)) {
-//			log.debug("사용자 추가 성공!!!");
-//		} else {
-//			log.debug("사용자 추가 실패!!!");
-//		}
+		if(memberService.memberInsert(memberDTO)) {
+			log.debug("사용자 추가 성공!!!");
+		} else {
+			log.debug("사용자 추가 실패!!!");
+		}
 		
 		return "redirect:/member/insert";
 	}

@@ -6,18 +6,20 @@
 
   <select id="getNewMemberId" resultType="java.lang.Integer">
   	SELECT count(*) + 1
-  		FROM user
+  		FROM emp
   </select>
   
   <insert id="memberInsert">
-  	INSERT INTO user(id,pass,role)
-  		VALUES(CONCAT('IM', LPAD(#{id}, 6, '0')),#{pass}, #{permission})
+  	INSERT INTO emp(emp_num, emp_pw, emp_name, birthdate, dept_name, position, 
+  		phone_num, hotline, email, emp_post, address, hire_date, profilepic, emp_role)
+  			VALUES(CONCAT('IM', LPAD(#{emp_num}, 6, '0')),#{emp_pw}, #{emp_name}, #{birthdate}, #{dept_name}, 
+  				#{position}, #{phone_num}, #{hotline}, #{email}, #{emp_post}, #{address}, #{hire_date}, #{profilepic}, #{emp_role})
   </insert>
   
   <select id="userCheck" resultType="ems.icemile.dto.MemberDTO">
   	SELECT id, pass
-  		FROM user
-  			WHERE id = #{id}
+  		FROM emp
+  			WHERE id = #{emp_num}
   </select>
   
 </mapper>

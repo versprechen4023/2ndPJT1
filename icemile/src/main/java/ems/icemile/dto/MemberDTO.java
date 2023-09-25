@@ -19,6 +19,8 @@ public class MemberDTO {
 	private String birthdate;
 	// 사원 부서 이름
 	private String dept_name;
+	// 사원 직급
+	private String position;
 	// 사원 전화번호
 	private String phone_num;
 	// 사원 내선번호

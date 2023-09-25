@@ -42,7 +42,6 @@
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="small" href="password.html">Forgot Password?</a>
                                                 <a class="btn btn-primary" href="${pageContext.request.contextPath }/member/insert">회원가입하러가기</a>
-                                                <a class="btn btn-primary" href="${pageContext.request.contextPath }/member/erg">test</a>
                                                 <input type="submit" value="로그인">
                                             </div>
                                         </form>

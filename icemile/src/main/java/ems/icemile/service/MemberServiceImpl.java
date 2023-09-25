@@ -6,7 +6,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ems.icemile.dao.MemberDAOImpl;
+import ems.icemile.dto.Department;
 import ems.icemile.dto.MemberDTO;
+import ems.icemile.dto.Position;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -33,6 +35,14 @@ public class MemberServiceImpl implements MemberService {
 		
 		// 관리자가 입력한(날짜) 비밀번호 암호화
 		memberDTO.setEmp_pw(passwordEncoder.encode(memberDTO.getEmp_pw()));
+		
+		// 부서 설정
+		memberDTO.setDept_name(Department.fromNumber(Integer.parseInt(memberDTO.getDept_name())).getName());
+		
+		// 직급 설정
+		memberDTO.setPosition(Position.fromNumber(Integer.parseInt(memberDTO.getPosition())).getName());
+		
+		log.debug(memberDTO.toString());
 		
 		return memberDAO.memberInsert(memberDTO);
 	}
