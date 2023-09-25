@@ -21,7 +21,7 @@
                              <div class="collapse" id="collapseTest0" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/main/tables">사원정보조회</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/tables">사원정보조회</a>
                                         </nav>
                                 </nav>                          
                             </div>
@@ -36,7 +36,7 @@
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
                                             <a class="nav-link" href="login.html">물품관리</a>
-                                            <a class="nav-link" href="register.html">소요랑관리</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/requirement">소요랑관리</a>
                                             <a class="nav-link" href="password.html">창고관리</a>
                                         </nav>
                                 </nav>                          
@@ -51,7 +51,7 @@
                             <div class="collapse" id="collapseTest2" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login.html">원자재재고</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/raw">원자재재고</a>
                                             <a class="nav-link" href="register.html">발주</a>
                                             <a class="nav-link" href="password.html">입고</a>
                                             <a class="nav-link" href="password.html">거래처관리</a>
@@ -84,7 +84,7 @@
                             <div class="collapse" id="collapseTest4" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login.html">완제품재고</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/product">완제품재고</a>
                                             <a class="nav-link" href="register.html">수주</a>
                                             <a class="nav-link" href="password.html">출하</a>
                                             <a class="nav-link" href="password.html">지점관리</a>

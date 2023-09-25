@@ -14,36 +14,26 @@
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
      <body class="sb-nav-fixed">
-     <body class="sb-nav-fixed">  
+        
 <!-- 헤더 -->
 <jsp:include page="../include/header.jsp"></jsp:include>
 <!-- 헤더 -->
-
         <div id="layoutSidenav">
 <!-- 사이드바 -->
 <jsp:include page="../include/sidebar.jsp"></jsp:include>
-<!-- 사이드바 -->
+<!-- 사이드바 --> 
+        
             <div id="layoutSidenav_content">
                 <main>
-				<!-- 내용들어가는곳 -->	                
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">사원정보조회</h1>
+                        <h1 class="mt-4">원자재</h1>
                         <ol class="breadcrumb mb-4">
 <!--                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
                         </ol>
-                        <div class="card mb-4">
-                            <div class="card-body">
-<!--                                 DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the -->
-<!--                                 <a target="_blank" href="https://datatables.net/">official DataTables documentation</a> -->
-<!--                                 . -->
-								<div class="input-group">
-                                   <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                                   <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                                </div>
-                                <button onclick="location.href='../member/insert'">insert</button>
-                            </div>
-                        </div>
+                        <div class="bnt">
+                        <button>추가</button><button>수정</button>
+                        <button>삭제</button><button>취소</button><button>저장</button></div>
                         <div class="card mb-4">
 <!--                             <div class="card-header"> -->
 <!--                                 <i class="fas fa-table me-1"></i> -->
@@ -51,47 +41,64 @@
 <!--                             </div> -->
                             <div class="card-body">
                                 <table id="datatablesSimple">
+                                
                                     <thead>
                                         <tr>
-                                            <th>이름</th>
-                                            <th>직급</th>
-                                            <th>내선번호</th>
-                                            <th>부서</th>
-                                            <th>이메일</th>
-                                            <th>관리</th>
+                                        	<th>선택</th>
+                                            <th>순서</th>
+                                            <th>코드</th>
+                                            <th>품명</th>
+                                            <th>수량</th>
+                                            <th>단위</th>
+                                            <th>매입 단가</th>
+                                            <th>유통기한</th>
+                                            <th>거래처 코드</th>
+                                            <th>창고</th>
+                                            <th>비고</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>이름</th>
-                                            <th>직급</th>
-                                            <th>내선번호</th>
-                                            <th>부서</th>
-                                            <th>이메일</th>
-                                            <th>관리</th>
+                                        	<th>선택</th>
+                                            <th>순서</th>
+                                            <th>코드</th>
+                                            <th>품명</th>
+                                            <th>수량</th>
+                                            <th>단위</th>
+                                            <th>매입 단가</th>
+                                            <th>유통기한</th>
+                                            <th>거래처 코드</th>
+                                            <th>창고</th>
+                                            <th>비고</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         <tr>
-                                            <td>홍길동</td>
-                                            <td>사원</td>
-                                            <td>405</td>
-                                            <td>생산</td>
-                                            <td>hong@icemile.com</td>
-                                            <td><button>수정</button>
-                                            	<button>퇴사ㄴ</button>
-                                            </td>
+                                        	<th class="eachCheck">
+            					 				<input type="checkbox" name="cbox" class="eachCheckbox"></th>
+                                            <th>1</th>
+                                            <th>MCM0001</th> <!-- 대충... 밀크 초콜릿 무스의 약자 -->
+                                            <th>밀크 초콜릿 무스</th>
+                                            <th>30</th>
+                                            <th>개</th>
+                                            <th>5,000원</th>
+                                            <th>2025-01-25</th>
+                                            <th>010126</th>
+                                            <th>WH0001R</th>
+                                            <th></th>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-				<!-- 내용들어가는곳 -->	                    
+                <!-- 내용 들어가는 곳 -->    
                 </main>
+                
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 -->
+                
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
