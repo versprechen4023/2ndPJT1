@@ -27,7 +27,7 @@
                 <main>
                 <!-- 내용들어가는곳 -->
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">재고 조회</h1>
+                        <h1 class="mt-4">출고</h1>
                         <ol class="breadcrumb mb-4">
 <!--                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
@@ -49,12 +49,11 @@
                                         	<th>선택</th>
                                             <th>순서</th>
                                             <th>코드</th>
-                                            <th>품명</th>
-                                            <th>수량</th>
-                                            <th>창고</th>
-                                            <th>현황</th>
+                                            <th>창고 코드</th>
+                                            <th>수주 코드</th>
                                             <th>담당자</th>
-                                            <th>확인일</th>
+                                            <th>출고 현황</th>
+
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -64,12 +63,10 @@
                                         	<th>선택</th>
                                             <th>순서</th>
                                             <th>코드</th>
-                                            <th>품명</th>
-                                            <th>수량</th>
-                                            <th>창고</th>
-                                            <th>현황</th>
+                                            <th>창고 코드</th>
+                                            <th>수주 코드</th>
                                             <th>담당자</th>
-                                            <th>확인일</th>
+                                            <th>출고 현황</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -77,13 +74,11 @@
                                         	<th class="eachCheck">
             					 				<input type="checkbox" name="cbox" class="eachCheckbox"></th>
                                             <th>1</th>
-                                            <th>PROD001</th> <!-- 대충... -->
-                                            <th>아빠는 외계인</th>
-                                            <th>3</th>
+                                            <th>OUT230924BR0001_1</th>
                                             <th>WH0001P</th>
-                                            <th>부족</th>
+                                            <th>OS230925BR0001</th>
                                             <th>IM000001</th>
-                                            <th>2023-09-25</th>
+                                            <th>1</th>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -19,12 +19,12 @@ public class PageMakeController {
 	private MainService pageMakeService;
 
 
-	@GetMapping("/tables")
-	public String tables() {
+	@GetMapping("/emp")
+	public String emp() {
 		//사원 조회
-		log.debug("tables");
+		log.debug("emp");
 		
-		return "pageTest/tables";
+		return "pageTest/emp";
 	}	
 	
 	
@@ -123,6 +123,33 @@ public class PageMakeController {
 		log.debug("facility");
 		
 		return "pageTest/facility";
+	}
+	
+	
+	@GetMapping("/stock")
+	public String stock() {
+		//재고(물품) 관리
+		log.debug("stock");
+		
+		return "pageTest/stock";
+	}
+	
+	
+	@GetMapping("/orders")
+	public String orders() {
+		//수주 관리
+		log.debug("orders");
+		
+		return "pageTest/orders";
+	}
+	
+	
+	@GetMapping("/outMaterial")
+	public String outMaterial() {
+		//출고 관리
+		log.debug("outMaterial");
+		
+		return "pageTest/outMaterial";
 	}
 	
 	
