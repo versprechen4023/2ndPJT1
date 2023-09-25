@@ -53,8 +53,8 @@
                                     <nav class="sb-sidenav-menu-nested nav">
                                             <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/raw">원자재재고</a>
                                             <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/rawOrder">발주</a>
-                                            <a class="nav-link" href="password.html">입고</a>
-                                            <a class="nav-link" href="password.html">거래처관리</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/inMaterial">입고</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/buy">거래처관리</a>
                                         </nav>
                                 </nav>                          
                             </div>
@@ -68,9 +68,9 @@
                             <div class="collapse" id="collapseTest3" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login.html">작업지시</a>
-                                            <a class="nav-link" href="register.html">생산실적</a>
-                                            <a class="nav-link" href="password.html">설비관리</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/workOrder">작업지시</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/result">생산실적</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/facility">설비관리</a>
                                         </nav>
                                 </nav>                          
                             </div>
@@ -87,7 +87,7 @@
                                             <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/product">완제품재고</a>
                                             <a class="nav-link" href="register.html">수주</a>
                                             <a class="nav-link" href="password.html">출하</a>
-                                            <a class="nav-link" href="${pageContext.request.contextPath }/sell/branch">지점관리</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/branch">지점관리</a>
                                         </nav>
                                 </nav>                          
                             </div>

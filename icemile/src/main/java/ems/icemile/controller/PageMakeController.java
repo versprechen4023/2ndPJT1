@@ -99,6 +99,33 @@ public class PageMakeController {
 	}
 	
 	
+	@GetMapping("/workOrder")
+	public String workOrder() {
+		//작업 지시 관리
+		log.debug("workOrder");
+		
+		return "pageTest/workOrder";
+	}
+	
+	
+	@GetMapping("/result")
+	public String result() {
+		//생산 실적 관리
+		log.debug("result");
+		
+		return "pageTest/result";
+	}
+	
+	
+	@GetMapping("/facility")
+	public String facility() {
+		//생산 실적 관리
+		log.debug("facility");
+		
+		return "pageTest/facility";
+	}
+	
+	
 	
 }
 
