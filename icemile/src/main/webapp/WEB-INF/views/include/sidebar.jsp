@@ -87,7 +87,7 @@
                                             <a class="nav-link" href="login.html">완제품재고</a>
                                             <a class="nav-link" href="register.html">수주</a>
                                             <a class="nav-link" href="password.html">출하</a>
-                                            <a class="nav-link" href="password.html">지점관리</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath }/sell/branch">지점관리</a>
                                         </nav>
                                 </nav>                          
                             </div>
