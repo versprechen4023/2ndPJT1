@@ -32,7 +32,6 @@ public class SellController {
 	public String branchReg() {
 	
 		log.debug("지점 등록 페이지");
-	
 		
 		return "sell/branchReg";
 		
@@ -63,23 +62,6 @@ public class SellController {
 		
 	}
 	
-	@PostMapping("/branch")
-	public String branchList(SellDTO sellDTO, MemberDTO memberDTO, HttpSession session, RedirectAttributes msg) {
-		
-		log.debug("지점 목록 페이지");
-		log.debug(sellDTO.toString());
-		
-		// 영업팀이거나 부장일 경우만 페이지 볼 수있게 
-		if(memberService.userCheck(memberDTO)) {
-			log.debug("권한 있음");
-			session.setAttribute("emp_role", memberDTO.getRole());
-			// 권한 저장 필요함 부서 = 영업팀 || role = 부장
-			return "redirect:/sell/branch";
-		}else {
-			log.debug("권한 없음");
-			msg.addFlashAttribute("msg", "영업 권한이 없습니다.");
-			return "redirect:/member/login";
-		}
-	}
+	
 
 }

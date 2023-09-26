@@ -47,7 +47,7 @@ h1 {
 		<div id="layoutSidenav_content">
 			<main>
 				<!-- 내용들어가는곳 -->
-<form action="${pageContext.request.contextPath }/sell/branch" method="POST" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath }/sell/branchRegPro" method="POST" enctype="multipart/form-data">
 				<h1>지점 추가</h1>
 <!-- 지점명 -->
 <br> 
