@@ -2,14 +2,20 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mes.icemile.mappers.mainMapper">
-
+<mapper namespace="mes.icemile.mappers.sellMapper">
+	
+	<select id="getNewBranchCode" resultType="java.lang.Integer">
+  	SELECT count(*) + 1
+  		FROM branch
+  	</select>
+  
 	<insert id="branchInsert">
-	INSERT INTO branch(branch_code, branchInsert, branch_num, branch_ceo, emp_num, branch_tel, branch_add, branch_post,branch_email)
-		VALUES(#{branch_code},#{branchInsert},#{branch_num},#{branch_ceo},#{emp_num},#{branch_tel},#{branch_add},#{branch_post},#{branch_email})
+	INSERT INTO branch(branch_code, branch_reg, branch_ceo, emp_num, branch_phone, branch_post, branch_add, branch_email)
+		VALUES(CONCAT('BR', LPAD(#{branch_code}, 4, '0')),
+			#{branch_reg},#{branch_ceo},#{emp_num},#{branch_phone},#{branch_post},#{branch_add},#{branch_email})
 	</insert>
 	
-	<select id="branch">
+	<select id="branch" resultType="ems.icemile.dto.SellDTO">
 	SELECT * FROM branch
 	</select>
 </mapper>

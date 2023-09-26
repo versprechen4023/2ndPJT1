@@ -40,7 +40,7 @@ public class SellController {
 	@PostMapping("/branchRegPro")
 	public String branchRegPro(SellDTO sellDTO) {
 		log.debug("지점 등록 넘기기");
-		log.info(sellDTO.getBranch_code());		
+		log.info(sellDTO.toString());		
 		
 		sellService.branchInsert(sellDTO);
 		
@@ -49,18 +49,18 @@ public class SellController {
 	
 	
 	
-	@GetMapping("/branch")
-	public String branch(HttpSession session, Model model) {
-		log.debug("지점 목록 페이지");
-		// 디비에서 지점 목록 가져오기 
-		List<SellDTO> branchList = sellService.getBranchList();
-		// model에 가져온 데이터 담아서 branch.jsp 이동
-		model.addAttribute("branchList",branchList);
-		
-		// 페이지 이동
-		return "sell/branch";
-		
-	}
+//	@GetMapping("/branch")
+//	public String branch(HttpSession session, Model model) {
+//		log.debug("지점 목록 페이지");
+//		// 디비에서 지점 목록 가져오기 
+//		List<SellDTO> branchList = sellService.getBranchList();
+//		// model에 가져온 데이터 담아서 branch.jsp 이동
+//		model.addAttribute("branchList",branchList);
+//		
+//		// 페이지 이동
+//		return "sell/branch";
+//		
+//	}
 	
 	
 

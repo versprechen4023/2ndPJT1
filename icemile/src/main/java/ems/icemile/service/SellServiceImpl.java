@@ -23,6 +23,8 @@ public class SellServiceImpl implements SellService{
 	public boolean branchInsert(SellDTO sellDTO){
 		
 		log.debug("지점 인서트");
+		//고유 번호 부여
+		sellDTO.setBranch_code(Integer.toString(sellDAO.getNewBranchCode()));
 		
 		return sellDAO.branchInsert(sellDTO);
 	}

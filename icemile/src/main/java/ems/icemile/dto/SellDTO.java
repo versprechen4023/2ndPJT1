@@ -10,12 +10,11 @@ import lombok.ToString;
 public class SellDTO {
 
 	private String branch_code;
-	private String branch_name;
-	private int branch_num;
+	private int branch_reg;
 	private String branch_ceo;
 	private String emp_num;
-	private int branch_tel;
+	private String branch_phone;
+	private String branch_post;
 	private String branch_add;
-	private int branch_post;
 	private String branch_email;
 }
