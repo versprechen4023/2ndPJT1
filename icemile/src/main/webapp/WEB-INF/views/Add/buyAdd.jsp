@@ -72,7 +72,7 @@
 <td><input type="text" name="buy_name"></td>
 <!-- 대표자 -->
 <td><input type="text" name="buy_ceo"></td>
-<!-- 업종유형 / 이런 유형이 맞는지? 아니면 수정 --> 
+<!-- 업종유형 --> 
 <td><select class="raw_type" name="buy_type">
       <option value="1">--선택--</option>
       <option value="2">우유</option>

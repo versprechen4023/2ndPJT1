@@ -57,7 +57,6 @@
 <th>생산공정</th>
 <th>가동상태</th>
 <th>설비전화번호</th>
-<!-- <th>라인등록일</th> -->
 <th>담당자</th>
 <th>비고</th>
 
@@ -82,13 +81,10 @@
 </select></td>
 <!-- 설비전화번호 -->
 <td><input type="text" name="line_phone"></td>
-<!-- 라인등록일 -->
-<!-- <td><input type="date" name="line_indate"></td> -->
 <!-- 담당자 -->
 <td><input type="text" name="emp_num"></td>
 <!-- 비고 -->
 <td><input type="text" name="line_note"></td>
-<!-- 라인등록일 필요한가? -->
 </tr>
 </table>
 				<!-- 내용들어가는곳 -->
