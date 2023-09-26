@@ -64,7 +64,7 @@
 <tr>
 <!-- 코드 -->
 <td><input type="text" name="work_code"></td>
-<!-- 품목(완제품 종류(맛?)) -->
+<!-- 품목 -->
 <td><select class="raw_taste" name="prod_taste">
       <option value="1">--선택--</option>
       <option value="2">초코</option>
@@ -84,7 +84,7 @@
 <td><input type="text" name="order_amount" size="3"></td>
 <!-- 납품예정일 (수주관리-납품예정일) -->
 <td><input type="date" name="out_plan_date"></td>
-<!-- 원자재소요량 (소요량-소요량???) -->
+<!-- 원자재소요량 -->
 <td><input type="text" name="req_amount" size="3"></td>
 <!-- 지시일자 -->
 <td><input type="date" name="work_order_date"></td>

@@ -64,11 +64,11 @@
 </tr>
 
 <tr>
-<!-- 코드(재고코드?, 자재코드?) -->
+<!-- 코드 -->
 <td><input type="text" name="stock_code"></td>
 <!-- 원자재 이름 -->
 <td><input type="text" name="raw_name"></td>
-<!-- 종류 (종류가 뜻하는게 이게 맞는지? 혹은 원자재, 완젤품을 나누는건지? 원자제,완제품을 나눈다면 페이지를 따로 나눌 필요가 없음) -->
+<!-- 종류 -->
 <td><select class="raw_type" name="raw_type">
       <option value="1">--선택--</option>
       <option value="2">우유</option>
@@ -80,11 +80,11 @@
 <td><input type="text" name="raw_amount" size="3"></td>
 <!-- 창고(코드) -->
 <td><input type="text" name="wh_code"></td>
-<!-- 담당자(창고담당자?) -->
+<!-- 담당자 -->
 <td><input type="text" name="emp_num"></td>
-<!-- 실수량 ( 원자재수량 - 소요량?? ) 재고현황으로 name 설정해둠 -->
+<!-- 실수량 / DB에 없으면 내가 알아서 이름 설정 해주면 됌 -->
 <td><input type="text" name="stock_status"></td>
-<!-- 재고실사 : 재고수량이 맞는지 실제로 확인하는것을 뜻함 / int로 되어있는데 0과 1로 구분하는건지?? -->
+<!-- 재고실사  -->
 <td><input type="text" name="stock_amount"></td>
 <!-- 재고체크날짜 -->
 <td><input type="date" name="stock_date"></td>
