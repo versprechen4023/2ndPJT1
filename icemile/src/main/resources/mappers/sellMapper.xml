@@ -8,4 +8,8 @@
 	INSERT INTO branch(branch_code, branchInsert, branch_num, branch_ceo, emp_num, branch_tel, branch_add, branch_post,branch_email)
 		VALUES(#{branch_code},#{branchInsert},#{branch_num},#{branch_ceo},#{emp_num},#{branch_tel},#{branch_add},#{branch_post},#{branch_email})
 	</insert>
+	
+	<select id="branch">
+	SELECT * FROM branch
+	</select>
 </mapper>
