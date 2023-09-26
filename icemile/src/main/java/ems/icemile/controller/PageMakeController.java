@@ -197,6 +197,42 @@ public class PageMakeController {
 		return "/Add/rawStockAdd";
 	}
 	
+	// 원자재 추가 페이지
+	@GetMapping("/rawmaterialAdd")
+	public String rawmaterialAdd() {
+	
+		log.debug("원자재 추가 페이지");
+		
+		return "/Add/rawmaterialAdd";
+	}
+	
+	// 완제품 추가 페이지
+	@GetMapping("/productAdd")
+	public String productAdd() {
+	
+		log.debug("완제품 추가 페이지");
+		
+		return "/Add/productAdd";
+	}
+	
+	// 소요량 추가 페이지
+	@GetMapping("/requirementAdd")
+	public String requirementAdd() {
+	
+		log.debug("소요량 추가 페이지");
+		
+		return "/Add/requirementAdd";
+	}
+	
+	// 창고 추가 페이지
+	@GetMapping("/warehouseAdd")
+	public String warehouseAdd() {
+	
+		log.debug("창고 추가 페이지");
+		
+		return "/Add/warehouseAdd";
+	}
+	
 	
 	
 }

@@ -14,7 +14,7 @@
 	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
 	rel="stylesheet" />
 <link href="../resources/css/styles.css" rel="stylesheet" />
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"crossorigin="anonymous"></script>
 	
 	<style>
  table {
@@ -44,7 +44,7 @@
 		<div id="layoutSidenav_content">
 			<main>
 
-<h1>완제품 추가</h1>
+<h1>창고 추가</h1>
 
 <input type="submit" value="추가">
 <input type="button" value="취소">
@@ -52,60 +52,48 @@
 <table border="1">
 <tr>
 <th>코드</th>
-<th>종류</th>
 <th>이름</th>
-<th>단위</th>
-<th>수량</th>
-<th>판매단가</th>
-<th>유통기한</th>
-<th>거래지점</th>
-<th>창고</th>
+<th>종류</th>
+<th>위치</th>
+<th>전화번호</th>
+<th>가용상태</th>
+<th>완제품 코드</th>
+<th>원자재 코드</th>
+<th>담당자</th>
 <th>비고</th>
 </tr>
 
 <tr>
 <!-- 코드 -->
-<td><input type="text" name="prod_code"></td>
+<td><input type="text" name="wh_code" size="11"></td>
+<!-- 이름 -->
+<td><input type="text" name="wh_name" size="7"></td>
 <!-- 종류 -->
-<td><select class="raw_type" name="prod_taste">
+<td><select class="wh_type" name="wh_type">
 		<option value="1">--선택--</option>
 		<option value="2">우유</option>
 		<option value="3">설탕</option>
 		<option value="4">파우더</option>
 		<option value="5">조미료</option>
 </select></td>
-<!-- 이름 -->
-<td><select class="raw_name" name="prod_name">
-		<option value="1">--선택--</option>
-		<option value="2">아빠는 외계인</option>
-		<option value="3">사랑에 빠진 포도</option>
-		<option value="4">화이트 소르베</option>
-		<option value="5">요거트 쉐이크</option>
-</select></td> 
-<!-- 단위 -->
-<td><input type="text" name="prod_unit" size="3"></td>
-<!-- 수량 -->
-<td><input type="text" name="prod_amount"  size="3"></td>
-<!-- 판매단가 -->
-<td><input type="text" name="prod_price"  size="5"></td>
-<!-- 유통기한 -->
-<td><input type="text" name="prod_exp" size="13"></td>
-<!-- 거래지점 -->
-<!-- 지점이 많을 경우 지점 찾기 페이지를 추가, 적을 경우 드롭 다운 -->
-<td><input type="text" name="branch_code" size="13"></td>
-<!-- 창고 -->
-<td><select class="wh_code" name="wh_code">
-		<option value="1">--선택--</option>
-		<option value="2">1센터</option>
-		<option value="3">2센터</option>
-		<option value="4">3센터</option>
-		<option value="5">4센터</option>
-</select></td>
+<!-- 위치 -->
+<td><input type="text" name="wh_location" size="7"></td>
+<!-- 전화번호 -->
+<td><input type="text" name="wh_phone"  size="11"></td>
+<!-- 가용상태 -->
+<td><input type="text" name="wh_status"  size="11"></td>
+<!-- 완제품 코드 -->
+<td><input type="text" name="prod_code"  size="11"></td>
+<!-- 원자재 코드 -->
+<td><input type="text" name="raw_code"  size="11"></td>
+<!-- 담당자 -->
+<td><input type="text" name="emp_num"  size="5"></td>
 <!-- 비고 -->
-<td><input type="text" name="prod_note"  size="6"></td>
+<td><input type="text" name="wh_note"  size="6"></td>
 </tr>
 
 </table>
+
 
 				<!-- 내용들어가는곳 -->
 				
