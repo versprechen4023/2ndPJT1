@@ -1,5 +1,7 @@
 package ems.icemile.dao;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -23,5 +25,12 @@ public class SellDAOImpl implements SellDAO{
 		log.debug("지점 추가 DAO도달");
 		return sqlSession.insert(namespace+"branchInsert",sellDTO) > 0;
 	}
+
+	@Override
+	public List<SellDTO> getBranchList() {
+		log.debug("지점 목록 DAO 도달");
+		return sqlSession.selectList(namespace+".branch");
+	}
+
 
 }

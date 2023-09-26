@@ -1,5 +1,7 @@
 package ems.icemile.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -21,8 +23,14 @@ public class SellServiceImpl implements SellService{
 	public boolean branchInsert(SellDTO sellDTO){
 		
 		log.debug("지점 인서트");
-		// 주소 API 가져오
 		
 		return sellDAO.branchInsert(sellDTO);
+	}
+	
+
+	@Override
+	public List<SellDTO> getBranchList() {
+		log.debug("지점 목록 가져오기");
+		return sellDAO.getBranchList();
 	}
 }
