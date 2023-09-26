@@ -67,15 +67,15 @@ input[type="text"]{
 <div class="container">
  
   <div class="info">
-  이름 <input type="text" readonly> <br>
-  생년월일 <input type="text" readonly> <br>
-  직급 <input type="text" readonly> <br>
-  부서 <input type="text" readonly> <br>
-  연락처 <input type="text" readonly> <br>
-  내선번호 <input type="text" readonly> <br>
-  이메일 <input type="text" readonly> <br>
-  주소 <input type="text" readonly> <br>
-  입사일 <input type="text" readonly>
+  이름 <input type="text" value="${memberDTO.emp_name }" readonly> <br>
+  생년월일 <input type="text" value="${memberDTO.birthdate }" readonly> <br>
+  직급 <input type="text" value="${memberDTO.position }" readonly> <br>
+  부서 <input type="text" value="${memberDTO.dept_name }" readonly> <br>
+  연락처 <input type="text" value="${memberDTO.phone_num }" readonly> <br>
+  내선번호 <input type="text" value="${memberDTO.hotline }" readonly> <br>
+  이메일 <input type="text" value="${memberDTO.email }" readonly> <br>
+  주소 <input type="text" value="${memberDTO.address }" readonly> <br>
+  입사일 <input type="text" value="${memberDTO.hire_date }" readonly>
   </div>
 
 <!-- <div class="upBut"> -->

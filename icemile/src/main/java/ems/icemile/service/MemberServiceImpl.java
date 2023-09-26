@@ -48,18 +48,30 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public boolean userCheck(MemberDTO memberDTO){
+	public MemberDTO userCheck(MemberDTO memberDTO){
 		
 		log.debug("유저 체크");
 		// DB에서 아이디 가져오기
 		MemberDTO fromDB = memberDAO.userCheck(memberDTO);
-		
 		// 비밀번호가 있다면 일치여부 확인
 		if(fromDB != null && fromDB.getEmp_num() != null) {
-			return passwordEncoder.matches(memberDTO.getEmp_pw(), fromDB.getEmp_pw());
+			if(passwordEncoder.matches(memberDTO.getEmp_pw(), fromDB.getEmp_pw())) {
+				return fromDB;
+			} else {
+				// 비밀번호 틀리면 null 반환
+				return null;
+			}
 		} else {
-		// 아이디 없으면 false 반환
-			return false;
+		// 아이디 없으면 null 반환
+			return null;
 		}
+	}
+	
+	@Override
+	public MemberDTO getMemberInfo(String emp_num) {
+
+		log.debug("겟 멤버 인포");
+		
+		return memberDAO.getMemberInfo(emp_num);
 	}
 }

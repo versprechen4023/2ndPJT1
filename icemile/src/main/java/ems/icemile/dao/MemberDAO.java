@@ -13,5 +13,6 @@ public interface MemberDAO {
 	// 로그인 관련
 	public MemberDTO userCheck(MemberDTO memberDTO);
 	
-	
+	// 사원 정보 얻기
+	public MemberDTO getMemberInfo(String emp_num);
 }

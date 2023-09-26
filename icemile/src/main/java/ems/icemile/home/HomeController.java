@@ -26,7 +26,7 @@ public class HomeController {
 		if(session.getAttribute("emp_num") != null) {
 			return "redirect:/main/index";
 		} else {
-			return "redirect:/sell/branchReg";
+			return "redirect:/member/login";
 		} 
 	}
 	

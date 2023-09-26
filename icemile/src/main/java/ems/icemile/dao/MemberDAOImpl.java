@@ -42,4 +42,10 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.selectList(namespace+"userList");
 	}
 	
+	@Override
+	public MemberDTO getMemberInfo(String emp_num) {
+		log.debug("겟 멤버 인포 DAO 도달");
+		return sqlSession.selectOne(namespace+"getMemberInfo", emp_num);
+	}
+	
 }

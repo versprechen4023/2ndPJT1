@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,13 +39,13 @@ public class MemberController {
 	public String loginPro(MemberDTO memberDTO, HttpSession session, RedirectAttributes msg) {
 		
 		log.debug("로그인 유저 검증");
-		log.debug(memberDTO.toString());
 		
-		if(memberService.userCheck(memberDTO)) {
+		MemberDTO result = memberService.userCheck(memberDTO);
+		if(result != null) {
 			// 아이디랑 권한만 저장하면 될거같음 일단은
 			log.debug("로그인 성공!!!");
-			session.setAttribute("emp_num", memberDTO.getEmp_num());
-			session.setAttribute("emp_role", memberDTO.getEmp_role());
+			session.setAttribute("emp_num", result.getEmp_num());
+			session.setAttribute("emp_role", result.getEmp_role());
 			return "redirect:/main/index";
 		} else {
 			log.debug("로그인 실패!!!");
@@ -125,9 +126,18 @@ public class MemberController {
 	
 	// 마이페이지
 	@GetMapping("/info")
-	public String info() {
+	public String info(HttpSession session, Model model) {
 		
 		log.debug("마이페이지");
+		
+		// 세션에서 사원 번호 가져오기
+		String emp_num = (String)session.getAttribute("emp_num");
+		
+		// 사원 정보를 얻기위한 메서드 호출
+		MemberDTO memberDTO = memberService.getMemberInfo(emp_num);
+		
+		// 모델에 멤버 DTO값 저장
+		model.addAttribute("memberDTO", memberDTO);
 		
 		return "/member/info";
 	}

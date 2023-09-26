@@ -8,5 +8,8 @@ public interface MemberService {
 	public boolean memberInsert(MemberDTO memberDTO);
 	
 	// 로그인
-	public boolean userCheck(MemberDTO memberDTO);
+	public MemberDTO userCheck(MemberDTO memberDTO);
+	
+	// 사원 정보 얻기
+	public MemberDTO getMemberInfo(String emp_num);
 }

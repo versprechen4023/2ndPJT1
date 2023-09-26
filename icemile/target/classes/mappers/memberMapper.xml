@@ -17,11 +17,16 @@
   </insert>
   
   <select id="userCheck" resultType="ems.icemile.dto.MemberDTO">
-  	SELECT emp_num, emp_pw
+  	SELECT emp_num, emp_pw, emp_role
   		FROM emp
   			WHERE emp_num = #{emp_num}
   </select>
   
+  <select id="getMemberInfo" resultType="ems.icemile.dto.MemberDTO">
+  	SELECT *
+  		FROM emp
+  			WHERE emp_num = #{emp_num}
+  </select>
   <select id="userList" resultType="ems.icemile.dto.MemberDTO">
   	SELECT *
   		FROM emp
