@@ -47,7 +47,7 @@ h1 {
 		<div id="layoutSidenav_content">
 			<main>
 				<!-- 내용들어가는곳 -->
-<form action="${pageContext.request.contextPath }/sell/branch" method="POST" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath }/sell/branchRegPro" method="POST">
 				<h1>지점 추가</h1>
 <!-- 지점명 -->
 <br> 
@@ -58,7 +58,7 @@ h1 {
 <!--  사업자 등록 --> 
 <br> 
 <label for="branch_num_label"><b>사업자 등록 번호</b></label> 
-<input type="tel" name="branch_num" id="branch_num"> 
+<input type="tel" name="branch_reg" id="branch_reg"> 
 <br> 
 
 <!-- 대표자 -->
@@ -70,7 +70,7 @@ h1 {
 <!-- 지점 연락처 -->
 <br> 
 <label for="emp_num_label"><b>지점연락처</b></label>
-<input type="tel" name="emp_num" id="emp_num"> 
+<input type="tel" name="branch_phone" id="branch_phone"> 
 <br> 
 
 <!-- 가맹담당자 => 본사 직원 -->
@@ -78,7 +78,7 @@ h1 {
 
 <br>
 <label for="branch_phone_label"><b>가맹 담당자</b></label> 
-<input type="text" name="branch_phone" id="branch_phone">
+<input type="text" name="emp_num" id="emp_num">
 <br> 
 
 <!-- 주소 -->
@@ -98,8 +98,8 @@ h1 {
 
 <!-- 지점 이메일 -->
 <br> 
-<label for="email_id"><b>이메일</b></label> 
-<input type="text" name="branch_email" id="branch_email"> @ 
+<label for="email_id_label"><b>이메일</b></label> 
+<input type="text" name="email_id" id="email_id"> @ 
 <input type="text" name="email_dns" id="email_dns" value="naver.com">
 <select name="email_sel" id="email_sel" onchange="updateEmailDns()">
 <option value="">직접 입력</option>
@@ -109,7 +109,8 @@ h1 {
 <br>
 
 <!-- 버튼 --> 
-<input type="hidden" id="permission" name="permission" value=""> 
+<input type="hidden" id="branch_email" name="branch_email" value="">
+<input type="hidden" id="branch_add" name="branch_add" value="">
 <input type="submit" value="등록"> 
 <input type="reset" value="취소">
 </form>
@@ -189,6 +190,27 @@ h1 {
 	            	// 선택한 도메인 값을 email_dns 입력 필드에 설정
 	            	emailDns.value = selectedDomain;
 	            }
+	            
+	         	// 서브밋 될때 실행
+	            $('form').on('submit', function () {
+	                
+	            	// 이메일 값 합산 설정
+	                // 입력이메일을 가져오기위한 변수선언
+	                var emailId = $("#email_id").val();
+	                var emailDns = $("#email_dns").val();
+	        		
+	                // email_id와 email_dns를 합쳐서 email 필드에 저장
+	                $("#branch_email").val(emailId + "@" + emailDns);
+	                
+	                //주소값 합산 설정
+	                // 주소값을 가져오기위한 변수선언
+	                var addr1 = $("#addr1").val();
+	                var addr2 = $("#addr2").val();
+	                var addr3 = $("#addr3").val();
+	                
+	                // 주소값을 합쳐서 address 필드에 저장
+	                $("#branch_add").val(addr1 + "" + addr2 + " " + addr3);
+	            });
 	
 </script>
 

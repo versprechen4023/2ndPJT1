@@ -21,6 +21,10 @@ public class SellDAOImpl implements SellDAO{
 	private static final String namespace = "mes.icemile.mappers.sellMapper.";
 	
 	@Override
+	public int getNewBranchCode() {
+		return sqlSession.selectOne(namespace+"getNewBranchCode");
+	}
+	@Override
 	public boolean branchInsert(SellDTO sellDTO) {
 		log.debug("지점 추가 DAO도달");
 		return sqlSession.insert(namespace+"branchInsert",sellDTO) > 0;
@@ -29,8 +33,7 @@ public class SellDAOImpl implements SellDAO{
 	@Override
 	public List<SellDTO> getBranchList() {
 		log.debug("지점 목록 DAO 도달");
-		return sqlSession.selectList(namespace+".branch");
+		return sqlSession.selectList(namespace+"branch");
 	}
-
 
 }
