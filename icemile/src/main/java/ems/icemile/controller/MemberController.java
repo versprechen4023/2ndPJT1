@@ -122,4 +122,13 @@ public class MemberController {
 		
 		return "member/chat";
 	}
+	
+	// 마이페이지
+	@GetMapping("/info")
+	public String info() {
+		
+		log.debug("마이페이지");
+		
+		return "/member/info";
+	}
 }

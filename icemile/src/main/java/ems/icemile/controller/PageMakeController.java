@@ -152,6 +152,51 @@ public class PageMakeController {
 		return "pageTest/outMaterial";
 	}
 	
+	// 매입처(거래처) 등록 페이지
+	@GetMapping("/buyAdd")
+	public String buyAdd() {
+	
+		log.debug("매입처 등록 페이지");
+		
+		return "/Add/buyAdd";	
+	}
+	
+	// 작업지시관리 등록 페이지
+	@GetMapping("/workOrderAdd")
+	public String workOrderAdd() {
+	
+		log.debug("작업지시관리 등록 페이지");
+		
+		return "/Add/workOrderAdd";
+	}
+	
+	// 생산실정관리 등록 페이지
+	@GetMapping("/resultAdd")
+	public String resultAdd() {
+	
+		log.debug("생산실적관리 등록 페이지");
+		
+		return "/Add/resultAdd";
+	}
+	
+	// 생산설비관리 등록 페이지
+	@GetMapping("/facilityAdd")
+	public String facilityAdd() {
+	
+		log.debug("생산설비관리 등록 페이지");
+		
+		return "/Add/facilityAdd";
+	}
+	
+	// 원자재재고 등록 페이지
+	@GetMapping("/rawStockAdd")
+	public String rawStockAdd() {
+	
+		log.debug("원자재재고 등록 페이지");
+		
+		return "/Add/rawStockAdd";
+	}
+	
 	
 	
 }
