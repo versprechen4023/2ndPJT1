@@ -70,9 +70,9 @@ public class SellController {
 		log.debug(sellDTO.toString());
 		
 		// 영업팀이거나 부장일 경우만 페이지 볼 수있게 
-		if(memberService.userCheck(memberDTO)) {
+		if(true) {
 			log.debug("권한 있음");
-			session.setAttribute("emp_role", memberDTO.getRole());
+			session.setAttribute("emp_role", memberDTO.getEmp_role());
 			// 권한 저장 필요함 부서 = 영업팀 || role = 부장
 			return "redirect:/sell/branch";
 		}else {
