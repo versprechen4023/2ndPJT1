@@ -11,7 +11,11 @@
 
 </head>
 <body>
-
+<div class="chat">
+	<ul id="chat_wrap">
+			<!-- 채팅 들어오는 자리 -->
+    </ul>
+</div>
 		<input type="text" id="message" placeholder="메세지입력">
 		<input type="button" id="sendBtn" value="전송">
 </body>
@@ -30,7 +34,7 @@
 	
 	// 소켓연결동작
 	function onOpen(){
-		var openMsg = '웹소켓 연결됨';
+		var openMsg = '유저 들어옴';
 		console.log(openMsg);
 		sock.send(openMsg);
 	} 
@@ -42,12 +46,24 @@
 	}
 	// 서버로부터 메시지를 받았을 때
 	function onMessage(msg) {
-
+		var data = msg.data;
+		var addmsg = "";
+		addmsg += data
+		addmsg += "<br>"
+		$("#chat_wrap").append(addmsg);
 	}
 	// 서버와 연결을 끊었을 때
-	function onClose(evt) {
-
+	function onClose(event) {
+		
 	}
+	
+	// 엔터키 입력시 메시지 보내게 이벤트 리스너 활성화
+	document.addEventListener("keyup", function(event) {
+	    if (event.key === 'Enter') {
+	    	sendMessage();
+	    	$('#message').val('');
+	    }// end if
+	});// end function
 	
 </script>
 </html>
