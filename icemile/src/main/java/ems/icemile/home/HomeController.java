@@ -20,7 +20,7 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(HttpSession session) {
 		
-		log.debug("홈페이지");
+		log.debug("start icemile");
 		
 		// 세션검증
 		if(session.getAttribute("emp_num") != null) {

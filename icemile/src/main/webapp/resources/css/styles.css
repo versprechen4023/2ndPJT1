@@ -11241,3 +11241,16 @@ body {
   font-size: 0.75rem;
   border-radius: 0.375rem !important;
 }
+
+
+/* 사원등록 및 추가 등등 버튼 정렬 때문에 추가한 css */
+.bnt {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    bottom: 11px;
+}
+.bnt button {
+    margin-right: 10px; /* 오른쪽 여백을 10px로 지정 */
+}

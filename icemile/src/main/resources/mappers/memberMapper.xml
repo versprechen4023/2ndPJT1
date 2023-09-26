@@ -3,16 +3,27 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mes.icemile.mappers.memberMapper">
-	
+
+  <select id="getNewMemberId" resultType="java.lang.Integer">
+  	SELECT count(*) + 1
+  		FROM emp
+  </select>
+  
   <insert id="memberInsert">
-  	INSERT INTO user(id,pass)
-  		VALUES(#{id},#{pass})
+  	INSERT INTO emp(emp_num, emp_pw, emp_name, birthdate, dept_name, position, 
+  		phone_num, hotline, email, emp_post, address, hire_date, profilepic, emp_role)
+  			VALUES(CONCAT('IM', LPAD(#{emp_num}, 6, '0')),#{emp_pw}, #{emp_name}, #{birthdate}, #{dept_name}, 
+  				#{position}, #{phone_num}, #{hotline}, #{email}, #{emp_post}, #{address}, #{hire_date}, #{profilepic}, #{emp_role})
   </insert>
   
   <select id="userCheck" resultType="ems.icemile.dto.MemberDTO">
-  	SELECT id, pass
-  		FROM user
-  			WHERE id = #{id}
+  	SELECT emp_num, emp_pw
+  		FROM emp
+  			WHERE emp_num = #{emp_num}
   </select>
   
+  <select id="userList" resultType="ems.icemile.dto.MemberDTO">
+  	SELECT *
+  		FROM emp
+  </select>
 </mapper>

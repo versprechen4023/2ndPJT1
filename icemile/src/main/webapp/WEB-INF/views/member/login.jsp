@@ -25,11 +25,11 @@
                                     <div class="card-body">
                                         <form action="${pageContext.request.contextPath }/member/login" method="post">
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="id" name="id" type="text" placeholder="name@example.com" />
+                                                <input class="form-control" id="emp_num" name="emp_num" type="text" placeholder="name@example.com" />
                                                 <label for="inputEmail">Email address</label>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="pass" name="pass" type="password" placeholder="Password" />
+                                                <input class="form-control" id="emp_pw" name="emp_pw" type="password" placeholder="Password" />
                                                 <label for="inputPassword">Password</label>
                                                 <c:if test="${not empty msg}">
                                                 	<span>${msg}</span>
@@ -41,7 +41,7 @@
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="small" href="password.html">Forgot Password?</a>
-                                                <a class="btn btn-primary" href="index.html">Login</a>
+                                                <a class="btn btn-primary" href="${pageContext.request.contextPath }/member/insert">회원가입하러가기</a>
                                                 <input type="submit" value="로그인">
                                             </div>
                                         </form>
