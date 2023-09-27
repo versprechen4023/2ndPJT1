@@ -1,11 +1,17 @@
 package ems.icemile.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ems.icemile.dao.MemberDAOImpl;
+import ems.icemile.dto.MemberDTO;
 import ems.icemile.service.MainService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,12 +23,20 @@ public class PageMakeController {
 	
 	@Inject
 	private MainService pageMakeService;
-
+	
+	@Inject //DAO 의존성 주입
+	private MemberDAOImpl memberDAO;
 
 	@GetMapping("/emp")
-	public String emp() {
+	public String emp(Model model) {
 		//사원 조회
 		log.debug("emp");
+		
+		List<MemberDTO> memberInfo = new ArrayList<MemberDTO>();
+		memberInfo = memberDAO.getMemberList();
+		
+		// 모델에 멤버 DTO값 저장
+		model.addAttribute("memberDTO", memberInfo);
 		
 		return "pageTest/emp";
 	}	
