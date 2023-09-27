@@ -33,8 +33,7 @@
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
                         </ol>
                         <div class="bnt">
-                        <button>추가</button><button>수정</button>
-                        <button>삭제</button><button>취소</button><button>저장</button></div>
+                        <button>추가</button></div>
                         <div class="card mb-4">
 <!--                             <div class="card-header"> -->
 <!--                                 <i class="fas fa-table me-1"></i> -->
