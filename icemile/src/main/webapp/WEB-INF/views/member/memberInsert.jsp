@@ -3,19 +3,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="" />
-<meta name="author" content="" />
-<title>아이스마일</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
-	rel="stylesheet" />
-<link href="../resources/css/styles.css" rel="stylesheet" />
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
-	crossorigin="anonymous"></script>
+<!-- 헤드 -->
+<jsp:include page="../include/head.jsp"></jsp:include>
+<!-- 헤드 -->
 	<style>
 body {
 	display: flex;
@@ -36,18 +26,8 @@ h1 {
 </style>
 </head>
 <body class="sb-nav-fixed">
-	<!-- 헤더 -->
-	<jsp:include page="../include/header.jsp"></jsp:include>
-	<!-- 헤더 -->
-
-	<div id="layoutSidenav">
-		<!-- 사이드바 -->
-		<jsp:include page="../include/sidebar.jsp"></jsp:include>
-		<!-- 사이드바 -->
-		<div id="layoutSidenav_content">
-			<main>
 				<!-- 내용들어가는곳 -->
-	<form action="${pageContext.request.contextPath }/member/insert" id="signup" name="signup" method="POST" enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath }/member/memberInsert" id="signup" name="signup" method="POST" enctype="multipart/form-data">
 		<h1>
 			<b>사원등록</b>
 		</h1>
@@ -176,11 +156,7 @@ h1 {
 		<input type="hidden" id="email" name="email" value="">
 		<input type="hidden" id="address" name="address" value="">
 	</form>
-		<!-- 푸터 -->
-	<jsp:include page="../include/footer.jsp"></jsp:include>
-	<!-- 푸터 -->
-			</div>
-	</div>
+
 <!-- 데이트피커 J쿼리등을 사용하기위한 호출 -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

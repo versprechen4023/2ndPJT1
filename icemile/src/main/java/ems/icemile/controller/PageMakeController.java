@@ -28,17 +28,9 @@ public class PageMakeController {
 	private MemberDAOImpl memberDAO;
 
 	@GetMapping("/emp")
-	public String emp(Model model) {
-		//사원 조회
-		log.debug("emp");
+	public String emp() {
 		
-		List<MemberDTO> memberInfo = new ArrayList<MemberDTO>();
-		memberInfo = memberDAO.getMemberList();
-		
-		// 모델에 멤버 DTO값 저장
-		model.addAttribute("memberDTO", memberInfo);
-		
-		return "pageTest/emp";
+		return "redirect:/member/memberList";
 	}	
 	
 	

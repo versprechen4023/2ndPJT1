@@ -4,31 +4,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="" />
-<meta name="author" content="" />
-<title>Tables - SB Admin</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
-	rel="stylesheet" />
-<link href="../resources/css/styles.css" rel="stylesheet" />
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
-	crossorigin="anonymous"></script>
+<!-- 헤더 -->
+<jsp:include page="../include/header.jsp"></jsp:include>
+<!-- 헤더 -->
+<!-- 헤드 -->
+<jsp:include page="../include/head.jsp"></jsp:include>
+<!-- 헤드 -->
 </head>
 <body class="sb-nav-fixed">
-
-	<!-- 헤더 -->
-	<jsp:include page="../include/header.jsp"></jsp:include>
-	<!-- 헤더 -->
-
-	<div id="layoutSidenav">
+<div id="layoutSidenav">
 		<!-- 사이드바 -->
 		<jsp:include page="../include/sidebar.jsp"></jsp:include>
 		<!-- 사이드바 -->
-
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
@@ -38,7 +25,7 @@
 						<!--                             <li class="breadcrumb-item active">Tables</li> -->
 					</ol>
 					<div class="bnt">
-						<button>사원 등록</button>
+						<input type="button" value="사원등록" onclick="memberInsert()">
 					</div>
 					<div class="card mb-4">
 						<!--                             <div class="card-header"> -->
@@ -62,7 +49,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="memberDTO" items="${memberDTO}">
+									<c:forEach var="memberDTO" items="${memberList}">
 										<tr>
 											<td>${memberDTO.emp_name}</td>
 											<td>${memberDTO.position}</td>
@@ -71,9 +58,9 @@
 											<td>${memberDTO.email}</td>
 											<td data-type="date" data-format="MMM DD, YYYY">${memberDTO.birthdate }</td>
 											<td><input type="button" value="수정"
-												onclick="deleteEmp('${memberDTO.emp_num}')" id="updateEmp">
+												onclick="updateMember('${memberDTO.emp_num}')" id="updateEmp">
 												<input type="button" value="삭제"
-												onclick="deleteEmp('${memberDTO.emp_num}')" id="deleteEmp">
+												onclick="deleteMember('${memberDTO.emp_num}')" id="deleteEmp">
 											</td>
 										</tr>
 									</c:forEach>
@@ -102,10 +89,18 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
-	<script src="../resources/js/datatables-simple-demo.js"></script>
-	<script>
-function deleteEmp(emp_num) {
+	<script src="../resources/js/memberList_im.js"></script>
 	
+<script>
+
+// 멤버 추가관련 함수
+function memberInsert(){
+	window.open('${pageContext.request.contextPath }/member/memberInsert', '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+}
+// 멤버 삭제관련 함수
+function deleteMember(emp_num) {
+	
+	// sweetalert2 호출
 	Swal.fire({
 		   title: '사원 삭제',
 		   text: '정말로 사원을 삭제 하시겠습니까?',
@@ -118,29 +113,34 @@ function deleteEmp(emp_num) {
 		   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
 		   
 		   reverseButtons: true, // 버튼 순서 거꾸로
-		   
+		
+		// 람다식 alert 창이 닫히면 호출
 		}).then(result => {
 		   // 만약 Promise리턴을 받으면,
 		   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+			   
+			   // 멤버 삭제하는 ajax 호출
 			   $.ajax({
 					  url : '${pageContext.request.contextPath}/emp_ajax/delete',
 					  data: {"emp_num": emp_num},
 					  type : 'POST',
 					  success:function(data){
 							const result = $.trim(data);
+							
 							if(result == "true"){
 							Swal.fire('삭제가 완료되었습니다.', '성공', 'success').then(result => {
 								if(result.isConfirmed)
+									// 완료 창을 닫으면 새로고침
 									location.reload();
 							});
 							} else {
 							Swal.fire('삭제에 실패헀습니다.', '실패', 'error');
 							}
-				      }
-		       });
-		  }
-	  });
-}
+				      }// 콜백함수 종료지점
+		       });// end_of_ajax
+		  }// end_of_if(컨펌확인)
+	  });// end_of_function(alert 콜백함수 종료지점)
+}// end_of_function
 </script>
 </body>
 </html>

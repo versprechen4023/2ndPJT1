@@ -36,16 +36,29 @@ public class MemberDAOImpl implements MemberDAO {
 		log.debug("유저체크 DAO 도달");
 		return sqlSession.selectOne(namespace+"userCheck",memberDTO);
 	}
-
+	
+	@Override
 	public List<MemberDTO> getMemberList() {
-		log.debug("멤버 리스트 도달");
+		log.debug("겟 멤버 리스트 DAO 도달");
 		return sqlSession.selectList(namespace+"userList");
 	}
 	
 	@Override
 	public MemberDTO getMemberInfo(String emp_num) {
+		
 		log.debug("겟 멤버 인포 DAO 도달");
+		
 		return sqlSession.selectOne(namespace+"getMemberInfo", emp_num);
 	}
+	
+	@Override
+	public boolean memberDelete(String emp_num) {
+		
+		log.debug("멤버 딜리트 DAO 도달");
+		
+		return sqlSession.delete(namespace+"deleteMember", emp_num) > 0;
+	}
+	
+	
 	
 }

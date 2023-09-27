@@ -27,8 +27,14 @@
   		FROM emp
   			WHERE emp_num = #{emp_num}
   </select>
+  
   <select id="userList" resultType="ems.icemile.dto.MemberDTO">
   	SELECT *
   		FROM emp
   </select>
+  
+  <delete id="deleteMember">
+  	DELETE FROM emp
+  		WHERE emp_num = #{emp_num}
+  </delete>
 </mapper>

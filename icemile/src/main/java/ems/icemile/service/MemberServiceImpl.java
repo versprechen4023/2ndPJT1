@@ -1,5 +1,7 @@
 package ems.icemile.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +25,8 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public boolean memberInsert(MemberDTO memberDTO) {
 		
-		log.debug("멤버 인서트");
+		log.debug("멤버 인서트 서비스");
+		
 		// 멤버 고유 번호 부여
 		memberDTO.setEmp_num(Integer.toString(memberDAO.getNewMemberId()));
 		// 생일로 초기 비밀번호 설정
@@ -42,15 +45,14 @@ public class MemberServiceImpl implements MemberService {
 		// 직급 설정
 		memberDTO.setPosition(Position.fromNumber(Integer.parseInt(memberDTO.getPosition())).getName());
 		
-		log.debug(memberDTO.toString());
-		
 		return memberDAO.memberInsert(memberDTO);
 	}
 	
 	@Override
 	public MemberDTO userCheck(MemberDTO memberDTO){
 		
-		log.debug("유저 체크");
+		log.debug("유저 체크 서비스");
+		
 		// DB에서 아이디 가져오기
 		MemberDTO fromDB = memberDAO.userCheck(memberDTO);
 		// 비밀번호가 있다면 일치여부 확인
@@ -70,8 +72,24 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberDTO getMemberInfo(String emp_num) {
 
-		log.debug("겟 멤버 인포");
+		log.debug("겟 멤버 인포 서비스");
 		
 		return memberDAO.getMemberInfo(emp_num);
+	}
+	
+	@Override
+	public List<MemberDTO> getMemberList() {
+		
+		log.debug("겟 멤버 리스트 서비스");
+		
+		return memberDAO.getMemberList();
+	}
+
+	@Override
+	public boolean memberDelete(String emp_num) {
+		
+		log.debug("멤버 딜리트 서비스");
+		
+		return memberDAO.memberDelete(emp_num);
 	}
 }

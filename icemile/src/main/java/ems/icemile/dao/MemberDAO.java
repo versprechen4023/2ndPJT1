@@ -1,5 +1,7 @@
 package ems.icemile.dao;
 
+import java.util.List;
+
 import ems.icemile.dto.MemberDTO;
 
 public interface MemberDAO {
@@ -15,4 +17,10 @@ public interface MemberDAO {
 	
 	// 사원 정보 얻기
 	public MemberDTO getMemberInfo(String emp_num);
+	
+	// 사원 리스트 정보 얻기
+	public List<MemberDTO> getMemberList();
+	
+	// 사원 삭제
+	public boolean memberDelete(String emp_num);
 }
