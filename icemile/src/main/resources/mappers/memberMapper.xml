@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mes.icemile.mappers.memberMapper">
 
-  <select id="getNewMemberId" resultType="java.lang.Integer">
+  <select id="getNewMemberId" resultType="int">
   	SELECT count(*) + 1
   		FROM emp
   </select>
@@ -37,4 +37,19 @@
   	DELETE FROM emp
   		WHERE emp_num = #{emp_num}
   </delete>
+  
+  <select id="memberSearch" resultType="ems.icemile.dto.MemberDTO">
+  	<bind name="content" value="'%' + content + '%'"/>
+  	SELECT *
+  		FROM emp
+  			WHERE ${category} LIKE #{content}
+  </select>
+  
+  <update id="memberUpdate">
+  	UPDATE emp
+  		SET emp_name = #{emp_name}, birthdate = #{birthdate}, dept_name = #{dept_name}, position = #{position},
+  			phone_num = #{phone_num}, hotline = #{hotline}, email = #{email}, emp_post = #{emp_post}, address = #{address},
+  				 hire_date = #{hire_date}, emp_role = #{emp_role} 
+  				 	WHERE emp_num = #{emp_num}
+  </update>
 </mapper>

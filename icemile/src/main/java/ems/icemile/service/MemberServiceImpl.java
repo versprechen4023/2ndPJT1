@@ -1,5 +1,6 @@
 package ems.icemile.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -91,5 +92,32 @@ public class MemberServiceImpl implements MemberService {
 		log.debug("멤버 딜리트 서비스");
 		
 		return memberDAO.memberDelete(emp_num);
+	}
+	
+	@Override
+	public List<MemberDTO> memberSearch(HashMap<String, Object> json) {
+		
+		log.debug("멤버 검색 서비스");
+		
+		return memberDAO.memberSearch(json);
+	}
+	
+	@Override
+	public boolean memberUpdate(MemberDTO memberDTO) {
+
+		log.debug("멤버 업데이트 서비스");
+		
+		// 권한 2진수화
+		memberDTO.setEmp_role(String.format("%04d",(Integer.parseInt(memberDTO.getEmp_role()))));
+		
+		// 부서 설정
+		memberDTO.setDept_name(Department.fromNumber(Integer.parseInt(memberDTO.getDept_name())).getName());
+		
+		// 직급 설정
+		memberDTO.setPosition(Position.fromNumber(Integer.parseInt(memberDTO.getPosition())).getName());
+		
+		log.debug("번호값 왜안넘어감?"+memberDTO.getEmp_num());
+		
+		return memberDAO.memberUpdate(memberDTO);
 	}
 }

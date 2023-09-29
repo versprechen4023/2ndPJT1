@@ -33,8 +33,17 @@
 						<!--                                 DataTable Example -->
 						<!--                             </div> -->
 						<div class="card-body">
-							<input type="text" name="search" size=60 placeholder="검색어를 입력하세요"
-								id="searchkey">
+						<input type="button" name="allList" value="전체목록" onclick="location.reload();">
+							<select id="category">
+  								<option value="emp_name">이름</option>
+  								<option value="position">직급</option>
+  								<option value="hotline">내선번호</option>
+  								<option value="dept_name">부서</option>
+  								<option value="email">이메일</option>
+							</select>
+							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
+								id="content">
+							<input type="button" name="search" value="조회" onclick="memberSearch()">
 							<table id="datatablesSimple">
 								<thead>
 									<!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
@@ -48,7 +57,7 @@
 										<th data-sortable="false">관리</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="tbody">
 									<c:forEach var="memberDTO" items="${memberList}">
 										<tr>
 											<td>${memberDTO.emp_name}</td>
@@ -56,11 +65,11 @@
 											<td>${memberDTO.hotline}</td>
 											<td>${memberDTO.dept_name}</td>
 											<td>${memberDTO.email}</td>
-											<td data-type="date" data-format="MMM DD, YYYY">${memberDTO.birthdate }</td>
+											<td>${memberDTO.birthdate }</td>
 											<td><input type="button" value="수정"
-												onclick="updateMember('${memberDTO.emp_num}')" id="updateEmp">
+												onclick="memberUpdate('${memberDTO.emp_num}')" id="updateEmp">
 												<input type="button" value="삭제"
-												onclick="deleteMember('${memberDTO.emp_num}')" id="deleteEmp">
+												onclick="memberDelete('${memberDTO.emp_num}')" id="deleteEmp">
 											</td>
 										</tr>
 									</c:forEach>
@@ -92,13 +101,59 @@
 	<script src="../resources/js/memberList_im.js"></script>
 	
 <script>
+// 멤버 검색관련 함수
+function memberSearch() {
+	
+	   // 값 전달 하기위한 JSON 타입 변수선언
+	   var json = {
+        			category: $('#category').val(),
+        			content: $('#content').val()
+       			  };
+	
+	   // 검색 결과값을 받아오기 위한 ajax 호출
+ 	   $.ajax({
+ 			  url : '${pageContext.request.contextPath}/member_ajax/search',
+ 			  data: JSON.stringify(json),
+ 	          contentType: 'application/json',
+ 			  type : 'POST',
+ 			  dataType: 'json',
+			  
+ 			  success:function(json){
+ 				  
+ 				    // tbody 내용을 초기화
+ 				    $('tbody').empty();
+					
+ 				    // 배열 크기만큼 반복
+ 				    json.forEach(function (data) {
+ 				    	// tr 태그 생성
+ 				        var $tr = $('<tr>');
+ 				    	//tr 에 내용추가
+ 				        $tr.append(
+ 				            "<td>"+data.emp_name+"</td>",
+ 				           	"<td>"+data.position+"</td>",
+ 				         	"<td>"+data.hotline+"</td>",
+ 				         	"<td>"+data.dept_name+"</td>",
+ 				         	"<td>"+data.email+"</td>",
+ 				         	"<td>"+data.birthdate+"</td>",
+ 				        );
+
+ 				        // 생성한 <tr> 요소를 tbody에 추가
+ 				        $('tbody').append($tr);
+ 				    });
+ 		      }// 콜백함수 종료지점
+      });// end_of_ajax
+}// end function
 
 // 멤버 추가관련 함수
 function memberInsert(){
 	window.open('${pageContext.request.contextPath }/member/memberInsert', '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+} //end function
+
+function memberUpdate(emp_num){
+	window.open('${pageContext.request.contextPath }/member/memberUpdate?emp_num='+emp_num, '_blank', 'width=600px, height=1000px, left=600px, top=300px');
 }
 // 멤버 삭제관련 함수
-function deleteMember(emp_num) {
+function memberDelete(emp_num) {
 	
 	// sweetalert2 호출
 	Swal.fire({
@@ -121,7 +176,7 @@ function deleteMember(emp_num) {
 			   
 			   // 멤버 삭제하는 ajax 호출
 			   $.ajax({
-					  url : '${pageContext.request.contextPath}/emp_ajax/delete',
+					  url : '${pageContext.request.contextPath}/member_ajax/delete',
 					  data: {"emp_num": emp_num},
 					  type : 'POST',
 					  success:function(data){
@@ -141,6 +196,13 @@ function deleteMember(emp_num) {
 		  }// end_of_if(컨펌확인)
 	  });// end_of_function(alert 콜백함수 종료지점)
 }// end_of_function
+
+//엔터키 입력시 검색되게 이벤트 리스너 활성화
+document.addEventListener("keyup", function(event) {
+    if (event.key === 'Enter') {
+    	memberSearch();
+    }// end if
+});// end function
 </script>
 </body>
 </html>

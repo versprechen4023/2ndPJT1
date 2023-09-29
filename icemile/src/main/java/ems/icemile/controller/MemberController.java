@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ems.icemile.dto.MemberDTO;
+import ems.icemile.enums.Department;
+import ems.icemile.enums.Position;
 import ems.icemile.service.MemberServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -104,6 +107,30 @@ public class MemberController {
 		}
 		
 		return "redirect:/member/memberList";
+	}
+	
+	@GetMapping("/memberUpdate")
+	public String memberUpdate(@RequestParam("emp_num") String emp_num, Model model) {
+		
+		log.debug("사용자 추가 페이지");
+		
+		// 사원 정보를 얻기위한 메서드 호출
+		MemberDTO memberDTO = memberService.getMemberInfo(emp_num);
+		
+		// 직급, 부서 번호값 저장
+		// 지금은 관리자를 따로 등록하지않았으므로 우선 이렇게 설정
+		if(memberDTO.getPosition().equals("관리자")) {
+			memberDTO.setPosition("1");
+			memberDTO.setDept_name("1");
+		} else {
+		memberDTO.setPosition(Integer.toString(Position.fromName(memberDTO.getPosition()).getNum()));
+		memberDTO.setDept_name(Integer.toString(Department.fromName(memberDTO.getDept_name()).getNum()));
+		}
+		
+		// 모델에 멤버 DTO값 저장
+		model.addAttribute("memberDTO", memberDTO);
+				
+		return "member/memberUpdate";
 	}
 	
 	@GetMapping("/logout")

@@ -1,5 +1,6 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -59,6 +60,21 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.delete(namespace+"deleteMember", emp_num) > 0;
 	}
 	
+	@Override
+	public List<MemberDTO> memberSearch(HashMap<String, Object> json) {
+		
+		log.debug("멤버 서치 DAO 도달");
+		
+		return sqlSession.selectList(namespace+"memberSearch", json);
+	}
+	
+	@Override
+	public boolean memberUpdate(MemberDTO memberDTO) {
+		
+		log.debug("멤버 업데이트 DAO 도달");
+		
+		return sqlSession.update(namespace+"memberUpdate",memberDTO) > 0;
+	}
 	
 	
 }

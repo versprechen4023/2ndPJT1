@@ -1,5 +1,6 @@
 package ems.icemile.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ems.icemile.dto.MemberDTO;
@@ -20,4 +21,11 @@ public interface MemberService {
 	
 	// 사원 삭제
 	public boolean memberDelete(String emp_num);
+	
+	// 사원 검색
+	public List<MemberDTO> memberSearch(HashMap<String, Object> json);
+	
+	// 사원 정보 수정
+	public boolean memberUpdate(MemberDTO memberDTO);
+	
 }
