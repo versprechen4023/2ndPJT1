@@ -25,7 +25,9 @@
 						<!--                             <li class="breadcrumb-item active">Tables</li> -->
 					</ol>
 					<div class="bnt">
+						<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
 						<input type="button" value="사원등록" onclick="memberInsert()">
+						</c:if>
 					</div>
 					<div class="card mb-4">
 						<!--                             <div class="card-header"> -->
@@ -43,7 +45,7 @@
 							</select>
 							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
 								id="content">
-							<input type="button" name="search" value="조회" onclick="memberSearch()">
+							<input type="button" name="search" value="조회" onclick="memberSearch('${sessionScope.emp_role}')">
 							<table id="datatablesSimple">
 								<thead>
 									<!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
@@ -54,7 +56,9 @@
 										<th>부서</th>
 										<th>이메일</th>
 										<th>생일</th>
+										<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
 										<th data-sortable="false">관리</th>
+										</c:if>
 									</tr>
 								</thead>
 								<tbody id="tbody">
@@ -66,11 +70,13 @@
 											<td>${memberDTO.dept_name}</td>
 											<td>${memberDTO.email}</td>
 											<td>${memberDTO.birthdate }</td>
+											<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
 											<td><input type="button" value="수정"
 												onclick="memberUpdate('${memberDTO.emp_num}')" id="updateEmp">
 												<input type="button" value="삭제"
 												onclick="memberDelete('${memberDTO.emp_num}')" id="deleteEmp">
 											</td>
+											</c:if>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -102,8 +108,8 @@
 	
 <script>
 // 멤버 검색관련 함수
-function memberSearch() {
-	
+function memberSearch(role) {
+	   alert(role);
 	   // 값 전달 하기위한 JSON 타입 변수선언
 	   var json = {
         			category: $('#category').val(),
@@ -128,15 +134,31 @@ function memberSearch() {
  				    	// tr 태그 생성
  				        var $tr = $('<tr>');
  				    	//tr 에 내용추가
- 				        $tr.append(
+ 				    	
+ 				    	// 권한이있으면 수정 삭제 버튼도 같이 출력
+ 				    	if(role.charAt(0) === '1'){
+ 				        	$tr.append(
  				            "<td>"+data.emp_name+"</td>",
  				           	"<td>"+data.position+"</td>",
  				         	"<td>"+data.hotline+"</td>",
  				         	"<td>"+data.dept_name+"</td>",
  				         	"<td>"+data.email+"</td>",
  				         	"<td>"+data.birthdate+"</td>",
- 				        );
-
+ 				            "<td>" +
+ 				          	"<input type='button' value='수정' onclick='memberUpdate(\"" + data.emp_num + "\")' id='updateEmp'>" +
+ 				            "<input type='button' value='삭제' onclick='memberDelete(\"" + data.emp_num + "\")' id='deleteEmp'>" +
+ 				            "</td>"
+ 				        	);
+ 				    	} else {
+ 				    		 $tr.append(
+ 		 				     "<td>"+data.emp_name+"</td>",
+ 		 				     "<td>"+data.position+"</td>",
+ 		 				     "<td>"+data.hotline+"</td>",
+ 		 				     "<td>"+data.dept_name+"</td>",
+ 		 				     "<td>"+data.email+"</td>",
+ 		 				     "<td>"+data.birthdate+"</td>",
+ 		 				     );
+ 				    	}
  				        // 생성한 <tr> 요소를 tbody에 추가
  				        $('tbody').append($tr);
  				    });

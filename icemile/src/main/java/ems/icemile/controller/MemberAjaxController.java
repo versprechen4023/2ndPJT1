@@ -9,7 +9,6 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +51,39 @@ public class MemberAjaxController {
 		return memberList;
 	}
 	
+	@PostMapping("/insert")
+	public String memberInsert(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file, HttpSession session) throws Exception {
+		
+		log.debug("값 잘 넘어오나 "+memberDTO.toString());
+		
+		// 프로필 사진 업로드 처리
+		// 파일이 있다면 업로드 처리 시작
+		if(file.getSize() > 0 ) {
+	        
+			// 업로드 경로 지정
+			String uploadDir = "/resources/upload"; 
+			String saveDir = session.getServletContext().getRealPath(uploadDir);
+			
+			log.debug("실제 파일 업로드 주소 : "+saveDir);
+			
+			// 폴더가 없다면 생성
+			File uploadFolder = new File(saveDir);
+	        if (!uploadFolder.exists()) {
+	            uploadFolder.mkdirs();
+	        }
+			
+			// 사진 이름 얻어오기 중복되지않기 위해 랜덤값 부여 나중에 _전으로 잘라서 표기하면됨
+			String photo = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+			// 멤버 DTO에 등록
+			memberDTO.setProfilepic(photo);
+			
+			// 파일 저장 실행
+			file.transferTo(new File(saveDir + File.separator + photo));
+		}
+		
+		return Boolean.toString(memberService.memberInsert(memberDTO));
+	}
+	
 	@PostMapping("/update")
 	public String memberUpdate(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file, HttpSession session) throws Exception {
 		
@@ -83,6 +115,26 @@ public class MemberAjaxController {
 		}
 		
 		return Boolean.toString(memberService.memberUpdate(memberDTO));
-//		return "hi";
+	}
+	
+	@PostMapping("updatePassword")
+	public String updatePassword(MemberDTO memberDTO, @RequestParam("emp_newPw1") String new_password, HttpSession session) {
+		
+		log.debug("업데이트 패스워드 AJAX 호출");
+
+		// 세션에서 비밀번호를 변경할 사번을 가져온다
+		memberDTO.setEmp_num((String)session.getAttribute("emp_num"));
+		
+		// 비밀번호 일치 여부를 검증한다
+		memberDTO = memberService.userCheck(memberDTO);
+		
+		// 비밀번호가 일치한다면 비밀번호 변경을 수행하고 콜백함수에 결과값을 리턴한다
+		if(memberDTO != null) {
+			memberDTO.setEmp_pw(new_password);
+			return Boolean.toString(memberService.updatePassword(memberDTO));
+		} else {
+			return "false";
+		}
+		
 	}
 }

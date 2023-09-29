@@ -40,13 +40,13 @@ h1 {
     <br><br>
 
 		<!-- 이름 -->
-		<b>이름:</b> <input type="text" name="emp_name" id="emp_name" value="${memberDTO.emp_name }">
+		<b>이름:</b> <input type="text" name="emp_name" id="emp_name" value="${memberDTO.emp_name }" readonly>
 		<br>
 		<span id="namemsg"></span>
 		<br>
 		<!-- 생년월일 -->
 		<label for="birthdate"><b>생년월일:</b></label>
-		<input type="text" name="birthdate" id="birthdate" placeholder="생일을 선택해 주십시오" value="${memberDTO.birthdate }" readonly>
+		<input type="text" name="birthdate" id="birthdate" value="${memberDTO.birthdate }" readonly>
 		<br>
 		<span id="birthmsg"></span>
 		<br>
@@ -89,7 +89,7 @@ h1 {
 		
 		<!-- 내선번호 -->
 		<label for="hotline_label"><b>내선번호:</b></label> 
-		<input type="text" name="hotline" id="hotline" value="${memberDTO.hotline}">
+		<input type="text" name="hotline" id="hotline" value="${memberDTO.hotline}" readonly>
 		<br> 
 		<span id="hotlinemsg"></span>
 		<br>
@@ -147,7 +147,7 @@ h1 {
 		<label for="dept3">
 			<input type="checkbox" id="dept3" name="role" value="10" 
 			<c:if test="${memberDTO.emp_role.charAt(2).toString() eq '1' }">checked</c:if>
-			<c:if test="${sessionScope.position != '5' && memberDTO.position != '0'}">disabled</c:if>>생산
+			<c:if test="${memberDTO.position != '5' && memberDTO.position != '0'}">disabled</c:if>>생산
 		</label>
 		<label for="dept4">
 			<input type="checkbox" id="dept4" name="role" value="1" 
@@ -325,6 +325,7 @@ $(document).ready(function() {
         	// 선택된 직급이 부장일 경우 모든 체크박스를 선택 할 수 있다
         	$('[name="role"]').prop('disabled', false);
         } else {
+        	$('[name="role"]').prop('disabled', true);
             $('[name="role"]').prop('checked', false);
             $('#dept' + selectedDept).prop('checked', true);
         }
@@ -360,40 +361,6 @@ $(document).ready(function() {
         // 주소값을 합쳐서 address 필드에 저장
         $("#address").val(addr1 + "" + addr2 + " " + addr3);
     });
-	
-    // 생년월일 데이트피커
-    $("#birthdate").datepicker({
-    	  dateFormat: 'yy-mm-dd',
-    	  prevText: '이전 달',
-    	  nextText: '다음 달',
-    	  monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-    	  monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-    	  dayNames: ['일','월','화','수','목','금','토'],
-    	  dayNamesShort: ['일','월','화','수','목','금','토'],
-    	  dayNamesMin: ['일','월','화','수','목','금','토'],
-    	  showMonthAfterYear: true,
-    	  yearSuffix: '년',
-    	  changeYear: true,
-    	  changeMonth: true,
-    	  yearRange: "1900:2010",
-    	  defaultDate: new Date(1960, 0, 1) // 1960년 1월 1일을 초기 날짜로 설정
-    });
-    
-    // 입사일 데이트 피커
-	$("#hire_date").datepicker({
-    dateFormat: 'yy-mm-dd',
-    prevText: '이전 달',
-    nextText: '다음 달',
-    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-    dayNames: ['일','월','화','수','목','금','토'],
-    dayNamesShort: ['일','월','화','수','목','금','토'],
-    dayNamesMin: ['일','월','화','수','목','금','토'],
-    showMonthAfterYear: true,
-    yearSuffix: '년',
-    maxDate: currentDate
-	
-	});
     
     // 이미지 파일 관리
     $("#file").change(function () {

@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Department {
 	
-	인사(1, "인사팀"), 영업(2, "영업팀"), 생산(3, "생산팀"), 물류(4, "물류팀");
+	관리자(0, "관리자"), 인사(1, "인사팀"), 영업(2, "영업팀"), 생산(3, "생산팀"), 물류(4, "물류팀");
 
     private final int num;
     private final String name;

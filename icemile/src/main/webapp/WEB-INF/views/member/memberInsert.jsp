@@ -54,6 +54,7 @@ h1 {
 		<label for="department_label"><b>부서 선택:</b></label>
 		<select name="dept_name" id="dept_name">
 			<option value="">부서를 선택하십시오</option>
+			<option value="0">관리자</option>
    			<option value="1">인사팀</option>
     		<option value="2">영업팀</option>
     		<option value="3">생산팀</option>
@@ -67,6 +68,7 @@ h1 {
 		<label for="position_label"><b>직급 선택:</b></label> 
 		<select name="position" id="position">
 			<option value="">직급을 선택하십시오</option>
+			<option value="0">관리자</option>
     		<option value="1">사원</option>
     		<option value="2">대리</option>
     		<option value="3">과장</option>
@@ -167,6 +169,13 @@ h1 {
 
 <!-- 카카오 우편번호 API호출 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<!-- sweetalert2 API 호출 -->
+<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+	<script
+src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+
 <script>
 //전역변수 선언
 var selectedDept = '';
@@ -233,72 +242,6 @@ function updateEmailDns() {
 	emailDns.value = selectedDomain;
 }
 
-//서브밋 제어
-$('#signup').submit(function() {
-	
-	if($('#emp_name').val() == ""){
-		$('#namemsg').css('color','red');
-		$('#namemsg').text("이름을 입력하십시오."); 
-		$('#emp_name').focus();
-		return false;
-	}
-	
-	if($('#birthdate').val() == ""){
-		$('#birthmsg').css('color','red');
-		$('#birthmsg').text("생일을 입력하십시오.");
-		$('#birthdate').focus();
-		return false;
-	}
-	
-	if($('#dept_name').val() == ""){
-		$('#deptmsg').css('color','red');
-		$('#deptmsg').text("부서를 선택하십시오.");  
-		$('#dept_name').focus();
-		return false;
-	}
-	
-	if($('#position').val() == ""){
-		$('#positionmsg').css('color','red');
-		$('#positionmsg').text("직급을 선택하십시오.");
-		$('#position').focus();
-		return false;
-	}
-	
-	if($('#phone_num').val() == ""){
-		$('#phonemsg').css('color','red');
-		$('#phonemsg').text("전화번호를 입력해주세요.");
-		$('#phone_num').focus();
-		return false;
-	}
-	
-	if($('#hotline').val() == ""){
-		$('#hotlinemsg').css('color','red');
-		$('#hotlinemsg').text("내선번호를 입력하십시오.");
-		$('#hotline').focus();
-		return false;
-	}
-	
-	if($('#email_id').val() == "" || $('#email_dns').val() == ""){
-		$('#emailmsg').css('color','red');
-		$('#emailmsg').text("이메일을 입력하십시오.");
-		return false;
-	}
-	
-	if($('#emp_post').val() == "" || $('#addr1').val() == ""){
-		$('#addressmsg').css('color','red');
-		$('#addressmsg').text("주소를 입력하십시오.");
-		return false;
-	}
-	
-	if($('#hire_date').val() == ""){
-		$('#hiremsg').css('color','red');
-		$('#hiremsg').text("입사일을 입력하십시오.");
-		$('#hire_date').focus();
-		return false;
-	}
-
-});//submit기능 제어 끝
-
 // J쿼리 함수 시작지점
 $(document).ready(function() {
 	
@@ -310,7 +253,17 @@ $(document).ready(function() {
         $('[name="role"]').prop('checked', false);
      
         // 해당 부서에 대한 권한 체크박스 checked로 변경
-        $('#dept' + selectedDept).prop('checked', true);
+        // 관리자일경우에는 전체체크 및 직급 관리자 자동 설정
+        if(selectedDept == '0'){
+        	$('[name="role"]').prop('checked', true);
+        	
+        	// 선택자 지정후 변수에 담기
+        	var positionSelect = document.getElementById("position").value = 0;
+        	// 관리자 선택
+        	positionSelect.value = "0";
+        } else {
+       		$('#dept' + selectedDept).prop('checked', true);
+        }
     });
 
     // 직급 선택이 변경되었을 때
@@ -404,21 +357,110 @@ $(document).ready(function() {
             reader.readAsDataURL(input.files[0]);
         }
     });
+    
+  	//서브밋 제어
+    $('#signup').submit(function(event) {
+    	
+    	if($('#emp_name').val() == ""){
+    		$('#namemsg').css('color','red');
+    		$('#namemsg').text("이름을 입력하십시오."); 
+    		$('#emp_name').focus();
+    		return false;
+    	}
+    	
+    	if($('#birthdate').val() == ""){
+    		$('#birthmsg').css('color','red');
+    		$('#birthmsg').text("생일을 입력하십시오.");
+    		$('#birthdate').focus();
+    		return false;
+    	}
+    	
+    	if($('#dept_name').val() == ""){
+    		$('#deptmsg').css('color','red');
+    		$('#deptmsg').text("부서를 선택하십시오.");  
+    		$('#dept_name').focus();
+    		return false;
+    	}
+    	
+    	if($('#position').val() == ""){
+    		$('#positionmsg').css('color','red');
+    		$('#positionmsg').text("직급을 선택하십시오.");
+    		$('#position').focus();
+    		return false;
+    	}
+    	
+    	if($('#phone_num').val() == ""){
+    		$('#phonemsg').css('color','red');
+    		$('#phonemsg').text("전화번호를 입력해주세요.");
+    		$('#phone_num').focus();
+    		return false;
+    	}
+    	
+    	if($('#hotline').val() == ""){
+    		$('#hotlinemsg').css('color','red');
+    		$('#hotlinemsg').text("내선번호를 입력하십시오.");
+    		$('#hotline').focus();
+    		return false;
+    	}
+    	
+    	if($('#email_id').val() == "" || $('#email_dns').val() == ""){
+    		$('#emailmsg').css('color','red');
+    		$('#emailmsg').text("이메일을 입력하십시오.");
+    		return false;
+    	}
+    	
+    	if($('#emp_post').val() == "" || $('#addr1').val() == ""){
+    		$('#addressmsg').css('color','red');
+    		$('#addressmsg').text("주소를 입력하십시오.");
+    		return false;
+    	}
+    	
+    	if($('#hire_date').val() == ""){
+    		$('#hiremsg').css('color','red');
+    		$('#hiremsg').text("입사일을 입력하십시오.");
+    		$('#hire_date').focus();
+    		return false;
+    	}
+    	
+    	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
+    	 event.preventDefault(); // 기본 폼 제출 동작을 막음
+    		
+    	 // 폼 데이터 객체생성
+    	 var formData = new FormData(this);
+         
+         $.ajax({
+             type: "POST",
+             url: "${pageContext.request.contextPath}/member_ajax/insert",
+             data: formData,
+             contentType: false, // 멀티파트를 처리하기위해 객체를 직렬화하지 않고 직접 AJAX 통신할 수 있도록 설정
+             processData: false, 
+             success: function (response) {
+            	 
+            	 const result = $.trim(response);
+            	 
+                 if (result == "true") {
+                	 Swal.fire('정보 입력이 완료되었습니다.', '성공', 'success').then(result => {
+					 	if(result.isConfirmed)
+						// 완료 창을 닫으면 부모창 새로고침
+						window.opener.location.reload();
+						window.close(); // 성공 시 창 닫기
+					 });
+                 } else {
+                	 Swal.fire('정보 입력에 실패했습니다.', '실패', 'error');
+                 }
+             },
+             error: function () {
+            	 Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+             }
+         });
+    	
+    });//submit기능 제어 끝
 });
 </script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
 	<script src="../resources/js/scripts.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-		crossorigin="anonymous"></script>
-	<script src="assets/demo/chart-area-demo.js"></script>
-	<script src="assets/demo/chart-bar-demo.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-		crossorigin="anonymous"></script>
-	<script src="js/datatables-simple-demo.js"></script>
 	
 </body>
 </html>

@@ -116,8 +116,17 @@ public class MemberServiceImpl implements MemberService {
 		// 직급 설정
 		memberDTO.setPosition(Position.fromNumber(Integer.parseInt(memberDTO.getPosition())).getName());
 		
-		log.debug("번호값 왜안넘어감?"+memberDTO.getEmp_num());
-		
 		return memberDAO.memberUpdate(memberDTO);
+	}
+	
+	@Override
+	public boolean updatePassword(MemberDTO memberDTO) {
+		
+		log.debug("업데이트 패스워드 서비스");
+		
+		// 사원이 입력한 비밀번호 암호화
+		memberDTO.setEmp_pw(passwordEncoder.encode(memberDTO.getEmp_pw()));
+		
+		return memberDAO.updatePassword(memberDTO);
 	}
 }

@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Position {
-	사원(1, "사원"), 대리(2, "대리"), 과장(3, "과장"), 차장(4, "차장"), 부장(5, "부장");
+	관리자(0, "관리자"), 사원(1, "사원"), 대리(2, "대리"), 과장(3, "과장"), 차장(4, "차장"), 부장(5, "부장");
 
     private final int num;
     private final String name;

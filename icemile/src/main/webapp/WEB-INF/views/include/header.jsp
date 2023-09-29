@@ -20,11 +20,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    	<c:if test="${emp_role.charAt(0).toString() eq '1' }">
-                    		<li><a class="dropdown-item" href="${pageContext.request.contextPath }/member/memberInsert">사용자 추가관리</a></li>
-                        	<li><hr class="dropdown-divider" /></li>
-                    	</c:if>
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath }/member/memberInfo">나의 정보수정</a></li>
+                        <li><a class="dropdown-item" href="${pageContext.request.contextPath }/member/memberInfo">내 정보</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="${pageContext.request.contextPath }/member/logout">로그아웃</a></li>
                     </ul>

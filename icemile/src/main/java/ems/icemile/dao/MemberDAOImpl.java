@@ -76,5 +76,13 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.update(namespace+"memberUpdate",memberDTO) > 0;
 	}
 	
+	@Override
+	public boolean updatePassword(MemberDTO memberDTO) {
+		
+		log.debug("업데이트 패스워드 DAO 도달");
+		
+		return sqlSession.update(namespace+"updatePassword",memberDTO) > 0;
+	}
+	
 	
 }

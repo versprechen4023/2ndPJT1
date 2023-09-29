@@ -70,67 +70,40 @@ public class MemberController {
 		return "member/memberInsert";
 	}
 	
-	@PostMapping("/memberInsert")
-	public String memberInsert(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file, HttpSession session) throws Exception {
-		
-		log.debug("값 잘 넘어오나 "+memberDTO.toString());
-		
-		// 프로필 사진 업로드 처리
-		// 파일이 있다면 업로드 처리 시작
-		if(file.getSize() > 0 ) {
-	        
-			// 업로드 경로 지정
-			String uploadDir = "/resources/upload"; 
-			String saveDir = session.getServletContext().getRealPath(uploadDir);
-			
-			log.debug("실제 파일 업로드 주소 : "+saveDir);
-			
-			// 폴더가 없다면 생성
-			File uploadFolder = new File(saveDir);
-	        if (!uploadFolder.exists()) {
-	            uploadFolder.mkdirs();
-	        }
-			
-			// 사진 이름 얻어오기 중복되지않기 위해 랜덤값 부여 나중에 _전으로 잘라서 표기하면됨
-			String photo = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-			// 멤버 DTO에 등록
-			memberDTO.setProfilepic(photo);
-			
-			// 파일 저장 실행
-			file.transferTo(new File(saveDir + File.separator + photo));
-		}
-		
-		if(memberService.memberInsert(memberDTO)) {
-			log.debug("사용자 추가 성공!!!");
-		} else {
-			log.debug("사용자 추가 실패!!!");
-		}
-		
-		return "redirect:/member/memberList";
-	}
-	
 	@GetMapping("/memberUpdate")
 	public String memberUpdate(@RequestParam("emp_num") String emp_num, Model model) {
 		
-		log.debug("사용자 추가 페이지");
+		log.debug("사용자 수정 페이지");
 		
 		// 사원 정보를 얻기위한 메서드 호출
 		MemberDTO memberDTO = memberService.getMemberInfo(emp_num);
 		
 		// 직급, 부서 번호값 저장
-		// 지금은 관리자를 따로 등록하지않았으므로 우선 이렇게 설정
-		if(memberDTO.getPosition().equals("관리자")) {
-			memberDTO.setPosition("1");
-			memberDTO.setDept_name("1");
-		} else {
 		memberDTO.setPosition(Integer.toString(Position.fromName(memberDTO.getPosition()).getNum()));
 		memberDTO.setDept_name(Integer.toString(Department.fromName(memberDTO.getDept_name()).getNum()));
-		}
 		
 		// 모델에 멤버 DTO값 저장
 		model.addAttribute("memberDTO", memberDTO);
 				
 		return "member/memberUpdate";
+	}
+	
+	@GetMapping("/empUpdate")
+	public String empUpdate(@RequestParam("emp_num") String emp_num, Model model) {
+		
+		log.debug("사용자 수정 페이지");
+		
+		// 사원 정보를 얻기위한 메서드 호출
+		MemberDTO memberDTO = memberService.getMemberInfo(emp_num);
+		
+		// 직급, 부서 번호값 저장
+		memberDTO.setPosition(Integer.toString(Position.fromName(memberDTO.getPosition()).getNum()));
+		memberDTO.setDept_name(Integer.toString(Department.fromName(memberDTO.getDept_name()).getNum()));
+		
+		// 모델에 멤버 DTO값 저장
+		model.addAttribute("memberDTO", memberDTO);
+				
+		return "member/empUpdate";
 	}
 	
 	@GetMapping("/logout")
@@ -156,7 +129,7 @@ public class MemberController {
 	}
 	
 	// 마이페이지
-	@GetMapping("/info")
+	@GetMapping("/memberInfo")
 	public String info(HttpSession session, Model model) {
 		
 		log.debug("마이페이지");
@@ -170,7 +143,15 @@ public class MemberController {
 		// 모델에 멤버 DTO값 저장
 		model.addAttribute("memberDTO", memberDTO);
 		
-		return "/member/info";
+		return "/member/memberInfo";
+	}
+	
+	@GetMapping("/passwordUpdate")
+	public String passwordUpdate(HttpSession session, Model model) {
+		
+		log.debug("비밀번호 변경 페이지");
+		
+		return "/member/passwordUpdate";
 	}
 	
 	@GetMapping("/memberList")

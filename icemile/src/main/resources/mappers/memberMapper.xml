@@ -17,7 +17,7 @@
   </insert>
   
   <select id="userCheck" resultType="ems.icemile.dto.MemberDTO">
-  	SELECT emp_num, emp_pw, emp_role
+  	SELECT emp_num, emp_pw, emp_role, position
   		FROM emp
   			WHERE emp_num = #{emp_num}
   </select>
@@ -51,5 +51,11 @@
   			phone_num = #{phone_num}, hotline = #{hotline}, email = #{email}, emp_post = #{emp_post}, address = #{address},
   				 hire_date = #{hire_date}, emp_role = #{emp_role} 
   				 	WHERE emp_num = #{emp_num}
+  </update>
+  
+  <update id="updatePassword">
+  	UPDATE emp
+  		SET emp_pw = #{emp_pw}
+  			WHERE emp_num = #{emp_num}
   </update>
 </mapper>

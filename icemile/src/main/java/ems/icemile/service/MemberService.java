@@ -28,4 +28,7 @@ public interface MemberService {
 	// 사원 정보 수정
 	public boolean memberUpdate(MemberDTO memberDTO);
 	
+	// 사원 비밀번호 변경
+	public boolean updatePassword(MemberDTO memberDTO);
+	
 }

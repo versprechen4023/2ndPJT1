@@ -79,7 +79,8 @@ input[type="text"]{
   </div>
 
 <!-- <div class="upBut"> -->
- <input type="button" value="수정" class=upBut style="text-align: center;">
+ <input type="button" value="수정" class=upBut onclick="memberUpdate('${sessionScope.emp_num}')" id="updateEmp" style="text-align: center;">
+ <input type="button" value="비밀번호 변경" class=upBut onclick="memberPassword('${sessionScope.emp_num}')" id="passwordEmp" style="text-align: center;">
 <!--  </div> -->
  </div>
  
@@ -92,9 +93,15 @@ input[type="text"]{
                 
             </div>
         </div>
+<script type="text/javascript">
+function memberUpdate(emp_num){
+	window.open('${pageContext.request.contextPath }/member/empUpdate?emp_num='+emp_num, '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+}
+function memberPassword(emp_num){
+	window.open('${pageContext.request.contextPath }/member/passwordUpdate', '_blank', 'width=600px, height=600px, left=600px, top=300px');
+}
+</script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="../resources/js/datatables-simple-demo.js"></script>
     </body>
 </html>
