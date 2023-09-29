@@ -39,7 +39,7 @@
 	<!-- SQL Logger 레벨에 warn을 명시하면 경고관련만 info면 모든 로그 명시-->
 	<!-- 커넥션 관련 로그를 기록한다 커넥션이 열리고 닫히는걸 명시한다 -->
 	<logger name="jdbc.connection" additivity="false">
-		<level value="info" />
+		<level value="warn" />
 		<appender-ref ref="console"/> 
 	</logger>
 	<!-- JDBC 호출 관련 로그를 남긴다 로그가 많으므로 에러 말고는 명시할 이유 없음 -->

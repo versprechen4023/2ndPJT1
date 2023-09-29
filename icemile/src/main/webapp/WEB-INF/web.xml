@@ -45,4 +45,11 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 <!-- 한글처리 선언 필터 -->
+
+<!-- 세션 유효 시간을 2시간으로 설정 -->
+    <session-config>
+    	<session-timeout>120</session-timeout>
+	</session-config>
+<!-- 세션 유효 시간 설정 -->
+	
 </web-app>

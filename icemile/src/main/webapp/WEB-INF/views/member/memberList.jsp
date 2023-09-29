@@ -45,7 +45,7 @@
 							</select>
 							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
 								id="content">
-							<input type="button" name="search" value="조회" onclick="memberSearch('${sessionScope.emp_role}')">
+							<input type="button" name="search" value="조회" onclick="memberSearch()">
 							<table id="datatablesSimple">
 								<thead>
 									<!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
@@ -108,8 +108,11 @@
 	
 <script>
 // 멤버 검색관련 함수
-function memberSearch(role) {
-	   alert(role);
+function memberSearch() {
+		
+		// 원래 매개변수로 전달할려했으나 처음에 언디파인드가 뜨는 문제가 있음 따라서 변수선언
+ 		var role = '${sessionScope.emp_role}';
+ 		
 	   // 값 전달 하기위한 JSON 타입 변수선언
 	   var json = {
         			category: $('#category').val(),
