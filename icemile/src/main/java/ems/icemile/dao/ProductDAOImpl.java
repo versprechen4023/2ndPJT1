@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import ems.icemile.dto.ProductAllDTO;
+import ems.icemile.dto.ProductInsertDTO;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository
@@ -23,7 +24,24 @@ public class ProductDAOImpl implements ProductDAO {
 	@Override
 	public List<ProductAllDTO> getProductList() {
 		
-		log.debug("겟 프로덕트 리스트 DAO 도달");
+		log.debug("getProductList DAO 도달");
+		
 		return sqlSession.selectList(namespace+"getProductList");
+	}
+	
+	@Override
+	public int getNewProductId(ProductInsertDTO productInsertDTO) {
+		
+		log.debug("getNewProductId DAO 도달");
+		
+		return sqlSession.selectOne(namespace+"getNewProductId", productInsertDTO);
+	}
+	
+	@Override
+	public boolean productInsert(ProductInsertDTO productInsertDTO) {
+		
+		log.debug("productInsert DAO 도달");
+
+		return sqlSession.insert(namespace+"productInsert", productInsertDTO) > 0;
 	}
 }

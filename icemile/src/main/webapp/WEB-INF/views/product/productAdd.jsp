@@ -26,10 +26,10 @@
 <body class="sb-nav-fixed">
 <main>
 
-<h1>완제품 추가</h1>
+<h1>품목 추가</h1>
 
-<form>
-<input type="submit" value="추가">
+<form action="#" id="signup" name="signup" method="POST">
+<input type="submit" value="등록">
 <input type="button" value="취소">
 <table border="1">
 <tr>
@@ -71,10 +71,10 @@
 <!-- 판매단가 -->
 <td><input type="text" name="prod_price" size="5"></td>
 <!-- 유통기한 -->
-<td><input type="text" name="prod_exp" size="13" readonly></td>
+<td><input type="text" name="prod_exp" id="prod_exp" size="13" readonly></td>
 <!-- 거래지점 -->
 <!-- 지점이 많을 경우 지점 찾기 페이지를 추가, 적을 경우 드롭 다운 -->
-<td><input type="text" name="branch_code" size="13"></td>
+<td><input type="text" name="deal_code" size="13"></td>
 <!-- 창고 -->
 <td>
 <input type="text" name="wh_code" size="13">
@@ -109,9 +109,46 @@ src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"><
 <script>
 // 전역 변수 선언
 var currentDate = new Date();
-
+// J쿼리 함수 시작 지점
 $(document).ready(function() {
 	
+	//서브밋 제어
+    $('#signup').submit(function(event) {
+    	
+    	if($('#emp_pw').val() == ""){
+    		return false;
+    	}
+    	
+    	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
+    	 event.preventDefault(); // 기본 폼 제출 동작을 막음
+    		
+    	 // 폼 데이터 직렬화
+    	 var formData = $('#signup').serialize();
+         
+         $.ajax({
+             type: "POST",
+             url: "${pageContext.request.contextPath}/product_ajax/productInsert",
+             data: formData,
+             success: function(response) {
+            	 
+            	 const result = $.trim(response);
+            	 
+                 if (result == "true") {
+                	 Swal.fire('품목 추가가 완료되었습니다.', '성공', 'success').then(result => {
+					 	if(result.isConfirmed)
+						window.close(); // 성공 시 창 닫기
+					 });
+                 } else {
+                	 Swal.fire('품목 추가에 문제가 발생했습니다.', '실패', 'error');
+                 }
+             },
+             error: function () {
+            	 Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+             }
+         });
+    	
+    });//submit기능 제어 끝
+    
 	//유통기한 데이트 피커
 	$("#prod_exp").datepicker({
 	dateFormat: 'yy-mm-dd',

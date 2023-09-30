@@ -108,7 +108,7 @@
 	<script src="../resources/js/productList_im.js"></script>
 <script>
 function productAdd(){
-	window.open('${pageContext.request.contextPath }/product/productAdd', '_blank', 'width=1500px, height=250px, left=200px, top=300px');
+	window.open('${pageContext.request.contextPath }/product/productAdd', '_blank', 'width=1500px, height=450px, left=200px, top=300px');
 } //end function
 </script>
     </body>
