@@ -24,7 +24,7 @@ public class FactoryServiceImpl implements FactoryService {
 		
 		log.debug("FactoryService getFacilityList()");
 		
-		return factoryDAO.getFacilityList;
+		return null;
 	}
 	
 	
