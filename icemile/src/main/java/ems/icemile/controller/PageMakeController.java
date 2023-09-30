@@ -137,7 +137,7 @@ public class PageMakeController {
 		//재고(물품) 관리
 		log.debug("stock");
 		
-		return "pageTest/stock";
+		return "redirect:/product/productList";
 	}
 	
 	
