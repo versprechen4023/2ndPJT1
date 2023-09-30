@@ -26,6 +26,8 @@ public class PageMakeController {
 	
 	@Inject //DAO 의존성 주입
 	private MemberDAOImpl memberDAO;
+	
+	
 
 	@GetMapping("/emp")
 	public String emp() {
@@ -92,7 +94,7 @@ public class PageMakeController {
 		//매입처(거래처) 관리
 		log.debug("buy");
 		
-		return "pageTest/buy";
+		return "redirect:/buy/buyList";
 	}
 	
 	
