@@ -125,10 +125,10 @@ public class PageMakeController {
 	
 	@GetMapping("/facility")
 	public String facility() {
-		//생산 실적 관리
+		//설비 관리
 		log.debug("facility");
 		
-		return "pageTest/facility";
+		return "factory/facility";
 	}
 	
 	
