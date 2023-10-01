@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="mes.icemile.mappers.wareHouseMapper">
+  
+<!--   창고 리스트 가져오기 -->
+  <select id="houseList" resultType="ems.icemile.dto.WareHouseDTO">
+  SELECT *
+  FROM warehouse 
+  </select>
+<!--   창고 리스트 가져오기 -->
+
+<!-- 창고 추가 시 코드값 가져가기 -->
+  <select id="getWhCode" resultType="String">
+		SELECT wh_code 
+		FROM warehouse 
+		ORDER BY wh_code desc limit 1
+  </select>
+<!-- 창고 추가 시 코드값 가져가기 -->
+
+<!-- 창고 등록(추가) -->
+	<insert id="registWh">
+		INSERT INTO warehouse (wh_code, wh_name, wh_type, wh_loacation, wh_phone, wh_status, prod_code, 
+		                       raw_code, emp_num, wh_note)
+		VALUES (#{wh_code}, #{wh_name}, #{wh_type}, #{wh_loacation}, #{wh_phone}, #{wh_status}, 
+				#{prod_code}, #{raw_code},#{emp_num},#{wh_note})
+	</insert>
+<!-- 창고 등록(추가) -->
+
+
+
+  
+  
+  </mapper>
+  
