@@ -8,7 +8,9 @@ window.addEventListener('DOMContentLoaded', event => {
         
       // 페이지 표시 버튼 삭제
       perPageSelect : false,
+      //검색창 삭제
       searchable : false,
+      //페이지당 목록 10개
       perPage : 10,
       
       //라벨을 수정
