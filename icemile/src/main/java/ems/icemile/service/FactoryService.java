@@ -6,6 +6,8 @@ import ems.icemile.dto.FacilityDTO;
 
 public interface FactoryService {
 
-	List<FacilityDTO> getFacilityList();
+	public List<FacilityDTO> getFacilityList();
+
+	public void insertFacility(FacilityDTO facilityDTO);
 
 }
