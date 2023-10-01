@@ -1,6 +1,7 @@
 package ems.icemile.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import ems.icemile.dto.ProductAllDTO;
 import ems.icemile.dto.ProductInsertDTO;
@@ -15,5 +16,11 @@ public interface ProductDAO {
 	
 	// 품목 등록
 	public boolean productInsert(ProductInsertDTO productInsertDTO);
+	
+	// 품목 수정
+	public boolean productUpdate(ProductInsertDTO ProductInsertDTO);
+	
+	// 품목 삭제
+	public boolean productDelete(List<Map<String, String>> codeAndTypeList);
 	
 }

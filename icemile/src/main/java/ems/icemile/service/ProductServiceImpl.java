@@ -1,6 +1,7 @@
 package ems.icemile.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -42,5 +43,24 @@ public class ProductServiceImpl implements ProductService {
 		log.debug("프로덕트 테스트 출력" + productInsertDTO.toString());
 		
 		return productDAO.productInsert(productInsertDTO);
+	}
+	
+	@Override
+	public boolean productUpdate(ProductInsertDTO ProductInsertDTO) {
+		
+		log.debug("프로덕트 업데이트 서비스");
+		
+		// 원자재인지 완제품인지 구분한다
+		ProductInsertDTO.setType(ProductInsertDTO.getProd_code().substring(0,1));
+		
+		return productDAO.productUpdate(ProductInsertDTO);
+	}
+	
+	@Override
+	public boolean productDelete(List<Map<String, String>> codeAndTypeList) {
+		
+		log.debug("프로덕트 딜리트 서비스");
+		
+		return productDAO.productDelete(codeAndTypeList);
 	}
 }

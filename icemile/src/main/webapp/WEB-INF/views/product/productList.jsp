@@ -17,6 +17,7 @@
 		<jsp:include page="../include/sidebar.jsp"></jsp:include>
 		<!-- 사이드바 -->
 		<div id="layoutSidenav_content">
+<form id="productList">
                 <main>
                 <!-- 내용들어가는곳 -->
                     <div class="container-fluid px-4">
@@ -28,9 +29,10 @@
                         <div class="bnt">
                         <c:if test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
 							<input type="button" value="품목추가" onclick="productAdd()">
-							<input type="button" value="수정" onclick="prodUpdate(this)" id="updateProd">
-							<input type="button" value="삭제" onclick="prodDelete(this)" id="deleteProd">
-
+							<input type="button" value="취소" id="cancelButton">
+							<input type="button" value="수정" id="updateProd">
+							<input type="button" value="삭제" id="deleteProd">
+							<input type="button" value="저장" id="saveProd">
 						</c:if>
                         </div>
                         <div class="card mb-4">
@@ -59,9 +61,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="productAllDTO" items="${productList}" varStatus="status">
+                                    <c:forEach var="productAllDTO" items="${productList}">
                                         <tr>
-                                        	<th><input type="checkbox" name="selectedProId" value="${status.index}"></th>
+                                        	<td><input type="checkbox" name="selectedProId" value="${productAllDTO.prod_code}"></td>
                                             <td>${productAllDTO.prod_code}</td>
                                             <td>${productAllDTO.prod_name}</td>
                                             <td>${productAllDTO.prod_type}</td>
@@ -76,6 +78,7 @@
                                     </c:forEach>
                                     </tbody>
                                 </table>
+</form>
                             </div>
                         </div>
                     </div>
@@ -103,6 +106,159 @@
 		crossorigin="anonymous"></script>
 	<script src="../resources/js/productList_im.js"></script>
 <script>
+//수정 버튼 누를 시
+$("#updateProd").click(function(){
+	
+	// 체크박스가 체크된 여부를 확인하기위한 변수선언
+	var selectedCheckbox = $("input[name='selectedProId']:checked");
+	
+	// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+	if (selectedCheckbox.length === 1) {
+		
+		// 텍스트태그를 추가할 tr태그를 선택한다
+		var row = selectedCheckbox.closest("tr");
+		
+		// input type의 name 값 지정
+		var cellNames = [
+			"prod_code", 
+			"prod_name", 
+			"prod_type", 
+			"prod_unit",
+			"prod_amount",
+			"prod_price",
+			"prod_exp",
+			"deal_code",
+			"wh_code",
+			"prod_note"
+		];
+		
+		// input type의 id 값 지정
+		var cellIds = [
+			"prod_code", 
+			"prod_name", 
+			"prod_type", 
+			"prod_unit",
+			"prod_amount",
+			"prod_price",
+			"prod_exp",
+			"deal_code",
+			"wh_code",
+			"prod_note"
+		];
+		
+		
+		// 각 셀을 수정 가능한 텍스트 입력 필드로 변경(단 첫번째의 체크박스가 있는 셀은 제외한다)
+		row.find("td:not(:first-child)").each(function(index) {
+			
+			// 기존 텍스트 값을 변수에 저장한다
+			var cellValue = $(this).text();
+			// 삼항연산자 0번째 행(코드)와 2번째행(종류)는 리드온리로 변경할 수 없다
+			var cellOption = index === 0 || index === 2 ? "readonly" : "";
+			// 반복문의 숫자에 따라 html 태그의 이름을 네임 이름으로 한다
+			var cellName = cellNames[index];
+			// 반복문의 숫자에 따라 html 태그의 이름을 아이디 이름으로 한다
+			var cellId = cellIds[index];
+			
+			// 반복문에 따라 이너 html 실행 모든 입력칸을 텍스트태그로 바꾼다
+			$(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' >');
+		});
+		
+	}else if (selectedCheckbox.length === 0){
+		Swal.fire('수정할 행을 선택해 주십시오.', '실패', 'error');
+		
+	}else {
+		Swal.fire('수정할 행은 한개만 선택 가능합니다.', '실패', 'error');;
+	}
+});
+
+// 취소 버튼 누를 시 
+$("#cancelButton").click(function(){
+		
+		// 테이블 모든행에 따라 반복작업 실행
+		$("#datatablesSimple tr").each(function() {
+		// 행 위치를 얻기위한 변수선언
+		var row = $(this);
+		// 폼태그안의 모든 데이터를 초기값으로 리셋한다
+		$("#productList")[0].reset();
+		
+			// 각 셀의 값을 원래 상태로 되돌린다(마찬가지로 첫번째 셀은 제외한다)
+			row.find("td:not(:first-child)").each(function(index) {
+				// 텍스트 태그의 값을 찾는다
+				var cellValue = $(this).find("input").val();
+				// 텍스트 태그를 삭제하고 값만 td태그에 삽입한다
+				$(this).html(cellValue);
+			});
+		
+		
+		});
+	
+});
+
+// 저장 버튼 누를시
+$("#saveProd").click(function() {
+    		
+    	 // 폼 데이터 직렬화
+    	 var formData = $('#productList').serialize();
+         
+         $.ajax({
+             type: "POST",
+             url: "${pageContext.request.contextPath}/product_ajax/productUpdate",
+             data: formData,
+             success: function(response) {
+            	 
+            	 const result = $.trim(response);
+            	 
+                 if (result == "true") {
+                	 Swal.fire('품목 수정이 완료되었습니다.', '성공', 'success').then(result => {
+					 	if(result.isConfirmed)
+					 		location.reload(); // 성공 시 새로고침
+					 });
+                 } else {
+                	 Swal.fire('품목 수정에 문제가 발생했습니다.', '실패', 'error');
+                 }
+             },
+             error: function () {
+            	 Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+             }
+         });
+    
+});
+
+//삭제 버튼 누를시
+$("#deleteProd").click(function() {
+	
+	// 체크박스가 체크된 여부를 확인하기위한 변수선언
+	var selectedCheckbox = $("input[name='selectedProId']:checked");
+	
+	if (selectedCheckbox.length === 0){
+		Swal.fire('삭제할 행을 선택해 주십시오.', '실패', 'error');
+	} else {
+    	 // 폼 데이터 직렬화
+    	 var formData = $('#productList').serialize();
+         
+         $.ajax({
+             type: "POST",
+             url: "${pageContext.request.contextPath}/product_ajax/productDelete",
+             data: formData,
+             success: function(response) {
+            	 
+            	 const result = $.trim(response);
+            	 
+                 if (result == "true") {
+                	 Swal.fire('품목 삭제가 완료되었습니다.', '성공', 'success').then(result => {
+					 	if(result.isConfirmed)
+					 		location.reload(); // 성공 시 새로고침
+					 });
+                 } else {
+                	 Swal.fire('품목 삭제에 문제가 발생했습니다.', '실패', 'error');
+                 }
+             },
+             error: function () {
+            	 Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+             }
+         });
+	}
+});
 function productAdd(){
 	window.open('${pageContext.request.contextPath }/product/productAdd', '_blank', 'width=1500px, height=450px, left=200px, top=300px');
 } //end function
