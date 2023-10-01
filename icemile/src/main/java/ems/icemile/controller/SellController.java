@@ -3,16 +3,14 @@ package ems.icemile.controller;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import ems.icemile.dto.MemberDTO;
 import ems.icemile.dto.SellDTO;
 import ems.icemile.service.MemberServiceImpl;
 import ems.icemile.service.SellServiceImpl;
@@ -44,21 +42,36 @@ public class SellController {
 		
 		sellService.branchInsert(sellDTO);
 		
-		return "redirect:/sell/branch";
+		return "redirect:/sell/branchList";
 	}
 	
+	@GetMapping("/branchUpdate")
+	public String branchUpdate(String branch_code, Model model) {
+		
+		log.debug("지점 수정 페이지");
+		
+		// 디비에서 지점 정보 가져오기
+		SellDTO sellDTO = sellService.getBranchInfo(branch_code);
+		
+		//model에 가져온 데이터 담아서 branchUpdate이동
+		model.addAttribute("sellDTO", sellDTO);
+		return "sell/branchUpdate";
+	}
+
+
 	
-	
-//	@GetMapping("/branch")
-//	public String branch(HttpSession session, Model model) {
-//		log.debug("지점 목록 페이지");
-//		// 디비에서 지점 목록 가져오기 
-//		List<SellDTO> branchList = sellService.getBranchList();
-//		// model에 가져온 데이터 담아서 branch.jsp 이동
-//		model.addAttribute("branchList",branchList);
-//		
-//		// 페이지 이동
-//		return "sell/branch";
-//		
-//	}
+	@GetMapping("/branchList")
+	public String branch( Model model) {
+		log.debug("지점 목록 페이지");
+		
+		// 디비에서 지점 목록 가져오기 
+		List<SellDTO> branchList = sellService.getBranchList();
+		
+		// model에 가져온 데이터 담아서 branch.jsp 이동
+		model.addAttribute("branchList",branchList);
+		
+		// 페이지 이동
+		return "sell/branchList";
+		
+	}
 }

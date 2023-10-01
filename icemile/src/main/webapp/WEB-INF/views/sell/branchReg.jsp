@@ -3,19 +3,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="" />
-<meta name="author" content="" />
-<title>아이스마일</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
-	rel="stylesheet" />
-<link href="../resources/css/styles.css" rel="stylesheet" />
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
-	crossorigin="anonymous"></script>
+<!-- 헤드 -->
+<jsp:include page="../include/head.jsp"></jsp:include>
+<!-- 헤드 -->
+	
 	<style>
 body {
 	display: flex;
@@ -54,24 +45,32 @@ h1 {
 <label for="branch_name_label"><b>지점명</b></label>  
 <input type="text" name="branch_name" id="branch_name"> 
 <br> 
+<span id="namemsg"></span>
+<br>
 
 <!--  사업자 등록 --> 
 <br> 
 <label for="branch_num_label"><b>사업자 등록 번호</b></label> 
 <input type="tel" name="branch_reg" id="branch_reg"> 
 <br> 
+<span id="brregmsg"></span>
+<br>
 
 <!-- 대표자 -->
 <br>
 <label for="branch_ceo_label"><b>대표자명</b></label> 
 <input type="text" name="branch_ceo" id="branch_ceo">
 <br> 
+<span id="brceomsg"></span>
+<br>
 
 <!-- 지점 연락처 -->
 <br> 
-<label for="emp_num_label"><b>지점연락처</b></label>
+<label for="branch_phone_label"><b>지점연락처</b></label>
 <input type="tel" name="branch_phone" id="branch_phone"> 
 <br> 
+<span id="brphonemsg"></span>
+<br>
 
 <!-- 가맹담당자 => 본사 직원 -->
 <!-- 부서 영업팀 => 팝업창 => 리스트 출력 => 선택 / 드롭다운? => 선택 -->
@@ -80,6 +79,8 @@ h1 {
 <label for="branch_phone_label"><b>가맹 담당자</b></label> 
 <input type="text" name="emp_num" id="emp_num">
 <br> 
+<span id="empmsg"></span>
+<br>
 
 <!-- 주소 -->
 <br>
@@ -95,11 +96,13 @@ h1 {
 		<label for="addr3_label"><b>상세주소</b></label> 
 		<input type="text" name="addr3" id="addr3" placeholder="상세주소"> 
 		<br> 
+		<span id="addressmsg"></span>
+		<br>
 
 <!-- 지점 이메일 -->
 <br> 
 <label for="email_id_label"><b>이메일</b></label> 
-<input type="text" name="email_id" id="email_id"> @ 
+<input type="text" name="branch_email" id="branch_email"> @ 
 <input type="text" name="email_dns" id="email_dns" value="naver.com">
 <select name="email_sel" id="email_sel" onchange="updateEmailDns()">
 <option value="">직접 입력</option>
@@ -107,11 +110,13 @@ h1 {
 <option value="gmail.com">GOOGLE</option>
 </select> <br> 
 <br>
+<span id="emailmsg"></span>
+<br>
 
 <!-- 버튼 --> 
 <input type="hidden" id="branch_email" name="branch_email" value="">
 <input type="hidden" id="branch_add" name="branch_add" value="">
-<input type="submit" value="등록"> 
+<input type="submit" id = "btn" value="등록"> 
 <input type="reset" value="취소">
 </form>
 
@@ -196,7 +201,7 @@ h1 {
 	                
 	            	// 이메일 값 합산 설정
 	                // 입력이메일을 가져오기위한 변수선언
-	                var emailId = $("#email_id").val();
+	                var emailId = $("#branch_email").val();
 	                var emailDns = $("#email_dns").val();
 	        		
 	                // email_id와 email_dns를 합쳐서 email 필드에 저장
@@ -211,26 +216,109 @@ h1 {
 	                // 주소값을 합쳐서 address 필드에 저장
 	                $("#branch_add").val(addr1 + "" + addr2 + " " + addr3);
 	            });
-	
+	         	
+//서브밋 제어
+ $('#signup').submit(function(event) {
+    	
+		//지점명 공백 시 
+    	if($('#branch_name').val() == ""){
+    		$('#namemsg').css('color','red');
+    		$('#namemsg').text("지점명을 입력하십시오."); 
+    		$('#branch_name').focus();
+    		return false;
+    	}
+    	
+		// 사업자 등록번호 공백 시 
+    	if($('#branch_reg').val() == ""){
+    		$('#brregmsg').css('color','red');
+    		$('#brregmsg').text("사업자 등록번호를 입력하십시오."); 
+    		$('#branch_reg').focus();
+    		return false;
+    	}
+
+		// 대표자명 공백 시 
+    	if($('#branch_ceo').val() == ""){
+    		$('#brceomsg').css('color','red');
+    		$('#brceomsg').text("대표자명을 입력하십시오."); 
+    		$('#branch_ceo').focus();
+    		return false;
+    	}
+
+		// 지점 연락처 공백 시 
+    	if($('#branch_phone').val() == ""){
+    		$('#brphonemsg').css('color','red');
+    		$('#brphonemsg').text("지점 연락처를 입력하십시오."); 
+    		$('#branch_phone').focus();
+    		return false;
+    	}
+		
+		// 본사 직원 공백시  => 새창 리스트 할 건지 고민중....
+    	if($('#emp_num').val() == ""){
+    		$('#namemsg').css('color','red');
+    		$('#namemsg').text("가맹 담당자를 입력하십시오."); 
+    		$('#emp_num').focus();
+    		return false;
+    	}
+
+		// 주소 공백시  
+    	if($('#branch_post').val() == ""){
+    		$('#addressmsg').css('color','red');
+    		$('#addressmsg').text("주소를 입력하십시오."); 
+    		$('#branch_post').focus();
+    		return false;
+    	}
+
+		// 이메일 공백시  
+    	if($('#branch_email').val() == ""){
+    		$('#emailmsg').css('color','red');
+    		$('#emailmsg').text("이메일를 입력하십시오."); 
+    		$('#branch_email').focus();
+    		return false;
+    	}
+
+    	// 다입력되었다면 AJAX 폼태그 데이터 제출시작
+   	 event.preventDefault(); // 기본 폼 제출 동작을 막음
+   		
+   	 // 폼 데이터 객체생성
+   	 var formData = new FormData(this);
+        
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/branch_ajax/insert",
+            data: formData,
+            contentType: false, // 멀티파트를 처리하기위해 객체를 직렬화하지 않고 직접 AJAX 통신할 수 있도록 설정
+            processData: false, 
+            success: function (response) {
+           	 
+           	 const result = $.trim(response);
+           	 
+                if (result == "true") {
+               	 Swal.fire('정보 입력이 완료되었습니다.', '성공', 'success').then(result => {
+					 	if(result.isConfirmed)
+						// 완료 창을 닫으면 부모창 새로고침
+						window.opener.location.reload();
+						window.close(); // 성공 시 창 닫기
+					 });
+                } else {
+               	 Swal.fire('정보 입력에 실패했습니다.', '실패', 'error');
+                }
+            },
+            error: function () {
+           	 Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+            }
+        });
+   	
+   });//submit기능 제어 끝
+});   
 </script>
 
-			<!-- 푸터 -->
+			<%-- <!-- 푸터 -->
 			<jsp:include page="../include/footer.jsp"></jsp:include>
-			<!-- 푸터 -->
-		</div>
-	</div>
-	<script
+			<!-- 푸터 --> --%>
+		<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
 	<script src="../resources/js/scripts.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-		crossorigin="anonymous"></script>
-	<script src="assets/demo/chart-area-demo.js"></script>
-	<script src="assets/demo/chart-bar-demo.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-		crossorigin="anonymous"></script>
-	<script src="js/datatables-simple-demo.js"></script>
+	
 </body>
 </html>

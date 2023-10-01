@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -10,13 +9,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>branch</title>
+        <title>Tables - SB Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="../resources/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
      <body class="sb-nav-fixed">
-
+        
 <!-- 헤더 -->
 <jsp:include page="../include/header.jsp"></jsp:include>
 <!-- 헤더 -->
@@ -24,7 +23,7 @@
 <!-- 사이드바 -->
 <jsp:include page="../include/sidebar.jsp"></jsp:include>
 <!-- 사이드바 -->
-
+        
             <div id="layoutSidenav_content">
                 <main>
                 <!-- 내용들어가는곳 -->
@@ -34,22 +33,36 @@
 <!--                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
                         </ol>
+                        
+                       <div>
                         <div class="bnt">
-                        <button>추가</button><button>수정</button>
-                        <button>삭제</button><button>취소</button><button>저장</button></div>
+<%--                         <c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }"> --%>
+                       <input type="button" value="지점 등록" onclick="branchReg()"></div>
+<%--                         </c:if> --%>
                         <div class="card mb-4">
 <!--                             <div class="card-header"> -->
 <!--                                 <i class="fas fa-table me-1"></i> -->
 <!--                                 DataTable Example -->
 <!--                             </div> -->
                             <div class="card-body">
+                            
+                            <!-- 지점 검색 기능 -->
+							<select id="category">
+  								<option value="branch_code">지점코드</option>
+  								<option value="branch_name">지점명</option>
+  								<option value="emp_num">가맹 담당자명</option>
+  								<option value="branch_phone">지점 연락처</option>
+							</select>
+							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
+								id="content">
+							<input type="button" name="search" value="조회" onclick="branchSearch()">
+                            <!-- 지점 검색 기능 -->
+                            
                                 <table id="datatablesSimple">
-
+                                
                                     <thead>
                                     <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
                                         <tr>
-                                        	<th>선택</th>
-                                            <th>순서</th>
                                             <th>코드</th>
                                             <th>지점명</th>
                                             <th>사업자번호</th>
@@ -59,45 +72,33 @@
                                             <th>주소</th>
                                             <th>이메일</th>
                                             <th>담당자</th>
+<%--                                             <c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }"> --%>
+											<th data-sortable="false">관리</th>
+<%-- 											</c:if> --%>
 
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                    <!-- "테이블 바닥글"을 나타냅니다. 이 부분은 테이블의 하단 요약 정보나 추가 설명 등을 담습니다. -->
-                                    <!-- <tfoot> 부분은 없어도 될 것 같은데 기존 템플릿에 있던 태그라 그냥 둔 겁니다! -->
+                                    <tbody id= "tbody">
+                                    <c:forEach var="sellDTO" items="${branchList }">
                                         <tr>
-                                        	<th>선택</th>
-                                            <th>순서</th>
-                                            <th>코드</th>
-                                            <th>지점명</th>
-                                            <th>사업자번호</th>
-                                            <th>대표자</th>
-                                            <th>연락처</th>
-                                            <th>우편번호</th>
-                                            <th>주소</th>
-                                            <th>이메일</th>
-                                            <th>담당자</th>
+                                            <td>${sellDTO.branch_code }</td> 
+                                            <td>${sellDTO.branch_name }점</td>
+                                            <td>${sellDTO.branch_reg }</td>
+                                            <td>${sellDTO.branch_ceo }</td>
+                                            <td>${sellDTO.branch_phone }</td>
+                                            <td>${sellDTO.branch_post }</td>
+                                            <td>${sellDTO.branch_add }</td>
+                                            <td>${sellDTO.branch_email }</td>
+                                            <td><%-- ${memberDTO.emp_num } --%>박소현</td>
+<%--                                             <c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }"> --%>
+											<td><input type="button" value="수정"
+												onclick="branchUpdate('${sellDTO.branch_code}')" id="updateBranch">
+												<input type="button" value="삭제"
+												onclick="branchDelete('${sellDTO.branch_code}')" id="deleteBranch">
+											</td>
+<%-- 											</c:if> --%>
                                         </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        <tr>
-                                          <c:forEach var="sellDTO" items="">
-                                        	<th class="eachCheck">
-            					 				<input type="checkbox" name="cbox" class="eachCheckbox"></th>
-                                            <th>1</th>
-                                            <th>${sellDTO.branch_code}</th> <!-- 대충... -->
-                                            <th>1호점</th>
-                                            <th>303-51-030303</th>
-                                            <th>박소현</th>
-                                            <th>051-333-0303</th>
-                                            <th>03033</th>
-                                            <th>부산광역시 부산진구 동천로 109 삼한골든게이트 7층</th>
-                                            <th>itwillbs@naver.com</th>
-                                            <th>IM000001</th>
-                                        </tr>
-                                         </c:forEach>
-                                        
-                                        
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -105,11 +106,11 @@
                     </div>
                 <!-- 내용 들어가는 곳 -->
                 </main>
-
+                
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 -->  
-
+                
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

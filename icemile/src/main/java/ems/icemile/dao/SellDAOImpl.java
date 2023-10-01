@@ -26,14 +26,22 @@ public class SellDAOImpl implements SellDAO{
 	}
 	@Override
 	public boolean branchInsert(SellDTO sellDTO) {
-		log.debug("지점 추가 DAO도달");
+		log.debug("DAO| 지점 추가");
 		return sqlSession.insert(namespace+"branchInsert",sellDTO) > 0;
 	}
 
 	@Override
 	public List<SellDTO> getBranchList() {
-		log.debug("지점 목록 DAO 도달");
+		log.debug("DAO| 지점 목록");
 		return sqlSession.selectList(namespace+"branch");
 	}
+	
+	@Override
+	public SellDTO getBranchInfo(String branch_code) {
+		log.debug("DAO| 지점 정보");
+		return sqlSession.selectOne(namespace+"getBranchInfo", branch_code);
+	}
+	
+	
 
 }

@@ -18,4 +18,12 @@
 	<select id="branch" resultType="ems.icemile.dto.SellDTO">
 	SELECT * FROM branch
 	</select>
+	
+	<select id="getBranchInfo" resultType="ems.icemile.dto.SellDTO">
+  	SELECT *
+  		FROM branch
+  			WHERE branch_code = #{branch_code}
+  </select>
+	
+	
 </mapper>
