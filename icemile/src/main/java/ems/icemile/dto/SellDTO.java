@@ -12,6 +12,7 @@ public class SellDTO {
 	private String branch_code;
 	private int branch_reg;
 	private String branch_ceo;
+	private String branch_name;
 	private String emp_num;
 	private String branch_phone;
 	private String branch_post;
