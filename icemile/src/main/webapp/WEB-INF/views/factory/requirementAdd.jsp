@@ -1,18 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>���̽�����</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
-	rel="stylesheet" />
+<title>아이스마일</title>
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 <link href="../resources/css/styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 	
@@ -33,57 +31,60 @@
 </head>
 
 <body class="sb-nav-fixed">
-	<!-- ��� -->
+	<!-- 헤더 -->
 	<jsp:include page="../include/header.jsp"></jsp:include>
-	<!-- ��� -->
+	<!-- 헤더 -->
 
 	<div id="layoutSidenav">
-		<!-- ���̵�� -->
+		<!-- 사이드바 -->
 		<jsp:include page="../include/sidebar.jsp"></jsp:include>
-		<!-- ���̵�� -->
+		<!-- 사이드바 -->
 		<div id="layoutSidenav_content">
 			<main>
-<h1>�ҿ䷮ �߰�</h1>
+<h1>소요량 등록</h1>
 
-<input type="submit" value="�߰�">
-<input type="button" value="���">
+<form action="${pageContext.request.contextPath}/factory/insertRequirement" method="POST">
+<input type="submit" value="추가">
+<input type="button" value="취소">
 
 <table border="1">
 <tr>
-<th>�ҿ䷮ �ڵ�</th>
-<th>����ǰ �ڵ�</th>
-<th>������ �ڵ�</th>
-<th>�����</th>
-<th>�ҿ䷮</th>
-<th>������</th>
-<th>���</th>
+<th>소요량 코드</th>
+<th>완제품 코드</th>
+<th>원자재 코드</th>
+<th>소요량</th>
+<th>등록일</th>
+<th>수정일</th>
+<th>비고</th>
 </tr>
 
+
 <tr>
-<!-- �ҿ䷮ �ڵ� -->
-<td><input type="text" name="req_code" size="11"></td>
-<!-- ����ǰ �ڵ� -->
+<!-- 소요량 코드 -->
+<td><input type="text" value="${requireDTO.req_code }" name="req_code" size="11"></td>
+<!-- 완제품 코드 -->
 <td><input type="text" name="prod_code" size="11"></td>
-<!-- ������ �ڵ� -->
+<!-- 원자재 코드 -->
 <td><input type="text" name="raw_code" size="11"></td> 
-<!-- ����� -->
-<td><input type="text" name="req_insertdate" size="12"></td>
-<!-- �ҿ䷮ -->
-<td><input type="text" name="req_amount"  size="3"></td>
-<!-- ������ -->
-<td><input type="text" name="req_updatedate"  size="12"></td>
-<!-- ��� -->
+<!-- 소요량 -->
+<td><input type="text" name="req_amount" size="3"></td>
+<!-- 등록일 -->
+<td><input type="date" name="req_insertDATE"  size="12"></td>
+<!-- 수정일 -->
+<td><input type="date" name="req_upDATEDATE"  size="12"></td>
+<!-- 비고 -->
 <td><input type="text" name="req_note"  size="6"></td>
 </tr>
 
 </table>
+</form>
 
-				<!-- ������°� -->
+				<!-- 내용들어가는곳 -->
 				
 			</main>
-<!-- Ǫ�� -->
+<!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
-<!-- Ǫ�� -->  
+<!-- 푸터 -->  
                 
             </div>
         </div>
