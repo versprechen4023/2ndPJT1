@@ -60,19 +60,19 @@
                                     <tbody>
                                     <c:forEach var="productAllDTO" items="${productList}">
                                         <tr>
-                                            <th>${productAllDTO.prod_code}</th>
-                                            <th>${productAllDTO.prod_name}</th>
-                                            <th>${productAllDTO.prod_type}</th>
-                                            <th>${productAllDTO.prod_unit}</th>
-                                            <th>${productAllDTO.prod_amount}</th>
-                                            <th>${productAllDTO.prod_price}</th>
-                                            <th>${productAllDTO.prod_exp}</th>
-                                            <th>${productAllDTO.deal_code}</th>
-                                            <th>${productAllDTO.wh_code}</th>
-                                            <th>${productAllDTO.prod_note}</th>
+                                            <td>${productAllDTO.prod_code}</td>
+                                            <td>${productAllDTO.prod_name}</td>
+                                            <td>${productAllDTO.prod_type}</td>
+                                            <td>${productAllDTO.prod_unit}</td>
+                                            <td>${productAllDTO.prod_amount}</td>
+                                            <td>${productAllDTO.prod_price}</td>
+                                            <td>${productAllDTO.prod_exp}</td>
+                                            <td>${productAllDTO.deal_code}</td>
+                                            <td>${productAllDTO.wh_code}</td>
+                                            <td>${productAllDTO.prod_note}</td>
                                             <c:if test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
 											<td><input type="button" value="수정"
-												onclick="prodUpdate('${productAllDTO.prod_code}')" id="updateProd">
+												onclick="prodUpdate(this, '${productAllDTO.prod_code}')" id="updateProd">
 												<input type="button" value="삭제"
 												onclick="prodDelete('${productAllDTO.prod_code}')" id="deleteProd">
 											</td>
@@ -107,6 +107,21 @@
 		crossorigin="anonymous"></script>
 	<script src="../resources/js/productList_im.js"></script>
 <script>
+function prodUpdate(event, prod_code) {
+	
+	// 버튼 이벤트가 발생한 td태그 찾기
+	var row = event.parentNode.parentNode;
+	
+	// 버튼 이벤트가 발생한 td태그를 가져옴
+	var td = row.getElementsByTagName('td');
+	
+	// 텍스트코드로대체
+    for (var i = 0; i < td.length - 1; i++) {
+    	var tdElement = td[i];
+        tdElement.innerHTML = '<input type="text" value="' + tdElement.textContent + '">';
+    }
+}
+
 function productAdd(){
 	window.open('${pageContext.request.contextPath }/product/productAdd', '_blank', 'width=1500px, height=450px, left=200px, top=300px');
 } //end function
