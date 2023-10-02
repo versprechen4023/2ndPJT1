@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,4 +61,21 @@ public class FactoryCopyController {
 		return "redirect:/factory/requirement";
 	} // insertRequirement()
 	
+	// 소요량 수정 페이지
+	@GetMapping("/requirementUpdate")
+	public String requirementUpdate(HttpServletRequest request, Model model) {
+		log.debug("FactoryController requirementUpdate");
+		String req_code = request.getParameter("req_code");
+		RequirementDTO requirementDTO = factoryCopyService.getRequirement(req_code);
+		model.addAttribute("requirementDTO", requirementDTO);
+		return "factory/requirementUpdate";
+	}// requirementAdd()
+	
+	// 소요량 수정
+	@PostMapping("/updateRequirement")
+	public String updateRequirement(RequirementDTO requirementDTO) {
+		log.debug("FactoryController updateRequirement");
+		factoryCopyService.updateRequirement(requirementDTO);
+		return "redirect:/factory/requirement";
+	}
 }

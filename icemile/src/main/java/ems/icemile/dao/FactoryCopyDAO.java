@@ -17,4 +17,10 @@ public interface FactoryCopyDAO {
 	
 	// 소요량 등록
 	public boolean insertRequirement(RequirementDTO requirementDTO);
+	
+	// 소요량 수정 페이지
+	public RequirementDTO getRequirement(String req_code);
+		
+	// 소요량 수정
+	public void updateRequirement(RequirementDTO requirementDTO);
 }

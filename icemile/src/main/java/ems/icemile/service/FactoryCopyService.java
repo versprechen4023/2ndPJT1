@@ -15,4 +15,10 @@ public interface FactoryCopyService {
 	// 소요량 추가
 	public boolean insertRequirement(RequirementDTO requirementDTO);
 	
+	// 소요량 수정
+	public void updateRequirement(RequirementDTO requirementDTO);
+	
+	// 소요량 수정페이지
+	public RequirementDTO getRequirement(String req_code);
+	
 }

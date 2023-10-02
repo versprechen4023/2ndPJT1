@@ -41,5 +41,15 @@ public class FactoryCopyDAOImpl implements FactoryCopyDAO {
 	public boolean insertRequirement(RequirementDTO requirementDTO) {
 		return sqlSession.insert(namespace+"insertRequirement",requirementDTO) > 0;
 	}
+	
+	public RequirementDTO getRequirement(String req_code) {
+	return sqlSession.selectOne(namespace+"getRequirement",req_code);
+	
+	}
+	
+	@Override
+	public void updateRequirement(RequirementDTO requirementDTO) {
+	 sqlSession.update(namespace+"updateRequirement", requirementDTO);	
+	}
 
 }
