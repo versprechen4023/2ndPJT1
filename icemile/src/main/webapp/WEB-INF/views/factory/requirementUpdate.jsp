@@ -35,8 +35,9 @@
 
 <form action="${pageContext.request.contextPath}/factory/updateRequirement?req_code=${requirementDTO.req_code}" method="POST">
 <input type="submit" value="수정">
-<input type="button" value="취소" onclick="window.close();">
-<!-- <input type="reset" value="취소"> -->
+<!-- <input type="button" value="취소" onclick="window.close();"> 스크립트 사용시 화면 닫음-->
+<!-- 초기화 버튼 -->
+<input type="reset" value="취소">
 
 <table border="1">
 <tr>
