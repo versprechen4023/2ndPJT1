@@ -36,7 +36,9 @@ public class WareHouseServiceImpl implements WareHouseService {
 	
     // 창고 추가
 	@Override
-	public void houseInsert(WareHouseDTO warehouseDTO) throws Exception {
+	public void houseInsert(WareHouseDTO warehouseDTO) {
+			
+			log.debug("하우스 인서트 서비스");
 			
 			wareHouseDAO.houseInsert(warehouseDTO);
 		}

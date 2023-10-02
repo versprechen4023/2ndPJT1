@@ -20,10 +20,12 @@
 <!-- 창고 추가 시 코드값 가져가기 -->
 
 <!-- 창고 등록(추가) -->
-	<insert id="registWh">
-		INSERT INTO warehouse (wh_code, wh_name, wh_type, wh_loacation, wh_phone, wh_status, prod_code, 
+<!-- 	인서트 id는 동일하게 DAO에서 호출하는부분이랑 동일하게해야합니다 houseInsert로수정 -->
+<!-- wh_loacation 오타를 wh_location으로 수정했습니다 -->
+	<insert id="houseInsert">
+		INSERT INTO warehouse (wh_code, wh_name, wh_type, wh_location, wh_phone, wh_status, prod_code, 
 		                       raw_code, emp_num, wh_note)
-		VALUES (#{wh_code}, #{wh_name}, #{wh_type}, #{wh_loacation}, #{wh_phone}, #{wh_status}, 
+		VALUES (#{wh_code}, #{wh_name}, #{wh_type}, #{wh_location}, #{wh_phone}, #{wh_status}, 
 				#{prod_code}, #{raw_code},#{emp_num},#{wh_note})
 	</insert>
 <!-- 창고 등록(추가) -->

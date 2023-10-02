@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	
 <!DOCTYPE html>
@@ -11,7 +11,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>¾ÆÀÌ½º¸¶ÀÏ</title>
+<title>ì•„ì´ìŠ¤ë§ˆì¼</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
 	rel="stylesheet" />
@@ -38,49 +38,49 @@ th, td {
 	<form
 		action="${pageContext.request.contextPath }/warehouse/warehouseAdd"
 		id="warehouseAdd" name="warehouseAdd" method="post">
-		<h1>Ã¢°í Ãß°¡</h1>
+		<h1>ì°½ê³  ì¶”ê°€</h1>
 		<table border="1" id="whTable">
 			<tr>
-				<th>Ã¢°í ÄÚµå</th>
-				<th>Ã¢°í ÀÌ¸§</th>
-				<th>Ã¢°í Á¾·ù</th>
-				<th>Ã¢°í À§Ä¡</th>
-				<th>Ã¢°í ÀüÈ­¹øÈ£</th>
-				<th>¿ÏÁ¦Ç° ÄÚµå</th>
-				<th>¿øÀÚÀç ÄÚµå</th>
-				<th>Ã¢°í ´ã´çÀÚ</th>
-				<th>ºñ°í</th>
+				<th>ì°½ê³  ì½”ë“œ</th>
+				<th>ì°½ê³  ì´ë¦„</th>
+				<th>ì°½ê³  ì¢…ë¥˜</th>
+				<th>ì°½ê³  ìœ„ì¹˜</th>
+				<th>ì°½ê³  ì „í™”ë²ˆí˜¸</th>
+				<th>ì™„ì œí’ˆ ì½”ë“œ</th>
+				<th>ì›ìžìž¬ ì½”ë“œ</th>
+				<th>ì°½ê³  ë‹´ë‹¹ìž</th>
+				<th>ë¹„ê³ </th>
 			</tr>
 
 			<tr>
-				<!-- ÄÚµå -->
+				<!-- ì½”ë“œ -->
 				<td><input type="text" name="wh_code" size="11"></td>
-				<!-- ÀÌ¸§ -->
+				<!-- ì´ë¦„ -->
 				<td><input type="text" name="wh_name" size="7"></td>
-				<!-- Á¾·ù -->
+				<!-- ì¢…ë¥˜ -->
 				<td><select class="wh_type" name="wh_type">
-						<option value="1">--¼±ÅÃ--</option>
-						<option value="2">R:¿øÀÚÀç</option>
-						<option value="3">R:¿ÏÀçÇ°</option>			
+						<option value="1">--ì„ íƒ--</option>
+						<option value="2">R:ì›ìžìž¬</option>
+						<option value="3">R:ì™„ìž¬í’ˆ</option>			
 				</select></td>
-				<!-- À§Ä¡ -->
+				<!-- ìœ„ì¹˜ -->
 				<td><input type="text" name="wh_location" size="7"></td>
-				<!-- ÀüÈ­¹øÈ£ -->
+				<!-- ì „í™”ë²ˆí˜¸ -->
 				<td><input type="text" name="wh_phone" size="11"></td>
-				<!-- ¿ÏÁ¦Ç° ÄÚµå -->
+				<!-- ì™„ì œí’ˆ ì½”ë“œ -->
 				<td><input type="text" name="prod_code"></td>
-				<!-- ¿øÀÚÀç ÄÚµå -->
+				<!-- ì›ìžìž¬ ì½”ë“œ -->
 				<td><input type="text" name="raw_code" size="11"></td>
-				<!-- ´ã´çÀÚ -->
+				<!-- ë‹´ë‹¹ìž -->
 				<td><input type="text" name="emp_num" size="5"></td>
-				<!-- ºñ°í -->
+				<!-- ë¹„ê³  -->
 				<td><input type="text" name="wh_note" size="6"></td>
 				
 				
 				<div>
-				<button id="add" >Ãß°¡</button>
-				<button type="reset" id="cancle" >Ãë¼Ò</button>
-				<button type="submit" id="save" >ÀúÀå</button>
+				<button id="add" >ì¶”ê°€</button>
+				<button type="reset" id="cancle" >ì·¨ì†Œ</button>
+				<button type="submit" id="save" >ì €ìž¥</button>
 				</div>
 				
 			</tr>
@@ -98,38 +98,38 @@ th, td {
 	
 	
 	<script type="text/javascript">   
-	//============================ ¹öÆ° ±¸Çö ====================================//	
-	//Ãß°¡//////////////////////////////////////////////////
+	//============================ ë²„íŠ¼ êµ¬í˜„ ====================================//	
+	//ì¶”ê°€//////////////////////////////////////////////////
 	
-	// Ãß°¡ ½Ã ÇÊ¿äÇÑ º¯¼öµé
+	// ì¶”ê°€ ì‹œ í•„ìš”í•œ ë³€ìˆ˜ë“¤
     var counter = 0;
     var codeNum = 0;
    	var whCode = 0;
 		
-   	    //id="add"¸¦ Å¬¸¯½Ã
+   	    //id="add"ë¥¼ í´ë¦­ì‹œ
        	$('#add').click(function () {
 			
-       		//¼öÁ¤¹öÆ°°ú »èÁ¦¹öÆ°À» ºñÈ°¼ºÈ­ »óÅÂ·Î ¸¸µå´Â°Í
+       		//ìˆ˜ì •ë²„íŠ¼ê³¼ ì‚­ì œë²„íŠ¼ì„ ë¹„í™œì„±í™” ìƒíƒœë¡œ ë§Œë“œëŠ”ê²ƒ
         	event.preventDefault();
         	$('#modify').attr("disabled", true);
 			$('#delete').attr("disabled", true);       		
        		
 			//
 			$.ajax({
-				//¿äÃ»ÇÒ urlÀ» ÀÔ·Â 
+				//ìš”ì²­í•  urlì„ ìž…ë ¥ 
 				url: "/warehouse/whCode",
-				//http ¸Þ¼­µå¸¦ getÀ¸·Î ÇÏ°Ú´Ù
+				//http ë©”ì„œë“œë¥¼ getìœ¼ë¡œ í•˜ê² ë‹¤
 				method: "GET",
-				//ÀÀ´ä µ¥ÀÌÅÍÀÇ ¿¹»ó µ¥ÀÌÅÍ À¯ÇüÀ» ÁöÁ¤
+				//ì‘ë‹µ ë°ì´í„°ì˜ ì˜ˆìƒ ë°ì´í„° ìœ í˜•ì„ ì§€ì •
 	 			dataType: "text",
-	 			//¿äÃ»ÀÌ ¼º°øÇßÀ» ¶§ ½ÇÇàÇÒ ÇÔ¼ö¸¦ Á¤ÀÇÇÕ´Ï´Ù.¼­¹ö·ÎºÎÅÍ ÀÀ´ä µ¥ÀÌÅÍ´Â 'data'¸Þ°³º¯¼ö·Î Àü´ÞµÈ´Ù.
+	 			//ìš”ì²­ì´ ì„±ê³µí–ˆì„ ë•Œ ì‹¤í–‰í•  í•¨ìˆ˜ë¥¼ ì •ì˜í•©ë‹ˆë‹¤.ì„œë²„ë¡œë¶€í„° ì‘ë‹µ ë°ì´í„°ëŠ” 'data'ë©”ê°œë³€ìˆ˜ë¡œ ì „ë‹¬ëœë‹¤.
 	 			success: function (data) {
-	 				 // Ajax ¿äÃ» ¾È¿¡¼­ µ¥ÀÌÅÍ¸¦ ¹Þ¾Æ¿Í¼­ º¯¼ö¿¡ ÇÒ´ç ¹× ÈÄ¼Ó ÀÛ¾÷ ¼öÇà	 				
+	 				 // Ajax ìš”ì²­ ì•ˆì—ì„œ ë°ì´í„°ë¥¼ ë°›ì•„ì™€ì„œ ë³€ìˆ˜ì— í• ë‹¹ ë° í›„ì† ìž‘ì—… ìˆ˜í–‰	 				
 	 				codeNum = data;
-	 				 //µð¹ö±ë ¸ñÀûÀ¸·Î »ç¿ë °ªÀ» ¹Þ¾Æ¿À´ÂÁö È®ÀÎÇÏ±â À§ÇØ¼­
-	 				 console.log("Ajax ³»ºÎ¿¡¼­ÀÇ codeNum:", codeNum); // Ajax ³»ºÎ¿¡¼­ÀÇ codeNum: [¹Þ¾Æ¿Â µ¥ÀÌÅÍ]
+	 				 //ë””ë²„ê¹… ëª©ì ìœ¼ë¡œ ì‚¬ìš© ê°’ì„ ë°›ì•„ì˜¤ëŠ”ì§€ í™•ì¸í•˜ê¸° ìœ„í•´ì„œ
+	 				 console.log("Ajax ë‚´ë¶€ì—ì„œì˜ codeNum:", codeNum); // Ajax ë‚´ë¶€ì—ì„œì˜ codeNum: [ë°›ì•„ì˜¨ ë°ì´í„°]
 			
-					// º¯¼ö¿¡ ÇÒ´çµÈ µ¥ÀÌÅÍ¸¦ ±â¹ÝÀ¸·Î Ãß°¡ ÀÛ¾÷ ¼öÇà
+					// ë³€ìˆ˜ì— í• ë‹¹ëœ ë°ì´í„°ë¥¼ ê¸°ë°˜ìœ¼ë¡œ ì¶”ê°€ ìž‘ì—… ìˆ˜í–‰
  				    someFunction(codeNum);
 	 			
 	 			}//success
@@ -138,41 +138,41 @@ th, td {
 			
 			
 			
-			//À§¿¡¼­ someFunctionÀÇ Ãß°¡ ÀÛ¾÷À» À§ÇÑ ÇÔ¼ö
+			//ìœ„ì—ì„œ someFunctionì˜ ì¶”ê°€ ìž‘ì—…ì„ ìœ„í•œ í•¨ìˆ˜
 			function someFunction(data) {
-				 codeNum = data; // ¿ÜºÎ¿¡¼­ÀÇ codeNum: [¹Þ¾Æ¿Â µ¥ÀÌÅÍ]
+				 codeNum = data; // ì™¸ë¶€ì—ì„œì˜ codeNum: [ë°›ì•„ì˜¨ ë°ì´í„°]
 				 
-				 //¿©±â¼­ ¿ì¸®´Â ¸¶Áö¸·¿¡ ¿ÏÁ¦Ç°ÀÎÁö ¾Æ´Ï¸é ¿øÀÚÁ¦ÀÎÁö¸¦ ±¸ºÐÇÏ±â À§ÇÑ ¸¶Áö¸· Ã¶ÀÚ°¡ µé¾î°¡¹Ç·Î °¡Á®¿Ã ±¸¿ªÀ» ÁöÁ¤ÇØÁØ´Ù.
-				 var num = parseInt(codeNum.substring(2,6)) + counter+1; // ¹®ÀÚ¿­À» ¼ýÀÚ·Î º¯È¯ÇÏ¿© 1 Áõ°¡
+				 //ì—¬ê¸°ì„œ ìš°ë¦¬ëŠ” ë§ˆì§€ë§‰ì— ì™„ì œí’ˆì¸ì§€ ì•„ë‹ˆë©´ ì›ìžì œì¸ì§€ë¥¼ êµ¬ë¶„í•˜ê¸° ìœ„í•œ ë§ˆì§€ë§‰ ì² ìžê°€ ë“¤ì–´ê°€ë¯€ë¡œ ê°€ì ¸ì˜¬ êµ¬ì—­ì„ ì§€ì •í•´ì¤€ë‹¤.
+				 var num = parseInt(codeNum.substring(2,6)) + counter+1; // ë¬¸ìžì—´ì„ ìˆ«ìžë¡œ ë³€í™˜í•˜ì—¬ 1 ì¦ê°€
 				 
-				 // number: ÆÐµùÇÒ ¼ýÀÚÀÔ´Ï´Ù. ÀÌ °æ¿ì num º¯¼öÀÇ °ªÀ» »ç¿ëÇÕ´Ï´Ù.
-                 // length: ÆÐµùµÈ ¼ýÀÚÀÇ ±æÀÌ¸¦ ³ªÅ¸³»´Â °ªÀ¸·Î, codeNum.length - 2 °ªÀÌ »ç¿ëµË´Ï´Ù.
-                 // ÀÌ´Â ÆÐµùµÈ ¼ýÀÚ°¡ ¾ó¸¶³ª ±æ¾îÁúÁö¸¦ °áÁ¤ÇÏ´Âµ¥ »ç¿ëµË´Ï´Ù.
-				 var paddedNum = padNumber(num, codeNum.length - 2); // ¼ýÀÚ¸¦ ÆÐµùÇÏ¿© ±æÀÌ À¯Áö
+				 // number: íŒ¨ë”©í•  ìˆ«ìžìž…ë‹ˆë‹¤. ì´ ê²½ìš° num ë³€ìˆ˜ì˜ ê°’ì„ ì‚¬ìš©í•©ë‹ˆë‹¤.
+                 // length: íŒ¨ë”©ëœ ìˆ«ìžì˜ ê¸¸ì´ë¥¼ ë‚˜íƒ€ë‚´ëŠ” ê°’ìœ¼ë¡œ, codeNum.length - 2 ê°’ì´ ì‚¬ìš©ë©ë‹ˆë‹¤.
+                 // ì´ëŠ” íŒ¨ë”©ëœ ìˆ«ìžê°€ ì–¼ë§ˆë‚˜ ê¸¸ì–´ì§ˆì§€ë¥¼ ê²°ì •í•˜ëŠ”ë° ì‚¬ìš©ë©ë‹ˆë‹¤.
+				 var paddedNum = padNumber(num, codeNum.length - 2); // ìˆ«ìžë¥¼ íŒ¨ë”©í•˜ì—¬ ê¸¸ì´ ìœ ì§€
 				 
-				 //codeNumÀÇ ¹®ÀÚ¸¦ ÇÕÃÄÁÖ´Â°Í 
-	             whCode = codeNum.charAt(0)+ codeNum.charAt(1) + paddedNum.toString()+codeNum.charAt(6); // ÆÐµùµÈ ¼ýÀÚ¸¦ ´Ù½Ã ¹®ÀÚ¿­·Î º¯È¯
+				 //codeNumì˜ ë¬¸ìžë¥¼ í•©ì³ì£¼ëŠ”ê²ƒ 
+	             whCode = codeNum.charAt(0)+ codeNum.charAt(1) + paddedNum.toString()+codeNum.charAt(6); // íŒ¨ë”©ëœ ìˆ«ìžë¥¼ ë‹¤ì‹œ ë¬¸ìžì—´ë¡œ ë³€í™˜
 	             
 	             
 	             if ($('#add').hasClass('true')) {
-	             //ÇàÀ» Ãß°¡ÇØÁÖ´Â ÇÔ¼ö
+	             //í–‰ì„ ì¶”ê°€í•´ì£¼ëŠ” í•¨ìˆ˜
 	             addRow();
 	          	$('#add').removeClass('true');
 	             }
 	             
-	             //Ä«¿îÅÍ º¯¼ö¿¡ 1À» ´õÇØ¼­ Ãß°¡µÈ ÇàÀÇ ¼ö¸¦ ÃßÀûÇÏ´Â º¯¼ö ´ÙÀ½ ÇàÀÇ ¹øÈ£ ¶Ç´Â °ü·Ã Àüº¸¸¦ °ü¸®ÇÏ´Â µ¥ »ç¿ëµÇ¾îÁø´Ù.
+	             //ì¹´ìš´í„° ë³€ìˆ˜ì— 1ì„ ë”í•´ì„œ ì¶”ê°€ëœ í–‰ì˜ ìˆ˜ë¥¼ ì¶”ì í•˜ëŠ” ë³€ìˆ˜ ë‹¤ìŒ í–‰ì˜ ë²ˆí˜¸ ë˜ëŠ” ê´€ë ¨ ì „ë³´ë¥¼ ê´€ë¦¬í•˜ëŠ” ë° ì‚¬ìš©ë˜ì–´ì§„ë‹¤.
 	             counter++;
 			} // someFunction(data)
 			
 			
 			 
-			//0À» Ãß°¡ÇÏ´Â ÇÔ¼ö
-			//number´Â ÆÐµùÇÒ ¼ýÀÚ
-			//length ÆÐµùµÈ °á°ú·Î ¾ò°íÀÚ ÇÏ´Â ¼ýÀÚÀÇ ±æÀÌ
+			//0ì„ ì¶”ê°€í•˜ëŠ” í•¨ìˆ˜
+			//numberëŠ” íŒ¨ë”©í•  ìˆ«ìž
+			//length íŒ¨ë”©ëœ ê²°ê³¼ë¡œ ì–»ê³ ìž í•˜ëŠ” ìˆ«ìžì˜ ê¸¸ì´
 			function padNumber(number, length) {
-				//number ¸Å°³º¯¼ö¸¦ ¹®ÀÚ¿­·Î º¯È¯ÇÏ¿© paddedNumber¿¡ ÀúÀåÇÏ´Â °Í
+				//number ë§¤ê°œë³€ìˆ˜ë¥¼ ë¬¸ìžì—´ë¡œ ë³€í™˜í•˜ì—¬ paddedNumberì— ì €ìž¥í•˜ëŠ” ê²ƒ
                 var paddedNumber = number.toString();
-				//0À» Ãß°¡ ÇØÁÖ´Â ¿ªÈ°
+				//0ì„ ì¶”ê°€ í•´ì£¼ëŠ” ì—­í™œ
                 while (paddedNumber.length < length) {
                     paddedNumber = "0" + paddedNumber;
                 }
@@ -181,7 +181,7 @@ th, td {
         
         
         
-        	// ÀúÀå -> ÀúÀå
+        	// ì €ìž¥ -> ì €ìž¥
 			$('#save').click(function () {
 				
 				var wh_code = $('#wh_code').val();
@@ -199,7 +199,7 @@ th, td {
 				   raw_code == "" || emp_num == "" ){
 					
 					Swal.fire({
-						title: "<div style='color:#495057;font-size:20px;font-weight:lighter'>" + "Ç×¸ñÀ» ¸ðµÎ ÀÔ·ÂÇÏ¼¼¿ä"+ "</div>",
+						title: "<div style='color:#495057;font-size:20px;font-weight:lighter'>" + "í•­ëª©ì„ ëª¨ë‘ ìž…ë ¥í•˜ì„¸ìš”"+ "</div>",
 						icon: 'info',
 						width: '300px',
 					})
@@ -217,56 +217,56 @@ th, td {
 		
 	
 	
-        // Ãß°¡ ¹öÆ° Å¬¸¯ ½Ã row »ý¼º
+        // ì¶”ê°€ ë²„íŠ¼ í´ë¦­ ì‹œ row ìƒì„±
         function addRow() {
         	
 			var row = "<tr>";
 			
-			// Ã¢°íÄÚµå
+			// ì°½ê³ ì½”ë“œ
 			row += "<td>";
 			row += "<input type='text' name='wh_code' id='wh_code' required value='"+whCode+"' size="11" class='input-fieldb'>";
 			row += "</td>";
 			
-			// Ã¢°íÀÌ¸§
+			// ì°½ê³ ì´ë¦„
 			row += "<td>";
 			row += "<input type='text' name='wh_name' id='wh_name' size="7" required class='input-fieldb'>";
 			row += "</td>";
 			
-			// Ã¢°íÁ¾·ù
+			// ì°½ê³ ì¢…ë¥˜
 			row += "<td>";
 			row += "<select name='wh_type' id='wh_type'";
-			row += "<option value="¼±ÅÃ">--¼±ÅÃ--</option>";
-			row += "<option value="¿øÀÚÀç">R:¿øÀÚÀç</option>";
-			row += "<option value="¿ÏÀçÇ°">R:¿ÏÀçÇ°</option>";
+			row += "<option value="ì„ íƒ">--ì„ íƒ--</option>";
+			row += "<option value="ì›ìžìž¬">R:ì›ìžìž¬</option>";
+			row += "<option value="ì™„ìž¬í’ˆ">R:ì™„ìž¬í’ˆ</option>";
 			row += "</select>";
 			row += "</td>";
 			
-			// À§Ä¡ 
+			// ìœ„ì¹˜ 
 			row += "<td>";
 			row += "<input type='text' name="wh_location" size="7" id='wh_location' required class='input-fieldb'>";
 			row += "</td>";
 			
-			// ÀüÈ­¹øÈ£
+			// ì „í™”ë²ˆí˜¸
 			row += "<td>";
 			row += "<input type='text' name="wh_phone" size="11" id='wh_phone' required class='input-fieldb'>";
 			row += "</td>";
 			
-			// ¿ÏÁ¦Ç° ÄÚµå
+			// ì™„ì œí’ˆ ì½”ë“œ
 			row += "<td>";
 			row += "<input type="text" name="prod_code">"
 			row += "</td>";
 			
-			// ¿øÀÚÀç ÄÚµå
+			// ì›ìžìž¬ ì½”ë“œ
 			row += "<td>";
 			row += "<input type="text" name="raw_code" size="11">"
 			row += "</td>";
 			
-			// ´ã´çÀÚ
+			// ë‹´ë‹¹ìž
 			row += "<td>";
 			row += "<input type="text" name="emp_num" size="5">"
 			row += "</td>";
 			
-			// ºñ°í
+			// ë¹„ê³ 
 			row += "<td>";
 			row += "<input type="text" name="wh_note" size="6">"
 			row += "</tr>";
@@ -275,7 +275,7 @@ th, td {
 		} // addRow()
             
 	
-			// Ãë¼Ò¹öÆ°(=¸®¼Â)
+			// ì·¨ì†Œë²„íŠ¼(=ë¦¬ì…‹)
 			$('#cancle').click(function () {
 				$('#fr').each(function () {
 					this.reset();

@@ -57,26 +57,14 @@ public class WareHouseController {
 	
 	
 	@PostMapping("/warehouseAdd")
-	//RedirectAttributes rttr:창고정보가 포함되어있는 DTO
-	//HttpSession session:세션에서 현재 사용자의 정보를 가져오기 위해 사
-	//WareHouseDTO warehouseDTO:리다이렉트 시에 데이터를 전달하기 위한 객체
-	public String warehousAdd(WareHouseDTO warehouseDTO,HttpSession session,RedirectAttributes rttr)throws Exception{
+	public String warehousAdd(WareHouseDTO warehouseDTO) {
+		
 		log.debug("warehouseAdd:창고추가 메소드 실행");
 		
-		//세션에서 아이디값 가져오기
-//	    MemberDTO memberDTO= (MemberDTO) session.getAttribute("id");
-	    //위에서 가져온 아이디 값으로 memberDTO에서 id값에 맞는emp_num을 찾아옴
-//		String emp_num = memberDTO.getEmp_num();
-		
-		//잘찾아오는지 확인
-//		log.debug("emp_num : "+emp_num );
+		log.debug("warehouseDTO"+warehouseDTO);
 		
 		warehouseService.houseInsert(warehouseDTO);
 		
-		//리다이렉트시에 "result"라는 이름으로 "houseInsert"라는 값을 전달한다. 이정보는 리다이렉트괸 페이지에서 사용할수 있다 .
-		rttr.addFlashAttribute("result", "houseInsert");
-		
-		//처리가 완료 되면 redirect:warehouse/warehouseAdd 페이지로 리다이렉트된다.
 		return "redirect:warehouse/warehouseAdd";
 	}
 	

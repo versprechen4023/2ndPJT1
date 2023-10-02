@@ -46,10 +46,14 @@ public class WareHouseDAOImpl implements WareHouseDAO {
     
 	//창고 추가
 	@Override
-	public void houseInsert(WareHouseDTO warehouseDTO) throws Exception{
+	public void houseInsert(WareHouseDTO warehouseDTO){
 		log.debug("wareHousDAO houseInsert()");
 		
-		int result = sqlSession.insert(namespace+".houseInsert",warehouseDTO);
+		// 네임 스페이스에 이미 .이붙어있으므로 2번째 id값호출에서는 .을 뺴주셔야합니다
+		// mes.icemile.mappers.wareHouseMapper.
+		// .houseInsert에서 .을빼서 수정했습니다
+		
+		sqlSession.insert(namespace+"houseInsert",warehouseDTO);
 	}
 	
 }
