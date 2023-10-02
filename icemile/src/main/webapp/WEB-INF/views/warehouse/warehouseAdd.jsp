@@ -5,40 +5,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="" />
-<meta name="author" content="" />
-<title>아이스마일</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
-	rel="stylesheet" />
-<link href="../resources/css/styles.css" rel="stylesheet" />
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
-	crossorigin="anonymous"></script>
-
-<style>
-table {
-	width: 100%;
-	border-top: 1px solid #444444;
-	border-collapse: collapse;
-}
-
-th, td {
-	border-bottom: 1px solid #444444;
-	padding: 10px;
-	text-align: center;
-}
-</style>
+ <title>icemile</title>
+  <link href="../resources/css/addTable.css" rel="stylesheet" />
 </head>
 
-<body class="sb-nav-fixed">
-	<form
-		action="${pageContext.request.contextPath }/warehouse/warehouseAdd"
+<body>
+	
+	<main>
+	<form action="${pageContext.request.contextPath }/warehouse/warehouseAdd"
 		id="warehouseAdd" name="warehouseAdd" method="post">
 		<h1>창고 추가</h1>
+		   <div class = "btn">
+			 <button id="add" >추가</button>
+			 <button type="reset" id="cancle" >취소</button>
+			 <button type="submit" id="save" >저장</button>
+			</div>
 		<table border="1" id="whTable">
 			<tr>
 				<th>창고 코드</th>
@@ -74,19 +55,18 @@ th, td {
 				<!-- 담당자 -->
 				<td><input type="text" name="emp_num" size="5"></td>
 				<!-- 비고 -->
-				<td><input type="text" name="wh_note" size="6"></td>
-				
-				
-				<div>
-				<button id="add" >추가</button>
-				<button type="reset" id="cancle" >취소</button>
-				<button type="submit" id="save" >저장</button>
-				</div>
-				
+				<td><input type="text" name="wh_note" size="6"></td>			
 			</tr>
 
 		</table>
 	</form>
+	
+	</main>
+	
+<!-- 푸터 -->
+<jsp:include page="../include/footer.jsp"></jsp:include>
+<!-- 푸터 -->
+	
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
