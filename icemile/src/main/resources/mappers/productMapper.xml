@@ -75,4 +75,18 @@
         </choose>
     </foreach>
  </delete>
+ 
+ <select id="productSearch" resultType="ems.icemile.dto.ProductAllDTO">
+ 	<bind name="content" value="'%' + content + '%'"/>
+ 	SELECT *
+			FROM(
+				SELECT prod_code, prod_name, prod_taste as prod_type, prod_unit, prod_amount, prod_price, 
+  				prod_exp, prod_note, branch_code as 'deal_code', wh_code
+  					FROM product
+  				UNION
+  				SELECT raw_code, raw_name, raw_type, raw_unit, raw_amount, raw_price, raw_exp, raw_note, buy_code, wh_code
+  					FROM raw_material
+				) AS myTable
+					WHERE myTable.${category} LIKE #{content}
+ </select>
 </mapper>

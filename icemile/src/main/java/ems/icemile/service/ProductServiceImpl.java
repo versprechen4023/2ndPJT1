@@ -1,5 +1,6 @@
 package ems.icemile.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import ems.icemile.dao.ProductDAOImpl;
+import ems.icemile.dto.MemberDTO;
 import ems.icemile.dto.ProductAllDTO;
 import ems.icemile.dto.ProductInsertDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -62,5 +64,13 @@ public class ProductServiceImpl implements ProductService {
 		log.debug("프로덕트 딜리트 서비스");
 		
 		return productDAO.productDelete(codeAndTypeList);
+	}
+	
+	@Override
+	public List<ProductAllDTO> productSearch(HashMap<String, Object> json) {
+
+		log.debug("프로덕트 서치 서비스");
+		
+		return productDAO.productSearch(json);
 	}
 }

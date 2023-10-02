@@ -1,5 +1,6 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,5 +23,8 @@ public interface ProductDAO {
 	
 	// 품목 삭제
 	public boolean productDelete(List<Map<String, String>> codeAndTypeList);
+	
+	// 품목 검색
+	public List<ProductAllDTO> productSearch(HashMap<String, Object> json);
 	
 }

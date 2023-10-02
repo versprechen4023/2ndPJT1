@@ -8,10 +8,12 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ems.icemile.dto.ProductAllDTO;
 import ems.icemile.dto.ProductInsertDTO;
 import ems.icemile.service.ProductServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -55,5 +57,19 @@ public class ProductAjaxController {
 		}
 		
 		return Boolean.toString(productService.productDelete(codeAndTypeList));
+	}
+	
+	@PostMapping("search")
+	public List<ProductAllDTO> productSearch(@RequestBody HashMap<String, Object> json) {
+		
+		log.debug("프로덕트 서치 AJAX 호출");
+		
+		// 물품리스트를 가져오기위한 물품리스트 객체생성
+		List<ProductAllDTO> productList = new ArrayList<ProductAllDTO>();
+		//결과값에 따라 물품 리스트를 가져온다
+		productList = productService.productSearch(json);
+		
+		// 콜백 함수에 결과값 리턴
+		return productList;
 	}
 }

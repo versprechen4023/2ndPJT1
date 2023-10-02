@@ -1,5 +1,6 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,5 +61,13 @@ public class ProductDAOImpl implements ProductDAO {
 		log.debug("productDelete DAO 도달");
 		
 		return sqlSession.delete(namespace+"productDelete", codeAndTypeList) > 0;
+	}
+	
+	@Override
+	public List<ProductAllDTO> productSearch(HashMap<String, Object> json) {
+		
+		log.debug("productSearch DAO 도달");
+		
+		return sqlSession.selectList(namespace+"productSearch", json);
 	}
 }
