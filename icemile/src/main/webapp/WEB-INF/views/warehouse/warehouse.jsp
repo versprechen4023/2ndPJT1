@@ -26,7 +26,7 @@
 					.open(
 							'${pageContext.request.contextPath }/warehouse/warehouseAdd',
 							'_blank',
-							'width=1000px, height=200px, left=600px, top=300px');
+							'width=1300px, height=300px, scrollbars=yes, left=600px, top=300px');
 		} //end function
 	</script>
 	
@@ -56,6 +56,17 @@
 					
 					<div class="card mb-4">
 						<div class="card-body">
+						     <input type="button" name="allList" value="전체목록" onclick="">
+							  <select id="category">
+  								<option value="1">코드</option>
+  								<option value="2">이름</option>
+  								<option value="3">종류</option>
+  								<option value="4">위치</option>
+  								<option value="5">가용상태</option>
+  								<option value="6">담당자</option>
+							   </select>
+							  <input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content">
+							  <input type="button" name="search" value="조회" onclick="">
 							<table id="datatablesSimple">
 								<thead>
 									<tr>
@@ -117,6 +128,6 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
-	<script src="../resources/js/datatables-simple-demo.js"></script>
+	<script src="../resources/js/warehouse_im.js"></script>
 </body>
 </html>
