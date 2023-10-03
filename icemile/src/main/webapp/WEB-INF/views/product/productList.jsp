@@ -33,6 +33,8 @@
 							<input type="button" value="수정" id="updateProd">
 							<input type="button" value="삭제" id="deleteProd">
 							<input type="button" value="저장" id="saveProd">
+							<input type="button" value="저장테스트" id="saveTest">
+							<input type="button" value="임시취소" id="deleteTest">
 						</c:if>
                         </div>
                         <div class="card mb-4">
@@ -115,7 +117,42 @@
 		crossorigin="anonymous"></script>
 	<script src="../resources/js/productList_im.js"></script>
 <script>
-
+$("#deleteTest").click(function(){
+	 alert("run2");
+	 $("tbody tr:nth-child(1)").remove();
+	
+});
+$("#saveTest").click(function(){
+	 alert("run");
+	 // tr에 값을 삽입하기위한 변수선언
+	 var $tr = $('<tr>');
+	//tr 에 내용추가
+  	$tr.append(
+  		'<td><input type="checkbox" name="selectedProId" disabled></td>',
+  		'<td><input type="text" name="selectedProId" placeholder="코드는 자동부여됩니다" readonly></td>',
+  		'<td><select name="type" id="type">'+
+			'<option value="">품목종류를 선택하십시오</option>'+
+			'<option value="R">원자재</option>'+
+			'<option value="P">완제품</option>'+
+			'</select>'+
+		'</td>',
+  		'<td><select name="prod_type" id="prod_type">'+
+  			'<option value="">원자재종류를 선택하십시오</option>'+
+			'<option value="1">우유</option>'+
+			'<option value="2">크림</option>'+
+			'</select>'+
+  		'</td>',
+  		'<td><input type="text" name="selectedProId" value="1234"></td>',
+  		'<td><input type="text" name="selectedProId" value="1234"></td>',
+  		'<td><input type="text" name="selectedProId" value="1234"></td>',
+  		'<td><input type="text" name="selectedProId" value="1234"></td>',
+  		'<td><input type="text" name="selectedProId" value="1234"></td>',
+  		'<td><input type="text" name="selectedProId" value="1234"></td>',
+  		'<td><input type="text" name="selectedProId" value="1234"></td>',
+  		);
+  	// 생성한 <tr> 요소를 tbody에 추가
+  	$('tbody tr:nth-child(1)').before($tr);
+});
 // 폼제출을 막기위한 함수
 // 텍스트타입 제출을 막음
 $('input[type="text"]').keydown(function() {

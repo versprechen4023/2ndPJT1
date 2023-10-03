@@ -65,11 +65,11 @@
 </select>
 </td> 
 <!-- 단위 -->
-<td><input type="text" name="prod_unit" size="3"></td>
+<td><input type="number" name="prod_unit" min="0" size="3"></td>
 <!-- 수량 -->
-<td><input type="text" name="prod_amount" size="3"></td>
+<td><input type="number" name="prod_amount" min="0" size="3"></td>
 <!-- 판매단가 -->
-<td><input type="text" name="prod_price" size="5"></td>
+<td><input type="number" name="prod_price" min="0" size="5"></td>
 <!-- 유통기한 -->
 <td><input type="text" name="prod_exp" id="prod_exp" size="13" readonly></td>
 <!-- 거래지점 -->
