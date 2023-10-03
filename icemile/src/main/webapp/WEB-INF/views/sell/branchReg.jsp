@@ -43,7 +43,7 @@ h1 {
 <!-- 지점명 -->
 <br> 
 <label for="branch_name_label"><b>지점명</b></label>  
-<input type="text" name="branch_name" id="branch_name"> 
+<input type="text" name="branch_name" id="branch_name">점
 <br> 
 <span id="namemsg"></span>
 <br>
@@ -51,7 +51,7 @@ h1 {
 <!--  사업자 등록 --> 
 <br> 
 <label for="branch_num_label"><b>사업자 등록 번호</b></label> 
-<input type="tel" name="branch_reg" id="branch_reg"> 
+<input type="text" name="branch_reg" id="branch_reg"> 
 <br> 
 <span id="brregmsg"></span>
 <br>
@@ -67,7 +67,7 @@ h1 {
 <!-- 지점 연락처 -->
 <br> 
 <label for="branch_phone_label"><b>지점연락처</b></label>
-<input type="tel" name="branch_phone" id="branch_phone"> 
+<input type="text" name="branch_phone" id="branch_phone"> 
 <br> 
 <span id="brphonemsg"></span>
 <br>

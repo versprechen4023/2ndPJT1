@@ -31,7 +31,7 @@ public class SellAjaxController {
 	private SellServiceImpl sellService;
 	
 //	@PostMapping("delete")
-//	public String memberDelete(@RequestParam("emp_num") String emp_num) {
+//	public String memberDelete(String branch_code) {
 //		
 //		log.debug("멤버 딜리트 AJAX 호출");
 //		

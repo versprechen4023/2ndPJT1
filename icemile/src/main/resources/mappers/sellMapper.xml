@@ -10,8 +10,8 @@
   	</select>
   
 	<insert id="branchInsert">
-	INSERT INTO branch(branch_code, branch_reg, branch_ceo, emp_num, branch_phone, branch_post, branch_add, branch_email)
-		VALUES(CONCAT('BR', LPAD(#{branch_code}, 4, '0')),
+	INSERT INTO branch(branch_code,branch_name, branch_reg, branch_ceo, emp_num, branch_phone, branch_post, branch_add, branch_email)
+		VALUES(CONCAT('BR', LPAD(#{branch_code}, 4, '0')),#{branch_name},
 			#{branch_reg},#{branch_ceo},#{emp_num},#{branch_phone},#{branch_post},#{branch_add},#{branch_email})
 	</insert>
 	
