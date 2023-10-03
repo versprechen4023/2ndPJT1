@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
  <title>icemile</title>
-  <link href="../resources/css/addTable.css" rel="stylesheet" />
+  <link href="../resources/css/addTableHorizontal.css" rel="stylesheet" />
 </head>
 
 <body>
