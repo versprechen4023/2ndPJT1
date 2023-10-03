@@ -21,14 +21,14 @@
                 <!-- 내용 들어가는 곳 -->
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">설비 관리</h1>
-                        <form action="${pageContext.request.contextPath}/factory/addPro" method="post">
+                        <form action="${pageContext.request.contextPath}/factory/addPro" id="fr" method="post">
                         <ol class="breadcrumb mb-4">
 <!--                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
                         </ol>
                         <div class="bnt">
-                        <button type="button" onclick="addRow()">라인 등록</button>
-                        <button type="submit" id="facilitySave" name="facilitySave">저장</button></div>
+                        <input type="button" onclick="addRow()" value="라인 등록">
+                        <input type="reset" id="cancle" value="취소"></div>
                         <div class="card mb-4">
 <!--                             <div class="card-header"> -->
 <!--                                 <i class="fas fa-table me-1"></i> -->
@@ -48,8 +48,8 @@
                                             <th>비고</th>
                                             <th>관리</th>
                                         </tr>
-                                    </tfoot>
-                                    <tbody>
+                                    </thead>
+                                    <tbody id="tableBody">
                                     	<c:forEach var="facilityDTO" items="${facilityList}">
                                         <tr>
                                             <td>${facilityDTO.line_name}</td>
@@ -86,46 +86,85 @@
         <script src="../resources/js/facilityList_im.js"></script>
         
         
-                <script>
+		<script type="text/javascript">
+		
         
-        //라인 추가 관련 함
-        function addRow() {
-        	  // table element 찾기
-        	  const table = document.getElementById('datatablesSimple');
-        	  
-        	  // 새 행(Row) 추가
-        	  const newRow = table.insertRow();
-        	  
-        	  /* // 기존 행에서 클래스를 가져와서 새 행에 추가
-        	  const existingRow = document.querySelector('#datatablesSimple tr'); // 기존 행의 첫 번째 <tr> 태그 선택
-        	  if (existingRow) {
-        	    const newStyle = window.getComputedStyle(existingRow);
-        	    for (let i = 0; i < newStyle.length; i++) {
-        	      const styleName = newStyle[i];
-        	      const styleValue = newStyle.getPropertyValue(styleName);
-        	      newRow.style[styleName] = styleValue;
-        	    }
-        	  } */
-        	  
-        	  
-        	  // 7번째 제외한 나머지 Cell에 input 추가
-        	    const inputType = 'text'; // input 타입을 지정
-        	    for (let i = 0; i < 6; i++) { // 6번째 셀까지 input을 추가
-        	        const newCell = newRow.insertCell(i);
-        	        const input = document.createElement('input');
-        	        input.type = inputType;
-        	        newCell.appendChild(input);
-        	    }
-                
-              //등록 시 관리 cell에는 값 안 넣기
-          	  const newCell2 = newRow.insertCell(7);
-
-        	}//addRow
+		// 라인 등록 버튼 클릭 시 행 추가
+		function addRow() {
         	
-        	function saveData() {
-        	    // 여기에서 필요한 작업을 수행하고, 폼을 제출합니다.
-        	    document.querySelector('form').submit();
-        	}
+			var row = "<tr>";
+			
+			// 라인명
+			row += "<td>";
+			row += "<input type='text' name='line_name' id='line_name' required class='#datatablesSimple tr'>";
+			row += "</td>";
+			
+			// 전화번호
+			row += "<td>";
+			row += "<input type='text' name='line_phone' id='line_phone' required class='#datatablesSimple tr'>";
+			row += "</td>";
+			
+			// 생산공정
+			row += "<td>";
+			row += "<input type='text' name='line_process' id='line_process' required class='#datatablesSimple tr'>";
+			row += "</td>";
+			
+			// 가동상태
+			row += "<td>";
+			row += "<input type='text' name='line_status' id='line_status' required class='#datatablesSimple tr'>";
+			row += "</td>";
+			
+			// 담당자
+			row += "<td>";
+			row += "<input type='text' name='emp_num' id='emp_num' required class='#datatablesSimple tr'>";
+			row += "</td>";
+			
+			// 비고
+			row += "<td>";
+			row += "<input type='text' name='line_note' id='line_note' class='#datatablesSimple tr'>";
+			row += "</td>";
+			
+			// 저장
+			row += "<td>";
+			row += "<input type='submit' id='save' class='B B-info' value='저장'>";
+			row += "</td>";
+
+			row += "</tr>";
+			
+			$('#datatablesSimple').append(row);
+		} // addRow()
+      	
+		
+		// 저장
+      	$('#save').click(function () {
+      		
+				// $(# )안에 있는 값 반환(.val()이 그 역할)해서 
+				// 선언한 var 변수에 할당
+				var line_name = $('#line_name').val();
+				var line_phone = $('#line_phone').val();
+				var line_process = $('#line_process').val();
+				var line_status = $('#line_status').val();
+				var emp_num = $('#emp_num').val();
+				var line_note = $('#line_note').val();
+				
+				// 아래 입력해 준 컬럼에 입력 안 되어 있으면 입력하라는 하단 알림창 뜬다
+				if(line_name == "" || line_phone == "" || line_process == "" ||
+						line_status == "" || emp_num == ""){
+					
+					Swal.fire({
+						icon: 'info',
+						width: '300px',
+					})
+
+				}else{}
+			}); // save
+			
+			
+			// 취소버튼(=새로고침)
+			$('#cancle').click(function () {
+			    location.reload(); // 현재 페이지를 다시 불러옵니다.
+			}); // cancle
+                	
         
         </script>
         
