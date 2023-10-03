@@ -195,9 +195,9 @@ $("#productAdd").click(function(){
   			'<option value="">품목종류를 먼저 선택하십시오</option>'+
 			'</select>'+
   		'</td>',
-  		'<td><input type="text" name="prod_unit" size="3"></td>',
-  		'<td><input type="text" name="prod_amount" size="3"></td>',
-  		'<td><input type="text" name="prod_price" size="5"></td>',
+  		'<td><input type="text" name="prod_unit" value = "0" size="3"></td>',
+  		'<td><input type="text" name="prod_amount" value = "0" size="3"></td>',
+  		'<td><input type="text" name="prod_price" value = "0" size="5"></td>',
   		'<td><input type="text" name="prod_exp" id="prod_exp" size="13"></td>',
   		'<td><input type="text" name="deal_code" size="13"></td>',
   		'<td><input type="text" name="wh_code" size="13"></td>',
@@ -616,6 +616,29 @@ $('tbody').on('change', 'select[name="type"]', function() {
 		
 });// end function
 
+// 숫자만 입력되야하는 텍스트필드의 이벤트 리스너
+// 인풋 이벤트 대상이 되는 선택자 리스너 변수선언
+var inputSelector = 'input[name="prod_unit"], input[name="prod_amount"], input[name="prod_price"]';
+
+// 숫자 제어 이벤트리스너 함수
+$('tbody').on('input', inputSelector, function() {
+	
+	  // 이벤트 발생 대상의 밸류값을 가져온다
+	  var inputValue = parseInt($(this).val());
+	  
+	  // 숫자가 아니라면 강제로 0으로 설정한다
+	  if (isNaN(inputValue)) {
+	    inputValue = 0;
+	  }
+	  
+	  // 0보다 적은 숫자라면 강제로 0으로 설정한다
+	  if (inputValue < 0) {
+	    inputValue = 0;
+	  } 
+	  // 밸류값을 업데이트한다
+	  $(this).val(inputValue);
+});// end function
+	
 //폼제출을 막고 엔터키로 조회가 가능하게 하는 함수
 //텍스트타입 제출을 막음
 $('input[type="text"]').keydown(function() {
