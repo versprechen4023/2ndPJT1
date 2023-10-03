@@ -92,9 +92,9 @@
                                             <td><%-- ${memberDTO.emp_num } --%>박소현</td>
 <%--                                             <c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }"> --%>
 											<td><input type="button" value="수정"
-												onclick="branchUpdate('${sellDTO.branch_code}')" id="updateBranch">
+												onclick="branchUpdate('${sellDTO.branch_code}')" id="branchUpdate">
 												<input type="button" value="삭제"
-												onclick="branchDelete('${sellDTO.branch_code}')" id="deleteBranch">
+												onclick="branchDelete('${sellDTO.branch_code}')" id="branchDelete">
 											</td>
 <%-- 											</c:if> --%>
                                         </tr>
@@ -113,9 +113,74 @@
                 
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="../resources/js/scripts.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="../resources/js/datatables-simple-demo.js"></script>
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+	<script
+		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
+	<script src="../resources/js/scripts.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+		crossorigin="anonymous"></script>
+	<script src="../resources/js/branchList_im.js"></script>
+   <script>
+// 지점 추가관련 함수
+   function branchReg(){
+   	window.open('${pageContext.request.contextPath }/sell/branchReg', '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+   } //end function
+
+   function branchUpdate(branch_code){
+   	window.open('${pageContext.request.contextPath }/sell/branchUpdate?branch_code='+branch_code, '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+   }
+   
+// 지점 삭제관련 함수
+   function branchDelete(branch_code) {
+   	
+   	// sweetalert2 호출
+   	Swal.fire({
+   		   title:'지점 삭제',
+   		   text: '정말로 해당 지점을 삭제 하시겠습니까?',
+   		   icon: 'warning',
+   		   
+   		   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+   		   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+   		   cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+   		   confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+   		   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+   		   
+   		   reverseButtons: true, // 버튼 순서 거꾸로
+   		
+   		// 람다식 alert 창이 닫히면 호출
+   		}).then(result => {
+   		   // 만약 Promise리턴을 받으면,
+   		   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+   			   
+   			   // 멤버 삭제하는 ajax 호출
+   			   $.ajax({
+   					  url : '${pageContext.request.contextPath}/sell_ajax/delete',
+   					  data: {"branch_code": branch_code},
+   					  type : 'POST',
+   					  success:function(data){
+   							const result = $.trim(data);
+   							
+   							if(result == "true"){
+   							Swal.fire('삭제가 완료되었습니다.', '성공', 'success').then(result => {
+   								if(result.isConfirmed)
+   									// 완료 창을 닫으면 새로고침
+   									location.reload();
+   							});
+   							} else {
+   							Swal.fire('삭제에 실패헀습니다.', '실패', 'error');
+   							}
+   				      }// 콜백함수 종료지점
+   		       });// end_of_ajax
+   		  }// end_of_if(컨펌확인)
+   	  });// end_of_function(alert 콜백함수 종료지점)
+   }// end_of_function
+   </script>
+   
     </body>
 </html>

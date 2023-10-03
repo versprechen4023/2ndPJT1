@@ -25,9 +25,9 @@ public class SellDAOImpl implements SellDAO{
 		return sqlSession.selectOne(namespace+"getNewBranchCode");
 	}
 	@Override
-	public boolean branchInsert(SellDTO sellDTO) {
+	public boolean branchReg(SellDTO sellDTO) {
 		log.debug("DAO| 지점 추가");
-		return sqlSession.insert(namespace+"branchInsert",sellDTO) > 0;
+		return sqlSession.insert(namespace+"branchReg",sellDTO) > 0;
 	}
 
 	@Override
@@ -41,6 +41,19 @@ public class SellDAOImpl implements SellDAO{
 		log.debug("DAO| 지점 정보");
 		return sqlSession.selectOne(namespace+"getBranchInfo", branch_code);
 	}
+
+	@Override
+	public boolean branchUpdate(SellDTO sellDTO) {
+		log.debug("DAO| 지점 정보 수정");
+		return sqlSession.update(namespace+"branchUpdate",sellDTO) > 0;
+	}
+	
+	@Override
+	public boolean branchDelete(String branch_code) {
+		log.debug("DAO| 지점 삭제");
+		return sqlSession.delete(namespace+"branchDelete", branch_code) > 0;
+	}
+
 	
 	
 

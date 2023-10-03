@@ -28,7 +28,7 @@ var myJson = {
 			type : "POST",
 			url : '${pageContext.request.contextPath }/myNumber',
 			data : {
-				"myInt" : myInt
+				"myInt" : myInt 
 			}, // 선택된 값을 서버로 전송
 			success : function(data) {
 				alert(data);
