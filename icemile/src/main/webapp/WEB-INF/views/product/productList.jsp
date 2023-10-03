@@ -28,13 +28,11 @@
                         </ol>
                         <div class="bnt">
                         <c:if test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
-							<input type="button" value="품목추가" onclick="productAdd()">
-							<input type="button" value="취소" id="cancelButton">
+							<input type="button" value="품목추가" id="productAdd">
 							<input type="button" value="수정" id="updateProd">
 							<input type="button" value="삭제" id="deleteProd">
-							<input type="button" value="저장" id="saveProd">
-							<input type="button" value="저장테스트" id="saveTest">
-							<input type="button" value="임시취소" id="deleteTest">
+							<input type="button" value="취소" id="cancelProd" disabled>
+							<input type="button" value="저장" id="saveProd" disabled>
 						</c:if>
                         </div>
                         <div class="card mb-4">
@@ -117,102 +115,113 @@
 		crossorigin="anonymous"></script>
 	<script src="../resources/js/productList_im.js"></script>
 <script>
-$("#deleteTest").click(function(){
-	 alert("run2");
-	 $("tbody tr:nth-child(1)").remove();
+// 추가, 수정 을 구분하기위한 전역변수선언
+var status = "";
+
+// 정규식 제어함수
+function formTest(formData) {
 	
-});
-$("#saveTest").click(function(){
-	 alert("run");
+	// 결과값 반환을 위한 변수선언
+	var result = true;
+	
+	// &을 기준으로 끊고 배열 변수를 선언한다 이후 배열에 따라 반복문을 시행한다
+	// 기준 데이터는 아래와같다 "content=&type=&prod_name="...
+	var formArray = formData.split("&");
+
+    // 사용자에게 알려주기위해 영문 키값을 한글로 매핑한다
+    // 매핑을 위한 JSON 변수선언
+    var koreanNames = {
+  		"type": "품목종류(코드)",
+  		"prod_name": "품목이름",
+  		"prod_type": "원자재/완제품 종류",
+  		"prod_unit": "단위",
+  		"prod_amount": "수량",
+  		"prod_price": "가격",
+  		"prod_exp": "유통기한",
+  		"deal_code": "매입처코드/지점코드",
+  		"wh_code": "창고코드",
+	};
+	// 반복문을 사용하여 각 항목을 검사한다
+	for (var i = 0; i < formArray.length; i++) {
+	  
+	  // 키값의 기준점은 = 이된다
+	  var keyValue = formArray[i].split("=");
+	  // 키변수에 키값을 담는다
+	  var key = decodeURIComponent(keyValue[0]);
+	  // 밸류 변수에 키의 변수값을 담는다
+	  var value = decodeURIComponent(keyValue[1]);
+	  
+	  // 비고와 검색칸은 비어있어도 상관없음
+	  if ((key === "prod_note" || key === "content") && value === ""){
+		  continue;
+	  }
+		  
+	  if (value === "") {
+	    // 값이 비어 있는 경우 결과값은 false가 된다
+	    Swal.fire(koreanNames[key]+' 값을 입력해주십시오.', '', 'info');
+	    result = false;
+	    break; // 비어있는 필드를 발견하면 반복문을 종료하고 false를 반환한다
+	  }
+	}
+	
+	// 결과값 반환
+	return result;
+	
+}// end function
+// 정규식 제어함수 끝
+
+// 추가, 삭제, 수정등 기능 구현 함수 시작지점
+
+// 추가 버튼 누를 시 실행되는 함수
+$("#productAdd").click(function(){
+	 
+	 // 상태를 저장으로 변경
+	 status = "save";
+	 
 	 // tr에 값을 삽입하기위한 변수선언
 	 var $tr = $('<tr>');
-	//tr 에 내용추가
-  	$tr.append(
+	 
+	 //tr 에 내용추가
+  	 $tr.append(
   		'<td><input type="checkbox" name="selectedProId" disabled></td>',
-  		'<td><input type="text" name="selectedProId" placeholder="코드는 자동부여됩니다" readonly></td>',
   		'<td><select name="type" id="type">'+
 			'<option value="">품목종류를 선택하십시오</option>'+
 			'<option value="R">원자재</option>'+
 			'<option value="P">완제품</option>'+
 			'</select>'+
 		'</td>',
+		'<td><input type="text" name="prod_name" placeholder="품목이름을 명시하십시오"></td>',
   		'<td><select name="prod_type" id="prod_type">'+
-  			'<option value="">원자재종류를 선택하십시오</option>'+
-			'<option value="1">우유</option>'+
-			'<option value="2">크림</option>'+
+  			'<option value="">품목종류를 먼저 선택하십시오</option>'+
 			'</select>'+
   		'</td>',
-  		'<td><input type="text" name="selectedProId" value="1234"></td>',
-  		'<td><input type="text" name="selectedProId" value="1234"></td>',
-  		'<td><input type="text" name="selectedProId" value="1234"></td>',
-  		'<td><input type="text" name="selectedProId" value="1234"></td>',
-  		'<td><input type="text" name="selectedProId" value="1234"></td>',
-  		'<td><input type="text" name="selectedProId" value="1234"></td>',
-  		'<td><input type="text" name="selectedProId" value="1234"></td>',
+  		'<td><input type="text" name="prod_unit" size="3"></td>',
+  		'<td><input type="text" name="prod_amount" size="3"></td>',
+  		'<td><input type="text" name="prod_price" size="5"></td>',
+  		'<td><input type="text" name="prod_exp" id="prod_exp" size="13"></td>',
+  		'<td><input type="text" name="deal_code" size="13"></td>',
+  		'<td><input type="text" name="wh_code" size="13"></td>',
+  		'<td><input type="text" name="prod_note" size="6"></td>',
   		);
   	// 생성한 <tr> 요소를 tbody에 추가
   	$('tbody tr:nth-child(1)').before($tr);
-});
-// 폼제출을 막기위한 함수
-// 텍스트타입 제출을 막음
-$('input[type="text"]').keydown(function() {
-  if (event.keyCode === 13) {
-    event.preventDefault();
-    productSearch();
-    $('#content').val("");
-  }// end if
+  	
+  	// 품목추가중에 품목추가,수정,삭제 버튼을 비활성화한다
+  	$("#productAdd").attr('disabled','disabled');
+  	$("#updateProd").attr('disabled','disabled');
+	$("#deleteProd").attr('disabled','disabled');
+	
+	// 품목추가중에 취소, 저장 버튼입력이 가능하다
+	$("#cancelProd").removeAttr("disabled");
+	$("#saveProd").removeAttr("disabled");
+	
 });// end function
 
-//물품 검색관련 함수
-function productSearch() {
-		
- 		
-	   // 값 전달 하기위한 JSON 타입 변수선언
-	   var json = {
-        			category: $('#category').val(),
-        			content: $('#content').val()
-       			  };
-	
-	   // 검색 결과값을 받아오기 위한 ajax 호출
- 	   $.ajax({
- 			  url : '${pageContext.request.contextPath}/product_ajax/search',
- 			  data: JSON.stringify(json),
- 	          contentType: 'application/json',
- 			  type : 'POST',
- 			  dataType: 'json',
-			  
- 			  success:function(json){
- 				  
- 				    // tbody 내용을 초기화
- 				    $('tbody').empty();
-					
- 				    // 배열 크기만큼 반복
- 				    json.forEach(function (data) {
- 				    	// tr 태그 생성
- 				        var $tr = $('<tr>');
- 				    		//tr 에 내용추가
- 				        	$tr.append(
- 				        	'<td><input type="checkbox" name="selectedProId" value="' + data.prod_code + '"></td>',
- 				        	"<td>"+data.prod_code+"</td>",
- 				            "<td>"+data.prod_name+"</td>",
- 				           	"<td>"+data.prod_type+"</td>",
- 				            "<td>"+data.prod_unit+"</td>",
- 				         	"<td>"+data.prod_amount+"</td>",
- 				         	"<td>"+data.prod_price+"</td>",
- 				         	"<td>"+data.prod_exp+"</td>",
- 				         	"<td>"+data.deal_code+"</td>",
- 				         	"<td>"+data.wh_code+"</td>",
- 				         	"<td>"+data.prod_note+"</td>"
- 				        	);
- 				        // 생성한 <tr> 요소를 tbody에 추가
- 				        $('tbody').append($tr);
- 				    });
- 		      }// 콜백함수 종료지점
-      });// end_of_ajax
-}// end function
-
-//수정 버튼 누를 시
+// 수정 버튼 누를 시 실행되는 함수
 $("#updateProd").click(function(){
+	
+	// 상태를 업데이트로 변경한다
+	status = "update";
 	
 	// 체크박스가 체크된 여부를 확인하기위한 변수선언
 	var selectedCheckbox = $("input[name='selectedProId']:checked");
@@ -266,23 +275,40 @@ $("#updateProd").click(function(){
 			
 			// 반복문에 따라 이너 html 실행 모든 입력칸을 텍스트태그로 바꾼다
 			$(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' >');
-		});
+		});// end_find(행 검색 반복문 종료지점)
+	
+		// 품목수정중에 품목추가,수정,삭제 버튼을 비활성화한다
+	  	$("#productAdd").attr('disabled','disabled');
+	  	$("#updateProd").attr('disabled','disabled');
+		$("#deleteProd").attr('disabled','disabled');
 		
-	}else if (selectedCheckbox.length === 0){
+		// 품목수정중에 취소, 저장 버튼입력이 가능하다
+		$("#cancelProd").removeAttr("disabled");
+		$("#saveProd").removeAttr("disabled");
+		
+	} // end if
+	
+	// 체크박스가 선택되어있지않으면 에러가 발생한다
+	else if (selectedCheckbox.length === 0){
 		Swal.fire('수정할 행을 선택해 주십시오.', '실패', 'error');
-		
-	}else {
+	// 여러개가 체크되어있으면 에러가 발생한다
+	} else {
 		Swal.fire('수정할 행은 한개만 선택 가능합니다.', '실패', 'error');;
-	}
-});
+	} // end else
+}); // end function
 
-// 취소 버튼 누를 시 
-$("#cancelButton").click(function(){
+// 취소 버튼 누를 시 실행되는 함수
+$("#cancelProd").click(function(){
 		
+		// 상태가 수정인경우 초기화 작업 실행
+	    if(status === "update"){
+	    	
 		// 테이블 모든행에 따라 반복작업 실행
 		$("#datatablesSimple tr").each(function() {
+			
 		// 행 위치를 얻기위한 변수선언
 		var row = $(this);
+		
 		// 폼태그안의 모든 데이터를 초기값으로 리셋한다
 		$("#productList")[0].reset();
 		
@@ -292,32 +318,63 @@ $("#cancelButton").click(function(){
 				var cellValue = $(this).find("input").val();
 				// 텍스트 태그를 삭제하고 값만 td태그에 삽입한다
 				$(this).html(cellValue);
-			});
+			});// end_find(행 검색 반복문 종료지점)
+		});// end_each(행 반복문 종료지점)
 		
+		// 상태가 저장인경우 삭제작업 실행
+	    } else if(status === "save"){
+	    	// 추가한 행을 삭제한다
+	    	$("tbody tr:nth-child(1)").remove();
+	    }// end_if
+	    
+	 	// 취소가 완료되면 취소, 저장 버튼을 비활성화한다
+	  	$("#cancelProd").attr('disabled','disabled');
+	  	$("#saveProd").attr('disabled','disabled');
 		
-		});
-	
-});
+		// 다시 물품등록, 수정, 삭제를 할 수 있게 활성화한다
+		$("#productAdd").removeAttr("disabled");
+		$("#updateProd").removeAttr("disabled");
+		$("#deleteProd").removeAttr("disabled");
+		
+});// end function
 
-// 저장 버튼 누를시
+// 저장 버튼 누를 시 실행되는 함수
 $("#saveProd").click(function() {
+	
+		// 상태가 수정인경우 수정 작업 실행
+    	if(status === "update"){
     		
-    	 // 폼 데이터 직렬화
-    	 var formData = $('#productList').serialize();
-         
-         $.ajax({
-             type: "POST",
-             url: "${pageContext.request.contextPath}/product_ajax/productUpdate",
-             data: formData,
-             success: function(response) {
+    	// 데이터를 전송하기위한 폼 데이터 직렬화
+    	var formData = $('#productList').serialize();
+    	
+    	// AJAX 제출전에 값이 입력되어있는지 정규식 검사를 수행한다
+		if(formTest(formData)){
+    		// ajax 실행
+        	$.ajax({
+            	type: "POST",
+            	url: "${pageContext.request.contextPath}/product_ajax/productUpdate",
+            	data: formData,
+            	// 통신성공시 콜백함수 response매개변수에 "true" or "false" 결과값이 입력된다
+            	success: function(response) {
+            	// 공백을 제거한다
+            		const result = $.trim(response);
             	 
-            	 const result = $.trim(response);
-            	 
-                 if (result == "true") {
-                	 Swal.fire('품목 수정이 완료되었습니다.', '성공', 'success').then(result => {
-					 	if(result.isConfirmed)
-					 		location.reload(); // 성공 시 새로고침
-					 });
+                 	if (result == "true") {
+                	 	Swal.fire('품목 수정이 완료되었습니다.', '성공', 'success').then(result => {
+					 	 	// 사용자가 확인창을 누르면 실행
+                		 	if(result.isConfirmed){
+					 			location.reload(); // 성공 시 새로고침한다
+					 		
+						 		// 저장이 완료되면 취소, 저장 버튼을 비활성화한다
+						  		$("#cancelProd").attr('disabled','disabled');
+						  		$("#saveProd").attr('disabled','disabled');
+							
+								// 다시 물품등록, 수정, 삭제를 할 수 있게 활성화한다
+								$("#productAdd").removeAttr("disabled");
+								$("#updateProd").removeAttr("disabled");
+								$("#deleteProd").removeAttr("disabled");
+					 		}// end alert_if
+					 });// end alert
                  } else {
                 	 Swal.fire('품목 수정에 문제가 발생했습니다.', '실패', 'error');
                  }
@@ -325,49 +382,255 @@ $("#saveProd").click(function() {
              error: function () {
             	 Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
              }
-         });
-    
-});
+         });//endAJAX(물품 수정)
+		}// end 정규식검사
+		
+      	// 상태가 추가인경우 추가 작업 실행
+    	} else if(status === "save"){
+    		 // 데이터를 전송하기위한 폼 데이터 직렬화
+        	 var formData = $('#productList').serialize();
+    		 
+    		 // AJAX 제출전에 값이 입력되어있는지 정규식 검사를 수행한다
+			 if(formTest(formData)){
+        	 	// ajax 실행
+             	$.ajax({
+                 	type: "POST",
+                 	url: "${pageContext.request.contextPath}/product_ajax/productInsert",
+                 	data: formData,
+                 	// 통신성공시 콜백함수 response매개변수에 "true" or "false" 결과값이 입력된다
+                 	success: function(response) {
+                	 	// 공백을 제거한다
+                	 	const result = $.trim(response);
+                	 
+                     	if (result == "true") {
+                    		 Swal.fire('품목 추가가 완료되었습니다.', '성공', 'success').then(result => {
+    					 	 	// 사용자가 확인창을 누르면 실행
+                    		 	if(result.isConfirmed){
+    					 			location.reload(); // 성공 시 새로고침한다
+    					 		
+    						 		// 저장이 완료되면 취소, 저장 버튼을 비활성화한다
+    						  		$("#cancelProd").attr('disabled','disabled');
+    						  		$("#saveProd").attr('disabled','disabled');
+    							
+    								// 다시 물품등록, 수정, 삭제를 할 수 있게 활성화한다
+    								$("#productAdd").removeAttr("disabled");
+    								$("#updateProd").removeAttr("disabled");
+    								$("#deleteProd").removeAttr("disabled");
+    							
+    					 		}// end alert_if
+    					 	});// end alert
+                     	} else {
+                    	 	Swal.fire('품목 추가에 문제가 발생했습니다.', '실패', 'error');
+                     	}
+                 	},
+                 	error: function () {
+                	 	Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+                 	}
+             	});// endAJAX(물품 추가)
+    	 	}// end 정규식검사
+    	 }// end else_if
+});// end function
 
-//삭제 버튼 누를시
+// 삭제 버튼 누를 시 실행되는 함수
 $("#deleteProd").click(function() {
 	
 	// 체크박스가 체크된 여부를 확인하기위한 변수선언
 	var selectedCheckbox = $("input[name='selectedProId']:checked");
 	
+	// 체크박스가 선택되어있지않다면 에러가 발생한다
 	if (selectedCheckbox.length === 0){
 		Swal.fire('삭제할 행을 선택해 주십시오.', '실패', 'error');
-	} else {
-    	 // 폼 데이터 직렬화
+	} 
+	// 체크박스가 선택되어있다면 함수실행
+	else {
+		
+		 // 데이터를 전송하기위한 폼 데이터 직렬화
     	 var formData = $('#productList').serialize();
-         
-         $.ajax({
-             type: "POST",
-             url: "${pageContext.request.contextPath}/product_ajax/productDelete",
-             data: formData,
-             success: function(response) {
+		 
+    	 // AJAX 제출전에 값이 입력되어있는지 정규식 검사를 수행한다
+		 if(formTest(formData)){
+    	 	// 문제없다면 ajax 실행
+         	$.ajax({
+             	type: "POST",
+             	url: "${pageContext.request.contextPath}/product_ajax/productDelete",
+             	data: formData,
+             	// 통신성공시 콜백함수 response매개변수에 "true" or "false" 결과값이 입력된다
+             	success: function(response) {
+            	 	// 공백을 제거한다
+            	 	const result = $.trim(response);
             	 
-            	 const result = $.trim(response);
-            	 
-                 if (result == "true") {
-                	 Swal.fire('품목 삭제가 완료되었습니다.', '성공', 'success').then(result => {
-					 	if(result.isConfirmed)
-					 		location.reload(); // 성공 시 새로고침
-					 });
-                 } else {
-                	 Swal.fire('품목 삭제에 문제가 발생했습니다.', '실패', 'error');
-                 }
-             },
-             error: function () {
-            	 Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
-             }
-         });
-	}
-});
+                 	if (result == "true") {
+                	 	Swal.fire('품목 삭제가 완료되었습니다.', '성공', 'success').then(result => {
+                			// 사용자가 확인창을 누르면 실행
+                		 	if(result.isConfirmed){
+					 			location.reload(); // 성공 시 새로고침 한다
+					 		
+					 			// 삭제가 완료되면 취소, 저장 버튼을 비활성화한다
+					  			$("#cancelProd").attr('disabled','disabled');
+					  			$("#saveProd").attr('disabled','disabled');
+						
+								// 다시 물품등록, 수정, 삭제를 할 수 있게 활성화한다
+								$("#productAdd").removeAttr("disabled");
+								$("#updateProd").removeAttr("disabled");
+								$("#deleteProd").removeAttr("disabled");
+					 		}
+							
+					 	});// end alert
+                 	} else {
+                	 	Swal.fire('품목 삭제에 문제가 발생했습니다.', '실패', 'error');
+                 	}
+             	},
+             	error: function () {
+            	 	Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+             	}
+        	});// endAJAX(물품 삭제)
+		 }// end 정규식검사
+		}// end else
+});//end function
 
-function productAdd(){
-	window.open('${pageContext.request.contextPath }/product/productAdd', '_blank', 'width=1500px, height=450px, left=200px, top=300px');
-} //end function
+// 조회를 눌렀을때 실행되는 물품 검색관련 함수
+function productSearch() {
+		
+	   // 값 전달 하기위한 JSON 타입 변수선언
+	   var json = {
+        			category: $('#category').val(),
+        			content: $('#content').val()
+       			  };
+	
+	   // 검색 결과값을 받아오기 위한 ajax 호출
+ 	   $.ajax({
+ 			  url : '${pageContext.request.contextPath}/product_ajax/search',
+ 			  // JSON타입의 변수를 스트링으로 변환한다
+ 			  data: JSON.stringify(json),
+ 			  // JSON타입의 변수를 전송한다
+ 	          contentType: 'application/json',
+ 			  type : 'POST',
+ 			  // 반환은 JSON 타입
+ 			  dataType: 'json',
+ 			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
+ 			  success:function(json){
+ 				  
+ 				    // tbody 내용을 초기화
+ 				    $('tbody').empty();
+					
+ 				    // 배열 크기만큼 반복
+ 				    json.forEach(function (data) {
+ 				    	// tr 태그 생성
+ 				        var $tr = $('<tr>');
+ 				    		//tr 에 내용추가
+ 				        	$tr.append(
+ 				        	'<td><input type="checkbox" name="selectedProId" value="' + data.prod_code + '"></td>',
+ 				        	"<td>"+data.prod_code+"</td>",
+ 				            "<td>"+data.prod_name+"</td>",
+ 				           	"<td>"+data.prod_type+"</td>",
+ 				            "<td>"+data.prod_unit+"</td>",
+ 				         	"<td>"+data.prod_amount+"</td>",
+ 				         	"<td>"+data.prod_price+"</td>",
+ 				         	"<td>"+data.prod_exp+"</td>",
+ 				         	"<td>"+data.deal_code+"</td>",
+ 				         	"<td>"+data.wh_code+"</td>",
+ 				         	"<td>"+data.prod_note+"</td>"
+ 				        	);
+ 				        // 생성한 <tr> 요소를 tbody에 추가
+ 				        $('tbody').append($tr);
+ 				    });
+ 		      }// 콜백함수 종료지점
+      });// end_of_ajax
+}// end function
+// 기능 함수 종료
+
+// 이벤트 관련 함수 시작지점
+
+//첫 번째 셀렉트 태그의 변경 이벤트 리스너를 추가
+$('tbody').on('change', 'select[name="type"]', function() {
+  
+  // 이벤트 발생중인 type(원자재 or 완제품)의 값을 변수에 저장한다
+  var selectedType = $(this).val();
+
+  	// 두 번째 셀렉트 태그(prod_type)에 새 옵션을 추가 한다
+    var $prod_type = $('#prod_type'); // 두 번째 셀렉트 태그를 선택 한다
+    // 두번째 셀렉트 태그를 초기화한다
+    $prod_type.empty();
+    
+    // if 분기점
+    // 원자재 일경우
+    if(selectedType === "R"){
+    	
+    	// 셀렉트 값에 담을 배열 변수 선언
+   		var options = [
+   			{ value: "", text: "원자재를 선택해주십시오" },
+      		{ value: "1", text: "원자재1" },
+      		{ value: "2", text: "원자재2" },
+    	];
+    
+    	// 옵션을 배열에서 반복하여 추가
+    	for (var i = 0; i < options.length; i++) {
+    		
+    		// 타입은 옵션 밸류값과 텍스트값은 배열에서 가져온다
+      		var $option = $('<option>', {
+        		value: options[i].value,
+        		text: options[i].text
+      			});
+    			
+    			// 최종값을 셀렉트 태그에 추가한다
+      			$prod_type.append($option);
+    	}// end for
+    	
+    // 완제품일경우
+    } else if(selectedType === "P"){
+    		
+    		// 셀렉트 값에 담을 배열 변수 선언
+       		var options = [
+       			{ value: "", text: "완제품을 선택해주십시오" },
+          		{ value: "1", text: "완제품1" },
+          		{ value: "2", text: "완제품2" },
+        	];
+        
+        	// 옵션을 배열에서 반복하여 추가
+			for (var i = 0; i < options.length; i++) {
+        		
+        		// 타입은 옵션 밸류값과 텍스트값은 배열에서 가져온다
+          		var $option = $('<option>', {
+            		value: options[i].value,
+            		text: options[i].text
+          			});//end var
+        			
+        			// 최종값을 셀렉트 태그에 추가한다
+          			$prod_type.append($option);
+			}// end for
+	}// end else
+	
+	// 사용자가 딴짓거리하면 초기화..
+    else if(selectedType === ""){
+		
+    		// 타입은 옵션 밸류값과 텍스트값은 배열에서 가져온다
+      		var $option = $('<option>', {
+        		value: "",
+        		text: "품목종류를 먼저 선택하십시오"
+      			});//end var
+    			
+    			// 최종값을 셀렉트 태그에 추가한다
+      			$prod_type.append($option);
+
+	}// end else
+		
+});// end function
+
+//폼제출을 막고 엔터키로 조회가 가능하게 하는 함수
+//텍스트타입 제출을 막음
+$('input[type="text"]').keydown(function() {
+	// 엔터키 이벤트 발생을 확인한다
+	if (event.keyCode === 13) {
+		// 폼 태그 제출을 막는다
+ 		event.preventDefault();
+		// 검색 함수를 실행한다
+ 		productSearch();
+		// 검색입력창을 초기화한다
+ 		$('#content').val("");
+	}// end if
+});// end function
+// 이벤트 관련 함수 종료
+
 </script>
     </body>
 </html>
