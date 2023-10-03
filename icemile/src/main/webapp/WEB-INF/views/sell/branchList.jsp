@@ -113,12 +113,21 @@
                 
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="../resources/js/scripts.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="../resources/js/datatables-simple-demo.js"></script>
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+	<script
+		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
+	<script src="../resources/js/scripts.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+		crossorigin="anonymous"></script>
+	<script src="../resources/js/branchList_im.js"></script>
    <script>
-// 멤버 추가관련 함수
+// 지점 추가관련 함수
    function branchReg(){
    	window.open('${pageContext.request.contextPath }/sell/branchReg', '_blank', 'width=600px, height=1000px, left=600px, top=300px');
    } //end function
@@ -127,7 +136,7 @@
    	window.open('${pageContext.request.contextPath }/sell/branchUpdate?branch_code='+branch_code, '_blank', 'width=600px, height=1000px, left=600px, top=300px');
    }
    
-// 멤버 삭제관련 함수
+// 지점 삭제관련 함수
    function branchDelete(branch_code) {
    	
    	// sweetalert2 호출
@@ -151,7 +160,7 @@
    			   
    			   // 멤버 삭제하는 ajax 호출
    			   $.ajax({
-   					  url : '${pageContext.request.contextPath}/branch_ajax/delete',
+   					  url : '${pageContext.request.contextPath}/sell_ajax/delete',
    					  data: {"branch_code": branch_code},
    					  type : 'POST',
    					  success:function(data){

@@ -9,7 +9,7 @@
   		FROM branch
   	</select>
   
-	<insert id="branchInsert">
+	<insert id="branchReg">
 	INSERT INTO branch(branch_code,branch_name, branch_reg, branch_ceo, emp_num, branch_phone, branch_post, branch_add, branch_email)
 		VALUES(CONCAT('BR', LPAD(#{branch_code}, 4, '0')),#{branch_name},
 			#{branch_reg},#{branch_ceo},#{emp_num},#{branch_phone},#{branch_post},#{branch_add},#{branch_email})
@@ -23,7 +23,18 @@
   	SELECT *
   		FROM branch
   			WHERE branch_code = #{branch_code}
-  </select>
+  	</select>
+  	
+  	<update id="branchUpdate">
+  	UPDATE branch
+  		SET branch_code = #{branch_code}, branch_ceo = #{branch_ceo}, emp_num = #{emp_num}, branch_phone = #{branch_phone},
+  			branch_post = #{branch_post}, branch_add = #{branch_add}, branch_email = #{branch_email}
+  				 	WHERE branch_code = #{branch_code}
+  	</update>
 	
+	<delete id="branchDelete">
+	DELETE FROM branch
+		WHERE branch_code = #{branch_code}
+	</delete>
 	
 </mapper>

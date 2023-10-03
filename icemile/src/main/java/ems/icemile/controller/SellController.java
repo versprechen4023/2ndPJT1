@@ -23,46 +23,27 @@ public class SellController {
 	
 	@Inject
 	private SellServiceImpl sellService;
-	@Inject
-	private MemberServiceImpl memberService;
 	
 	@GetMapping("/branchReg")
 	public String branchReg() {
-	
-		log.debug("지점 등록 페이지");
+		log.debug("컨트롤러| 지점 등록 페이지");
 		
 		return "sell/branchReg";
-		
-	}	
+	}
 	
 	@PostMapping("/branchRegPro")
 	public String branchRegPro(SellDTO sellDTO) {
-		log.debug("지점 등록 넘기기");
-		log.info(sellDTO.toString());		
+		log.debug("컨트롤러| 지점 등록 넘기기 페이지");
 		
-		sellService.branchInsert(sellDTO);
+		//
+		sellService.branchReg(sellDTO);
 		
 		return "redirect:/sell/branchList";
 	}
 	
-	@GetMapping("/branchUpdate")
-	public String branchUpdate(String branch_code, Model model) {
-		
-		log.debug("지점 수정 페이지");
-		
-		// 디비에서 지점 정보 가져오기
-		SellDTO sellDTO = sellService.getBranchInfo(branch_code);
-		
-		//model에 가져온 데이터 담아서 branchUpdate이동
-		model.addAttribute("sellDTO", sellDTO);
-		return "sell/branchUpdate";
-	}
-
-
-	
 	@GetMapping("/branchList")
 	public String branch( Model model) {
-		log.debug("지점 목록 페이지");
+		log.debug("컨트롤러| 지점 목록 페이지");
 		
 		// 디비에서 지점 목록 가져오기 
 		List<SellDTO> branchList = sellService.getBranchList();
@@ -74,4 +55,29 @@ public class SellController {
 		return "sell/branchList";
 		
 	}
+	
+	@GetMapping("/branchUpdate")
+	public String branchUpdate(@RequestParam("branch_code") String branch_code, Model model) {
+		log.debug("컨트롤러| 지점 수정 페이지");
+		
+		// 디비에서 등록된 지점 정보 가져오기
+		SellDTO sellDTO  = sellService.getbranchInfo(branch_code);
+		
+		// model에 DTO값 저장
+		model.addAttribute("sellDTO", sellDTO);
+		
+		return "sell/branchUpdate";
+	}
+	
+	@PostMapping("/branchUpdatePro")
+	public String branchUpdatePro(SellDTO sellDTO) {
+		log.debug("컨트롤러| 지점 수정 넘기기 페이지");
+		
+		
+		sellService.branchUpdate(sellDTO);
+		
+		return "redirect:/sell/branchList";
+	}
+	
+	
 }

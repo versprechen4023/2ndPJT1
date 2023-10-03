@@ -18,13 +18,13 @@ public class SellServiceImpl implements SellService{
 	private SellDAOImpl sellDAO;
 	
 	@Override
-	public boolean branchInsert(SellDTO sellDTO){
+	public boolean branchReg(SellDTO sellDTO){
 		
 		log.debug("서비스 | 지점 인서트");
 		//고유 번호 부여
 		sellDTO.setBranch_code(Integer.toString(sellDAO.getNewBranchCode()));
 		
-		return sellDAO.branchInsert(sellDTO);
+		return sellDAO.branchReg(sellDTO);
 	}
 	
 
@@ -36,15 +36,24 @@ public class SellServiceImpl implements SellService{
 		return sellDAO.getBranchList();
 	}
 
-
 	@Override
-	public SellDTO getBranchInfo(String branch_code) {
-		log.debug("서비스 | 지점 정보 가져오기");
+	public SellDTO getbranchInfo(String branch_code) {
+		log.debug("서비스 | 지점 수정 페이지 지점 정보 가져오기");
 		return sellDAO.getBranchInfo(branch_code);
 	}
 
-
-	
+	@Override
+	public boolean branchUpdate(SellDTO sellDTO) {
+		log.debug("서비스 | 지점 수정 넘기기");
+		
+		return sellDAO.branchUpdate(sellDTO);
+	}
+	@Override
+	public boolean branchDelete(String branch_code) {
+		log.debug("서비스 | 지점삭제");
+		
+		return sellDAO.branchDelete(branch_code);
+	}
 	
 	
 }
