@@ -30,5 +30,18 @@
 <!-- 	 INSERT INTO requirement -->
 <!-- 	 	VALUES(#{req_code}, #{prod_code}, #{raw_code}, #{req_insertDATE}, #{req_amount}, #{req_upDATEDATE}, #{req_note} ) -->
 <!-- 	</insert> -->
+
+	<select id="getRequirement" resultType="ems.icemile.dto.RequirementDTO">
+	 SELECT * from requirement
+	 WHERE req_code = #{req_code} 
+	</select>
+	
+	<update id="updateRequirement">
+     UPDATE requirement
+     SET prod_code = #{prod_code}, raw_code = #{raw_code}, req_amount = #{req_amount},
+         req_insertDATE = #{req_insertDATE}, req_upDATEDATE = #{req_upDATEDATE},
+         req_note = #{req_note}
+     WHERE req_code = #{req_code}
+	</update>
   
 </mapper>
