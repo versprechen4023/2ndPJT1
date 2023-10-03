@@ -7,10 +7,11 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping; 
 
 import ems.icemile.dto.FacilityDTO;
-import ems.icemile.service.FactoryService;
+import ems.icemile.service.FactoryService;  
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -41,6 +42,18 @@ public class FactoryController {
 		return "factory/facility";
 	}
 	
+	
+	// 가상주소: http://localhost:8080/FunWeb/factory/addPro
+		@PostMapping("/addPro")
+		public String addPro(FacilityDTO facilityDTO) {
+			log.debug("FactoryController addPro()");
+			
+			//facilityDTO 담아서 factoryService에 insertFacility 메서드 생성
+			factoryService.insertFacility(facilityDTO);
+			
+			//주소 -> /factory/facility로 변경되면서 이동
+			return "redirect:/factory/facility";
+		}
 	
 	
 	

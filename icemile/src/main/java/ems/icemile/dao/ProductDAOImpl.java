@@ -1,6 +1,8 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -43,5 +45,39 @@ public class ProductDAOImpl implements ProductDAO {
 		log.debug("productInsert DAO 도달");
 
 		return sqlSession.insert(namespace+"productInsert", productInsertDTO) > 0;
+	}
+	
+	@Override
+	public boolean productUpdate(ProductInsertDTO ProductInsertDTO) {
+		
+		log.debug("productUpdate DAO 도달");
+		
+		return sqlSession.update(namespace+"productUpdate", ProductInsertDTO) > 0;
+	}
+	
+	@Override
+	public boolean productDelete(List<Map<String, String>> codeAndTypeList) {
+		
+		log.debug("productDelete DAO 도달");
+		
+		return sqlSession.delete(namespace+"productDelete", codeAndTypeList) > 0;
+	}
+	
+	@Override
+	public List<ProductAllDTO> productSearch(HashMap<String, Object> json) {
+		
+		log.debug("productSearch DAO 도달");
+		
+		return sqlSession.selectList(namespace+"productSearch", json);
+	}
+	
+	@Override
+	public boolean searchProName(String prod_name) {
+		
+		log.debug("searchProName DAO 도달");
+		
+		String result = sqlSession.selectOne(namespace+"searchProName", prod_name);
+		
+		return result.isEmpty();
 	}
 }

@@ -44,4 +44,62 @@
     		</when>
   		</choose>
   </insert>
+  
+  <update id="productUpdate">
+  UPDATE
+  		<choose>
+    		<when test='type == "P"'>
+      		product SET prod_name = #{prod_name}, prod_taste = #{prod_type}, prod_unit = #{prod_unit},
+      					prod_amount = #{prod_amount}, prod_price = #{prod_price}, prod_exp = #{prod_exp},
+      					prod_note = #{prod_note}, branch_code = #{deal_code}, wh_code = #{wh_code}
+      				WHERE prod_code = #{prod_code}
+    		</when>
+    		<when test='type == "R"'>
+      		raw_material SET raw_name = #{prod_name}, raw_type = #{prod_type}, raw_unit = #{prod_unit},
+      					 	 raw_amount = #{prod_amount}, raw_price = #{prod_price}, raw_exp = #{prod_exp},
+      					 	 raw_note = #{prod_note}, buy_code = #{deal_code}, wh_code = #{wh_code}
+      					 WHERE raw_code = #{prod_code}
+    		</when>
+  		</choose>
+  </update>
+  
+ <delete id="productDelete" parameterType="java.util.List">
+    <foreach collection="list" item="item" separator=";">
+        <choose>
+            <when test='item.type == "P"'>
+                DELETE FROM product WHERE prod_code = #{item.code}
+            </when>
+            <when test='item.type == "R"'>
+                DELETE FROM raw_material WHERE raw_code = #{item.code}
+            </when>
+        </choose>
+    </foreach>
+ </delete>
+ 
+ <select id="productSearch" resultType="ems.icemile.dto.ProductAllDTO">
+ 	<bind name="content" value="'%' + content + '%'"/>
+ 	SELECT *
+			FROM(
+				SELECT prod_code, prod_name, prod_taste as prod_type, prod_unit, prod_amount, prod_price, 
+  				prod_exp, prod_note, branch_code as 'deal_code', wh_code
+  					FROM product
+  				UNION
+  				SELECT raw_code, raw_name, raw_type, raw_unit, raw_amount, raw_price, raw_exp, raw_note, buy_code, wh_code
+  					FROM raw_material
+				) AS myTable
+					WHERE myTable.${category} LIKE #{content}
+ </select>
+ 
+ <select id="searchProName" resultType="java.lang.String">
+ 	SELECT *
+ 			FROM(
+ 				SELECT prod_name
+ 					FROM product
+ 				UNION
+ 				SELECT raw_name
+ 					FROM raw_material
+ 				) As myTable
+ 					WHERE myTable.prod_name = #{prod_name}
+ </select>
+ 
 </mapper>

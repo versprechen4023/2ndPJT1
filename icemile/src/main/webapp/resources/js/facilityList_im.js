@@ -17,7 +17,6 @@ window.addEventListener('DOMContentLoaded', event => {
       labels: {
       placeholder: "검색",
       noResults : "검색 결과가 없습니다",
-      noRows : "입력된 값이 아직 없습니다",
       info : ""
       }
         

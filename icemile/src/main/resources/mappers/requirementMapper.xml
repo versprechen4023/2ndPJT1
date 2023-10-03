@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.icemile.mappers.requirementMapper">
+  
+  <select id="getRequirementList" resultType="ems.icemile.dto.RequirementDTO">
+  	SELECT *
+  		FROM requirement
+  </select>
+  
+  <delete id="deleteRequirement">
+  	DELETE FROM requirement
+  		WHERE req_code = #{req_code}
+  </delete>
+  
+  <select id="getNewReq_code" resultType="java.lang.Integer">
+  	SELECT count(*) + 1
+  		FROM requirement
+  </select>
+  
+  <insert id="insertRequirement">
+  	INSERT INTO requirement(req_code, prod_code, raw_code, req_insertDATE,
+  	req_amount, req_upDATEDATE, req_note)
+  		VALUES(CONCAT('RE',LPAD(#{req_code},4,'0')),#{prod_code}, #{raw_code},
+  		#{req_insertDATE}, #{req_amount}, #{req_upDATEDATE}, #{req_note})
+  </insert>
+
+<!-- 	<insert id="insertRequirement"> -->
+<!-- 	 INSERT INTO requirement -->
+<!-- 	 	VALUES(#{req_code}, #{prod_code}, #{raw_code}, #{req_insertDATE}, #{req_amount}, #{req_upDATEDATE}, #{req_note} ) -->
+<!-- 	</insert> -->
+
+	<select id="getRequirement" resultType="ems.icemile.dto.RequirementDTO">
+	 SELECT * from requirement
+	 WHERE req_code = #{req_code} 
+	</select>
+	
+	<update id="updateRequirement">
+     UPDATE requirement
+     SET prod_code = #{prod_code}, raw_code = #{raw_code}, req_amount = #{req_amount},
+         req_insertDATE = #{req_insertDATE}, req_upDATEDATE = #{req_upDATEDATE},
+         req_note = #{req_note}
+     WHERE req_code = #{req_code}
+	</update>
+  
+</mapper>

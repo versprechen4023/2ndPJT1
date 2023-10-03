@@ -8,16 +8,15 @@ window.addEventListener('DOMContentLoaded', event => {
         
       // 페이지 표시 버튼 삭제
       perPageSelect : false,
-      // 검색창 삭제
+      //검색창 삭제
       searchable : false,
-      // 페이지당 목록 10개
+      //페이지당 목록 10개
       perPage : 10,
       
-      //라벨 수정
+      //라벨을 수정
       labels: {
       placeholder: "검색",
       noResults : "검색 결과가 없습니다",
-      noRows : "입력된 값이 아직 없습니다",
       info : ""
       }
         

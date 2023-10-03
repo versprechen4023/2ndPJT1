@@ -37,7 +37,7 @@
                                     <nav class="sb-sidenav-menu-nested nav">
                                             <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/stock">물품관리</a>
                                             <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/requirement">소요랑관리</a>
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/warehouse">창고관리</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/warehouse/warehouse">창고관리</a>
                                         </nav>
                                 </nav>                          
                             </div>
