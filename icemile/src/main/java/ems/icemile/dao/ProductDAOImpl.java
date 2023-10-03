@@ -70,4 +70,14 @@ public class ProductDAOImpl implements ProductDAO {
 		
 		return sqlSession.selectList(namespace+"productSearch", json);
 	}
+	
+	@Override
+	public boolean searchProName(String prod_name) {
+		
+		log.debug("searchProName DAO 도달");
+		
+		String result = sqlSession.selectOne(namespace+"searchProName", prod_name);
+		
+		return result.isEmpty();
+	}
 }

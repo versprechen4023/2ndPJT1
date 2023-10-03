@@ -89,4 +89,17 @@
 				) AS myTable
 					WHERE myTable.${category} LIKE #{content}
  </select>
+ 
+ <select id="searchProName" resultType="java.lang.String">
+ 	SELECT *
+ 			FROM(
+ 				SELECT prod_name
+ 					FROM product
+ 				UNION
+ 				SELECT raw_name
+ 					FROM raw_material
+ 				) As myTable
+ 					WHERE myTable.prod_name = #{prod_name}
+ </select>
+ 
 </mapper>

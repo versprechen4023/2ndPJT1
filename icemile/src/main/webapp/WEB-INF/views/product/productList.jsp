@@ -124,6 +124,9 @@ function formTest(formData) {
 	// 결과값 반환을 위한 변수선언
 	var result = true;
 	
+	// 반복문 제어를 위한 변수선언
+	var continueFor = true;
+	
 	// &을 기준으로 끊고 배열 변수를 선언한다 이후 배열에 따라 반복문을 시행한다
 	// 기준 데이터는 아래와같다 "content=&type=&prod_name="...
 	var formArray = formData.split("&");
@@ -148,21 +151,47 @@ function formTest(formData) {
 	  var keyValue = formArray[i].split("=");
 	  // 키변수에 키값을 담는다
 	  var key = decodeURIComponent(keyValue[0]);
-	  // 밸류 변수에 키의 변수값을 담는다
+	  // 밸류 변수에 키의 리터럴 값을 담는다
 	  var value = decodeURIComponent(keyValue[1]);
 	  
 	  // 비고와 검색칸은 비어있어도 상관없음
 	  if ((key === "prod_note" || key === "content") && value === ""){
 		  continue;
 	  }
-		  
+	  
 	  if (value === "") {
 	    // 값이 비어 있는 경우 결과값은 false가 된다
 	    Swal.fire(koreanNames[key]+' 값을 입력해주십시오.', '', 'info');
 	    result = false;
 	    break; // 비어있는 필드를 발견하면 반복문을 종료하고 false를 반환한다
 	  }
-	}
+	  
+	  // 중복값 검사수행
+	  if (key === "prod_name" && value !== "") {
+		  // ajax 호출
+		  $.ajax({
+			  	type: "GET",
+		        url: "${pageContext.request.contextPath}/product_ajax/searchProName",
+		        data: {"prod_name": value},
+		        success: function(response) {
+		        	// 공백을 제거한다
+            		const resultAjax = $.trim(response);
+            		
+		        	if(resultAjax == "false"){
+		        		result = false;
+		        		continueFor = false;
+		        		Swal.fire('이미 존재하는 품명입니다 다른 이름을 입력하십시오', '', 'info');
+		        	} 
+		        }//success 콜백함수 종료지점
+		  });// ajax
+		  
+		  // 중복값이 있다면 반복문을 종료한다
+		  if(!continueFor){
+			  break;
+		  }
+	 } // end 중복값 검증
+
+	}// end for
 	
 	// 결과값 반환
 	return result;
@@ -293,7 +322,7 @@ $("#updateProd").click(function(){
 		Swal.fire('수정할 행을 선택해 주십시오.', '실패', 'error');
 	// 여러개가 체크되어있으면 에러가 발생한다
 	} else {
-		Swal.fire('수정할 행은 한개만 선택 가능합니다.', '실패', 'error');;
+		Swal.fire('수정할 행은 한개만 선택 가능합니다.', '실패', 'error');
 	} // end else
 }); // end function
 
@@ -356,7 +385,7 @@ $("#saveProd").click(function() {
             	data: formData,
             	// 통신성공시 콜백함수 response매개변수에 "true" or "false" 결과값이 입력된다
             	success: function(response) {
-            	// 공백을 제거한다
+            		// 공백을 제거한다
             		const result = $.trim(response);
             	 
                  	if (result == "true") {

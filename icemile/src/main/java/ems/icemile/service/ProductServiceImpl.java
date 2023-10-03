@@ -73,4 +73,12 @@ public class ProductServiceImpl implements ProductService {
 		
 		return productDAO.productSearch(json);
 	}
+	
+	@Override
+	public boolean searchProName(String prod_name) {
+
+		log.debug("서치 프로 네임 서비스");
+		
+		return productDAO.searchProName(prod_name);
+	}
 }
