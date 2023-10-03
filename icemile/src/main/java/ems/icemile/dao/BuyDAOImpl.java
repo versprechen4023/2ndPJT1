@@ -38,6 +38,29 @@ public class BuyDAOImpl implements BuyDAO {
 		
 		sqlSession.insert(namespace+".buyInsert", buyDTO);
 	}
+
+	@Override
+	public BuyDTO getBuyInfo(String buy_code) {
+		log.debug("BuyService getBuyInfo()");
+		return sqlSession.selectOne(namespace+".getBuyInfo", buy_code);
+	}
+	
+	@Override
+	public void buyUpdate(BuyDTO buyDTO) {
+		log.debug("구매처 업데이트 DAO 도달");
+		
+		sqlSession.update(namespace+".buyUpdate",buyDTO);
+		
+	}
+	
+	@Override
+	public boolean buyDelete(String buy_code) {
+		
+		log.debug("구매처 딜리트 DAO 도달");
+		
+		return sqlSession.delete(namespace+".buyDelete", buy_code) > 0;
+	}
+	
 	}
 
 

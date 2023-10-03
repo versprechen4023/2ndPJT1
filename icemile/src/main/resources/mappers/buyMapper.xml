@@ -22,6 +22,24 @@
   			#{buy_ceo}, #{buy_emp}, #{emp_num}, #{buy_type},#{buy_phone},#{buy_post},
   			#{buy_add},#{buy_email})
   </insert>
+	
+  <select id="getBuyInfo" resultType="ems.icemile.dto.BuyDTO">
+  	SELECT *
+  	FROM buy
+  	WHERE buy_code = #{buy_code}
+  </select>
+  
+    <update id="buyUpdate">
+  	UPDATE buy
+  	SET buy_name = #{buy_name}, buy_reg = #{buy_reg}, buy_ceo = #{buy_ceo},
+  					buy_emp = #{buy_emp}, emp_num = #{emp_num}, buy_type = #{buy_type}, buy_phone = #{buy_phone}, buy_post = #{buy_post},
+  				    buy_add = #{buy_add}, buy_email = #{buy_email} 
+   	WHERE buy_code = #{buy_code}
+  </update>
 
+	  <delete id="buyDelete">
+  	DELETE FROM buy
+  	WHERE buy_code = #{buy_code}
+  </delete>
 
 </mapper>

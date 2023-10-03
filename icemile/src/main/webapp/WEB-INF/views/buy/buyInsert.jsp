@@ -223,10 +223,6 @@ $(document).ready(function() {
         // 체크된 체크박스들의 값을 합산할 변수 초기화
         var sum = 0;
         
-        // 체크된 체크박스들을 순회하며 값을 합산
-        $('[name="role"]:checked').each(function () {
-            sum += parseInt($(this).val());
-        });
         
       
         // 이메일 값 합산 설정
@@ -302,6 +298,8 @@ $(document).ready(function() {
     		return false;
     	}
     	
+
+    	
     	if($('#buy_post').val() == "" || $('#addr1').val() == ""){
     		$('#buy_add_msg').css('color','red');
     		$('#buy_add_msg').text("주소를 입력하십시오.");
@@ -322,7 +320,7 @@ $(document).ready(function() {
          
          $.ajax({
              type: "POST",
-             url: "${pageContext.request.contextPath}/member_ajax/insert",
+             url: "${pageContext.request.contextPath}/buy_ajax/insert",
              data: formData,
              contentType: false, // 멀티파트를 처리하기위해 객체를 직렬화하지 않고 직접 AJAX 통신할 수 있도록 설정
              processData: false, 

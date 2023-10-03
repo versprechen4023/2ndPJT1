@@ -12,5 +12,11 @@ public interface BuyService {
 	// 구매처 추가
 	public void buyInsert(BuyDTO buyDTO);
 	
+	// 구매처 정보 얻기
+	public BuyDTO getBuyInfo(String buy_code);
+
+	// 구매처 수정
+	public void buyUpdate(BuyDTO buyDTO); 
+	
 
 }
