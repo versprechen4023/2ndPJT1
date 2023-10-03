@@ -45,7 +45,7 @@
 
 <form action="${pageContext.request.contextPath}/factory/insertRequirement" method="POST">
 <input type="submit" value="추가">
-<input type="button" value="취소">
+<input type="reset" value="취소">
 
 <table border="1">
 <tr>

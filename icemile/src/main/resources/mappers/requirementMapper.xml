@@ -32,7 +32,8 @@
 <!-- 	</insert> -->
 
 	<select id="getRequirement" resultType="ems.icemile.dto.RequirementDTO">
-	 SELECT * from requirement
+	 SELECT *
+	 FROM requirement
 	 WHERE req_code = #{req_code} 
 	</select>
 	
