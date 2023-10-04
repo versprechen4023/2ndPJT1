@@ -671,8 +671,8 @@ $('tbody').on('input', inputSelector, function() {
 	  $(this).val(inputValue);
 });// end function
 	
-//폼제출을 막고 엔터키로 조회가 가능하게 하는 함수
-//텍스트타입 제출을 막음
+// 폼제출을 막고 엔터키로 조회가 가능하게 하는 함수
+// 텍스트타입 제출을 막음
 $('input[type="text"]').keydown(function() {
 	// 엔터키 이벤트 발생을 확인한다
 	if (event.keyCode === 13) {
