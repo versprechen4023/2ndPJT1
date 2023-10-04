@@ -22,7 +22,7 @@ public class MemberDAOImpl implements MemberDAO {
 	private static final String namespace = "mes.icemile.mappers.memberMapper.";
 	
 	@Override
-	public int getNewMemberId() {
+	public String getNewMemberId() {
 		return sqlSession.selectOne(namespace+"getNewMemberId");
 	}
 	
