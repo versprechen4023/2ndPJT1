@@ -28,8 +28,20 @@ public class MemberServiceImpl implements MemberService {
 		
 		log.debug("멤버 인서트 서비스");
 		
+		String getNum = memberDAO.getNewMemberId();
+		
+		int idNum = 0;
+		
+		// DB에 데이터가없다면 초기값(1)이되고
+		if(getNum == null) {
+			idNum = 1;
+		// 아니라면 +1을 더한다
+		} else {
+			idNum = Integer.parseInt(getNum.replaceAll("[^0-9]", ""))+1;
+		}
+		
 		// 멤버 고유 번호 부여
-		memberDTO.setEmp_num(Integer.toString(memberDAO.getNewMemberId()));
+		memberDTO.setEmp_num(Integer.toString(idNum));
 		// 생일로 초기 비밀번호 설정
 		// yyMMdd의 방식 지정 예시 : 1996-05-02 -> 960502 replace함수로 -를 모두 삭제하고 앞의 2자리인 19를 제외하고 비밀번호에 재저장
 		memberDTO.setEmp_pw(memberDTO.getBirthdate().replaceAll("-", "").substring(2));

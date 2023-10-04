@@ -139,7 +139,7 @@ h1 {
 
 <!-- 카카오 우편번호 API호출 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- sweetalert2 API 호출 -->
 <link rel="stylesheet"
 		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">

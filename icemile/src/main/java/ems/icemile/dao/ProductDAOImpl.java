@@ -32,11 +32,11 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 	
 	@Override
-	public int getNewProductId(ProductInsertDTO productInsertDTO) {
+	public String getNewProductId(ProductInsertDTO productInsertDTO) {
 		
 		log.debug("getNewProductId DAO 도달");
 		
-		return sqlSession.selectOne(namespace+"getNewProductId", productInsertDTO);
+		return sqlSession.selectOne(namespace+"getNewProductId",productInsertDTO);
 	}
 	
 	@Override

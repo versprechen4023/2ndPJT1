@@ -47,6 +47,15 @@ public class FactoryServiceImpl implements FactoryService {
 		
 		factoryDAO.updateFacility(facilityDTO);
 	}// updateFacility
+
+
+	@Override
+	public void deleteFacility(FacilityDTO facilityDTO) {
+
+		log.debug("FactoryService deleteFacility()");
+		
+		factoryDAO.deleteFacility(facilityDTO);
+	}// deleteFacility
 	
 	
 	

@@ -56,7 +56,7 @@ public class BuyController {
 		System.out.println("BuyController insertPro");
 		// 구매처 등록 
 		System.out.println(buyDTO);
-		buyService.buyInsert(buyDTO);
+//		buyService.buyInsert(buyDTO);
 		
 		return "redirect:/buy/buyList";
 	}

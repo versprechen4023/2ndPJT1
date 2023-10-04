@@ -90,6 +90,7 @@
 </form>
                             </div>
                         </div>
+                                                <input type="button" value="엑셀파일다운" id="excelProd">
                     </div>
                 <!-- 내용 들어가는 곳 -->
                 </main>
@@ -100,11 +101,13 @@
                 
             </div>
         </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     
+<!-- 모달 alert를 위한 sweetalert 호출 -->
 	<link rel="stylesheet"
 		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 	<script
 		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+<!-- J쿼리 호출 -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
@@ -114,6 +117,10 @@
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
 	<script src="../resources/js/productList_im.js"></script>
+	
+<!-- 엑셀파일 저장을 위한 스크립트 호출 -->
+	<script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 <script>
 // 추가, 수정 을 구분하기위한 전역변수선언
 var status = "";
@@ -692,6 +699,60 @@ $('input[name="selectedAllProId"]').click(function() {
     $('input[name="selectedProId"]').prop('checked', $(this).prop('checked'));
 });// end function
 
+//엑셀 버튼 누를 시 실행되는 함수
+$("#excelProd").click(function(){
+	
+	// 체크박스가 체크된 여부를 확인하기위한 변수선언
+	var selectedCheckbox = $("input[name='selectedProId']:checked");
+	
+	if (selectedCheckbox.length === 0) {
+		Swal.fire('엑셀파일로 다운받을 행을 선택해주십시오', '', 'info');
+		return false;
+	}
+	
+	// 엑셀에 데이터를 삽입하기위한 배열 변수선언
+	var excelData = [];
+	
+	// 엑셀의 헤더가 되는 값을 삽입하기위한 변수선언
+	var headers = [];
+	
+		// table의 th태그만큼 반복문을 실행하되 첫번째 체크박스행은 제외한다
+		$("#datatablesSimple th:not(:first)").each(function(){
+			// 헤더에 텍스트값(th) 삽입
+			headers.push($(this).text());
+		});
+		// 엑셀 데이터 변수에 헤더값을 삽입한다
+		excelData.push(headers);
+	
+		// 체크박스가 체크된 행 만큼 엑셀 행삽입 반복문을 시행한다
+		selectedCheckbox.each(function () {
+		
+			// 엑셀의 행값을 담기위한 배열 변수선언
+	    	var row = [];
+			// tr태그를 찾아서 반복문을 실행하되 첫번째 td태그(체크박스)는 제외한다
+	    	$(this).closest("tr").find("td:not(:first-child)").each(function () {
+	    		// 행 변수에 테이블 행(td)태그의 텍스트 값을 삽입한다
+	        	row.push($(this).text());
+	    	});
+			// 엑셀 데이터 변수에 행값을 삽입한다
+	   		excelData.push(row);
+		});
+		
+		// 워크북을 생성한다
+		var workbook = XLSX.utils.book_new();
+		// 엑셀 데이터(헤더, 행)값을 시트로 변환한다
+		var worksheet = XLSX.utils.aoa_to_sheet(excelData);
+		// 데이터와 워크북 시트를 워크북에 추가한다
+		XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+		
+		// 워크북을 blob형태로 변환하고 xlsx 파일로 저장한다
+		var workbookOutput = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+		saveAs(
+			new Blob([workbookOutput], { type: "application/octet-stream" }),
+			"품목 리스트.xlsx"
+		);
+	
+});// end function
 // 이벤트 관련 함수 종료
 
 });// end 함수

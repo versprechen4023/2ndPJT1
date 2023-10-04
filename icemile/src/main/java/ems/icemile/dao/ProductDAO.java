@@ -13,7 +13,7 @@ public interface ProductDAO {
 	public List<ProductAllDTO> getProductList();
 	
 	// 완제품 or 원자재 고유 번호 얻기
-	public int getNewProductId(ProductInsertDTO productInsertDTO);
+	public String getNewProductId(ProductInsertDTO productInsertDTO);
 	
 	// 품목 등록
 	public boolean productInsert(ProductInsertDTO productInsertDTO);

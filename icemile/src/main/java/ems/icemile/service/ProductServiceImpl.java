@@ -34,7 +34,17 @@ public class ProductServiceImpl implements ProductService {
 		
 		log.debug("프로덕트 인서트 서비스");
 		// 번호 부여를 위한 변수 선언
-		int idNum = productDAO.getNewProductId(productInsertDTO);
+		String getNum = productDAO.getNewProductId(productInsertDTO);
+		
+		int idNum = 0;
+		
+		// DB에 데이터가없다면 초기값(1)이되고
+		if(getNum == null) {
+			idNum = 1;
+		// 아니라면 +1을 더한다
+		} else {
+			idNum = Integer.parseInt(getNum.replaceAll("[^0-9]", ""))+1;
+		}
 		
 		// 숫자를 4자리 문자열로 포맷팅하고, 앞에 0을 채우기
 		String numStr = String.format("%04d", idNum);

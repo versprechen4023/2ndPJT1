@@ -8,7 +8,7 @@ import ems.icemile.dto.MemberDTO;
 public interface MemberDAO {
 	
 	// 사원 고유 번호 얻기
-	public int getNewMemberId();
+	public String getNewMemberId();
 	
 	// 사원 추가
 	public boolean memberInsert(MemberDTO memberDTO);
