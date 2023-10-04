@@ -29,7 +29,7 @@
                         <div class="bnt">
                         <!-- 아이디 session 들고 와서 admin일 때만 추가~저장 버튼 보이게 -->
                         <c:if test="${sessionScope.emp_num eq 'admin'}">
-                        <input type="button" onclick="addRow()" id="add" value="추가">
+                        <input type="button" id="add" value="추가">
                         <input type="button" id="update" value="수정">
                         <input type="button" id="delete" value="삭제">
                         <input type="button" id="save" value="저장">
@@ -187,16 +187,21 @@
 		
  		// 추가
  		// addRow()라는 함수
-  		function addRow() {
+  		$("#add").click(function() {
  			
         	// 변수 row에 <tr> 태그 할당
 			var row = "<tr>";
+			
+			// 상태를 업데이트로 변경한다
+			// 이 함수의 목적이 추가(add)인 것을 나타내기 위함
+			status = "add";
 			
 			// 이 함수의 목적이 추가(add)인 것을 나타내기 위함
 			status = "add";
 			
 			// 체크박스
 			row += "<td>";
+			row += '<input type="checkbox" name="selectedLineCo" disabled>';
 			row += "</td>";
 			
 			// 라인코드
@@ -255,7 +260,7 @@
 			// disabled(비활성화) 속성 제거(removeAttr)
 			$("#cancel").removeAttr("disabled");
 			$("#save").removeAttr("disabled");
-		} // end function addRow
+		}); // end function addRow
 		
 		
 /* 		function addRow() {
@@ -446,8 +451,8 @@
 		
 		// thead의 체크박스를 클릭했을때 전체체크가되게끔 이벤트를 발생시킨다
 		$('input[name="selectedAllLineCo"]').click(function() {
-		    // 모든 selectedProId 체크박스의 상태를 selectedAllLineCo와 동일하게 설정한다
-		    // $this로 AllProId의 상태를 가져온다
+		    // 모든 selectedLineCo 체크박스의 상태를 selectedAllLineCo와 동일하게 설정한다
+		    // $this로 selectedAllLineCo의 상태를 가져온다
 		    $('input[name="selectedLineCo"]').prop('checked', $(this).prop('checked'));
 		});// end function
 		
