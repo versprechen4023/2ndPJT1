@@ -57,6 +57,7 @@ table {
      border-collapse: collapse; 
       border: 2px solid; 
      margin: auto;
+     margin-bottom: 20px;
    } 
    
 th { 
@@ -73,38 +74,36 @@ td {
   text-align: left; 
    } 
    
-/* 수정버튼 */
-.upBut{
-	margin: 0px 230px;	/* 중앙  */
-    width: 5.8917vw;
-    height: 1.975vw;
-    position: absolute;
-    left: 32.9688vw;
-    top: 48vw;
-}
 
-/* 비밀번호 변경 버튼 */
-.passUp{
-	margin: 0px 230px;	/* 중앙  */
-	height: 1.975vw;
-	left: 39.9688vw;
-    top: 48vw;
-    position: absolute;
+/* /* 수정버튼 */ */
+/* .upBut{ */
+/* 	margin: 0px 230px;	/* 중앙  */ */
+/*     width: 5.8917vw; */
+/*     height: 1.975vw; */
+/*     position: absolute; */
+/*     left: 32.9688vw; */
+/*     top: 48vw; */
+/* } */
+
+/* /* 비밀번호 변경 버튼 */ */
+/* .passUp{ */
+/* 	margin: 0px 230px;	/* 중앙  */ */
+/* 	height: 1.975vw; */
+/* 	left: 39.9688vw; */
+/*     top: 48vw; */
+/*     position: absolute; */
 	
-}
-.buttonss{
-	width:50px;
-	top:100px;
+/* } */
+/* .buttonss{ */
+/* 	width:50px; */
+/* 	top:100px; */
 
-}
+/* } */
+
 
 </style>
 
 
-
-
-    
-    
     </head>
      <body class="sb-nav-fixed">
         
@@ -119,7 +118,6 @@ td {
             <div id="layoutSidenav_content">
                 <main>
                 <!-- 내용들어가는곳 -->
-
 
 
   <h1>마이페이지</h1>
@@ -180,16 +178,19 @@ td {
 <td><input type="text" value="${memberDTO.hire_date }" readonly></td>
 </tr>
 
-<div class="buttonss">
- <input type="button" value="수정" class=upBut onclick="memberUpdate('${sessionScope.emp_num}')" id="updateEmp" style="text-align: center;">
- <input type="button" value="비밀번호 변경" class=passUp onclick="memberPassword('${sessionScope.emp_num}')" id="passwordEmp" style="text-align: center;">
-</div>
+
 </table>
  
- 
- 
+
                 <!-- 내용 들어가는 곳 -->
                 </main>
+ 
+ <div style="display: flex; justify-content: center; margin-bottom: 20px; ">
+ 	<div class="btn">
+		<input type="button" value="수정" onclick="memberUpdate('${sessionScope.emp_num}')" id="updateEmp" >
+ 		<input type="button" value="비밀번호 변경"  onclick="memberPassword('${sessionScope.emp_num}')" id="passwordEmp" >
+ 	</div>          
+ </div>               
                 
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>

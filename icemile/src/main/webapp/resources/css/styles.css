@@ -638,7 +638,7 @@ progress {
   padding-right: calc(var(--bs-gutter-x) * 0.5);
   padding-left: calc(var(--bs-gutter-x) * 0.5);
   margin-right: auto;
-  margin-left: auto;
+  margin-left: auto;	
 }
 
 @media (min-width: 576px) {
@@ -8107,7 +8107,7 @@ textarea.form-control-lg {
 
 .text-muted {
   --bs-text-opacity: 1;
-  color: #6c757d !important;
+  color: black;
 }
 
 .text-black-50 {
@@ -8141,6 +8141,12 @@ textarea.form-control-lg {
   --bs-text-opacity: 1;
 }
 
+.bg-login {
+  --bs-bg-opacity: 1;
+  background-color: #ffebcd !important;
+}
+
+
 .bg-primary {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;
@@ -8173,7 +8179,7 @@ textarea.form-control-lg {
 
 .bg-light {
   --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+  background-color: #ECECEC !important;
 }
 
 .bg-dark {
@@ -11253,4 +11259,9 @@ body {
 }
 .bnt button {
     margin-right: 10px; /* 오른쪽 여백을 10px로 지정 */
+}
+
+
+#loginBox{
+	display: flex;
 }

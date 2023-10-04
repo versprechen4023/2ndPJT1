@@ -52,6 +52,9 @@ font-weight: bold;
 	margin-bottom: 20px;
 }
 
+
+
+/* 푸터 */
 .py-4 {
   padding-top: 1.5rem !important;
   padding-bottom: 1.5rem !important;
@@ -64,7 +67,7 @@ font-weight: bold;
 .bg-light {
   width: 100%;
     --bs-bg-opacity: 1;
-    background-color: #F8F9FA !important;
+    background-color: #ECECEC !important;
 }
 
 .container-fluid {
@@ -81,11 +84,6 @@ font-weight: bold;
   padding-left: 1.5rem !important;
 }
 
-  
-.text-muted {
-  --bs-text-opacity: 1;
-  color: #6c757d !important;
-} 
 
 .d-flex {
     display: flex !important;
@@ -95,8 +93,8 @@ font-weight: bold;
   align-items: center !important;
 }
 
-.justify-content-between {
-  justify-content: space-between !important;
+.justify-content-center {
+  justify-content: center !important;
 }
 
 .small {
@@ -104,15 +102,15 @@ font-weight: bold;
 }
 
 .text-muted {
-    --bs-text-opacity: 1;
-    color: #6c757d !important;
-}
+    --bs-text-opacity: 1; 
+    color: black !important;
+ }
 
-a {
-    color: #006DF5;
-    text-decoration: underline;
-}
+/* a { */
+/*     color: #006DF5; */
+/*     text-decoration: underline; */
+/* } */
 
-a:hover{
-	color: #0057C4;
-}
+/* a:hover{ */
+/* 	color: #0057C4; */
+/* } */
