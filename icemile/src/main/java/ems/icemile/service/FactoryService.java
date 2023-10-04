@@ -10,4 +10,6 @@ public interface FactoryService {
 
 	public void insertFacility(FacilityDTO facilityDTO);
 
+	public void updateFacility(FacilityDTO facilityDTO);
+
 }
