@@ -31,7 +31,7 @@
                         <c:if test="${sessionScope.emp_num eq 'admin'}">
                         <input type="button" onclick="addRow()" id="add" value="추가">
                         <input type="button" id="update" value="수정">
-                        <input type="button" id="delete" onclick="location.href='${pageContext.request.contextPath}/factory/deleteFacility" value="삭제">
+                        <input type="button" id="delete" value="삭제">
                         <input type="button" id="save" value="저장">
                         <input type="button" id="cancel" value="취소">
                         </c:if>
@@ -41,13 +41,13 @@
 <!--                                 <i class="fas fa-table me-1"></i> -->
 <!--                                 DataTable Example -->
 <!--                             </div> -->
-                            <div class="card-body">
+                            <div class="card-body" id="card-body">
                                 <table id="datatablesSimple">
                                 
                                     <thead>
                                     <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
                                         <tr>
-                                        	<th data-sortable="false"><input type="checkbox" name="selectedAllProId"></th>
+                                        	<th data-sortable="false"><input type="checkbox" name="selectedAllLineCo"></th>
                                             <th>코드</th>
                                             <th>라인 이름</th>
                                             <th>전화번호</th>
@@ -61,7 +61,7 @@
                                     <tbody id="tableBody">
                                     	<c:forEach var="facilityDTO" items="${facilityList}">
                                         <tr>
-                                        	<td><input type="checkbox" name="selectedProId" value="${productAllDTO.prod_code}"></td>
+                                        	<td><input type="checkbox" name="selectedLineCo" value="${facilityDTO.line_code}"></td>
                                             <td>${facilityDTO.line_code}</td>
                                             <td>${facilityDTO.line_name}</td>
                                             <td>${facilityDTO.line_phone}</td>
@@ -104,6 +104,86 @@
 		// 추가, 수정 을 구분하기위한 전역변수선언
 		// 전역변수란? 함수 밖에서 선언하고 어디서든지 사용 가능한 변수
 		var status = "";
+		
+		// 함수 시작지점
+		$(document).ready(function() {
+
+		// 정규식 제어함수
+		function formTest(formData) {
+			
+			// 결과값 반환을 위한 변수선언
+			var result = true;
+			
+			// 반복문 제어를 위한 변수선언
+			var continueFor = true;
+			
+			// &을 기준으로 끊고 배열 변수를 선언한다 이후 배열에 따라 반복문을 시행한다
+			// 기준 데이터는 아래와같다 "content=&type=&line_name="...
+			var formArray = formData.split("&");
+
+		    // 사용자에게 알려주기위해 영문 키값을 한글로 매핑한다
+		    // 매핑을 위한 JSON 변수선언
+		    var koreanNames = {
+				"line_code": "라인 코드", 
+				"line_name": "라인 이름", 
+				"line_phone": "라인 전화번호", 
+				"line_process": "생산 공정",
+				"line_status": "가동 상태",
+				"emp_num": "담당자",
+				"line_note": "비고"
+			};
+			// 반복문을 사용하여 각 항목을 검사한다
+			for (var i = 0; i < formArray.length; i++) {
+			  
+			  // 키값의 기준점은 = 이된다
+			  var keyValue = formArray[i].split("=");
+			  // 키변수에 키값을 담는다
+			  var key = decodeURIComponent(keyValue[0]);
+			  // 밸류 변수에 키의 리터럴 값을 담는다
+			  var value = decodeURIComponent(keyValue[1]);
+			  
+			  // 비고와 검색칸은 비어있어도 상관없음
+			  if ((key === "line_note" || key === "content") && value === ""){
+				  continue;
+			  }
+			  
+			  if (value === "") {
+			    // 값이 비어 있는 경우 결과값은 false가 된다
+			    Swal.fire(koreanNames[key]+' 값을 입력해주십시오.', '', 'info');
+			    result = false;
+			    break; // 비어있는 필드를 발견하면 반복문을 종료하고 false를 반환한다
+			  }
+			  
+			  // 중복값 검사수행
+			  if (key === "line_name" && value !== "") {
+				  // ajax 호출
+				  $.ajax({
+					  	type: "GET",
+				        url: "${pageContext.request.contextPath}/factory_ajax/searchLineName",
+				        data: {"line_name": value},
+				        success: function(response) {
+				        	// 공백을 제거한다
+		            		const resultAjax = $.trim(response);
+		            		
+				        	if(resultAjax == "false"){
+				        		result = false;
+				        		continueFor = false;
+				        		Swal.fire('이미 존재하는 이름입니다 다른 이름을 입력하십시오', '', 'info');
+				        	} 
+				        }//success 콜백함수 종료지점
+				  });// ajax
+				  
+				  // 중복값이 있다면 반복문을 종료한다
+				  if(!continueFor){
+					  break;
+				  }
+			 } // end 중복값 검증
+
+			}// end for
+			
+			// 결과값 반환
+			return result;
+		}// end function formTest(formData)
 		
  		// 추가
  		// addRow()라는 함수
@@ -258,6 +338,15 @@
 				}else {
 					// form 태그의 액션을 변수 선언
 			        var formAction = $('#fr').attr("action");
+					
+			        var postData = {
+			                line_name: line_name,
+			                line_phone: line_phone,
+			                line_process: line_process,
+			                line_status: line_status,
+			                emp_num: emp_num,
+			                line_note: line_note
+			            };
 
 					// 상태가 add면 addPro로 넘어가서 input에 입력한 값이 데이터베이스로 넘어간다
 			        if (status === "add") {
@@ -287,7 +376,7 @@
 			status = "update";
 	
 			// 체크박스가 체크된 여부를 확인하기위한 변수선언
-			var selectedCheckbox = $("input[name='selectedProId']:checked");
+			var selectedCheckbox = $("input[name='selectedLineCo']:checked");
 	
 			// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 			if (selectedCheckbox.length === 1) {
@@ -303,10 +392,7 @@
 					"line_process",
 					"line_status",
 					"emp_num",
-					"line_note",
-					"deal_code",
-					"wh_code",
-					"prod_note"
+					"line_note"
 				];
 		
 				// input type의 id 값 지정
@@ -317,10 +403,7 @@
 					"line_process",
 					"line_status",
 					"emp_num",
-					"line_note",
-					"deal_code",
-					"wh_code",
-					"prod_note"
+					"line_note"
 				];
 		
 		
@@ -361,28 +444,63 @@
 		}); // end update function
 		
 		
-		// 선택 삭제
+		// thead의 체크박스를 클릭했을때 전체체크가되게끔 이벤트를 발생시킨다
+		$('input[name="selectedAllLineCo"]').click(function() {
+		    // 모든 selectedProId 체크박스의 상태를 selectedAllLineCo와 동일하게 설정한다
+		    // $this로 AllProId의 상태를 가져온다
+		    $('input[name="selectedLineCo"]').prop('checked', $(this).prop('checked'));
+		});// end function
+		
+		
+		// 삭제
 		$("#delete").click(function() {
-   		 var selectedCheckbox = $("input[name='selectedProId']:checked");
-
-    		if (selectedCheckbox.length > 0) {
-       		 Swal.fire({
-            	title: '선택한 항목을 삭제하시겠습니까?',
-            	icon: 'warning',
-            	showCancelButton: true,
-            	confirmButtonText: '삭제',
-            	cancelButtonText: '취소'
-        	}).then((result) => {
-            if (result.isConfirmed) {
-             selectedCheckbox.each(function() {
-                $(this).closest('tr').remove();
-             });
-            }
-        });
-    } else {
-        Swal.fire('삭제할 항목을 선택해 주십시오.', '실패', 'error');
-    }
-});
+	
+			// 체크박스가 체크된 여부를 확인하기위한 변수선언
+			var selectedCheckbox = $("input[name='selectedLineCo']:checked");
+	
+			// 체크박스가 선택되어있지않다면 에러가 발생한다
+			if (selectedCheckbox.length === 0){
+				Swal.fire('삭제할 행을 선택해 주십시오.', '실패', 'error');
+			} 
+			// 체크박스가 선택되어있다면 함수실행
+			else {
+		
+		 		// 데이터를 전송하기위한 폼 데이터 직렬화
+    	 		var formData = $('#facilityList').serialize();
+		 
+    	 		// AJAX 제출전에 값이 입력되어있는지 정규식 검사를 수행한다
+		 		if(formTest(formData)){
+    	 			// 문제없다면 ajax 실행
+         			$.ajax({
+             			type: "POST",
+             			url: "${pageContext.request.contextPath}/factory_ajax/deleteFacility",
+             			data: formData,
+             			// 통신성공시 콜백함수 response매개변수에 "true" or "false" 결과값이 입력된다
+             			success: function(response) {
+            	 			// 공백을 제거한다
+            	 			const result = $.trim(response);
+            	 
+                 			if (result == "true") {
+                	 			Swal.fire('라인 삭제가 완료되었습니다.', '성공', 'success').then(result => {
+                					// 사용자가 확인창을 누르면 실행
+                		 			if(result.isConfirmed){
+					 					location.reload(); // 성공 시 새로고침 한다
+					 				}
+							
+					 			});// end alert
+                 			} else {
+                	 			Swal.fire('라인 삭제에 문제가 발생했습니다.', '실패', 'error');
+                 			}
+             			},
+             			error: function () {
+            	 			Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+             			}
+        			});// end AJAX(라인 삭제)
+				 }// end if(formTest(formData)) 정규식검사
+				}// end else
+		});//end delete function
+		
+	});// end 함수
         
         </script>
         
