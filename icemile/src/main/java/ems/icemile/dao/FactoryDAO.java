@@ -12,6 +12,8 @@ public interface FactoryDAO {
 
 	public int getNewFacilityCode();
 
+	public void updateFacility(FacilityDTO facilityDTO);
+
 	
 	
 	

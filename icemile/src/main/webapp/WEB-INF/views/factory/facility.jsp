@@ -59,9 +59,9 @@
                                             <td>${facilityDTO.emp_num}</td>
                                             <td>${facilityDTO.line_note}</td>
                                             <td><input type="button" value="수정"
-												onclick="memberUpdate('${memberDTO.emp_num}')" id="updateEmp">
+												onclick="facilityUpdate()" id="updatefac">
 												<input type="button" value="삭제"
-												onclick="memberDelete('${memberDTO.emp_num}')" id="deleteEmp"></td>
+												onclick="facilityDelete()" id="updatefac"></td>
                                         </tr>
                                         </c:forEach>
                                     </tbody>
@@ -89,8 +89,8 @@
 		<script type="text/javascript">
 		
         
-		// 라인 등록 버튼 클릭 시 행 추가
-		function addRow() {
+ 		// 라인 등록 버튼 클릭 시 행 추가
+  		function addRow() {
         	
 			var row = "<tr>";
 			
@@ -127,16 +127,101 @@
 			// 저장
 			row += "<td>";
 			row += "<input type='submit' id='save' class='B B-info' value='저장'>";
+			// 하나씩 취소할 수 있는 버튼도 만들기(삭제 버튼과 동일할 듯)
 			row += "</td>";
 
 			row += "</tr>";
 			
-			$('#datatablesSimple').append(row);
-		} // addRow()
-      	
+			$('tbody tr:nth-child(1)').before(row);
+		} // addRow() 
+		
+		
+/* 		function addRow() {
+		const table = document.querySelector('#datatablesSimple tbody');
+    const newRow = table.insertRow(0);
+    
+    const inputType = 'text';
+    for (let i = 0; i < 6; i++) {
+        const newCell = newRow.insertCell(i);
+        const input = document.createElement('input');
+        input.type = inputType;
+        newCell.appendChild(input);
+    }
+
+    const saveCell = newRow.insertCell(6);
+    const saveButton = document.createElement('input');
+    saveButton.type = 'submit';
+    saveButton.id = 'save';
+    saveButton.value = '저장';
+
+    saveButton.addEventListener('click', function() {
+
+        var line_name = $('#line_name').val();
+        var line_phone = $('#line_phone').val();
+        var line_process = $('#line_process').val();
+        var line_status = $('#line_status').val();
+        var emp_num = $('#emp_num').val();
+        var line_note = $('#line_note').val();
+
+        if (line_name == "" || line_phone == "" || line_process == "" ||
+            line_status == "" || emp_num == "") {
+            Swal.fire({
+                icon: 'info',
+                width: '300px',
+            });
+        } else {
+/*             const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/home/factory/addPro', true);
+            xhr.send(formData);
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    alert('데이터가 성공적으로 저장되었습니다.');
+                } else {
+                    alert('데이터 저장 중 오류가 발생했습니다.');
+                }
+            }; 
+        }
+    });
+
+    saveCell.appendChild(saveButton);
+} */
+		
+
+/* 		// 라인 등록 버튼 클릭 시 행 추가
+		$('#addRow').click(function () {
+			
+			
+			alert("실행됨1");
+			
+  	  		var $tr = $('<tr>');
+  	  		
+  	  	alert("실행됨2");
+  	  alert($tr);
+  	  	
+
+  	  		 $tr.append(
+      	 	 '<td><input type="text" name="line_name" id="line_name" required class="#datatablesSimple tr"></td>',
+      	 	 '<td><input type="text" name="line_phone" id="line_phone" required class="#datatablesSimple tr"></td>',
+      	 	 '<td><input type="text" name="line_process" id="line_process" required class="#datatablesSimple tr"></td>',
+      	 	 '<td><input type="text" name="line_status" id="line_status" required class="#datatablesSimple tr"></td>',
+      	 	 '<td><input type="text" name="emp_num" id="emp_num" required class="#datatablesSimple tr"></td>',
+      	 	 '<td><input type="text" name="line_note" id=     "line_note" class="#datatablesSimple tr"></td>',
+      	 	 '<td><input type="submit" id="save" value="저장"></td>'
+      	 	 
+      	 	alert("실행됨3");
+      	 	 
+    		); 
+  	  		 
+  	  	alert("실행됨4");
+
+  	  		$('tbody tr:nth-child(1)').before($tr);
+  	  	alert("실행됨5");
+		}); */
+		
 		
 		// 저장
-      	$('#save').click(function () {
+         	$('#save').click(function () {
       		
 				// $(# )안에 있는 값 반환(.val()이 그 역할)해서 
 				// 선언한 var 변수에 할당
@@ -156,15 +241,24 @@
 						width: '300px',
 					})
 
-				}else{}
-			}); // save
+				}else{
+					// 이렇게 작성하니까 디비로 전송 안 됨
+					// form 태그에 action 및 method 입력
+					//$('#fr').attr("action", "/factory/addPro");
+					//$('#fr').attr("method", "POST");
+					//$('#fr').submit();
+				}
+			}); // save 
 			
 			
 			// 취소버튼(=새로고침)
 			$('#cancle').click(function () {
 			    location.reload(); // 현재 페이지를 다시 불러옵니다.
 			}); // cancle
-                	
+			
+			
+			// 수정
+			
         
         </script>
         
