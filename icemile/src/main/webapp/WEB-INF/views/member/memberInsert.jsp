@@ -5,9 +5,7 @@
 <head>
 
   <link href="../resources/css/addTableVertical.css" rel="stylesheet" />
-<style type="text/css">
 
-</style>
 </head>
 <body>
 				<!-- 내용들어가는곳 -->
@@ -18,7 +16,7 @@
     
 <table>
 <tr><td class="tdbold">사진</td><td>
-								<img src="" alt="미리보기" id="preview" style="max-width: 100px; max-height: 100px; display: none;"> <br>
+								<img src="" alt="미리보기" id="preview" style="max-width: 100px; max-height: 100px; display: none;"> 
 		 					    <input type="file" id="file" name="file"> 
 		 					  </td></tr>
 <tr><td class="tdbold">이름</td><td><input type="text" name="emp_name" id="emp_name"></td></tr>

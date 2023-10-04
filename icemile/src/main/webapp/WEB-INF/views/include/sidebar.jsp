@@ -36,7 +36,7 @@
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
                                             <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/stock">물품관리</a>
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/requirement">소요랑관리</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/factory/requirement">소요랑관리</a>
                                             <a class="nav-link" href="${pageContext.request.contextPath}/warehouse/warehouse">창고관리</a>
                                         </nav>
                                 </nav>                          
@@ -52,8 +52,8 @@
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
                                             <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/raw">원자재재고</a>
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/rawOrder">발주</a>
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/inMaterial">입고</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/buy/rawOrder">발주</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/shipping/inMaterial">입고</a>
                                             <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/buy">거래처관리</a>
                                         </nav>
                                 </nav>                          
@@ -68,9 +68,9 @@
                             <div class="collapse" id="collapseTest3" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/workOrder">작업지시</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/factory/workOrder">작업지시</a>
                                             <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/result">생산실적</a>
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/facility">설비관리</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/factory/facility">설비관리</a>
                                         </nav>
                                 </nav>                          
                             </div>
@@ -84,10 +84,10 @@
                             <div class="collapse" id="collapseTest4" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/product">완제품재고</a>
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/orders">수주</a>
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/outMaterial">출고</a>
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/branch">지점관리</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/productList">완제품재고</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/sell/orders">수주</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/shipping/outMaterial">출고</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/sell/branchList">지점관리</a>
                                         </nav>
                                 </nav>                          
                             </div>
