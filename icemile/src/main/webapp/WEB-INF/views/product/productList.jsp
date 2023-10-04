@@ -118,6 +118,9 @@
 // 추가, 수정 을 구분하기위한 전역변수선언
 var status = "";
 
+// 함수 시작지점
+$(document).ready(function() {
+
 // 정규식 제어함수
 function formTest(formData) {
 	
@@ -681,7 +684,17 @@ $('input[type="text"]').keydown(function() {
  		$('#content').val("");
 	}// end if
 });// end function
+
+// thead의 체크박스를 클릭했을때 전체체크가되게끔 이벤트를 발생시킨다
+$('input[name="selectedAllProId"]').click(function() {
+    // 모든 selectedProId 체크박스의 상태를 selectedAllProId와 동일하게 설정한다
+    // $this로 AllProId의 상태를 가져온다
+    $('input[name="selectedProId"]').prop('checked', $(this).prop('checked'));
+});
+
 // 이벤트 관련 함수 종료
+
+});// end 함수
 
 </script>
     </body>
