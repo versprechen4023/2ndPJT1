@@ -10,6 +10,7 @@
 		FROM facility
 	</select>
 	
+	
 	<select id="getNewFacilityCode" resultType="int">
 		SELECT count(*) + 1
 		FROM facility
@@ -24,10 +25,15 @@
 	
 	<update id="updateFacility">
 		UPDATE facility
-		SET line_name = #{line_name}, line_phone = #{line_phone}, line_process#{line_process},
+		SET line_name = #{line_name}, line_phone = #{line_phone}, line_process = #{line_process},
 			line_status = #{line_status}, emp_num = #{emp_num}, line_note = #{line_note}
 		WHERE line_code = #{line_code}
 	</update>
+	
+	
+	<delete id="deleteFacility">
+		DELETE FROM facility where line_code = #{line_code}
+	</delete>
 
 
   

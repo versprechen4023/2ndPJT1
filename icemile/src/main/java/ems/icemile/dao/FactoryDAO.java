@@ -14,6 +14,8 @@ public interface FactoryDAO {
 
 	public void updateFacility(FacilityDTO facilityDTO);
 
+	public void deleteFacility(FacilityDTO facilityDTO);
+
 	
 	
 	

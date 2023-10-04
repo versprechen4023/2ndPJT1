@@ -60,7 +60,7 @@ public class FactoryController {
 		
 		
 		// 가상주소: http://localhost:8080/FunWeb/factory/updateFacility
-		@PostMapping("/update")
+		@PostMapping("/updateFacility")
 		public String updateFacility(FacilityDTO facilityDTO) {
 			log.debug("FactoryController updateFacility()");
 			
@@ -68,6 +68,20 @@ public class FactoryController {
 			factoryService.updateFacility(facilityDTO);
 			
 			// 주소 -> /factory/facility로 변경되면서 이동
+			return "redirect:/factory/facility";
+		}
+		
+		
+		// 가상주소: http://localhost:8080/home/factory/deleteFacility
+		@PostMapping("/deleteFacility")
+		public String deleteFacility(FacilityDTO facilityDTO) {
+			log.debug("FactoryController deleteFacility()");
+			
+			// facilityDTO 담아서 factoryService에 deleteFacility 메서드 생성
+			factoryService.deleteFacility(facilityDTO);
+			
+			
+			// 주소 변경 x
 			return "redirect:/factory/facility";
 		}
 	
