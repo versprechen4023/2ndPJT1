@@ -54,8 +54,17 @@ public class FactoryDAOImpl implements FactoryDAO {
 		
 		log.debug("FactoryDAO updateFacility()");
 		
-		sqlSession.update(namespace+"iupdateFacility", facilityDTO);
+		sqlSession.update(namespace+"updateFacility", facilityDTO);
 	}// updateFacility
+
+
+	@Override
+	public void deleteFacility(FacilityDTO facilityDTO) {
+
+		log.debug("FactoryDAO deleteFacility()");
+		
+		sqlSession.delete(namespace+"deleteFacility", facilityDTO);
+	}// deleteFacility
 	
 	
 	

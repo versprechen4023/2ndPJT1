@@ -12,4 +12,6 @@ public interface FactoryService {
 
 	public void updateFacility(FacilityDTO facilityDTO);
 
+	public void deleteFacility(FacilityDTO facilityDTO);
+
 }
