@@ -43,6 +43,15 @@ public class WareHouseServiceImpl implements WareHouseService {
 			wareHouseDAO.houseInsert(warehouseDTO);
 		}
 	
+	//창고 코드 중복 검사
+    @Override
+	public boolean searchwhcode(String wh_code) {
+    	
+		log.debug("서치 프로 네임 서비스");
+
+		return wareHouseDAO.searchwhcode(wh_code);
+	}
+	
    
 	
 

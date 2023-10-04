@@ -13,5 +13,8 @@ public interface WareHouseDAO {
     
 	//창고 추가
 	void houseInsert(WareHouseDTO warehouseDTO) throws Exception;
+    
+	//창고 코드 중복검사
+	boolean searchwhcode(String wh_code);
 
 }

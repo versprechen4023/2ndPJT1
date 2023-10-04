@@ -55,6 +55,19 @@ public class WareHouseDAOImpl implements WareHouseDAO {
 		
 		sqlSession.insert(namespace+"houseInsert",warehouseDTO);
 	}
+    
+	//창고 코드 중복 검사
+    @Override
+	public boolean searchwhcode(String wh_code) {
+		
+        log.debug("searchwhcode DAO 도달");
+		
+		String result = sqlSession.selectOne(namespace+"searchwhcode", wh_code);
+		
+		// result.isEmpty()는 result가 비어 있으면 true를 반환하고,
+		// 비어 있지 않으면 false를 반환합니다.
+		return result.isEmpty();
+	}
 	
 }
 

@@ -45,17 +45,6 @@ public class WareHouseController {
 		return "warehouse/warehouse";
 	}// warehouse
 
-	
-	
-	@GetMapping("/warehouseAdd")
-	public String warehousAdd() {
-
-		log.debug("warehouseAdd:창고추가 페이지");
-
-		return "warehouse/warehouseAdd";
-	}// warehouse
-	
-	
 	@PostMapping("/warehouseAdd")
 	public String warehousAdd(WareHouseDTO warehouseDTO) {
 		
@@ -65,7 +54,7 @@ public class WareHouseController {
 		
 		warehouseService.houseInsert(warehouseDTO);
 		
-		return "redirect:/warehouse/warehouseAdd";
+		return "redirect:/warehouse/warehouse";
 	}
 	
 	// 창고 추가 시 code값 가져가기
