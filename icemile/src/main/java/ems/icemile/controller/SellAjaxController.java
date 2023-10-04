@@ -51,13 +51,13 @@ public class SellAjaxController {
 		return Boolean.toString(sellService.branchReg(sellDTO));
 	}
 	
-//	@PostMapping("/update")
-//	public String branchUpdate(SellDTO sellDTO) throws Exception {
-//		
-//		log.debug("값 잘 넘어오나 "+sellDTO.toString());
-//		
-//		return Boolean.toString(sellService.branchUpdate(sellDTO));
-//	}
+	@PostMapping("/update")
+	public String branchUpdate(SellDTO sellDTO) throws Exception {
+		
+		log.debug("값 잘 넘어오나 "+sellDTO.toString());
+		
+		return Boolean.toString(sellService.branchUpdate(sellDTO));
+	}
 	
 
 }

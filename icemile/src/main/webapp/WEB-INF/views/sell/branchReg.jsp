@@ -120,13 +120,19 @@ h1 {
 <input type="reset" value="취소">
 </form>
 
+<!-- 내용들어가는곳 -->
+</main>
+
+<!-- 푸터 -->
+<jsp:include page="../include/footer.jsp"></jsp:include>
+<!-- 푸터 -->
+
+<!-- J쿼리등을 사용하기위한 호출 -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
-				<!-- 내용들어가는곳 -->
-			</main>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- 카카오 우편번호 API호출 -->
@@ -188,13 +194,23 @@ function call_Post_API() {
     }).open();
 }
 
+//select을 이용한 이메일 값을 email_dns에 적용할려고 하면
+function updateEmailDns() {
+	var emailSel = document.getElementById('email_sel');
+	var emailDns = document.getElementById('email_dns');
+
+	// 선택한 도메인 값 가져오기
+	var selectedDomain = emailSel.options[emailSel.selectedIndex].value;
+
+	// 선택한 도메인 값을 email_dns 입력 필드에 설정
+	emailDns.value = selectedDomain;
+}
+
 //J쿼리 함수 시작지점
 $(document).ready(function() {
 
 	// 서브밋 될때 실행
 	$('form').on('submit', function () {
-	        
-			
 	        // 이메일 값 합산 설정
 	        // 입력이메일을 가져오기위한 변수선언
 	        var emailId = $("#email_id").val();
@@ -215,26 +231,95 @@ $(document).ready(function() {
 	        // 주소값을 합쳐서 address 필드에 저장
 	        $("#branch_add").val(addr1 + "" + addr2 + " " + addr3);
 	        
-	});
+	}); //서브밋 될 때 실행 끝
+	//서브밋 제어
+    $('#branchReg').submit(function(event) {
+    	
+    	if($('#branch_name').val() == ""){
+    		$('#namemsg').css('color','red');
+    		$('#namemsg').text("지점명을 입력하십시오."); 
+    		$('#branch_name').focus();
+    		return false;
+    	}
+    	
+    	if($('#branch_reg').val() == ""){
+    		$('#brregmsg').css('color','red');
+    		$('#brregmsg').text("사업자 등록번호를 입력하십시오."); 
+    		$('#branch_reg').focus();
+    		return false;
+    	}
 
-//select을 이용한 이메일 값을 email_dns에 적용할려고 하면
-function updateEmailDns() {
-	var emailSel = document.getElementById('email_sel');
-	var emailDns = document.getElementById('email_dns');
-
-	// 선택한 도메인 값 가져오기
-	var selectedDomain = emailSel.options[emailSel.selectedIndex].value;
-
-	// 선택한 도메인 값을 email_dns 입력 필드에 설정
-	emailDns.value = selectedDomain;
-}
+    	if($('#branch_ceo').val() == ""){
+    		$('#brceomsg').css('color','red');
+    		$('#brceomsg').text("대표자명을 입력하십시오."); 
+    		$('#branch_ceo').focus();
+    		return false;
+    	}
+    	
+    	if($('#branch_phone').val() == ""){
+    		$('#brphonemsg').css('color','red');
+    		$('#brphonemsg').text("지점 연락처를 입력하십시오."); 
+    		$('#branch_phone').focus();
+    		return false;
+    	}
+    	
+    	if($('#emp_num').val() == ""){
+    		$('#namemsg').css('color','red');
+    		$('#namemsg').text("가맹 담당자를 입력하십시오."); 
+    		$('#emp_num').focus();
+    		return false;
+    	}
+    	
+    	if($('#branch_post').val() == ""){
+    		$('#addressmsg').css('color','red');
+    		$('#addressmsg').text("주소를 입력하십시오."); 
+    		$('#branch_post').focus();
+    		return false;
+    	}
+    	
+    	if($('#email_id').val() == "" || $('#email_dns').val() == ""){
+    		$('#emailmsg').text("이메일을 입력하십시오.");
+    		return false;
+    	}
+    	
+    	
+    	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
+    	 event.preventDefault(); // 기본 폼 제출 동작을 막음
+    		
+    	 // 폼 데이터 객체생성
+    	 var formData = new FormData(this);
+         
+         $.ajax({
+             type: "POST",
+             url: "${pageContext.request.contextPath}/sell_ajax/branchReg",
+             data: formData,
+             contentType: false, // 멀티파트를 처리하기위해 객체를 직렬화하지 않고 직접 AJAX 통신할 수 있도록 설정
+             processData: false, 
+             success: function (response) {
+            	 
+            	 const result = $.trim(response);
+            	 
+                 if (result == "true") {
+                	 Swal.fire('정보 입력이 완료되었습니다.', '성공', 'success').then(result => {
+					 	if(result.isConfirmed)
+						// 완료 창을 닫으면 부모창 새로고침
+						window.opener.location.reload();
+						window.close(); // 성공 시 창 닫기
+					 });
+                 } else {
+                	 Swal.fire('정보 입력에 실패했습니다.', '실패', 'error');
+                 }
+             },
+             error: function () {
+            	 Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+             }
+         });
+    	
+    });//submit기능 제어 끝
 
 }); // end JQuery;
-</script>
 
-			<%-- <!-- 푸터 -->
-			<jsp:include page="../include/footer.jsp"></jsp:include>
-			<!-- 푸터 --> --%>
+</script>
 		<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>

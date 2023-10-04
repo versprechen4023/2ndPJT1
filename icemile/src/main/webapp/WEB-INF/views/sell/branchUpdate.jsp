@@ -28,7 +28,7 @@ h1 {
 </head>
 <body class="sb-nav-fixed">
 				<!-- 내용들어가는곳 -->
-	<form action="${pageContext.request.contextPath }/sell/branchUpdatePro" id="branchUpdate" name="branchUpdate" method="POST" enctype="multipart/form-data">
+	<form action="#" id="branchUpdate" name="branchUpdate" method="POST" enctype="multipart/form-data">
 		<h1>
 			<b>지점수정</b>
 		</h1>

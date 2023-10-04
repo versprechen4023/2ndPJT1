@@ -31,15 +31,6 @@ public class SellController {
 		return "sell/branchReg";
 	}
 	
-	@PostMapping("/branchRegPro")
-	public String branchRegPro(SellDTO sellDTO) {
-		log.debug("컨트롤러| 지점 등록 넘기기 페이지");
-		
-		//
-		sellService.branchReg(sellDTO);
-		
-		return "redirect:/sell/branchList";
-	}
 	
 	@GetMapping("/branchList")
 	public String branch( Model model) {
@@ -69,15 +60,15 @@ public class SellController {
 		return "sell/branchUpdate";
 	}
 	
-	@PostMapping("/branchUpdatePro")
-	public String branchUpdatePro(SellDTO sellDTO) {
-		log.debug("컨트롤러| 지점 수정 넘기기 페이지");
-		
-		
-		sellService.branchUpdate(sellDTO);
-		
-		return "redirect:/sell/branchList";
-	}
+//	@PostMapping("/branchUpdatePro")
+//	public String branchUpdatePro(SellDTO sellDTO) {
+//		log.debug("컨트롤러| 지점 수정 넘기기 페이지");
+//		
+//		
+//		sellService.branchUpdate(sellDTO);
+//		
+//		return "redirect:/sell/branchList";
+//	}
 	
 	
 }
