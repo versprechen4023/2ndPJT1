@@ -690,7 +690,7 @@ $('input[name="selectedAllProId"]').click(function() {
     // 모든 selectedProId 체크박스의 상태를 selectedAllProId와 동일하게 설정한다
     // $this로 AllProId의 상태를 가져온다
     $('input[name="selectedProId"]').prop('checked', $(this).prop('checked'));
-});
+});// end function
 
 // 이벤트 관련 함수 종료
 
