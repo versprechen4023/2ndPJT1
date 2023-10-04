@@ -33,28 +33,6 @@
 	font-weight: bold;	/* 글자굵기 */
 	display: table;
   border-collapse: collapse;
-/*   width: 100%; */
-}
-
-/* 수정버튼 */
-.upBut{
-/* 	clear:left; 		/* 어울림 해제 */ */
-	margin: 0px 230px;	/* 중앙  */
-    width: 5.8917vw;
-    height: 1.975vw;
-    position: absolute;
-    left: 49.9688vw;
-    top: 36vw;
-}
-
-.passUp{
-/* 	clear:left; 		/* 어울림 해제 */ */
-	margin: 0px 230px;	/* 중앙  */
-	height: 1.975vw;
-	left: 57.9688vw;
-    top: 36vw;
-    position: absolute;
-	
 }
 
 /* input type="text" 에 대한 모든 부분 */
@@ -62,6 +40,7 @@ input[type="text"]{
 	border-style:none;	/* 내용을 들고올 때 수정 못함, 칸 테두리 없앰 */
 	line-height: normal;
 }
+
 h1 {
     font-weight: 500;
     line-height: 3.2;
@@ -72,7 +51,6 @@ h1 {
     height: 110px;
 }
 
-
 table { 
      width: 45%; 
   border-top: 1px solid #444444; 
@@ -80,12 +58,45 @@ table {
       border: 2px solid; 
      margin: auto;
    } 
- th, td { 
+   
+th { 
+  border-bottom: 1px solid #444444; 
+  border: 1px solid; 
+  padding: 10px; 
+  text-align: center; 
+  width: 130px;
+   } 
+td { 
   border-bottom: 1px solid #444444; 
   border: 1px solid; 
   padding: 10px; 
   text-align: left; 
    } 
+   
+/* 수정버튼 */
+.upBut{
+	margin: 0px 230px;	/* 중앙  */
+    width: 5.8917vw;
+    height: 1.975vw;
+    position: absolute;
+    left: 32.9688vw;
+    top: 48vw;
+}
+
+/* 비밀번호 변경 버튼 */
+.passUp{
+	margin: 0px 230px;	/* 중앙  */
+	height: 1.975vw;
+	left: 39.9688vw;
+    top: 48vw;
+    position: absolute;
+	
+}
+.buttonss{
+	width:50px;
+	top:100px;
+
+}
 
 </style>
 
@@ -113,13 +124,20 @@ table {
 
   <h1>마이페이지</h1>
   
-<!--   <div class="container"> -->
-<!--   <div class="info"> -->
 <table border="1">
+<colgroup>
+<col style="background-color: #E0EBFF;">
+<col>
+</colgroup> 
 
 <tr>
 <th>이름</th>
 <td><input type="text" value="${memberDTO.emp_name }" readonly></td>
+</tr>
+
+<tr>
+<th>사진</th>
+<td><img src="../resources/assets/img/photo.jpg" width="25%" height="100%"></td>
 </tr>
 
 <tr>
@@ -161,16 +179,14 @@ table {
 <th>입사일</th>
 <td><input type="text" value="${memberDTO.hire_date }" readonly></td>
 </tr>
-  
-<!--   </div> -->
 
-
-
+<div class="buttonss">
  <input type="button" value="수정" class=upBut onclick="memberUpdate('${sessionScope.emp_num}')" id="updateEmp" style="text-align: center;">
  <input type="button" value="비밀번호 변경" class=passUp onclick="memberPassword('${sessionScope.emp_num}')" id="passwordEmp" style="text-align: center;">
-
-<!--  </div> -->
+</div>
 </table>
+ 
+ 
  
                 <!-- 내용 들어가는 곳 -->
                 </main>
