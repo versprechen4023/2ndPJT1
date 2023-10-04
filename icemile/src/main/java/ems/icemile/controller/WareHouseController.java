@@ -65,7 +65,7 @@ public class WareHouseController {
 		
 		warehouseService.houseInsert(warehouseDTO);
 		
-		return "redirect:warehouse/warehouseAdd";
+		return "redirect:/warehouse/warehouseAdd";
 	}
 	
 	// 창고 추가 시 code값 가져가기
