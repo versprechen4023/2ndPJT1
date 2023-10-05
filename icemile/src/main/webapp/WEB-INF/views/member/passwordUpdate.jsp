@@ -106,6 +106,8 @@ border-bottom:none;
 			<input type="submit" id="btn" value="등록">
 		</div>
 	</form>
+	
+
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

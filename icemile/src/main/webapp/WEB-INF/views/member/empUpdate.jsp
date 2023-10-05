@@ -4,9 +4,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 헤드 -->
-<jsp:include page="../include/head.jsp"></jsp:include>
-<!-- 헤드 -->
+
+<link href="../resources/css/addTableVertical.css" rel="stylesheet" />
+
 	<style>
 body {
 	display: flex;
@@ -17,57 +17,50 @@ body {
 }
 h1 {
 	text-align: center; /* 가로 중앙 정렬 */
+	 font-weight: 600;
 }
 #btn {
 	text-align: center; /* 가로 중앙 정렬 */
 	margin: 10px; /* 버튼 간격 설정 */
 	font-size: 16px; /* 버튼 텍스트 크기 설정 */
-	padding: 10px 20px; /* 버튼 안 여백 설정 */
+	padding: 5px 20px; /* 버튼 안 여백 설정 */
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+*{
+    font-family: 'Pretendard-Regular';
 }
 </style>
 </head>
 <body class="sb-nav-fixed">
 				<!-- 내용들어가는곳 -->
 	<form action="#" id="signup" name="signup" method="POST" enctype="multipart/form-data">
-		<h1>
-			<b>사원정보수정</b>
-		</h1>
+		<h1>사원정보수정</h1>
 
-		<!-- 사진 등록 -->
-		 <img src="" alt="미리보기" id="preview" style="max-width: 100px; max-height: 100px; display: none;"> <br>
-		  <input type="file" id="file" name="file"> <br><br>
-    
-    <br><br>
+<table>
 
-		<!-- 이름 -->
-		<b>이름:</b> <input type="text" name="emp_name" id="emp_name" value="${memberDTO.emp_name }" readonly>
-		<br>
-		<span id="namemsg"></span>
-		<br>
-		<!-- 생년월일 -->
-		<label for="birthdate"><b>생년월일:</b></label>
-		<input type="text" name="birthdate" id="birthdate" value="${memberDTO.birthdate }" readonly>
-		<br>
-		<span id="birthmsg"></span>
-		<br>
+<tr><td  class="tdbold">사진</td><td>
+		 <img src="" alt="미리보기" id="preview" style="max-width: 100px; max-height: 100px; display: none;">
+		  <input type="file" id="file" name="file"></td></tr>
 
-		<!-- 부서 -->
-		<label for="department_label"><b>부서 선택:</b></label>
-		<select name="dept_name" id="dept_name">
+<tr><td class="tdbold">이름</td><td><input type="text" name="emp_name" id="emp_name" value="${memberDTO.emp_name }" readonly></td></tr>
+
+<tr><td class="tdbold">생년월일</td><td><input type="text" name="birthdate" id="birthdate" value="${memberDTO.birthdate }" readonly></td></tr>
+
+<tr><td class="tdbold">부서 선택</td><td><select name="dept_name" id="dept_name">
 			<option value="">부서를 선택하십시오</option>
 			<option value="0">관리자</option>
    			<option value="1">인사팀</option>
     		<option value="2">영업팀</option>
     		<option value="3">생산팀</option>
     		<option value="4">물류팀</option>
-		</select> 
-		<br> 
-		<span id="deptmsg"></span>
-		<br>
+		</select></td></tr>
 
-		<!-- 직급 -->
-		<label for="position_label"><b>직급 선택:</b></label> 
-		<select name="position" id="position">
+<tr><td class="tdbold">직급 선택</td><td><select name="position" id="position">
 			<option value="">직급을 선택하십시오</option>
 			<option value="0">관리자</option>
     		<option value="1">사원</option>
@@ -75,66 +68,31 @@ h1 {
     		<option value="3">과장</option>
     		<option value="4">차장</option>
     		<option value="5">부장</option>
-		</select> 
-		<br>
-		<span id="positionmsg"></span>
-		<br>
+		</select></td></tr>
 		
-		<!-- 전화번호 -->
-		<label for="phone_num_label"><b>전화번호:</b></label> 
-		<input type="text" name="phone_num" id="phone_num" value="${memberDTO.phone_num }">
-		<br> 
-		<span id="phonemsg"></span>
-		<br>
+<tr><td class="tdbold">전화번호</td><td><input type="text" name="phone_num" id="phone_num" value="${memberDTO.phone_num }"></td></tr>
 		
-		<!-- 내선번호 -->
-		<label for="hotline_label"><b>내선번호:</b></label> 
-		<input type="text" name="hotline" id="hotline" value="${memberDTO.hotline}" readonly>
-		<br> 
-		<span id="hotlinemsg"></span>
-		<br>
+<tr><td class="tdbold">내선번호</td><td><input type="text" name="hotline" id="hotline" value="${memberDTO.hotline}" readonly></td></tr>
 
-		<label for="email_label"><b>이메일</b></label> 
-		<input type="text" name="email_id" id="email_id"> @ 
+<tr><td class="tdbold">이메일</td><td><input type="text" name="email_id" id="email_id"> @ 
 		<input type="text" name="email_dns" id="email_dns"> 
 		<select name="email_sel" id="email_sel" onchange="updateEmailDns()">
 			<option value="">직접 입력</option>
 			<option value="hanmail.net">DAUM</option>
 			<option value="gmail.com">GOOGLE</option>
-		</select>
-		<br>
-		<span id="emailmsg"></span>
-		<br>
+		</select></td></tr>
 
+<tr><td class="tdbold">주소 검색</td><td><input type="text" name="emp_post" id="emp_post" placeholder="우편번호" value="${memberDTO.emp_post }">
+		<button type="button" id="call_api" onclick="call_Post_API()">우편번호 찾기</button></td></tr>
 
+<tr><td class="tdbold">주소</td><td><input type="text" name="addr1" id="addr1" placeholder="기본주소"> 
+		<input type="text" name="addr2" id="addr2" placeholder="동명"></td></tr>
+		
+<tr><td class="tdbold">상세주소</td><td><input type="text" name="addr3" id="addr3" placeholder="상세주소"></td></tr>
 
-		<!-- 주소 -->
-		<label for="postalCode_label"><b>주소검색</b></label> 
-		<input type="text" name="emp_post" id="emp_post" placeholder="우편번호" value="${memberDTO.emp_post }">
-		<button type="button" id="call_api" onclick="call_Post_API()">우편번호 찾기</button>
-		<br> 
-		<label for="addr1_label"><b>주소</b></label> 
-		<input type="text" name="addr1" id="addr1" placeholder="기본주소"> 
-		<label for="addr2_label"></label> 
-		<input type="text" name="addr2" id="addr2" placeholder="동명">
-		<br>
-		<label for="addr3_label"><b>상세주소</b></label> 
-		<input type="text" name="addr3" id="addr3" placeholder="상세주소"> 
-		<br>
-		<span id="addressmsg"></span>
-		<br>
+<tr><td class="tdbold">입사일</td><td><input type="text" name="hire_date" id="hire_date" value="${memberDTO.hire_date }" readonly></td></tr>
 
-		<!-- 입사일 -->
-		<label for="hire_date_label"><b>입사일:</b></label> 
-		<input type="text" name="hire_date" id="hire_date" value="${memberDTO.hire_date }" readonly>
-		<br>
-		<span id="hiremsg"></span>
-		<br>
-
-
-		<!-- 권한 설정 -->
-		<label for="emp_role_label"><b>권한설정:</b></label> 
-		<label for="dept1">
+<tr><td class="tdbold">권한설정</td><td><label for="dept1">
 			<input type="checkbox" id="dept1" name="role" value="1000" 
 			<c:if test="${memberDTO.emp_role.charAt(0).toString() eq '1' }">checked</c:if>
 			<c:if test="${memberDTO.position != '5' && memberDTO.position != '0'}">disabled</c:if>>인사
@@ -153,11 +111,8 @@ h1 {
 			<input type="checkbox" id="dept4" name="role" value="1" 
 			<c:if test="${memberDTO.emp_role.charAt(3).toString() eq '1' }">checked</c:if>
 			<c:if test="${memberDTO.position != '5' && memberDTO.position != '0'}">disabled</c:if>>물류
-		</label>
-		<br>
-		<span id="rolemsg"></span>
-		<br>
-
+		</label></td></tr>
+</table>
 
 		<!-- 등록 버튼 -->
 		<div id="btn">
@@ -168,6 +123,8 @@ h1 {
 		<input type="hidden" id="email" name="email" value="">
 		<input type="hidden" id="address" name="address" value="">
 	</form>
+	
+	
 
 <!-- 데이트피커 J쿼리등을 사용하기위한 호출 -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -185,6 +142,8 @@ h1 {
 		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 	<script
 src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+
+
 
 <script>
 //전역변수 선언
@@ -473,6 +432,8 @@ $(document).ready(function() {
     	
     });//submit기능 제어 끝
 });
+
+
 </script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
