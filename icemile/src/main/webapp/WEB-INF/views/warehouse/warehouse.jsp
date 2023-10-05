@@ -194,7 +194,7 @@
 		$("#cancelProd").removeAttr("disabled");
 		$("#saveProd").removeAttr("disabled");
 		
-  }); //end function
+  }); //end function 
   
 	</script>
 	
