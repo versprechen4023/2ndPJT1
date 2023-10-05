@@ -1,5 +1,6 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -27,7 +28,7 @@ public class BuyDAOImpl implements BuyDAO {
 	}
 	
 	@Override
-	public int getBuyCode() {
+	public String getBuyCode() {
 		log.debug("BuyService getBuyCode() 구매처 고유코드");
 		return sqlSession.selectOne(namespace+".getBuyCode");
 	}
@@ -59,6 +60,13 @@ public class BuyDAOImpl implements BuyDAO {
 		log.debug("구매처 딜리트 DAO 도달");
 		
 		return sqlSession.delete(namespace+".buyDelete", buy_code) > 0;
+	}
+
+	public List<BuyDTO> buySearch(HashMap<String, Object> json) {
+		
+		log.debug("구매처 서치 DAO 도달");
+		
+		return sqlSession.selectList(namespace+".buySearch", json);
 	}
 	
 	}
