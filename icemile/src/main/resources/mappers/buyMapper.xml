@@ -10,9 +10,11 @@
   	FROM buy
   </select>
 
-  <select id="getBuyCode" resultType="int">
-  	SELECT count(*) + 1
+  <select id="getBuyCode" resultType="java.lang.String">
+  	SELECT buy_code
   	FROM buy
+  	ORDER BY buy_code desc 
+  	LIMIT 1
   </select>
   
     <insert id="buyInsert">
@@ -41,5 +43,12 @@
   	DELETE FROM buy
   	WHERE buy_code = #{buy_code}
   </delete>
+
+	  <select id="buySearch" resultType="ems.icemile.dto.BuyDTO">
+  	<bind name="content" value="'%' + content + '%'"/>
+  	SELECT *
+  		FROM buy
+  			WHERE ${category} LIKE #{content}
+  </select>
 
 </mapper>

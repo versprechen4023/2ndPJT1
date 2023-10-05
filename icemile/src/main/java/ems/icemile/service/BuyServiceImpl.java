@@ -1,5 +1,6 @@
 package ems.icemile.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,8 +33,24 @@ public class BuyServiceImpl implements BuyService{
 		
 		log.debug("BuyService buyIntsert()");
 		
-		buyDTO.setBuy_code(Integer.toString(buyDAO.getBuyCode()));
+		String getCode = buyDAO.getBuyCode();
 		
+		int codeNum = 0;
+		
+		// DB에 데이터가 없다면 초기값 1 이 되고
+		if (getCode == null) {
+			codeNum = 1;
+		
+		// 그것이 아니면 +1을 한다.
+		}else {
+			codeNum = Integer.parseInt(getCode.replaceAll("[^0-9]", ""))+1;
+		}
+		
+		// 구매처 코드 부여
+		buyDTO.setBuy_code(Integer.toString(codeNum));
+		
+//		buyDTO.setBuy_code(Integer.toString(buyDAO.getBuyCode()));
+//		
 		buyDAO.buyInsert(buyDTO);
 		
 	}
@@ -41,7 +58,7 @@ public class BuyServiceImpl implements BuyService{
 	@Override
 	public BuyDTO getBuyInfo(String buy_code) {
 		
-		log.debug("겟 바이 인포 서비스");
+		log.debug("구매처 정보 가져오기 서비스");
 		
 		return buyDAO.getBuyInfo(buy_code);
 	}
@@ -49,16 +66,24 @@ public class BuyServiceImpl implements BuyService{
 	@Override
 	public void buyUpdate(BuyDTO buyDTO) {
 		
-		log.debug("겟 바이 업데이트 서비스");
+		log.debug("구매처 업데이트 서비스");
 		
 		buyDAO.buyUpdate(buyDTO);
 	}
-
+	
+	@Override
 	public boolean buyDelete(String buy_code) {
 	
-		log.debug("바이 딜리트 서비스");
+		log.debug("구매처 딜리트 서비스");
 		
 		return buyDAO.buyDelete(buy_code);
+	}
+
+	public List<BuyDTO> buySearch(HashMap<String, Object> json) {
+		
+		log.debug("구매처 검색 서비스");
+		
+		return buyDAO.buySearch(json);
 	}
 	
 	

@@ -152,6 +152,10 @@ src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"><
 var currentDate = new Date();
 var email = '${buyDTO.buy_email}';
 var address = '${buyDTO.buy_add}';
+var buy_type = '${buyDTO.buy_type}';
+
+// 업종 유형 기존값에 따라 필드에 설정
+document.getElementById("buy_type").value = buy_type;
 
 //"@"를 기준으로 이메일 주소 분리해서 변수에 저장
 var parts = email.split("@");
@@ -351,7 +355,7 @@ $(document).ready(function() {
          
          $.ajax({
              type: "POST",
-             url: "${pageContext.request.contextPath}/buy_ajax/insert",
+             url: "${pageContext.request.contextPath}/buy_ajax/update",
              data: formData,
              contentType: false, // 멀티파트를 처리하기위해 객체를 직렬화하지 않고 직접 AJAX 통신할 수 있도록 설정
              processData: false, 

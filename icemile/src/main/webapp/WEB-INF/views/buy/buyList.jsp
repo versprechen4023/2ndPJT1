@@ -204,8 +204,8 @@ function buyDelete(buy_code) {
 	
 	// sweetalert2 호출
 	Swal.fire({
-		   title: '사원 삭제',
-		   text: '정말로 사원을 삭제 하시겠습니까?',
+		   title: '구매처 삭제',
+		   text: '정말로 등록된 구매처를 삭제 하시겠습니까?',
 		   icon: 'warning',
 		   
 		   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
