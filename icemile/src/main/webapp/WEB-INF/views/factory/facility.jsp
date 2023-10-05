@@ -44,12 +44,12 @@
                             <div class="card-body" id="card-body">
                             <input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
-  								<option value="prod_code">코드</option>
-  								<option value="prod_name">이름</option>
+  								<option value="line_code">코드</option>
+  								<option value="line_name">이름</option>
 							</select>
 							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
 								id="content">
-							<input type="button" name="search" value="조회" onclick="productSearch()">
+							<input type="button" name="search" value="조회" onclick="facilitySearch()">
                                 <table id="datatablesSimple">
                                 
                                     <thead>
@@ -510,6 +510,61 @@
 				 }// end if(formTest(formData)) 정규식검사
 				}// end else
 		});//end delete function
+		
+		
+		// 조회를 눌렀을때 실행되는 물품 검색관련 함수
+		function facilitySearch() {
+				
+			   // 값 전달 하기위한 JSON 타입 변수선언
+			   var json = {
+		        			category: $('#category').val(),
+		        			content: $('#content').val()
+		       			  };
+			
+			   // 검색 결과값을 받아오기 위한 ajax 호출
+		 	   $.ajax({
+		 			  url : '${pageContext.request.contextPath}/product_ajax/search',
+		 			  // JSON타입의 변수를 스트링으로 변환한다
+		 			  data: JSON.stringify(json),
+		 			  // JSON타입의 변수를 전송한다
+		 	          contentType: 'application/json',
+		 			  type : 'POST',
+		 			  // 반환은 JSON 타입
+		 			  dataType: 'json',
+		 			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
+		 			  success:function(json){
+		 				  
+		 				    // tbody 내용을 초기화
+		 				    $('tbody').empty();
+							
+		 				    // 배열 크기만큼 반복
+		 				    json.forEach(function (data) {
+		 				    	// tr 태그 생성
+		 				        var $tr = $('<tr>');
+		 				    		//tr 에 내용추가
+		 				        	$tr.append(
+		 				        	'<td><input type="checkbox" name="selectedProId" value="' + data.prod_code + '"></td>',
+		 				        	"<td>"+data.prod_code+"</td>",
+		 				            "<td>"+data.prod_name+"</td>",
+		 				           	"<td>"+data.prod_type+"</td>",
+		 				            "<td>"+data.prod_unit+"</td>",
+		 				         	"<td>"+data.prod_amount+"</td>",
+		 				         	"<td>"+data.prod_price+"</td>",
+		 				         	"<td>"+data.prod_exp+"</td>",
+		 				         	"<td>"+data.deal_code+"</td>",
+		 				         	"<td>"+data.wh_code+"</td>",
+		 				         	"<td>"+data.prod_note+"</td>"
+		 				        	);
+		 				        // 생성한 <tr> 요소를 tbody에 추가
+		 				        $('tbody').append($tr);
+		 				    });
+		 		      }// 콜백함수 종료지점
+		      });// end_of_ajax
+		}// end function
+		
+		
+		
+		
 		
 	});// end 함수
         
