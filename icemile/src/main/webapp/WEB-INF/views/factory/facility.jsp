@@ -36,12 +36,20 @@
                         <input type="button" id="cancel" value="취소">
                         </c:if>
                         </div>
-                        <div class="card mb-4">
+                        <div class="card mb-4" id="card mb-4">
 <!--                             <div class="card-header"> -->
 <!--                                 <i class="fas fa-table me-1"></i> -->
 <!--                                 DataTable Example -->
 <!--                             </div> -->
                             <div class="card-body" id="card-body">
+                            <input type="button" name="allList" value="전체목록" onclick="location.reload();">
+							<select id="category">
+  								<option value="prod_code">코드</option>
+  								<option value="prod_name">이름</option>
+							</select>
+							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
+								id="content">
+							<input type="button" name="search" value="조회" onclick="productSearch()">
                                 <table id="datatablesSimple">
                                 
                                     <thead>
@@ -195,9 +203,7 @@
 			// 상태를 업데이트로 변경한다
 			// 이 함수의 목적이 추가(add)인 것을 나타내기 위함
 			status = "add";
-			
-			// 이 함수의 목적이 추가(add)인 것을 나타내기 위함
-			status = "add";
+
 			
 			// 체크박스
 			row += "<td>";
@@ -342,7 +348,7 @@
 				// input에 값이 입력되면 저장, input의 값이 변경되면 수정에 의한 저장
 				}else {
 					// form 태그의 액션을 변수 선언
-			        var formAction = $('#fr').attr("action");
+			        var formAction = $('#facilityList').attr("action");
 					
 			        var postData = {
 			                line_name: line_name,
@@ -355,14 +361,14 @@
 
 					// 상태가 add면 addPro로 넘어가서 input에 입력한 값이 데이터베이스로 넘어간다
 			        if (status === "add") {
-			            $('#fr').attr("action", "/home/factory/addPro");
+			            $('#facilityList').attr("action", "/home/factory/addPro");
 			        // 상태가 update면 update로 넘어가서 변경한 input의 값이 데이터베이스에 업데이트 된다
 			        } else if (status === "update") {
-			            $('#fr').attr("action", "/home/factory/updateFacility");
+			            $('#facilityList').attr("action", "/home/factory/updateFacility");
 			        }
 
-			        $('#fr').attr("method", "POST");
-			        $('#fr').submit();
+			        $('#facilityList').attr("method", "POST");
+			        $('#facilityList').submit();
 			    }
 			});// end save function
 			
@@ -489,7 +495,7 @@
                 	 			Swal.fire('라인 삭제가 완료되었습니다.', '성공', 'success').then(result => {
                 					// 사용자가 확인창을 누르면 실행
                 		 			if(result.isConfirmed){
-					 					location.reload(); // 성공 시 새로고침 한다
+                		 				$("#facilityList table").load("${pageContext.request.contextPath}/factory/facility #facilityList table"); // 성공 시 새로고침 한다
 					 				}
 							
 					 			});// end alert
