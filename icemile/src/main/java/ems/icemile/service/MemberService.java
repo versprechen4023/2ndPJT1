@@ -31,4 +31,10 @@ public interface MemberService {
 	// 사원 비밀번호 변경
 	public boolean updatePassword(MemberDTO memberDTO);
 	
+	// 이메일 중복검사
+	public boolean searchEmail(String email);
+	
+	// 전화번호 중복검사
+	public boolean searchPhone(String phone_num);
+	
 }

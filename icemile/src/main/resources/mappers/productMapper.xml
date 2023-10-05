@@ -4,16 +4,21 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mes.icemile.mappers.productMapper">
   
-  <select id="getNewProductId" resultType="int">
-  	SELECT count(*) + 1
+  <select id="getNewProductId" resultType="java.lang.String">
+  	SELECT
   		<choose>
     		<when test='type == "P"'>
-      		FROM product
+    		prod_code
+      			FROM product
+      				ORDER BY prod_code
     		</when>
     		<when test='type == "R"'>
-      		FROM raw_material
+    		raw_code
+      			FROM raw_material
+      				ORDER BY raw_code desc
     		</when>
   		</choose>
+  		LIMIT 1
   </select>
   
   <select id="getProductList" resultType="ems.icemile.dto.ProductAllDTO">
@@ -89,4 +94,17 @@
 				) AS myTable
 					WHERE myTable.${category} LIKE #{content}
  </select>
+ 
+ <select id="searchProName" resultType="java.lang.String">
+ 	SELECT *
+ 			FROM(
+ 				SELECT prod_name
+ 					FROM product
+ 				UNION
+ 				SELECT raw_name
+ 					FROM raw_material
+ 				) As myTable
+ 					WHERE myTable.prod_name = #{prod_name}
+ </select>
+ 
 </mapper>

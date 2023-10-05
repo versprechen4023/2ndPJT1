@@ -10,6 +10,7 @@
 		FROM facility
 	</select>
 	
+	
 	<select id="getNewFacilityCode" resultType="int">
 		SELECT count(*) + 1
 		FROM facility
@@ -20,6 +21,23 @@
 		INSERT INTO facility(line_code, line_name, line_phone, line_process, line_status, emp_num, line_note)
 		VALUES(CONCAT('LI', LPAD(#{line_code}, 4, '0')), #{line_name}, #{line_phone}, #{line_process}, #{line_status}, #{emp_num}, #{line_note})
 	</insert>
+	
+	
+	<update id="updateFacility">
+		UPDATE facility
+		SET line_name = #{line_name}, line_phone = #{line_phone}, line_process = #{line_process},
+			line_status = #{line_status}, emp_num = #{emp_num}, line_note = #{line_note}
+		WHERE line_code = #{line_code}
+	</update>
+	
+	
+	<delete id="deleteFacility" parameterType="java.util.List">
+		DELETE FROM facility 
+			Where line_code IN 
+			  <foreach collection="list" item="line_code" open="(" separator="," close=")">
+			  	#{line_code}
+			  </foreach>
+	</delete>
 
 
   

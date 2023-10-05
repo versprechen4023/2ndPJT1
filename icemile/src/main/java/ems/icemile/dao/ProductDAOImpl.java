@@ -32,11 +32,11 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 	
 	@Override
-	public int getNewProductId(ProductInsertDTO productInsertDTO) {
+	public String getNewProductId(ProductInsertDTO productInsertDTO) {
 		
 		log.debug("getNewProductId DAO 도달");
 		
-		return sqlSession.selectOne(namespace+"getNewProductId", productInsertDTO);
+		return sqlSession.selectOne(namespace+"getNewProductId",productInsertDTO);
 	}
 	
 	@Override
@@ -69,5 +69,15 @@ public class ProductDAOImpl implements ProductDAO {
 		log.debug("productSearch DAO 도달");
 		
 		return sqlSession.selectList(namespace+"productSearch", json);
+	}
+	
+	@Override
+	public boolean searchProName(String prod_name) {
+		
+		log.debug("searchProName DAO 도달");
+		
+		String result = sqlSession.selectOne(namespace+"searchProName", prod_name);
+		
+		return (result == null) ? true : false;
 	}
 }

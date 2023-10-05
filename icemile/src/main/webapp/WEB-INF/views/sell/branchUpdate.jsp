@@ -36,7 +36,7 @@ h1 {
 
 		<!-- 이름 -->
 		<label for="branch_name_label"><b>지점명:</b></label>
-		<input type="text" name="branch_name" id="branch_name" value="${sellDTO.branch_name }" readonly>
+		<input type="text" name="branch_name" id="branch_name" value="${sellDTO.branch_name }">
 		<br>
 		<span id="namemsg"></span>
 		<br>
@@ -92,9 +92,9 @@ h1 {
 		<br>
 
 		<!-- 지점 이메일 -->
-		<label for="email_label"><b>이메일</b></label> 
-		<input type="text" name="email_id" id="email_id"> @ 
-		<input type="text" name="email_dns" id="email_dns"> 
+		<label for="email_id_label"><b>이메일</b></label> 
+		<input type="text" name="branch_email" id="branch_email"> @ 
+		<input type="text" name="email_dns" id="email_dns" value="naver.com"> 
 		<select name="email_sel" id="email_sel" onchange="updateEmailDns()">
 			<option value="">직접 입력</option>
 			<option value="hanmail.net">DAUM</option>
@@ -125,27 +125,21 @@ src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"><
 
 <script>
 //전역변수 선언
-var selectedDept = '${sellDTO.dept_name}';
-var position = '${sellDTO.position}';
-var email = '${sellDTO.email}';
-var address = '${sellDTO.address}';
-var emp_role = '${sellDTO.emp_role}';
+var email = '${sellDTO.branch_email}';
+var address = '${sellDTO.branch_add}';
+
 
 // 기존값 필드설정 관련
-
-// 직급, 부서 기존값에 따라 필드에 설정
-document.getElementById("dept_name").value = selectedDept;
-document.getElementById("position").value = position;
 
 // 기존 이메일 처리
 
 // "@"를 기준으로 이메일 주소 분리해서 변수에 저장
 var parts = email.split("@");
-var email_id = parts[0]; // 이메일 아이디 부분
+var branch_email = parts[0]; // 이메일 아이디 부분
 var email_dns = parts[1]; // 이메일 도메인 부분
 
 // 이메일 아이디와 이메일 도메인을 각각의 입력 필드에 설정
-document.getElementById("email_id").value = email_id;
+document.getElementById("branch_email").value = branch_email;
 document.getElementById("email_dns").value = email_dns;
 
 // 기존 주소 처리
@@ -207,7 +201,7 @@ function call_Post_API() {
             }
 
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            document.getElementById('emp_post').value = data.zonecode;
+            document.getElementById('branch_post').value = data.zonecode;
             document.getElementById("addr1").value = addr;
             // 상세주소 필드를 초기화한다
             document.getElementById("addr3").value = '';
@@ -239,11 +233,11 @@ $(document).ready(function() {
        
         // 이메일 값 합산 설정
         // 입력이메일을 가져오기위한 변수선언
-        var emailId = $("#email_id").val();
+        var emailId = $("#branch_email").val();
         var emailDns = $("#email_dns").val();
 		
         // email_id와 email_dns를 합쳐서 email 필드에 저장
-        $("#email").val(emailId + "@" + emailDns);
+        $("#branch_email").val(emailId + "@" + emailDns);
         
         //주소값 합산 설정
         // 주소값을 가져오기위한 변수선언
@@ -252,11 +246,11 @@ $(document).ready(function() {
         var addr3 = $("#addr3").val();
         
         // 주소값을 합쳐서 address 필드에 저장
-        $("#address").val(addr1 + "" + addr2 + " " + addr3);
+        $("#branch_add").val(addr1 + "" + addr2 + " " + addr3);
     });
     
   	//서브밋 제어
-    $('#signup').submit(function(event) {
+    $('#branchUpdate').submit(function(event) {
     	
     	//지점명 공백 시 
     	if($('#branch_name').val() == ""){
@@ -322,7 +316,7 @@ $(document).ready(function() {
          
          $.ajax({
              type: "POST",
-             url: "${pageContext.request.contextPath}/branch_ajax/update",
+             url: "${pageContext.request.contextPath}/sell_ajax/update",
              data: formData,
              contentType: false, // 멀티파트를 처리하기위해 객체를 직렬화하지 않고 직접 AJAX 통신할 수 있도록 설정
              processData: false, 

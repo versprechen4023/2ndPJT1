@@ -13,62 +13,51 @@
         <link href="../resources/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
-    <body class="bg-primary">
+    <body class="bg-login">
         <div id="layoutAuthentication">
             <div id="layoutAuthentication_content">
                 <main>
                     <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-5">
+                    		<img src="../resources/assets/img/icemile.png">
+                            <div class="col-lg-5" >
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">로그인</h3></div>
                                     <div class="card-body">
                                         <form action="${pageContext.request.contextPath }/member/login" method="post">
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="emp_num" name="emp_num" type="text" placeholder="name@example.com" />
-                                                <label for="inputEmail">Email address</label>
+                                                <label for="inputEmail">사원번호</label>
                                             </div>
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="emp_pw" name="emp_pw" type="password" placeholder="Password" />
-                                                <label for="inputPassword">Password</label>
-                                                <c:if test="${not empty msg}">
-                                                	<span>${msg}</span>
-                                                </c:if>
+                                                <label for="inputPassword">비밀번호</label>
+                                                
                                             </div>
                                             <div class="form-check mb-3">
                                                 <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
-                                                <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
+                                                <label class="form-check-label" for="inputRememberPassword">사원번호 기억하기</label>
                                             </div>
-                                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="small" href="password.html">Forgot Password?</a>
-                                                <a class="btn btn-primary" href="${pageContext.request.contextPath }/member/insert">회원가입하러가기</a>
-                                                <input type="submit" value="로그인">
-                                            </div>
-                                        </form>
+                                            
+                                            <div class="d-flex align-items-center justify-content-center mt-4 mb-0">
+												<c:if test="${not empty msg}">
+                                                	<span style="color: red;">${msg}</span>
+                                                </c:if>
+                                                </div>                                         
                                     </div>
                                     <div class="card-footer text-center py-3">
-                                        <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
+                                        <input type="submit" value="로그인">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </main>
             </div>
-            <div id="layoutAuthentication_footer">
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
-            </div>
+
+<!-- 푸터 -->
+<jsp:include page="../include/footer.jsp"></jsp:include>
+<!-- 푸터 -->  
+
         </div>
         
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

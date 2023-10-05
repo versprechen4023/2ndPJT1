@@ -90,6 +90,7 @@
 </form>
                             </div>
                         </div>
+                                                <input type="button" value="엑셀파일다운" id="excelProd">
                     </div>
                 <!-- 내용 들어가는 곳 -->
                 </main>
@@ -100,11 +101,13 @@
                 
             </div>
         </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     
+<!-- 모달 alert를 위한 sweetalert 호출 -->
 	<link rel="stylesheet"
 		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 	<script
 		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+<!-- J쿼리 호출 -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
@@ -114,15 +117,25 @@
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
 	<script src="../resources/js/productList_im.js"></script>
+	
+<!-- 엑셀파일 저장을 위한 스크립트 호출 -->
+	<script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 <script>
 // 추가, 수정 을 구분하기위한 전역변수선언
 var status = "";
+
+// 함수 시작지점
+$(document).ready(function() {
 
 // 정규식 제어함수
 function formTest(formData) {
 	
 	// 결과값 반환을 위한 변수선언
 	var result = true;
+	
+	// 반복문 제어를 위한 변수선언
+	var continueFor = true;
 	
 	// &을 기준으로 끊고 배열 변수를 선언한다 이후 배열에 따라 반복문을 시행한다
 	// 기준 데이터는 아래와같다 "content=&type=&prod_name="...
@@ -148,21 +161,52 @@ function formTest(formData) {
 	  var keyValue = formArray[i].split("=");
 	  // 키변수에 키값을 담는다
 	  var key = decodeURIComponent(keyValue[0]);
-	  // 밸류 변수에 키의 변수값을 담는다
+	  // 밸류 변수에 키의 리터럴 값을 담는다
 	  var value = decodeURIComponent(keyValue[1]);
 	  
 	  // 비고와 검색칸은 비어있어도 상관없음
 	  if ((key === "prod_note" || key === "content") && value === ""){
 		  continue;
 	  }
-		  
+	  
 	  if (value === "") {
 	    // 값이 비어 있는 경우 결과값은 false가 된다
 	    Swal.fire(koreanNames[key]+' 값을 입력해주십시오.', '', 'info');
 	    result = false;
 	    break; // 비어있는 필드를 발견하면 반복문을 종료하고 false를 반환한다
 	  }
-	}
+	  
+	  // 중복값 검사수행
+	  if (key === "prod_name" && value !== "") {
+		  // ajax 호출
+		  $.ajax({
+			  	type: "GET",
+		        url: "${pageContext.request.contextPath}/product_ajax/searchProName",
+		        data: {"prod_name": value},
+		        success: function(response) {
+		        	// 공백을 제거한다
+            		const resultAjax = $.trim(response);
+            		
+		        	if(resultAjax == "false"){
+		        		result = false;
+		        		continueFor = false;
+		        		Swal.fire('이미 존재하는 품명입니다 다른 이름을 입력하십시오', '', 'info');
+		        	} 
+		        },//success 콜백함수 종료지점
+		        error: function () {
+		        	 result = false;
+	        		 continueFor = false;
+	            	 Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+	            }
+		  });// ajax
+		  
+		  // 중복값이 있다면 반복문을 종료한다
+		  if(!continueFor){
+			  break;
+		  }
+	 } // end 중복값 검증
+
+	}// end for
 	
 	// 결과값 반환
 	return result;
@@ -293,7 +337,7 @@ $("#updateProd").click(function(){
 		Swal.fire('수정할 행을 선택해 주십시오.', '실패', 'error');
 	// 여러개가 체크되어있으면 에러가 발생한다
 	} else {
-		Swal.fire('수정할 행은 한개만 선택 가능합니다.', '실패', 'error');;
+		Swal.fire('수정할 행은 한개만 선택 가능합니다.', '실패', 'error');
 	} // end else
 }); // end function
 
@@ -356,7 +400,7 @@ $("#saveProd").click(function() {
             	data: formData,
             	// 통신성공시 콜백함수 response매개변수에 "true" or "false" 결과값이 입력된다
             	success: function(response) {
-            	// 공백을 제거한다
+            		// 공백을 제거한다
             		const result = $.trim(response);
             	 
                  	if (result == "true") {
@@ -639,8 +683,8 @@ $('tbody').on('input', inputSelector, function() {
 	  $(this).val(inputValue);
 });// end function
 	
-//폼제출을 막고 엔터키로 조회가 가능하게 하는 함수
-//텍스트타입 제출을 막음
+// 폼제출을 막고 엔터키로 조회가 가능하게 하는 함수
+// 텍스트타입 제출을 막음
 $('input[type="text"]').keydown(function() {
 	// 엔터키 이벤트 발생을 확인한다
 	if (event.keyCode === 13) {
@@ -652,7 +696,71 @@ $('input[type="text"]').keydown(function() {
  		$('#content').val("");
 	}// end if
 });// end function
+
+// thead의 체크박스를 클릭했을때 전체체크가되게끔 이벤트를 발생시킨다
+$('input[name="selectedAllProId"]').click(function() {
+    // 모든 selectedProId 체크박스의 상태를 selectedAllProId와 동일하게 설정한다
+    // $this로 AllProId의 상태를 가져온다
+    $('input[name="selectedProId"]').prop('checked', $(this).prop('checked'));
+});// end function
+
+//엑셀 버튼 누를 시 실행되는 함수
+$("#excelProd").click(function(){
+	
+	// 체크박스가 체크된 여부를 확인하기위한 변수선언
+	var selectedCheckbox = $("input[name='selectedProId']:checked");
+	
+	if (selectedCheckbox.length === 0) {
+		Swal.fire('엑셀파일로 다운받을 행을 선택해주십시오', '', 'info');
+		return false;
+	}
+	
+	// 엑셀에 데이터를 삽입하기위한 배열 변수선언
+	var excelData = [];
+	
+	// 엑셀의 헤더가 되는 값을 삽입하기위한 변수선언
+	var headers = [];
+	
+		// table의 th태그만큼 반복문을 실행하되 첫번째 체크박스행은 제외한다
+		$("#datatablesSimple th:not(:first)").each(function(){
+			// 헤더에 텍스트값(th) 삽입
+			headers.push($(this).text());
+		});
+		// 엑셀 데이터 변수에 헤더값을 삽입한다
+		excelData.push(headers);
+	
+		// 체크박스가 체크된 행 만큼 엑셀 행삽입 반복문을 시행한다
+		selectedCheckbox.each(function () {
+		
+			// 엑셀의 행값을 담기위한 배열 변수선언
+	    	var row = [];
+			// tr태그를 찾아서 반복문을 실행하되 첫번째 td태그(체크박스)는 제외한다
+	    	$(this).closest("tr").find("td:not(:first-child)").each(function () {
+	    		// 행 변수에 테이블 행(td)태그의 텍스트 값을 삽입한다
+	        	row.push($(this).text());
+	    	});
+			// 엑셀 데이터 변수에 행값을 삽입한다
+	   		excelData.push(row);
+		});
+		
+		// 워크북을 생성한다
+		var workbook = XLSX.utils.book_new();
+		// 엑셀 데이터(헤더, 행)값을 시트로 변환한다
+		var worksheet = XLSX.utils.aoa_to_sheet(excelData);
+		// 데이터와 워크북 시트를 워크북에 추가한다
+		XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+		
+		// 워크북을 blob형태로 변환하고 xlsx 파일로 저장한다
+		var workbookOutput = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+		saveAs(
+			new Blob([workbookOutput], { type: "application/octet-stream" }),
+			"품목 리스트.xlsx"
+		);
+	
+});// end function
 // 이벤트 관련 함수 종료
+
+});// end 함수
 
 </script>
     </body>

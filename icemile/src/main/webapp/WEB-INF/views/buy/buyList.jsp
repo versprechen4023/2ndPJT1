@@ -58,6 +58,7 @@
 										<th>구매담당자</th>
 										<th>업종유형</th>
 										<th>연락처</th>
+										<th>우편번호</th>
 										<th>주소</th>
 										<th>email</th>
 										<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
@@ -76,6 +77,7 @@
 											<td>${buyDTO.emp_num}</td>
 											<td>${buyDTO.buy_type}</td>
 											<td>${buyDTO.buy_phone}</td>
+											<td>${buyDTO.buy_post}</td>
 											<td>${buyDTO.buy_add}</td>
 											<td>${buyDTO.buy_email}</td>
 								
@@ -151,25 +153,35 @@ function buySearch() {
  				    	// 권한이있으면 수정 삭제 버튼도 같이 출력
  				    	if(role.charAt(0) === '1'){
  				        	$tr.append(
- 				            "<td>"+data.emp_name+"</td>",
- 				           	"<td>"+data.position+"</td>",
- 				         	"<td>"+data.hotline+"</td>",
- 				         	"<td>"+data.dept_name+"</td>",
- 				         	"<td>"+data.email+"</td>",
- 				         	"<td>"+data.birthdate+"</td>",
+ 				            "<td>"+data.buy_code+"</td>",
+ 				           	"<td>"+data.buy_name+"</td>",
+ 				         	"<td>"+data.buy_reg+"</td>",
+ 				         	"<td>"+data.buy_ceo+"</td>",
+ 				         	"<td>"+data.buy_emp+"</td>",
+ 				         	"<td>"+data.emp_num+"</td>",
+ 				         	"<td>"+data.buy_type+"</td>",
+ 				         	"<td>"+data.buy_phone+"</td>",
+ 				         	"<td>"+data.buy_post+"</td>",
+ 				         	"<td>"+data.buy_add+"</td>",
+ 				         	"<td>"+data.buy_email+"</td>",
  				            "<td>" +
- 				          	"<input type='button' value='수정' onclick='buyUpdate(\"" + data.emp_num + "\")' id='updateEmp'>" +
- 				            "<input type='button' value='삭제' onclick='buyDelete(\"" + data.emp_num + "\")' id='deleteEmp'>" +
+ 				          	"<input type='button' value='수정' onclick='buyUpdate(\"" + data.buy_code + "\")' id='updateBuy'>" +
+ 				            "<input type='button' value='삭제' onclick='buyDelete(\"" + data.buy_code + "\")' id='deleteBuy'>" +
  				            "</td>"
  				        	);
  				    	} else {
  				    		 $tr.append(
- 		 				     "<td>"+data.emp_name+"</td>",
- 		 				     "<td>"+data.position+"</td>",
- 		 				     "<td>"+data.hotline+"</td>",
- 		 				     "<td>"+data.dept_name+"</td>",
- 		 				     "<td>"+data.email+"</td>",
- 		 				     "<td>"+data.birthdate+"</td>",
+ 						            "<td>"+data.buy_code+"</td>",
+ 		 				           	"<td>"+data.buy_name+"</td>",
+ 		 				         	"<td>"+data.buy_reg+"</td>",
+ 		 				         	"<td>"+data.buy_ceo+"</td>",
+ 		 				         	"<td>"+data.buy_emp+"</td>",
+ 		 				         	"<td>"+data.emp_num+"</td>",
+ 		 				         	"<td>"+data.buy_type+"</td>",
+ 		 				         	"<td>"+data.buy_phone+"</td>",
+ 		 				         	"<td>"+data.buy_post+"</td>",
+ 		 				         	"<td>"+data.buy_add+"</td>",
+ 		 				         	"<td>"+data.buy_email+"</td>",
  		 				     );
  				    	}
  				        // 생성한 <tr> 요소를 tbody에 추가
@@ -184,11 +196,11 @@ function buyInsert(){
 	window.open('${pageContext.request.contextPath }/buy/buyInsert', '_blank', 'width=600px, height=1000px, left=600px, top=300px');
 } //end function
 
-function buyUpdate(emp_num){
-	window.open('${pageContext.request.contextPath }/buy/buyUpdate?emp_num='+emp_num, '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+function buyUpdate(buy_code){
+	window.open('${pageContext.request.contextPath }/buy/buyUpdate?buy_code='+buy_code, '_blank', 'width=600px, height=1000px, left=600px, top=300px');
 }
 // 멤버 삭제관련 함수
-function buyDelete(emp_num) {
+function buyDelete(buy_code) {
 	
 	// sweetalert2 호출
 	Swal.fire({
@@ -212,7 +224,7 @@ function buyDelete(emp_num) {
 			   // 멤버 삭제하는 ajax 호출
 			   $.ajax({
 					  url : '${pageContext.request.contextPath}/buy_ajax/delete',
-					  data: {"emp_num": emp_num},
+					  data: {"buy_code": buy_code},
 					  type : 'POST',
 					  success:function(data){
 							const result = $.trim(data);

@@ -26,9 +26,12 @@ public class AjaxController {
 	@PostMapping("/myNumber")
 	public String myNumber(@RequestParam("myInt") int i) {
 		log.debug("넘버는 : "+i);
+		i = i+1; // 디비 구문 자리
 		return Integer.toString(i);
+		
 	}
 	
+	// 중요
 	@PostMapping("/myList")
 	public List<MemberDTO> myList() {
 		

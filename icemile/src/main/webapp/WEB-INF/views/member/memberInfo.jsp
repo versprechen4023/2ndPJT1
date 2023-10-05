@@ -14,7 +14,15 @@
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     
     <style type="text/css">
-
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+*{
+    font-family: 'Pretendard-Regular';
+}
 
 /* 사이드바, 헤더, 푸터 제외 내용부분 */
 .container{
@@ -33,28 +41,6 @@
 	font-weight: bold;	/* 글자굵기 */
 	display: table;
   border-collapse: collapse;
-/*   width: 100%; */
-}
-
-/* 수정버튼 */
-.upBut{
-/* 	clear:left; 		/* 어울림 해제 */ */
-	margin: 0px 230px;	/* 중앙  */
-    width: 5.8917vw;
-    height: 1.975vw;
-    position: absolute;
-    left: 49.9688vw;
-    top: 36vw;
-}
-
-.passUp{
-/* 	clear:left; 		/* 어울림 해제 */ */
-	margin: 0px 230px;	/* 중앙  */
-	height: 1.975vw;
-	left: 57.9688vw;
-    top: 36vw;
-    position: absolute;
-	
 }
 
 /* input type="text" 에 대한 모든 부분 */
@@ -62,6 +48,7 @@ input[type="text"]{
 	border-style:none;	/* 내용을 들고올 때 수정 못함, 칸 테두리 없앰 */
 	line-height: normal;
 }
+
 h1 {
     font-weight: 500;
     line-height: 3.2;
@@ -72,20 +59,29 @@ h1 {
     height: 110px;
 }
 
-
 table { 
-     width: 45%; 
-  border-top: 1px solid #444444; 
-     border-collapse: collapse; 
-      border: 2px solid; 
-     margin: auto;
+   width: 45%; 
+   border-top: 1px solid #444444; 
+   border-collapse: collapse; 
+   border: 2px solid; 
+   margin: auto;
+   margin-bottom : 20px;
    } 
- th, td { 
+   
+th { 
+  border-bottom: 1px solid #444444; 
+  border: 1px solid; 
+  padding: 10px; 
+  text-align: center; 
+  width: 130px;
+   } 
+td { 
   border-bottom: 1px solid #444444; 
   border: 1px solid; 
   padding: 10px; 
   text-align: left; 
    } 
+
 
 </style>
 
@@ -113,13 +109,20 @@ table {
 
   <h1>마이페이지</h1>
   
-<!--   <div class="container"> -->
-<!--   <div class="info"> -->
 <table border="1">
+<colgroup>
+<col style="background-color: #E0EBFF;">
+<col>
+</colgroup> 
 
 <tr>
 <th>이름</th>
 <td><input type="text" value="${memberDTO.emp_name }" readonly></td>
+</tr>
+
+<tr>
+<th>사진</th>
+<td><img src="../resources/assets/img/photo.jpg" width="25%" height="100%"></td>
 </tr>
 
 <tr>
@@ -154,27 +157,27 @@ table {
 
 <tr>
 <th>주소</th>
-<td><input type="text" value="${memberDTO.address }" readonly size="30"></td>
+<td><input type="text" value="${memberDTO.address }" readonly size="35"></td>
 </tr>
 
 <tr>
 <th>입사일</th>
 <td><input type="text" value="${memberDTO.hire_date }" readonly></td>
 </tr>
-  
-<!--   </div> -->
 
-
-
- <input type="button" value="수정" class=upBut onclick="memberUpdate('${sessionScope.emp_num}')" id="updateEmp" style="text-align: center;">
- <input type="button" value="비밀번호 변경" class=passUp onclick="memberPassword('${sessionScope.emp_num}')" id="passwordEmp" style="text-align: center;">
-
-<!--  </div> -->
 </table>
  
                 <!-- 내용 들어가는 곳 -->
                 </main>
+  
+<div style="display: flex; justify-content: center; margin-bottom: 20px; ">
+ <div class="btn">
+    <input type="button" value="수정" onclick="memberUpdate('${sessionScope.emp_num}')" id="updateEmp" >
+     <input type="button" value="비밀번호 변경"  onclick="memberPassword('${sessionScope.emp_num}')" id="passwordEmp" >
+ </div>
+ </div>
                 
+              
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 -->  

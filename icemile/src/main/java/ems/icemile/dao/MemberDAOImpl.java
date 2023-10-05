@@ -22,7 +22,7 @@ public class MemberDAOImpl implements MemberDAO {
 	private static final String namespace = "mes.icemile.mappers.memberMapper.";
 	
 	@Override
-	public int getNewMemberId() {
+	public String getNewMemberId() {
 		return sqlSession.selectOne(namespace+"getNewMemberId");
 	}
 	
@@ -82,6 +82,26 @@ public class MemberDAOImpl implements MemberDAO {
 		log.debug("업데이트 패스워드 DAO 도달");
 		
 		return sqlSession.update(namespace+"updatePassword",memberDTO) > 0;
+	}
+	
+	@Override
+	public boolean searchEmail(String email) {
+
+		log.debug("searchEmail DAO 도달");
+		
+		String result = sqlSession.selectOne(namespace+"searchEmail", email);
+		
+		return (result == null) ? false : true;
+	}
+	
+	@Override
+	public boolean searchPhone(String phone_num) {
+		
+		log.debug("searchEmail DAO 도달");
+		
+		String result = sqlSession.selectOne(namespace+"searchPhone", phone_num);
+	
+		return (result == null) ? false : true;
 	}
 	
 	

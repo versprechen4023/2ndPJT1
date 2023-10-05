@@ -23,4 +23,7 @@ public interface ProductService {
 	
 	// 품목 검색
 	public List<ProductAllDTO> productSearch(HashMap<String, Object> json);
+	
+	// 품목 이름 중복검사
+	public boolean searchProName(String prod_name);
 }

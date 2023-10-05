@@ -37,5 +37,30 @@ public class BuyServiceImpl implements BuyService{
 		buyDAO.buyInsert(buyDTO);
 		
 	}
+
+	@Override
+	public BuyDTO getBuyInfo(String buy_code) {
+		
+		log.debug("겟 바이 인포 서비스");
+		
+		return buyDAO.getBuyInfo(buy_code);
+	}
+	
+	@Override
+	public void buyUpdate(BuyDTO buyDTO) {
+		
+		log.debug("겟 바이 업데이트 서비스");
+		
+		buyDAO.buyUpdate(buyDTO);
+	}
+
+	public boolean buyDelete(String buy_code) {
+	
+		log.debug("바이 딜리트 서비스");
+		
+		return buyDAO.buyDelete(buy_code);
+	}
+	
+	
 	
 }

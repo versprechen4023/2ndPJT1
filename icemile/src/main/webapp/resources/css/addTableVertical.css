@@ -2,15 +2,16 @@
 
 body{
 	margin: 0px;
-	overflow-X: hidden;
-	overflow-Y: hidden;
+/* 	overflow-X: hidden; */
+/* 	overflow-Y: hidden; */
 	width: 100%;
 }
 
 main{
 	margin: 8px;
 }
- h1 {
+
+h1 {
  	margin-left: 5px;
     font-size: 2em;
     font-weight: 500;
@@ -27,7 +28,7 @@ main{
     border-collapse: collapse;
     border-color: #DDE2E6;
     margin-top: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
   th, td {
     border-bottom: 1px solid #444444;
@@ -36,7 +37,24 @@ main{
     text-align: left;
     font-size: 14px;
   }
+  
+.tdbold{
+font-weight: bold;
+}
 
+#msg{
+	color: red;
+}  
+
+#bottomContainer{
+	text-align: center;
+	margin: 0 auto;
+	margin-bottom: 20px;
+}
+
+
+
+/* 푸터 */
 .py-4 {
   padding-top: 1.5rem !important;
   padding-bottom: 1.5rem !important;
@@ -49,7 +67,7 @@ main{
 .bg-light {
   width: 100%;
     --bs-bg-opacity: 1;
-    background-color: #F8F9FA !important;
+    background-color: #ECECEC !important;
 }
 
 .container-fluid {
@@ -66,11 +84,6 @@ main{
   padding-left: 1.5rem !important;
 }
 
-  
-.text-muted {
-  --bs-text-opacity: 1;
-  color: #6c757d !important;
-} 
 
 .d-flex {
     display: flex !important;
@@ -80,8 +93,8 @@ main{
   align-items: center !important;
 }
 
-.justify-content-between {
-  justify-content: space-between !important;
+.justify-content-center {
+  justify-content: center !important;
 }
 
 .small {
@@ -89,15 +102,15 @@ main{
 }
 
 .text-muted {
-    --bs-text-opacity: 1;
-    color: #6c757d !important;
-}
+    --bs-text-opacity: 1; 
+    color: black !important;
+ }
 
-a {
-    color: #006DF5;
-    text-decoration: underline;
-}
+/* a { */
+/*     color: #006DF5; */
+/*     text-decoration: underline; */
+/* } */
 
-a:hover{
-	color: #0057C4;
-}
+/* a:hover{ */
+/* 	color: #0057C4; */
+/* } */

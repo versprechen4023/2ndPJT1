@@ -3,161 +3,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 헤드 -->
-<jsp:include page="../include/head.jsp"></jsp:include>
-<!-- 헤드 -->
-	<style>
-body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh; /* 화면 높이 100%로 설정하여 수직 중앙 정렬 */
-	margin: 0; /* 페이지 바깥 여백 제거 */
-}
-h1 {
-	text-align: center; /* 가로 중앙 정렬 */
-}
-#btn {
-	text-align: center; /* 가로 중앙 정렬 */
-	margin: 10px; /* 버튼 간격 설정 */
-	font-size: 16px; /* 버튼 텍스트 크기 설정 */
-	padding: 10px 20px; /* 버튼 안 여백 설정 */
-}
-</style>
+
+  <link href="../resources/css/addTableVertical.css" rel="stylesheet" />
+
 </head>
-<body class="sb-nav-fixed">
+<body>
 				<!-- 내용들어가는곳 -->
-	<form action="${pageContext.request.contextPath }/member/memberInsert" id="signup" name="signup" method="POST" enctype="multipart/form-data">
+	<form id="signup" name="signup">
 		<h1>
-			<b>사원등록</b>
+			사원등록
 		</h1>
-
-		<!-- 사진 등록 -->
-		 <img src="" alt="미리보기" id="preview" style="max-width: 100px; max-height: 100px; display: none;"> <br>
-		  <input type="file" id="file" name="file"> <br><br>
     
-    <br><br>
+<table>
+<tr><td class="tdbold">사진</td><td>
+								<img src="" alt="미리보기" id="preview" style="max-width: 100px; max-height: 100px; display: none;"> 
+		 					    <input type="file" id="file" name="file"> 
+		 					  </td></tr>
+<tr><td class="tdbold">이름</td><td><input type="text" name="emp_name" id="emp_name"></td></tr>
+<tr><td class="tdbold">생년월일</td><td><input type="text" name="birthdate" id="birthdate" placeholder="생일을 선택해 주십시오" readonly></td></tr>
+<tr><td class="tdbold">부서</td><td><select name="dept_name" id="dept_name">
+								<option value="">부서를 선택하십시오</option>
+								<option value="0">관리자</option>
+   								<option value="1">인사팀</option>
+    							<option value="2">영업팀</option>
+    							<option value="3">생산팀</option>
+    							<option value="4">물류팀</option>
+								</select> </td></tr>
+<tr><td class="tdbold">직급</td><td><select name="position" id="position">
+								<option value="">직급을 선택하십시오</option>
+								<option value="0">관리자</option>
+    							<option value="1">사원</option>
+    							<option value="2">대리</option>
+    							<option value="3">과장</option>
+    							<option value="4">차장</option>
+    							<option value="5">부장</option>
+								</select> </td></tr>
+<tr><td class="tdbold">전화번호</td><td><input type="text" name="phone_num" id="phone_num"></td></tr>
+<tr><td class="tdbold">내선번호</td><td><input type="text" name="hotline" id="hotline"></td></tr>
+<tr><td class="tdbold">이메일</td><td>	<input type="text" name="email_id" id="email_id"> @ 
+										<input type="text" name="email_dns" id="email_dns"> 
+								<select name="email_sel" id="email_sel" onchange="updateEmailDns()">
+								<option value="">직접 입력</option>
+								<option value="hanmail.net">DAUM</option>
+								<option value="gmail.com">GOOGLE</option>
+								</select></td></tr>
+<tr><td class="tdbold">주소검색</td><td><input type="text" name="emp_post" id="emp_post" placeholder="우편번호">
+									       <button type="button" id="call_api" onclick="call_Post_API()">우편번호 찾기</button></td></tr>
+<tr><td class="tdbold">주소</td><td>
+                          <input type="text" name="addr1" id="addr1" placeholder="기본주소"> 
+                          <input type="text" name="addr2" id="addr2" placeholder="동명"></td></tr>
+<tr><td class="tdbold">상세주소</td><td><input type="text" name="addr3" id="addr3" placeholder="상세주소"></td></tr>
+<tr><td class="tdbold">입사일</td><td><input type="text" name="hire_date" id="hire_date" readonly></td></tr>
+<tr><td class="tdbold">권한설정</td><td><label for="dept1">
+										<input type="checkbox" id="dept1" name="role" value="1000" disabled>인사
+										</label>
+											<label for="dept2">
+										<input type="checkbox" id="dept2" name="role" value="100" disabled>영업
+										</label>
+										<label for="dept3">
+										<input type="checkbox" id="dept3" name="role" value="10" disabled>생산
+										</label>
+										<label for="dept4">
+							    		<input type="checkbox" id="dept4" name="role" value="1" disabled>물류
+	                                 	</label>	</td></tr>
+</table>	
 
-		<!-- 이름 -->
-		<b>이름:</b> <input type="text" name="emp_name" id="emp_name">
-		<br>
-		<span id="namemsg"></span>
-		<br>
-		<!-- 생년월일 -->
-		<label for="birthdate"><b>생년월일:</b></label>
-		<input type="text" name="birthdate" id="birthdate" placeholder="생일을 선택해 주십시오" readonly>
-		<br>
-		<span id="birthmsg"></span>
-		<br>
-
-		<!-- 부서 -->
-		<label for="department_label"><b>부서 선택:</b></label>
-		<select name="dept_name" id="dept_name">
-			<option value="">부서를 선택하십시오</option>
-			<option value="0">관리자</option>
-   			<option value="1">인사팀</option>
-    		<option value="2">영업팀</option>
-    		<option value="3">생산팀</option>
-    		<option value="4">물류팀</option>
-		</select> 
-		<br> 
-		<span id="deptmsg"></span>
-		<br>
-
-		<!-- 직급 -->
-		<label for="position_label"><b>직급 선택:</b></label> 
-		<select name="position" id="position">
-			<option value="">직급을 선택하십시오</option>
-			<option value="0">관리자</option>
-    		<option value="1">사원</option>
-    		<option value="2">대리</option>
-    		<option value="3">과장</option>
-    		<option value="4">차장</option>
-    		<option value="5">부장</option>
-		</select> 
-		<br>
-		<span id="positionmsg"></span>
-		<br>
+			<span id="msg"></span>
 		
-		<!-- 전화번호 -->
-		<label for="phone_num_label"><b>전화번호:</b></label> 
-		<input type="text" name="phone_num" id="phone_num">
-		<br> 
-		<span id="phonemsg"></span>
-		<br>
-		
-		<!-- 내선번호 -->
-		<label for="hotline_label"><b>내선번호:</b></label> 
-		<input type="text" name="hotline" id="hotline">
-		<br> 
-		<span id="hotlinemsg"></span>
-		<br>
-
-		<label for="email_label"><b>이메일</b></label> 
-		<input type="text" name="email_id" id="email_id"> @ 
-		<input type="text" name="email_dns" id="email_dns"> 
-		<select name="email_sel" id="email_sel" onchange="updateEmailDns()">
-			<option value="">직접 입력</option>
-			<option value="hanmail.net">DAUM</option>
-			<option value="gmail.com">GOOGLE</option>
-		</select>
-		<br>
-		<span id="emailmsg"></span>
-		<br>
-
-
-
-		<!-- 주소 -->
-		<label for="postalCode_label"><b>주소검색</b></label> 
-		<input type="text" name="emp_post" id="emp_post" placeholder="우편번호">
-		<button type="button" id="call_api" onclick="call_Post_API()">우편번호 찾기</button>
-		<br> 
-		<label for="addr1_label"><b>주소</b></label> 
-		<input type="text" name="addr1" id="addr1" placeholder="기본주소"> 
-		<label for="addr2_label"></label> 
-		<input type="text" name="addr2" id="addr2" placeholder="동명">
-		<br>
-		<label for="addr3_label"><b>상세주소</b></label> 
-		<input type="text" name="addr3" id="addr3" placeholder="상세주소"> 
-		<br>
-		<span id="addressmsg"></span>
-		<br>
-
-		<!-- 입사일 -->
-		<label for="hire_date_label"><b>입사일:</b></label> 
-		<input type="text" name="hire_date" id="hire_date" readonly>
-		<br>
-		<span id="hiremsg"></span>
-		<br>
-
-
-		<!-- 권한 설정 -->
-		<label for="emp_role_label"><b>권한설정:</b></label> 
-		<label for="dept1">
-			<input type="checkbox" id="dept1" name="role" value="1000" disabled>인사
-		</label>
-		<label for="dept2">
-			<input type="checkbox" id="dept2" name="role" value="100" disabled>영업
-		</label>
-		<label for="dept3">
-			<input type="checkbox" id="dept3" name="role" value="10" disabled>생산
-		</label>
-		<label for="dept4">
-			<input type="checkbox" id="dept4" name="role" value="1" disabled>물류
-		</label>
-		<br>
-		<span id="rolemsg"></span>
-		<br>
-
-
+		<div id="bottomContainer"> 
 		<!-- 등록 버튼 -->
-		<div id="btn">
-			<input type="submit" id="btn" value="등록">
+			<input type="button" id="btn" value="등록">			
 		</div>
+		
 		<input type="hidden" id="emp_role" name="emp_role" value="">
 		<input type="hidden" id="email" name="email" value="">
 		<input type="hidden" id="address" name="address" value="">
 	</form>
+	
+<!-- 푸터 -->
+<jsp:include page="../include/footer.jsp"></jsp:include>
+<!-- 푸터 -->
+		
 
 <!-- 데이트피커 J쿼리등을 사용하기위한 호출 -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -281,7 +207,8 @@ $(document).ready(function() {
     });
     
     // 서브밋 될때 실행
-    $('form').on('submit', function () {
+    function mergeData() {
+		
         // 체크된 체크박스들의 값을 합산할 변수 초기화
         var sum = 0;
         
@@ -309,7 +236,7 @@ $(document).ready(function() {
         
         // 주소값을 합쳐서 address 필드에 저장
         $("#address").val(addr1 + "" + addr2 + " " + addr3);
-    });
+    }
 	
     // 생년월일 데이트피커
     $("#birthdate").datepicker({
@@ -358,82 +285,182 @@ $(document).ready(function() {
         }
     });
     
-  	//서브밋 제어
-    $('#signup').submit(function(event) {
+    // 중복검사 관련함수
+    function isCanUseEmail() {
     	
+    	// 검증할 이메일을 가져온다
+    	var email = $("#email").val();
+    	
+    	// 결과값 반환을 위한 변수선언
+    	var myBoolean = true;
+    	
+    	$.ajax({
+		  	type: "GET",
+	        url: "${pageContext.request.contextPath}/member_ajax/searchEmail",
+	        data: {"email": email},
+	        // 조건문 발동을 위해 비동기로 처리
+	        async: false,
+	        success: function(response) {
+	        	// 공백을 제거한다
+        		const result = $.trim(response);
+        		// 이미 값이 존재한다면 true 를 반환한다
+	        	if(result == "true"){
+	        		myBoolean = true;
+	        	} else {
+	        		myBoolean = false;
+	        	}
+	        	
+	        },//success 콜백함수 종료지점
+	        error: function () {
+	        	myBoolean = true;
+	        }
+	  	});// end ajax
+	  	
+    	return myBoolean;
+	} // end function
+	
+	function isCanUsePhone() {
+    	
+		// 검증할 전화번호를 가져온다
+    	var phone = $("#phone_num").val();
+		// 결과값 반환을 위한 변수선언
+    	var myBoolean = true;
+    	$.ajax({
+		  	type: "GET",
+	        url: "${pageContext.request.contextPath}/member_ajax/searchPhone",
+	        data: {"phone_num": phone},
+	        // 조건문 발동을 위해 비동기로 처리
+	        async: false,
+	        success: function(response) {
+	        	// 공백을 제거한다
+        		const result= $.trim(response);
+	        	// 이미 값이 존재한다면 true 를 반환한다
+	        	if(result == "true"){
+	        		myBoolean = true;
+	        	} else {
+	        		myBoolean = false;
+	        	}
+	        	
+	        },//success 콜백함수 종료지점
+	        error: function () {
+	        	myboolean = true;
+            }
+	  	});// end ajax
+	  	
+		return myBoolean;
+	} // end function
+	
+  	//서브밋 제어
+    $('#btn').click(function() {
+    	
+    	// 데이터 병합실행
+   	 	mergeData();
+    	 
     	if($('#emp_name').val() == ""){
-    		$('#namemsg').css('color','red');
-    		$('#namemsg').text("이름을 입력하십시오."); 
+    		$('#msg').text("이름을 입력하십시오."); 
     		$('#emp_name').focus();
     		return false;
     	}
     	
     	if($('#birthdate').val() == ""){
-    		$('#birthmsg').css('color','red');
-    		$('#birthmsg').text("생일을 입력하십시오.");
+    		$('#msg').text("생일을 입력하십시오.");
     		$('#birthdate').focus();
     		return false;
     	}
     	
     	if($('#dept_name').val() == ""){
-    		$('#deptmsg').css('color','red');
-    		$('#deptmsg').text("부서를 선택하십시오.");  
+    		$('#msg').text("부서를 선택하십시오.");  
     		$('#dept_name').focus();
     		return false;
     	}
     	
     	if($('#position').val() == ""){
-    		$('#positionmsg').css('color','red');
-    		$('#positionmsg').text("직급을 선택하십시오.");
+    		$('#msg').text("직급을 선택하십시오.");
     		$('#position').focus();
     		return false;
     	}
     	
     	if($('#phone_num').val() == ""){
-    		$('#phonemsg').css('color','red');
-    		$('#phonemsg').text("전화번호를 입력해주세요.");
+    		$('#msg').text("전화번호를 입력해주세요.");
     		$('#phone_num').focus();
     		return false;
     	}
     	
     	if($('#hotline').val() == ""){
-    		$('#hotlinemsg').css('color','red');
-    		$('#hotlinemsg').text("내선번호를 입력하십시오.");
+    		$('#msg').text("내선번호를 입력하십시오.");
     		$('#hotline').focus();
     		return false;
     	}
     	
     	if($('#email_id').val() == "" || $('#email_dns').val() == ""){
-    		$('#emailmsg').css('color','red');
-    		$('#emailmsg').text("이메일을 입력하십시오.");
+    		$('#msg').text("이메일을 입력하십시오.");
     		return false;
     	}
     	
     	if($('#emp_post').val() == "" || $('#addr1').val() == ""){
-    		$('#addressmsg').css('color','red');
-    		$('#addressmsg').text("주소를 입력하십시오.");
+    		$('#msg').text("주소를 입력하십시오.");
     		return false;
     	}
     	
     	if($('#hire_date').val() == ""){
-    		$('#hiremsg').css('color','red');
-    		$('#hiremsg').text("입사일을 입력하십시오.");
+    		$('#msg').text("입사일을 입력하십시오.");
     		$('#hire_date').focus();
     		return false;
     	}
     	
+    	// 정규식 검사
+    	// 검사를 위한 변수선언
+		var regName = /^[a-zA-Z가-힣]+$/;
+		var regEmail = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		var regPhone = /^[0-9]{9,11}$/;
+
+		if (!regName.test($('#emp_name').val())) {
+			$('#msg').text("올바른 이름을 입력해주세요 한글, 영/대소문자만 입력가능 합니다.");
+			$('#emp_name').focus();
+    		return false;
+		}
+		
+		if (!regEmail.test($('#email_dns').val())) {
+			$('#msg').text("유효한 이메일 주소를 입력해주세요.");
+			$('#email_dns').focus();
+    		return false;
+		}
+		
+		if (!regPhone.test($('#phone_num').val())) {
+			$('#msg').text("- 없이 올바른 전화번호를 입력해주십시오.");
+			$('#phone_num').focus();
+    		return false;
+		}
+		
+		if (!regPhone.test($('#hotline').val())) {
+			$('#msg').text("- 없이 올바른 전화번호를 입력해주십시오.");
+			$('#hotline').focus();
+    		return false;
+		}
+		
+		if(isCanUseEmail()){
+			$('#msg').text("이미 등록된 이메일입니다.");
+			return false;
+		}
+		if(isCanUsePhone()){
+			$('#msg').text("이미 등록된 전화번호 입니다.");
+			$('#phone_num').focus();
+			return false;
+		}
+		
+		// 정규식 검사 끝
+		
     	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
-    	 event.preventDefault(); // 기본 폼 제출 동작을 막음
-    		
+    	 
     	 // 폼 데이터 객체생성
-    	 var formData = new FormData(this);
+    	 var formData = new FormData(document.getElementById('signup'));
          
          $.ajax({
              type: "POST",
              url: "${pageContext.request.contextPath}/member_ajax/insert",
              data: formData,
              contentType: false, // 멀티파트를 처리하기위해 객체를 직렬화하지 않고 직접 AJAX 통신할 수 있도록 설정
-             processData: false, 
+             processData: false, // 데이터를 스트링화 하지않고 전달함
              success: function (response) {
             	 
             	 const result = $.trim(response);

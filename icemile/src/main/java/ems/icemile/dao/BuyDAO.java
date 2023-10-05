@@ -15,6 +15,14 @@ public interface BuyDAO {
 	// 구매처 코드 얻기
 	public int getBuyCode();
 	
+	// 구매처 정보 얻기
+	public BuyDTO getBuyInfo(String buy_code);
+
+	// 구매처 업데이트
+	public void buyUpdate(BuyDTO buyDTO);
+	
+	// 구매처 삭제
+	public boolean buyDelete(String buy_code);
 
 	
 }

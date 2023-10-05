@@ -138,7 +138,7 @@ h1 {
 
 <!-- 카카오 우편번호 API호출 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- sweetalert2 API 호출 -->
 <link rel="stylesheet"
 		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
@@ -223,10 +223,6 @@ $(document).ready(function() {
         // 체크된 체크박스들의 값을 합산할 변수 초기화
         var sum = 0;
         
-        // 체크된 체크박스들을 순회하며 값을 합산
-        $('[name="role"]:checked').each(function () {
-            sum += parseInt($(this).val());
-        });
         
       
         // 이메일 값 합산 설정
@@ -245,6 +241,8 @@ $(document).ready(function() {
         
         // 주소값을 합쳐서 address 필드에 저장
         $("#buy_add").val(addr1 + "" + addr2 + " " + addr3);
+        var buy_add = $("#buy_add").val();
+//         alert(buy_add);
     });
 	
     
@@ -302,6 +300,8 @@ $(document).ready(function() {
     		return false;
     	}
     	
+
+    	
     	if($('#buy_post').val() == "" || $('#addr1').val() == ""){
     		$('#buy_add_msg').css('color','red');
     		$('#buy_add_msg').text("주소를 입력하십시오.");
@@ -320,31 +320,28 @@ $(document).ready(function() {
     	 // 폼 데이터 객체생성
     	 var formData = new FormData(this);
          
-         $.ajax({
-             type: "POST",
-             url: "${pageContext.request.contextPath}/member_ajax/insert",
-             data: formData,
-             contentType: false, // 멀티파트를 처리하기위해 객체를 직렬화하지 않고 직접 AJAX 통신할 수 있도록 설정
-             processData: false, 
-             success: function (response) {
-            	 
-            	 const result = $.trim(response);
-            	 
-                 if (result == "true") {
-                	 Swal.fire('정보 입력이 완료되었습니다.', '성공', 'success').then(result => {
-					 	if(result.isConfirmed)
-						// 완료 창을 닫으면 부모창 새로고침
-						window.opener.location.reload();
-						window.close(); // 성공 시 창 닫기
-					 });
-                 } else {
-                	 Swal.fire('정보 입력에 실패했습니다.', '실패', 'error');
-                 }
-             },
-             error: function () {
-            	 Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
-             }
-         });
+    	 $.ajax({
+    		    type: "POST",
+    		    url: "${pageContext.request.contextPath}/buy_ajax/insert",
+    		    data: formData,
+    		    contentType: false,
+    		    processData: false,
+    		    success: function(response) {
+    		        if (response === "true") {
+    		            Swal.fire('정보 입력이 완료되었습니다.', '성공', 'success').then(result => {
+    		                if (result.isConfirmed) {
+    		                    window.opener.location.reload();
+    		                    window.close();
+    		                }
+    		            });
+    		        } else {
+    		            Swal.fire('정보 입력에 실패했습니다.', '실패', 'error');
+    		        }
+    		    },
+    		    error: function() {
+    		        Swal.fire('서버 통신에 문제가 발생했습니다.', '실패', 'error');
+    		    }
+    		});
     	
     });//submit기능 제어 끝
 });

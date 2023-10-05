@@ -7,6 +7,19 @@
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->        
     </head>
+    
+<style>
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+*{
+    font-family: 'Pretendard-Regular';
+}
+</style>
+
     <body class="sb-nav-fixed">  
 <!-- 헤더 -->
 <jsp:include page="../include/header.jsp"></jsp:include>
