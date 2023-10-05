@@ -17,7 +17,7 @@ public interface FactoryService {
 	public void updateFacility(FacilityDTO facilityDTO);
 
 	// 설비(라인) 삭제
-	public boolean deleteFacility(List<Map<String, String>> codeAndTypeList);
+	public boolean deleteFacility(List<String> deleteList);
 
 	// 설비(라인) 이름 중복검사
 	public boolean searchLineName(String line_name);

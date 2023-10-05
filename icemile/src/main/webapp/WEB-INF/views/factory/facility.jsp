@@ -17,11 +17,11 @@
 		<jsp:include page="../include/sidebar.jsp"></jsp:include>
 		<!-- 사이드바 -->
             <div id="layoutSidenav_content">
+<form id="facilityList">
                 <main>
                 <!-- 내용 들어가는 곳 -->
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">설비 관리</h1>
-                        <form id="fr">
                         <ol class="breadcrumb mb-4">
 <!--                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
@@ -77,9 +77,9 @@
                                         </c:forEach>
                                     </tbody>
                                 </table>
+</form>
                             </div>
                         </div>
-                      </form>
                     </div>
                 <!-- 내용 들어가는 곳 -->   
                 </main>
@@ -472,7 +472,7 @@
 		
 		 		// 데이터를 전송하기위한 폼 데이터 직렬화
     	 		var formData = $('#facilityList').serialize();
-		 
+		 		
     	 		// AJAX 제출전에 값이 입력되어있는지 정규식 검사를 수행한다
 		 		if(formTest(formData)){
     	 			// 문제없다면 ajax 실행

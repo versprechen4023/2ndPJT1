@@ -31,8 +31,12 @@
 	</update>
 	
 	
-	<delete id="deleteFacility">
-		DELETE FROM facility where line_code = #{line_code}
+	<delete id="deleteFacility" parameterType="java.util.List">
+		DELETE FROM facility 
+			Where line_code IN 
+			  <foreach collection="list" item="line_code" open="(" separator="," close=")">
+			  	#{line_code}
+			  </foreach>
 	</delete>
 
 
