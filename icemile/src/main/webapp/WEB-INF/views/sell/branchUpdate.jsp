@@ -28,7 +28,7 @@ h1 {
 </head>
 <body class="sb-nav-fixed">
 				<!-- 내용들어가는곳 -->
-	<form action="#" id="branchUpdate" name="branchUpdate" method="POST" enctype="multipart/form-data">
+	<form id="branchUpdate" name="branchUpdate" >
 		<h1>
 			<b>지점수정</b>
 		</h1>
@@ -93,7 +93,7 @@ h1 {
 
 		<!-- 지점 이메일 -->
 		<label for="email_id_label"><b>이메일</b></label> 
-		<input type="text" name="branch_email" id="branch_email"> @ 
+		<input type="text" name="email_id" id="email_id"> @ 
 		<input type="text" name="email_dns" id="email_dns" value="naver.com"> 
 		<select name="email_sel" id="email_sel" onchange="updateEmailDns()">
 			<option value="">직접 입력</option>
@@ -106,13 +106,13 @@ h1 {
 
 		<!-- 등록 버튼 -->
 		<div id="btn">
-			<input type="submit" id="btn" value="등록">
+			<input type="button" id="btn" value="등록">
 		</div>
 		<input type="hidden" id="branch_code" name="branch_code" value="${sellDTO.branch_code }">
-		<input type="hidden" id="email" name="email" value="">
-		<input type="hidden" id="address" name="address" value="">
+		<input type="hidden" id="branch_email" name="branch_email" value="">
+		<input type="hidden" id=branch_add name="branch_add" value="">
 	</form>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- 카카오 우편번호 API호출 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -125,8 +125,8 @@ src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"><
 
 <script>
 //전역변수 선언
-var branch_email = '${sellDTO.branch_email}';
-var branch_add = '${sellDTO.branch_add}';
+var email = '${sellDTO.branch_email}';
+var address = '${sellDTO.branch_add}';
 
 
 // 기존값 필드설정 관련
@@ -139,18 +139,18 @@ var branch_email = parts[0]; // 이메일 아이디 부분
 var email_dns = parts[1]; // 이메일 도메인 부분
 
 // 이메일 아이디와 이메일 도메인을 각각의 입력 필드에 설정
-document.getElementById("branch_email").value = branch_email;
+document.getElementById("email_id").value = branch_email;
 document.getElementById("email_dns").value = email_dns;
 
 // 기존 주소 처리
 // 주소를 동명 기준으로 분리
 // 정규식을 이용하여 문자열 분리
-var dong = branch_add.match(/\((.*?)\)/);
+var dong = address.match(/\((.*?)\)/);
 
 // 동명이없는 경우에는 기준점이 없으므로 처리할수없음
 if(dong != null){
 // 기준점은 동명()괄호가 된다
-var parts = branch_add.split(dong[0]);
+var parts = address.split(dong[0]);
 
 // 분리된 주소를 각각의 입력 필드에 설정
 document.getElementById("addr1").value = parts[0].trim(); // 주소 앞 부분
@@ -229,11 +229,11 @@ $(document).ready(function() {
 	
     
     // 서브밋 될때 실행
-    $('form').on('submit', function () {
+    function mergeData() {
        
         // 이메일 값 합산 설정
         // 입력이메일을 가져오기위한 변수선언
-        var emailId = $("#branch_email").val();
+        var emailId = $("#email_id").val();
         var emailDns = $("#email_dns").val();
 		
         // email_id와 email_dns를 합쳐서 email 필드에 저장
@@ -247,10 +247,14 @@ $(document).ready(function() {
         
         // 주소값을 합쳐서 address 필드에 저장
         $("#branch_add").val(addr1 + "" + addr2 + " " + addr3);
-    });
+
+
+    };
     
   	//서브밋 제어
-    $('#branchUpdate').submit(function(event) {
+    $('#btn').click(function() {
+    	// 데이터 병합실행
+   	 	mergeData();
     	
     	//지점명 공백 시 
     	if($('#branch_name').val() == ""){
@@ -309,17 +313,14 @@ $(document).ready(function() {
     	}
     	
     	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
-    	 event.preventDefault(); // 기본 폼 제출 동작을 막음
     		
-    	 // 폼 데이터 객체생성
-    	 var formData = new FormData(this);
-         
+    	// 데이터를 전송하기위한 폼 데이터 직렬화
+     	var formData = $('#branchUpdate').serialize();
+    	 
          $.ajax({
              type: "POST",
              url: "${pageContext.request.contextPath}/sell_ajax/update",
              data: formData,
-             contentType: false, // 멀티파트를 처리하기위해 객체를 직렬화하지 않고 직접 AJAX 통신할 수 있도록 설정
-             processData: false, 
              success: function (response) {
             	 
             	 const result = $.trim(response);

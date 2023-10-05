@@ -1,9 +1,14 @@
 package ems.icemile.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,19 +34,19 @@ public class SellAjaxController {
 		return Boolean.toString(sellService.branchDelete(branch_code));
 	}
 	
-//	@PostMapping("search")
-//	public List<MemberDTO> memberSearch(@RequestBody HashMap<String, Object> json) {
-//		
-//		log.debug("멤버 서치 AJAX 호출");
-//		
-//		// 멤버리스트를 가져오기위한 멤버리스트 객체생성
-//		List<MemberDTO> memberList = new ArrayList<MemberDTO>();
-//		//결과값에 따라 멤버리스트를 가져온다
-//		memberList = memberService.memberSearch(json);
-//		
-//		// 콜백 함수에 결과값 리턴
-//		return memberList;
-//	}
+	@PostMapping("search")
+	public List<SellDTO> branchSearch(@RequestBody HashMap<String, Object> json) {
+		
+		log.debug("지점 서치 AJAX 호출");
+		
+		// 멤버리스트를 가져오기위한 멤버리스트 객체생성
+		List<SellDTO> branchList = new ArrayList<SellDTO>();
+		//결과값에 따라 멤버리스트를 가져온다
+		branchList = sellService.branchSearch(json);
+		
+		// 콜백 함수에 결과값 리턴
+		return branchList;
+	}
 	
 	@PostMapping("/branchReg")
 	public String branchInsert(SellDTO sellDTO, HttpSession session) throws Exception {
