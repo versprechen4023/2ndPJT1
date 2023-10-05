@@ -72,9 +72,9 @@
                                             <th>주소</th>
                                             <th>이메일</th>
                                             <th>담당자</th>
-<%--                                             <c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }"> --%>
+                                            <c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
 											<th data-sortable="false">관리</th>
-<%-- 											</c:if> --%>
+											</c:if>
 
                                         </tr>
                                     </thead>
@@ -89,20 +89,20 @@
                                             <td>${sellDTO.branch_post }</td>
                                             <td>${sellDTO.branch_add }</td>
                                             <td>${sellDTO.branch_email }</td>
-                                            <td><%-- ${memberDTO.emp_num } --%>박소현</td>
-<%--                                             <c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }"> --%>
+                                            <td>박소현</td>
+                                            <c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
 											<td><input type="button" value="수정"
-												onclick="branchUpdate('${sellDTO.branch_code}')" id="branchUpdate">
+												onclick="branchUpdate('${sellDTO.branch_code}')" id="branchUpdate1">
 												<input type="button" value="삭제"
-												onclick="branchDelete('${sellDTO.branch_code}')" id="branchDelete">
+												onclick="branchDelete('${sellDTO.branch_code}')" id="branchDelete1">
 											</td>
-<%-- 											</c:if> --%>
+											</c:if>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
+                        </div>                        
                     </div>
                 <!-- 내용 들어가는 곳 -->
                 </main>
@@ -127,6 +127,77 @@
 		crossorigin="anonymous"></script>
 	<script src="../resources/js/branchList_im.js"></script>
    <script>
+   
+// 검색관련 함수
+   function branchSearch() {
+   		
+   	   // 원래 매개변수로 전달할려했으나 처음에 언디파인드가 뜨는 문제가 있음 따라서 변수선언
+    	  var role = '${sessionScope.emp_role}';
+    		
+   	   // 값 전달 하기위한 JSON 타입 변수선언
+   	   var json = {
+           			category: $('#category').val(),
+           			content: $('#content').val()
+          			  };
+   	
+   	   // 검색 결과값을 받아오기 위한 ajax 호출
+    	   $.ajax({
+    			  url : '${pageContext.request.contextPath}/sell_ajax/search',
+    			  data: JSON.stringify(json),
+    	          contentType: 'application/json',
+    			  type : 'POST',
+    			  dataType: 'json',
+   			  
+    			  success:function(json){
+    				  
+    				    // tbody 내용을 초기화
+    				    $('tbody').empty();
+   					
+    				    // 배열 크기만큼 반복
+    				    json.forEach(function (data) {
+    				    	// tr 태그 생성
+    				        var $tr = $('<tr>');
+    				    	//tr 에 내용추가
+    				    	
+    				    	// 권한이있으면 수정 삭제 버튼도 같이 출력
+    				    	if(role.charAt(0) === '1'){
+    				        	$tr.append(
+    				        			
+    				           	"<td>"+data.branch_code+"</td>",
+    				           	"<td>"+data.branch_name+"</td>",
+    				         	"<td>"+data.branch_reg+"</td>",
+    				         	"<td>"+data.branch_ceo+"</td>",
+    				         	"<td>"+data.branch_phone+"</td>",
+    				         	"<td>"+data.branch_post+"</td>",
+    				         	"<td>"+data.branch_add+"</td>",
+    				         	"<td>"+data.branch_email+"</td>",
+    				         	"<td>박소현</td>",
+    				            "<td>" +
+    				            "<input type='button' value='수정' onclick='branchUpdate(\"" + data.branch_code + "\")' id='branchUpdate1'>" +
+    				            "<input type='button' value='삭제' onclick='branchDelete(\"" + data.branch_code + "\")' id='branchDelete1'>" +
+    				            "</td>"
+
+    				        	);
+    				    	} else {
+    				    		 $tr.append(
+    				           	"<td>"+data.branch_code+"</td>",
+    		 				    "<td>"+data.branch_name+"</td>",
+    				         	"<td>"+data.branch_reg+"</td>",
+    				         	"<td>"+data.branch_ceo+"</td>",
+    				         	"<td>"+data.branch_phone+"</td>",
+    				         	"<td>"+data.branch_post+"</td>",
+    				         	"<td>"+data.branch_add+"</td>",
+    				         	"<td>"+data.branch_email+"</td>",
+    				         	"<td>박소현</td>",
+    		 				     );
+    				    	}
+    				        // 생성한 <tr> 요소를 tbody에 추가
+    				        $('tbody').append($tr);
+    				    });
+    		      }// 콜백함수 종료지점
+         });// end_of_ajax
+   }// end function
+
 // 지점 추가관련 함수
    function branchReg(){
    	window.open('${pageContext.request.contextPath }/sell/branchReg', '_blank', 'width=600px, height=1000px, left=600px, top=300px');
@@ -180,6 +251,13 @@
    		  }// end_of_if(컨펌확인)
    	  });// end_of_function(alert 콜백함수 종료지점)
    }// end_of_function
+   
+ //엔터키 입력시 검색되게 이벤트 리스너 활성화
+   document.addEventListener("keyup", function(event) {
+       if (event.key === 'Enter') {
+       	branchSearch();
+       }// end if
+   });// end function
    </script>
    
     </body>

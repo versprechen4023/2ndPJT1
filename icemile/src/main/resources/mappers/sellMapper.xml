@@ -27,7 +27,7 @@
   	
   	<update id="branchUpdate">
   	UPDATE branch
-  		SET branch_code = #{branch_code}, branch_ceo = #{branch_ceo}, emp_num = #{emp_num}, branch_phone = #{branch_phone},
+  		SET branch_ceo = #{branch_ceo}, emp_num = #{emp_num}, branch_phone = #{branch_phone},
   			branch_post = #{branch_post}, branch_add = #{branch_add}, branch_email = #{branch_email}
   				 	WHERE branch_code = #{branch_code}
   	</update>
@@ -36,5 +36,12 @@
 	DELETE FROM branch
 		WHERE branch_code = #{branch_code}
 	</delete>
+	
+	<select id="branchSearch" resultType="ems.icemile.dto.SellDTO">
+  	<bind name="content" value="'%' + content + '%'"/>
+  	SELECT *
+  		FROM branch
+  			WHERE ${category} LIKE #{content}
+  </select>
 	
 </mapper>

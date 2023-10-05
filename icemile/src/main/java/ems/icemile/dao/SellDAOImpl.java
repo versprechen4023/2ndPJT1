@@ -1,5 +1,6 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -52,6 +53,12 @@ public class SellDAOImpl implements SellDAO{
 	public boolean branchDelete(String branch_code) {
 		log.debug("DAO| 지점 삭제");
 		return sqlSession.delete(namespace+"branchDelete", branch_code) > 0;
+	}
+	
+	@Override
+	public List<SellDTO> branchSearch(HashMap<String, Object> json) {
+		log.debug("DAO| 지점 검색");
+		return sqlSession.selectList(namespace+"branchSearch", json);
 	}
 
 	
