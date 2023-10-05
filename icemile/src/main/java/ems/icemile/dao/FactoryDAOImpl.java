@@ -1,6 +1,7 @@
 package ems.icemile.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -59,12 +60,23 @@ public class FactoryDAOImpl implements FactoryDAO {
 
 
 	@Override
-	public void deleteFacility(FacilityDTO facilityDTO) {
+	public boolean deleteFacility(List<String> deleteList) {
 
 		log.debug("FactoryDAO deleteFacility()");
 		
-		sqlSession.delete(namespace+"deleteFacility", facilityDTO);
+		return sqlSession.delete(namespace+"deleteFacility", deleteList) > 0;
 	}// deleteFacility
+
+
+	@Override
+	public boolean searchLineName(String line_name) {
+		
+		log.debug("FactoryDAO searchLineName()");
+		
+		String result = sqlSession.selectOne(namespace+"searchLineName", line_name);
+		
+		return result.isEmpty();
+	}
 	
 	
 	

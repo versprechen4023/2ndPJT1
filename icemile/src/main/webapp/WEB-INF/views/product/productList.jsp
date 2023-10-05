@@ -192,7 +192,12 @@ function formTest(formData) {
 		        		continueFor = false;
 		        		Swal.fire('이미 존재하는 품명입니다 다른 이름을 입력하십시오', '', 'info');
 		        	} 
-		        }//success 콜백함수 종료지점
+		        },//success 콜백함수 종료지점
+		        error: function () {
+		        	 result = false;
+	        		 continueFor = false;
+	            	 Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+	            }
 		  });// ajax
 		  
 		  // 중복값이 있다면 반복문을 종료한다

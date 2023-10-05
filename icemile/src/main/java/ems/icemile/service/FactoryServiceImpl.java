@@ -1,6 +1,7 @@
 package ems.icemile.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -50,12 +51,21 @@ public class FactoryServiceImpl implements FactoryService {
 
 
 	@Override
-	public void deleteFacility(FacilityDTO facilityDTO) {
+	public boolean deleteFacility(List<String> deleteList) {
 
 		log.debug("FactoryService deleteFacility()");
 		
-		factoryDAO.deleteFacility(facilityDTO);
+		return factoryDAO.deleteFacility(deleteList);
 	}// deleteFacility
+
+
+	@Override
+	public boolean searchLineName(String line_name) {
+		
+		log.debug("FactoryService searchLineName()");
+		
+		return factoryDAO.searchLineName(line_name);
+	}//searchLineName
 	
 	
 	

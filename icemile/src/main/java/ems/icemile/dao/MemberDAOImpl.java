@@ -84,5 +84,25 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.update(namespace+"updatePassword",memberDTO) > 0;
 	}
 	
+	@Override
+	public boolean searchEmail(String email) {
+
+		log.debug("searchEmail DAO 도달");
+		
+		String result = sqlSession.selectOne(namespace+"searchEmail", email);
+		
+		return (result == null) ? false : true;
+	}
+	
+	@Override
+	public boolean searchPhone(String phone_num) {
+		
+		log.debug("searchEmail DAO 도달");
+		
+		String result = sqlSession.selectOne(namespace+"searchPhone", phone_num);
+	
+		return (result == null) ? false : true;
+	}
+	
 	
 }

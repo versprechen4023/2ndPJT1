@@ -14,7 +14,15 @@
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     
     <style type="text/css">
-
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+*{
+    font-family: 'Pretendard-Regular';
+}
 
 /* 사이드바, 헤더, 푸터 제외 내용부분 */
 .container{
@@ -52,12 +60,12 @@ h1 {
 }
 
 table { 
-     width: 45%; 
-  border-top: 1px solid #444444; 
-     border-collapse: collapse; 
-      border: 2px solid; 
-     margin: auto;
-     margin-bottom: 20px;
+   width: 45%; 
+   border-top: 1px solid #444444; 
+   border-collapse: collapse; 
+   border: 2px solid; 
+   margin: auto;
+   margin-bottom : 20px;
    } 
    
 th { 
@@ -73,37 +81,15 @@ td {
   padding: 10px; 
   text-align: left; 
    } 
-   
-
-/* /* 수정버튼 */ */
-/* .upBut{ */
-/* 	margin: 0px 230px;	/* 중앙  */ */
-/*     width: 5.8917vw; */
-/*     height: 1.975vw; */
-/*     position: absolute; */
-/*     left: 32.9688vw; */
-/*     top: 48vw; */
-/* } */
-
-/* /* 비밀번호 변경 버튼 */ */
-/* .passUp{ */
-/* 	margin: 0px 230px;	/* 중앙  */ */
-/* 	height: 1.975vw; */
-/* 	left: 39.9688vw; */
-/*     top: 48vw; */
-/*     position: absolute; */
-	
-/* } */
-/* .buttonss{ */
-/* 	width:50px; */
-/* 	top:100px; */
-
-/* } */
 
 
 </style>
 
 
+
+
+    
+    
     </head>
      <body class="sb-nav-fixed">
         
@@ -118,6 +104,7 @@ td {
             <div id="layoutSidenav_content">
                 <main>
                 <!-- 내용들어가는곳 -->
+
 
 
   <h1>마이페이지</h1>
@@ -170,7 +157,7 @@ td {
 
 <tr>
 <th>주소</th>
-<td><input type="text" value="${memberDTO.address }" readonly size="30"></td>
+<td><input type="text" value="${memberDTO.address }" readonly size="35"></td>
 </tr>
 
 <tr>
@@ -178,20 +165,19 @@ td {
 <td><input type="text" value="${memberDTO.hire_date }" readonly></td>
 </tr>
 
-
 </table>
  
-
                 <!-- 내용 들어가는 곳 -->
                 </main>
- 
- <div style="display: flex; justify-content: center; margin-bottom: 20px; ">
- 	<div class="btn">
-		<input type="button" value="수정" onclick="memberUpdate('${sessionScope.emp_num}')" id="updateEmp" >
- 		<input type="button" value="비밀번호 변경"  onclick="memberPassword('${sessionScope.emp_num}')" id="passwordEmp" >
- 	</div>          
- </div>               
+  
+<div style="display: flex; justify-content: center; margin-bottom: 20px; ">
+ <div class="btn">
+    <input type="button" value="수정" onclick="memberUpdate('${sessionScope.emp_num}')" id="updateEmp" >
+     <input type="button" value="비밀번호 변경"  onclick="memberPassword('${sessionScope.emp_num}')" id="passwordEmp" >
+ </div>
+ </div>
                 
+              
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 -->  
