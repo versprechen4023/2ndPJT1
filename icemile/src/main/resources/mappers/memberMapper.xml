@@ -60,4 +60,18 @@
   		SET emp_pw = #{emp_pw}
   			WHERE emp_num = #{emp_num}
   </update>
+  
+  <select id="searchEmail" resultType="java.lang.String">
+  	SELECT email
+  		FROM emp
+  			WHERE email = #{email}
+  				LIMIT 1
+  </select>
+  
+  <select id="searchPhone" resultType="java.lang.String">
+  	SELECT phone_num
+  		FROM emp
+  			WHERE phone_num = #{phone_num}
+  				LIMIT 1
+  </select>
 </mapper>

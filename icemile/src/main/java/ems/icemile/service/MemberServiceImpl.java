@@ -141,4 +141,20 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberDAO.updatePassword(memberDTO);
 	}
+	
+	@Override
+	public boolean searchEmail(String email) {
+		
+		log.debug("searchEmail 서비스");
+		
+		return memberDAO.searchEmail(email);
+	}
+	
+	@Override
+	public boolean searchPhone(String phone_num) {
+		
+		log.debug("searchPhone 서비스");
+		
+		return memberDAO.searchPhone(phone_num);
+	}
 }

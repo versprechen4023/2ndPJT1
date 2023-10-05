@@ -78,6 +78,6 @@ public class ProductDAOImpl implements ProductDAO {
 		
 		String result = sqlSession.selectOne(namespace+"searchProName", prod_name);
 		
-		return result.isEmpty();
+		return (result == null) ? true : false;
 	}
 }

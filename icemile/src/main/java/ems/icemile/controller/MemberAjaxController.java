@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -136,5 +137,21 @@ public class MemberAjaxController {
 			return "false";
 		}
 		
+	}
+	
+	@GetMapping("searchEmail")
+	public String searchEmail(@RequestParam("email") String email) {
+		
+		log.debug("{} 값 확인", email);
+		
+		return Boolean.toString(memberService.searchEmail(email));
+	}
+	
+	@GetMapping("searchPhone")
+	public String searchPhone(@RequestParam("phone_num") String phone_num) {
+		
+		log.debug("{} 값 확인", phone_num);
+		
+		return Boolean.toString(memberService.searchPhone(phone_num));
 	}
 }

@@ -9,7 +9,7 @@
 </head>
 <body>
 				<!-- 내용들어가는곳 -->
-	<form action="${pageContext.request.contextPath }/member/memberInsert" id="signup" name="signup" method="POST" enctype="multipart/form-data">
+	<form id="signup" name="signup">
 		<h1>
 			사원등록
 		</h1>
@@ -72,7 +72,7 @@
 		
 		<div id="bottomContainer"> 
 		<!-- 등록 버튼 -->
-			<input type="submit" id="btn" value="등록">			
+			<input type="button" id="btn" value="등록">			
 		</div>
 		
 		<input type="hidden" id="emp_role" name="emp_role" value="">
@@ -207,7 +207,8 @@ $(document).ready(function() {
     });
     
     // 서브밋 될때 실행
-    $('form').on('submit', function () {
+    function mergeData() {
+		
         // 체크된 체크박스들의 값을 합산할 변수 초기화
         var sum = 0;
         
@@ -235,7 +236,7 @@ $(document).ready(function() {
         
         // 주소값을 합쳐서 address 필드에 저장
         $("#address").val(addr1 + "" + addr2 + " " + addr3);
-    });
+    }
 	
     // 생년월일 데이트피커
     $("#birthdate").datepicker({
@@ -284,9 +285,77 @@ $(document).ready(function() {
         }
     });
     
-  	//서브밋 제어
-    $('#signup').submit(function(event) {
+    // 중복검사 관련함수
+    function isCanUseEmail() {
     	
+    	// 검증할 이메일을 가져온다
+    	var email = $("#email").val();
+    	
+    	// 결과값 반환을 위한 변수선언
+    	var myBoolean = true;
+    	
+    	$.ajax({
+		  	type: "GET",
+	        url: "${pageContext.request.contextPath}/member_ajax/searchEmail",
+	        data: {"email": email},
+	        // 조건문 발동을 위해 비동기로 처리
+	        async: false,
+	        success: function(response) {
+	        	// 공백을 제거한다
+        		const result = $.trim(response);
+        		// 이미 값이 존재한다면 true 를 반환한다
+	        	if(result == "true"){
+	        		myBoolean = true;
+	        	} else {
+	        		myBoolean = false;
+	        	}
+	        	
+	        },//success 콜백함수 종료지점
+	        error: function () {
+	        	myBoolean = true;
+	        }
+	  	});// end ajax
+	  	
+    	return myBoolean;
+	} // end function
+	
+	function isCanUsePhone() {
+    	
+		// 검증할 전화번호를 가져온다
+    	var phone = $("#phone_num").val();
+		// 결과값 반환을 위한 변수선언
+    	var myBoolean = true;
+    	$.ajax({
+		  	type: "GET",
+	        url: "${pageContext.request.contextPath}/member_ajax/searchPhone",
+	        data: {"phone_num": phone},
+	        // 조건문 발동을 위해 비동기로 처리
+	        async: false,
+	        success: function(response) {
+	        	// 공백을 제거한다
+        		const result= $.trim(response);
+	        	// 이미 값이 존재한다면 true 를 반환한다
+	        	if(result == "true"){
+	        		myBoolean = true;
+	        	} else {
+	        		myBoolean = false;
+	        	}
+	        	
+	        },//success 콜백함수 종료지점
+	        error: function () {
+	        	myboolean = true;
+            }
+	  	});// end ajax
+	  	
+		return myBoolean;
+	} // end function
+	
+  	//서브밋 제어
+    $('#btn').click(function() {
+    	
+    	// 데이터 병합실행
+   	 	mergeData();
+    	 
     	if($('#emp_name').val() == ""){
     		$('#msg').text("이름을 입력하십시오."); 
     		$('#emp_name').focus();
@@ -339,18 +408,59 @@ $(document).ready(function() {
     		return false;
     	}
     	
+    	// 정규식 검사
+    	// 검사를 위한 변수선언
+		var regName = /^[a-zA-Z가-힣]+$/;
+		var regEmail = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		var regPhone = /^[0-9]{9,11}$/;
+
+		if (!regName.test($('#emp_name').val())) {
+			$('#msg').text("올바른 이름을 입력해주세요 한글, 영/대소문자만 입력가능 합니다.");
+			$('#emp_name').focus();
+    		return false;
+		}
+		
+		if (!regEmail.test($('#email_dns').val())) {
+			$('#msg').text("유효한 이메일 주소를 입력해주세요.");
+			$('#email_dns').focus();
+    		return false;
+		}
+		
+		if (!regPhone.test($('#phone_num').val())) {
+			$('#msg').text("- 없이 올바른 전화번호를 입력해주십시오.");
+			$('#phone_num').focus();
+    		return false;
+		}
+		
+		if (!regPhone.test($('#hotline').val())) {
+			$('#msg').text("- 없이 올바른 전화번호를 입력해주십시오.");
+			$('#hotline').focus();
+    		return false;
+		}
+		
+		if(isCanUseEmail()){
+			$('#msg').text("이미 등록된 이메일입니다.");
+			return false;
+		}
+		if(isCanUsePhone()){
+			$('#msg').text("이미 등록된 전화번호 입니다.");
+			$('#phone_num').focus();
+			return false;
+		}
+		
+		// 정규식 검사 끝
+		
     	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
-    	 event.preventDefault(); // 기본 폼 제출 동작을 막음
-    		
+    	 
     	 // 폼 데이터 객체생성
-    	 var formData = new FormData(this);
+    	 var formData = new FormData(document.getElementById('signup'));
          
          $.ajax({
              type: "POST",
              url: "${pageContext.request.contextPath}/member_ajax/insert",
              data: formData,
              contentType: false, // 멀티파트를 처리하기위해 객체를 직렬화하지 않고 직접 AJAX 통신할 수 있도록 설정
-             processData: false, 
+             processData: false, // 데이터를 스트링화 하지않고 전달함
              success: function (response) {
             	 
             	 const result = $.trim(response);
