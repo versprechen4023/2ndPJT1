@@ -125,8 +125,8 @@ src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"><
 
 <script>
 //전역변수 선언
-var email = '${sellDTO.branch_email}';
-var address = '${sellDTO.branch_add}';
+var branch_email = '${sellDTO.branch_email}';
+var branch_add = '${sellDTO.branch_add}';
 
 
 // 기존값 필드설정 관련
@@ -145,12 +145,12 @@ document.getElementById("email_dns").value = email_dns;
 // 기존 주소 처리
 // 주소를 동명 기준으로 분리
 // 정규식을 이용하여 문자열 분리
-var dong = address.match(/\((.*?)\)/);
+var dong = branch_add.match(/\((.*?)\)/);
 
 // 동명이없는 경우에는 기준점이 없으므로 처리할수없음
 if(dong != null){
 // 기준점은 동명()괄호가 된다
-var parts = address.split(dong[0]);
+var parts = branch_add.split(dong[0]);
 
 // 분리된 주소를 각각의 입력 필드에 설정
 document.getElementById("addr1").value = parts[0].trim(); // 주소 앞 부분

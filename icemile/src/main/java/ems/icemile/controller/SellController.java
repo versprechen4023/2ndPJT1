@@ -60,15 +60,6 @@ public class SellController {
 		return "sell/branchUpdate";
 	}
 	
-//	@PostMapping("/branchUpdatePro")
-//	public String branchUpdatePro(SellDTO sellDTO) {
-//		log.debug("컨트롤러| 지점 수정 넘기기 페이지");
-//		
-//		
-//		sellService.branchUpdate(sellDTO);
-//		
-//		return "redirect:/sell/branchList";
-//	}
 	
 	
 }
