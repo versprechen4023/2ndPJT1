@@ -8,6 +8,15 @@
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
 	<style>
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+*{
+    font-family: 'Pretendard-Regular';
+}
 body {
 	display: flex;
 	justify-content: center;
@@ -17,38 +26,81 @@ body {
 }
 h1 {
 	text-align: center; /* 가로 중앙 정렬 */
+    font-weight: 300;
+    line-height: 3.2;
+    margin-top: 0;
+    margin: auto;
+    text-align: center; 
+    font-weight: bold;
+    height: 110px;
 }
 #btn {
 	text-align: center; /* 가로 중앙 정렬 */
 	margin: 10px; /* 버튼 간격 설정 */
 	font-size: 16px; /* 버튼 텍스트 크기 설정 */
-	padding: 10px 20px; /* 버튼 안 여백 설정 */
+	padding: 5px 20px; /* 버튼 안 여백 설정 */
+}
+
+th { 
+  border-bottom: 1px solid #444444; 
+  border: 1px solid;  
+  padding: 10px; 
+  text-align: center; 
+  width: 200px;
+   } 
+td { 
+  border-bottom: 1px solid #444444; 
+   border: 1px solid;  
+  padding: 10px; 
+  text-align: left; 
+   } 
+   
+table {
+/* box-shadow: 3px 3px 3px 3px gray; */
+   border: 1px solid; 
+   border-right:none;
+border-left:none;
+border-top:none;
+border-bottom:none;
+
 }
 </style>
 </head>
 <body class="sb-nav-fixed">
 	 			<!-- 내용들어가는곳 -->
 	<form action="#" id="signup" name="signup" method="POST">
-		<h1>
-			<b>비밀번호 변경</b>
-		</h1>
-    
-    <br><br>
+<!-- 		<h1> -->
+<!-- 			<b>비밀번호 변경</b> -->
+<!-- 		</h1> -->
+
+		<h1>비밀번호 변경</h1>
+<table border="1">
+<colgroup>
+<col style="background-color: #E0EBFF;">
+<col>
+</colgroup> 
 
 		<!-- 현재비밀번호 -->
-		<b>현재 비밀번호:</b> <input type="password" name="emp_pw" id="emp_pw">
-		<br>
+		<tr>
+		<th>현재 비밀번호</th>
+		<td><input type="password" name="emp_pw" id="emp_pw"></td>
+		</tr>
+
+		<!-- 변경할 비밀번호 -->
+		<tr>
+		<th>변경할 비밀번호</th>
+		<td><input type="password" name="emp_newPw1" id="emp_newPw1"></td>
+		</tr>
 
 		<!-- 현재비밀번호 -->
-		<b>변경할 비밀번호:</b> <input type="password" name="emp_newPw1" id="emp_newPw1">
-		<br>
+				<tr>
+		<th>변경할 비밀번호 재확인</th>
+		<td><input type="password" name="emp_newPw2" id="emp_newPw2"></td>
+		</tr>
 
-		<!-- 현재비밀번호 -->
-		<b>변경할 비밀번호 재확인:</b> <input type="password" name="emp_newPw2" id="emp_newPw2">
-		<br>
 		<span id="passmsg"></span>
-		<br>
 
+</table>    
 		<!-- 등록 버튼 -->
 		<div id="btn">
 			<input type="submit" id="btn" value="등록">
