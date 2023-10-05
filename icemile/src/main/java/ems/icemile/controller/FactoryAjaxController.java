@@ -1,6 +1,7 @@
 package ems.icemile.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,23 +29,10 @@ public class FactoryAjaxController {
 	@PostMapping("/deleteFacility")
 	public String deleteFacility(@RequestParam("selectedLineCo") String[] selectedLineCo) {
 		
-		// 다중 삭제를 위한 리스트 형식의 맵 타입 배열 변수선언
-		List<Map<String, String>> codeAndTypeList = new ArrayList<>();
+		// 마이바티스에서 반복처리를 위해 배열을 리스트 타입으로 변경
+		List<String> deleteList = Arrays.asList(selectedLineCo);
 		
-		// DB에서 원자재와 완제품을 구분하기위해 맵형태 배열에 키값을 추가하고 조건문에 들어갈 품목번호를 입력한다
-		for (String a : selectedLineCo) {
-			
-			// 맵 타입 배열 객체생성
-		    Map<String, String> codeAndType = new HashMap<>();
-		    
-		    // 라인 코드를 삽입한다
-		    codeAndType.put("line_code", a);
-
-		    // 리스트 배열에 맵 배열을 삽입한다
-		    codeAndTypeList.add(codeAndType);
-		}
-		
-		return Boolean.toString(factoryService.deleteFacility(codeAndTypeList));
+		return Boolean.toString(factoryService.deleteFacility(deleteList));
 	}// facilityDelete
 	
 	

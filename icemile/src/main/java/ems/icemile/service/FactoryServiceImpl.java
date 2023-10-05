@@ -51,11 +51,11 @@ public class FactoryServiceImpl implements FactoryService {
 
 
 	@Override
-	public boolean deleteFacility(List<Map<String, String>> codeAndTypeList) {
+	public boolean deleteFacility(List<String> deleteList) {
 
 		log.debug("FactoryService deleteFacility()");
 		
-		return factoryDAO.deleteFacility(codeAndTypeList);
+		return factoryDAO.deleteFacility(deleteList);
 	}// deleteFacility
 
 

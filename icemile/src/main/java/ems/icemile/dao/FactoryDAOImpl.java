@@ -60,11 +60,11 @@ public class FactoryDAOImpl implements FactoryDAO {
 
 
 	@Override
-	public boolean deleteFacility(List<Map<String, String>> codeAndTypeList) {
+	public boolean deleteFacility(List<String> deleteList) {
 
 		log.debug("FactoryDAO deleteFacility()");
 		
-		return sqlSession.delete(namespace+"deleteFacility", codeAndTypeList) > 0;
+		return sqlSession.delete(namespace+"deleteFacility", deleteList) > 0;
 	}// deleteFacility
 
 
