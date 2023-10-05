@@ -3,10 +3,13 @@ package ems.icemile.controller;
 import javax.inject.Inject;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ems.icemile.dto.ProductInsertDTO;
+import ems.icemile.dto.WareHouseinsertDTO;
 import ems.icemile.service.WareHouseServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +29,22 @@ public class WareHouseAjaxController {
 		log.debug("서치 웨어하우스 코드 AJAX 호출");
 		
 		return wareHouseService.searchwhcode(wh_code);
+	}
+	
+	@PostMapping("/whUpdate")
+	public String productUpdate(WareHouseinsertDTO warehouseinsertDTO) {
+		
+		log.debug("값 잘 넘어오나"+warehouseinsertDTO);
+		
+		return Boolean.toString(wareHouseService.whUpdate(warehouseinsertDTO));
+	}
+	
+	@PostMapping("/whInsert")
+	public String productInsert(WareHouseinsertDTO warehouseinsertDTO) {
+		
+		log.debug("값 잘 넘어오나"+warehouseinsertDTO);
+		
+		return Boolean.toString(wareHouseService.whInsert(warehouseinsertDTO));
 	}
 
 }

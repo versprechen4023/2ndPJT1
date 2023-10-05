@@ -40,8 +40,67 @@
 <!-- 창고 코드 중복 검사 -->
 
 
+<!-- 창고 수정 -->
+<update id="whUpdate">
+  UPDATE
+  		<choose>
+    		<when test='type == "P"'>
+      		warehouse SET wh_name = #{wh_name}, wh_type = #{wh_type}, wh_location = #{wh_location},
+      					wh_phone = #{wh_phone}, wh_status = #{wh_status}, prod_code = #{prod_code},
+      					raw_code = #{raw_code}, emp_num = #{emp_num}, wh_note = #{wh_note}
+      				WHERE wh_code = #{wh_code}
+    		</when>
+    		<when test='type == "R"'>
+    		warehouse SET wh_name = #{wh_name}, wh_type = #{wh_type}, wh_location = #{wh_location},
+      					wh_phone = #{wh_phone}, wh_status = #{wh_status}, prod_code = #{prod_code},
+      					raw_code = #{raw_code}, emp_num = #{emp_num}, wh_note = #{wh_note}
+      				WHERE wh_code = #{wh_code}
+      		
+    		</when>
+  		</choose>
+  </update>
+<!-- 창고 수정 -->
 
+<!-- 창고 코드 자동 부여 -->
+ <select id="getNewwhId" resultType="java.lang.String">
+  	SELECT
+  		<choose>
+    		<when test='type == "P"'>
+    		wh_code
+      			FROM warehouse
+      				ORDER BY wh_code 
+    		</when>
+    		<when test='type == "R"'>
+    		wh_code
+      			FROM warehouse
+      				ORDER BY wh_code 
+    		</when>
+  		</choose>
+  		LIMIT 1
+  </select>
+<!-- 창고 코드 자동 부여 -->
 
+<!-- 창고 추가 -->
+<insert id="whInsert">
+  INSERT INTO
+  		<choose>
+    		<when test='type == "P"'>
+      		warehouse (wh_code, wh_name, wh_type, wh_location, wh_phone, 
+      		wh_status, prod_code, raw_code, emp_num, wh_note)
+      		
+      		VALUES(#{wh_code}, #{wh_name}, #{wh_type}, #{wh_location}, #{wh_phone}, 
+      		#{wh_status}, #{prod_code}, #{raw_code}, #{emp_num}, #{wh_note})
+    		</when>
+    		<when test='type == "R"'>
+      		warehouse (wh_code, wh_name, wh_type, wh_location, wh_phone, 
+      		wh_status, prod_code, raw_code, emp_num, wh_note)
+      		
+      		VALUES(#{wh_code}, #{wh_name}, #{wh_type}, #{wh_location}, #{wh_phone}, 
+      		#{wh_status}, #{prod_code}, #{raw_code}, #{emp_num}, #{wh_note})
+    		</when>
+  		</choose>
+  </insert>
+<!-- 창고 추가 -->
   
   
   </mapper>
