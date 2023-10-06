@@ -1,6 +1,8 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -63,29 +65,46 @@ public class WareHouseDAOImpl implements WareHouseDAO {
 	public boolean whUpdate(WareHouseinsertDTO warehouseinsertDTO) {
 
 		log.debug("whUpdate DAO 도달");
-		
-        //>0; 한행이라도 업데이트가 되었는가를 말하는 것이다.
+
+		// >0; 한행이라도 업데이트가 되었는가를 말하는 것이다.
 		return sqlSession.update(namespace + "whUpdate", warehouseinsertDTO) > 0;
 
 	}
-    
-	//창고 코드 자동 부여
+
+	// 창고 코드 자동 부여
 	@Override
 	public String getNewwhId(WareHouseinsertDTO warehouseinsertDTO) {
-		
-        log.debug("getNewwhId DAO 도달");
-		
-		return sqlSession.selectOne(namespace+"getNewwhId",warehouseinsertDTO);
+
+		log.debug("getNewwhId DAO 도달");
+
+		return sqlSession.selectOne(namespace + "getNewwhId", warehouseinsertDTO);
 	}
-	
-	//창고 추가
-    @Override
+
+	// 창고 추가
+	@Override
 	public boolean whInsert(WareHouseinsertDTO warehouseinsertDTO) {
-    	log.debug("whInsert DAO 도달");
+		log.debug("whInsert DAO 도달");
 
-		return sqlSession.insert(namespace+"whInsert", warehouseinsertDTO) > 0;
+		return sqlSession.insert(namespace + "whInsert", warehouseinsertDTO) > 0;
 	}
-	
-	}//
 
+	// 창고 삭제
+	@Override
+	public boolean whDelete(List<Map<String, String>> codeAndTypeList) {
 
+		log.debug("whDelete DAO 도달");
+
+		return sqlSession.delete(namespace + "whDelete", codeAndTypeList) > 0;
+	}
+
+	// 창고 검색
+	@Override
+	public List<WareHouseDTO> whSearch(HashMap<String, Object> json) {
+		
+		log.debug("whSearch DAO 도달");
+
+		return sqlSession.selectList(namespace + "whSearch", json);
+
+	}
+
+}//

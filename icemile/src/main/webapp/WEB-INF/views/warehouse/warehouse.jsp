@@ -9,128 +9,133 @@
 <!-- 헤더 -->
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
-<!-- 헤드 -->	
-	        <!-- 로그인이 안되어 있을시 로그인 페이지로 바로가기 -->
-            <c:if test="${empty sessionScope.emp_num}"> 
-            <c:redirect url="/member/login" />
-            </c:if>     
+<!-- 헤드 -->
+<!-- 로그인이 안되어 있을시 로그인 페이지로 바로가기 -->
+<c:if test="${empty sessionScope.emp_num}">
+	<c:redirect url="/member/login" />
+</c:if>
 </head>
 <body class="sb-nav-fixed">
-<div id="layoutSidenav">  
+	<div id="layoutSidenav">
 		<!-- 사이드바 -->
 		<jsp:include page="../include/sidebar.jsp"></jsp:include>
 		<!-- 사이드바 -->
 		<div id="layoutSidenav_content">
-		<form id="warehousList">	
-			<main>
-				<!-- 내용들어가는곳 -->
-				<div class="container-fluid px-4">
-					<h1 class="mt-4">창고관리</h1>					
+			<form id="warehousList">
+				<main>
+					<!-- 내용들어가는곳 -->
+					<div class="container-fluid px-4">
+						<h1 class="mt-4">창고관리</h1>
 						<ol class="breadcrumb mb-4">
 						</ol>
 						<div class="bnt">
-						
-						<c:if test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
-							<input type="button" value="창고추가" id="whAdd">
-							<span>&nbsp;</span>
-							<input type="button" value="수정" id="updateWh">
-							<span>&nbsp;</span>
-							<input type="button" value="삭제" id="deleteWh">
-							<span>&nbsp;</span>
-							<input type="button" value="취소" id="cancelWh" disabled>
-							<span>&nbsp;</span>
-							<input type="button" value="저장" id="saveWh" disabled>
-						</c:if>
-						
+
+							<c:if
+								test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
+								<input type="button" value="창고추가" id="whAdd">
+								<span>&nbsp;</span>
+								<input type="button" value="수정" id="updateWh">
+								<span>&nbsp;</span>
+								<input type="button" value="삭제" id="deleteWh">
+								<span>&nbsp;</span>
+								<input type="button" value="취소" id="cancelWh" disabled>
+								<span>&nbsp;</span>
+								<input type="button" value="저장" id="saveWh" disabled>
+							</c:if>
+
 						</div>
 
 						<div class="card mb-4">
 							<div class="card-body">
-                                <!--location.reload() 함수를 호출하여 현재 웹 페이지를 다시 로드하도록 지정합니다. -->
-								<input type="button" name="allList" value="전체목록" onclick="location.reload();">
-								<select id="category">
-									<option value="1">코드</option>
-									<option value="2">이름</option>
-									<option value="3">종류</option>
-									<option value="4">위치</option>
-									<option value="5">가용상태</option>
-									<option value="6">담당자</option>
+								<!--location.reload() 함수를 호출하여 현재 웹 페이지를 다시 로드하도록 지정합니다. -->
+								<input type="button" name="allList" value="전체목록"
+									onclick="location.reload();"> <select id="category">
+									<option value="wh_code">코드</option>
+									<option value="wh_name">이름</option>
+									<option value="wh_type">종류</option>
+									<option value="wh_location">위치</option>
+									<option value="wh_status">가용상태</option>
+									<option value="emp_num">담당자</option>
 								</select> 
-								<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content"> 
-								<input type="button" name="search" value="조회" onclick="warehouseSearch()">
-								
-								<table id="datatablesSimple">
-									<thead>
-										<tr>
-                                            <!-- data-sortable="false":데이터를 테이블에서 정렬할수 있는지 여부를 나타내는것 false로 설정되어 있으므로 이 열은 정렬할수 없는 열 -->
-                                            <!-- name="selectedAllProId": 이 속성은 입력 요소에 이름을 부여합니다. 이 경우 "selectedAllProId"로 설정되어 JavaScript나 서버 측 코드에서 이 체크박스를 식별할 수 있습니다. -->
-										    <th data-sortable="false"><input type="checkbox" name="selectedAllProId"></th>
-											<th>창고 코드</th>
-											<th>창고 이름</th>
-											<th>창고 종류</th>
-											<th>창고 위치</th>
-											<th>창고 전화번호</th>
-											<th>창고 가용상태</th>
-											<th>완제품 코드</th>
-											<th>원자재 코드</th>
-											<th>창고 담당자</th>
-											<th>비고</th>
-										</tr>
-									</thead>
-
-									<tbody >
-										<c:forEach var="WareHouseDTO" items="${houseList}">
-											<tr>
-                                                <!--체크박스를 선택하면 wh_code가 서버로 이동하면서 checkbox의 값이 지정되어서 체크박스가 어떤행을 선택하게 되는지 알수 있다 -->
-											    <td><input type="checkbox"  name="selectedProId"  value="${WareHouseDTO.wh_code}"></td>
-												<td>${WareHouseDTO.wh_code}</td>
-												<td>${WareHouseDTO.wh_name}</td>
-												<td>${WareHouseDTO.wh_type}</td>
-												<td>${WareHouseDTO.wh_location}</td>
-												<td>${WareHouseDTO.wh_phone}</td>
-                                                 
-												<c:choose>
-													<c:when test="${WareHouseDTO.wh_status == 1}">
-														<td>Y</td>
-													</c:when>
-													<c:when test="${WareHouseDTO.wh_status == 2}">
-														<td>N</td>
-													</c:when>
-												</c:choose>
-												
-												<td>${WareHouseDTO.prod_code}</td>
-												<td>${WareHouseDTO.raw_code}</td>
-												<td>${WareHouseDTO.emp_num}</td>
-												<td>${WareHouseDTO.wh_note}</td>
-											</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-								
-								</form>
-								
-								</div>
-							</div>
+								<input type="text" name="content" size=60
+									placeholder="검색어를 입력하세요" id="content">
+								<input
+									type="button" name="search" id="inputwhSearch" value="조회" >
 							
-							  <input type="button" value="엑셀파일다운" id="excelProd">
-							  
-						</div>
-				<!-- 내용 들어가는 곳 -->
-			</main>
 
-			<!-- 푸터 -->
-			<jsp:include page="../include/footer.jsp"></jsp:include>
-			<!-- 푸터 -->
+									<table id="datatablesSimple">
+										<thead>
+											<tr>
+												<!-- data-sortable="false":데이터를 테이블에서 정렬할수 있는지 여부를 나타내는것 false로 설정되어 있으므로 이 열은 정렬할수 없는 열 -->
+												<!-- name="selectedAllProId": 이 속성은 입력 요소에 이름을 부여합니다. 이 경우 "selectedAllProId"로 설정되어 JavaScript나 서버 측 코드에서 이 체크박스를 식별할 수 있습니다. -->
+												<th data-sortable="false"><input type="checkbox"
+													name="selectedAllProId"></th>
+												<th>창고 코드</th>
+												<th>창고 이름</th>
+												<th>창고 종류</th>
+												<th>창고 위치</th>
+												<th>창고 전화번호</th>
+												<th>창고 가용상태</th>
+												<th>완제품 코드</th>
+												<th>원자재 코드</th>
+												<th>창고 담당자</th>
+												<th>비고</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<c:forEach var="WareHouseDTO" items="${houseList}">
+												<tr>
+													<!--체크박스를 선택하면 wh_code가 서버로 이동하면서 checkbox의 값이 지정되어서 체크박스가 어떤행을 선택하게 되는지 알수 있다 -->
+													<td><input type="checkbox" name="selectedProId"
+														value="${WareHouseDTO.wh_code}"></td>
+													<td>${WareHouseDTO.wh_code}</td>
+													<td>${WareHouseDTO.wh_name}</td>
+													<td>${WareHouseDTO.wh_type}</td>
+													<td>${WareHouseDTO.wh_location}</td>
+													<td>${WareHouseDTO.wh_phone}</td>
+
+													<c:choose>
+														<c:when test="${WareHouseDTO.wh_status == 1}">
+															<td>Y</td>
+														</c:when>
+														<c:when test="${WareHouseDTO.wh_status == 2}">
+															<td>N</td>
+														</c:when>
+													</c:choose>
+
+													<td>${WareHouseDTO.prod_code}</td>
+													<td>${WareHouseDTO.raw_code}</td>
+													<td>${WareHouseDTO.emp_num}</td>
+													<td>${WareHouseDTO.wh_note}</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+			</form>
 
 		</div>
 	</div>
-	
-<!-- 모달 alert를 위한 sweetalert 호출 -->
+
+	<input type="button" value="엑셀파일다운" id="excelProd">
+
+	</div>
+	<!-- 내용 들어가는 곳 -->
+	</main>
+
+	<!-- 푸터 -->
+	<jsp:include page="../include/footer.jsp"></jsp:include>
+	<!-- 푸터 -->
+
+	</div>
+	</div>
+
+	<!-- 모달 alert를 위한 sweetalert 호출 -->
 	<link rel="stylesheet"
 		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 	<script
 		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-<!-- J쿼리 호출 -->
+	<!-- J쿼리 호출 -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
@@ -139,11 +144,11 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
-	    <script src="../resources/js/warehouse_im.js"></script>
-<!-- 엑셀파일 저장을 위한 스크립트 호출 -->
+	<script src="../resources/js/warehouse_im.js"></script>
+	<!-- 엑셀파일 저장을 위한 스크립트 호출 -->
 	<script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
-    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-<script>
+	<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+	<script>
 //추가, 수정 을 구분하기위한 전역변수선언
 var status = "";
 
@@ -249,7 +254,6 @@ $(document).ready(function() {
 			  break;
 		  }
 	 } // end 중복값 검증
-
 	}// end for
 	
 	// 결과값 반환
@@ -291,9 +295,9 @@ row += "</td>";
 //창고 종류 
 row += "<td>";
 row += "<select name='wh_type' id='wh_type' required class='#datatablesSimple tr'>";
-row += "<option value='1'>--선택--</option>";
-row += "<option value='R'>R:원자재</option>";
-row += "<option value='p'>p:완재품</option>";
+row += "<option value='c'>--선택--</option>";
+row += "<option value='r'>R:원자재</option>";
+row += "<option value='p'>P:완재품</option>";
 row += "</select>";
 row += "</td>";
 
@@ -353,96 +357,6 @@ $("#deleteWh").attr('disabled','disabled');
 $("#cancelWh").removeAttr("disabled");
 $("#saveWh").removeAttr("disabled");
 });// end function
-
-
-//////////////////////////////////////////////수정/////////////////////////////////////////////////////////////////
-$("#updatewh").click(function(){
-	
-	// 상태를 업데이트로 변경한다
-	status = "update";
-	
-	// 체크박스가 체크된 여부를 확인하기위한 변수선언
-	var selectedCheckbox = $("input[name='selectedProId']:checked");
-	
-	// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
-	// === 조항과 우항이 정확이 일치하는가? 
-	if (selectedCheckbox.length === 1) {
-		
-		// 텍스트태그를 추가할 tr태그를 선택한다
-		// JavaScript에서 선택한 체크박스 또는 요소(selectedCheckbox)가 속한 가장 가까운 <tr>(테이블 행) 요소를 찾아 row 변수에 할당하는 코드입니다.
-
-        // selectedCheckbox: 이 변수는 JavaScript로 선택된 체크박스 또는 요소를 나타냅니다.
-
-        // .closest("tr"): closest() 메서드는 선택한 요소에서 시작하여 가장 가까운 상위 조상 요소를 찾는 메서드입니다.
-        // 여기서는 "tr"을 인수로 전달하여 가장 가까운 <tr>(테이블 행) 요소를 찾습니다.
-        
-		var row = selectedCheckbox.closest("tr");
-		
-		// input type의 name 값 지정
-		//
-		var cellNames = [
-			"prod_code", 
-			"prod_name", 
-			"prod_type", 
-			"prod_unit",
-			"prod_amount",
-			"prod_price",
-			"prod_exp",
-			"deal_code",
-			"wh_code",
-			"prod_note"
-		];
-		
-		// input type의 id 값 지정
-		var cellIds = [
-			"prod_code", 
-			"prod_name", 
-			"prod_type", 
-			"prod_unit",
-			"prod_amount",
-			"prod_price",
-			"prod_exp",
-			"deal_code",
-			"wh_code",
-			"prod_note"
-		];
-		
-		
-		// 각 셀을 수정 가능한 텍스트 입력 필드로 변경(단 첫번째의 체크박스가 있는 셀은 제외한다)
-		row.find("td:not(:first-child)").each(function(index) {
-			
-			// 기존 텍스트 값을 변수에 저장한다
-			var cellValue = $(this).text();
-			// 삼항연산자 0번째 행(코드)와 2번째행(종류)는 리드온리로 변경할 수 없다
-			var cellOption = index === 0 || index === 2 ? "readonly" : "";
-			// 반복문의 숫자에 따라 html 태그의 이름을 네임 이름으로 한다
-			var cellName = cellNames[index];
-			// 반복문의 숫자에 따라 html 태그의 이름을 아이디 이름으로 한다
-			var cellId = cellIds[index];
-			
-			// 반복문에 따라 이너 html 실행 모든 입력칸을 텍스트태그로 바꾼다
-			$(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' >');
-		});// end_find(행 검색 반복문 종료지점)
-	
-		// 품목수정중에 품목추가,수정,삭제 버튼을 비활성화한다
-	  	$("#productAdd").attr('disabled','disabled');
-	  	$("#updateProd").attr('disabled','disabled');
-		$("#deleteProd").attr('disabled','disabled');
-		
-		// 품목수정중에 취소, 저장 버튼입력이 가능하다
-		$("#cancelProd").removeAttr("disabled");
-		$("#saveProd").removeAttr("disabled");
-		
-	} // end if
-	
-	// 체크박스가 선택되어있지않으면 에러가 발생한다
-	else if (selectedCheckbox.length === 0){
-		Swal.fire('수정할 행을 선택해 주십시오.', '실패', 'error');
-	// 여러개가 체크되어있으면 에러가 발생한다
-	} else {
-		Swal.fire('수정할 행은 한개만 선택 가능합니다.', '실패', 'error');
-	} // end else
-}); // end function
 
 
 ///////////////////////////////////////////////////////////저장//////////////////////////////////////////////////// 
@@ -545,8 +459,441 @@ $("#saveWh").click(function() {
     	 }// end else_if
 });// end function
 
+//////////////////////////////////////////////수정/////////////////////////////////////////////////////////////////
+$("#updateWh").click(function(){
+	
+	// 상태를 업데이트로 변경한다
+	status = "update";
+	
+	// 체크박스가 체크된 여부를 확인하기위한 변수선언
+	var selectedCheckbox = $("input[name='selectedProId']:checked");
+	
+	// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+	if (selectedCheckbox.length === 1) {
+		
+		// 텍스트태그를 추가할 tr태그를 선택한다
+		// JavaScript에서 선택한 체크박스 또는 요소(selectedCheckbox)가 속한 가장 가까운 <tr>(테이블 행) 요소를 찾아 row 변수에 할당하는 코드입니다.
+
+        // selectedCheckbox: 이 변수는 JavaScript로 선택된 체크박스 또는 요소를 나타냅니다.
+
+        // .closest("tr"): closest() 메서드는 선택한 요소에서 시작하여 가장 가까운 상위 조상 요소를 찾는 메서드입니다.
+        // 여기서는 "tr"을 인수로 전달하여 가장 가까운 <tr>(테이블 행) 요소를 찾습니다.
+        
+		var row = selectedCheckbox.closest("tr");
+		
+		// input type의 name 값 지정
+		var cellNames = [
+			"wh_code", 
+			"wh_name", 
+			"wh_type", 
+			"wh_location",
+			"wh_phone",
+			"wh_status",
+			"prod_code",
+			"raw_code",
+			"emp_num",
+			"wh_note"
+		];
+		
+		// input type의 id 값 지정
+		var cellIds = [
+			"wh_code", 
+			"wh_name", 
+			"wh_type", 
+			"wh_location",
+			"wh_phone",
+			"wh_status",
+			"prod_code",
+			"raw_code",
+			"emp_num",
+			"wh_note"
+		];
+		
+		
+		// 각 셀을 수정 가능한 텍스트 입력 필드로 변경(단 첫번째의 체크박스가 있는 셀은 제외한다
+		// 설명
+		//아래에 있는 JavaScript 코드는 선택된 요소 중에서 부모 요소의 첫 번째 자식이 아닌 `<td>` 요소들을 찾아서 각각에 대해 작업을 수행하는 코드입니다.
+
+        // row.find("td:not(:first-child)"): 이 부분은 `.find()` 메서드를 사용하여 `row` 요소 내에서 부모 요소의 첫 번째 자식이 아닌 `<td>` 요소들을 선택합니다. `:not(:first-child)` 선택자는 각 부모 요소의 첫 번째 `<td>` 자식을 제외하도록 사용됩니다.
+
+        // each(function(index) { /* ... */ }): 원하는 `<td>` 요소들을 선택한 후, `.each()` 메서드를 사용하여 각각에 대해 반복 작업을 수행합니다. `function(index) { /* ... */ }`는 각 선택된 `<td>` 요소에 대해 실행되는 콜백 함수입니다. `index` 매개변수는 현재 `<td>` 요소의 선택된 집합 내에서의 인덱스를 나타냅니다.
+
+        // 콜백 함수 내부에서는 각 선택된 `<td>` 요소에 대해 인덱스나 다른 기준에 따라 특정 작업을 수행할 수 있습니다.
+		row.find("td:not(:first-child)").each(function(index) {
+			
+			// 기존 텍스트 값을 변수에 저장한다
+			var cellValue = $(this).text();
+			// 삼항연산자 0번째 행(코드)와 2번째행(종류)는 리드온리로 변경할 수 없다
+			var cellOption = index === 0 || index === 2 ? "readonly" : "";
+			// 반복문의 숫자에 따라 html 태그의 이름을 네임 이름으로 한다
+			var cellName = cellNames[index];
+			// 반복문의 숫자에 따라 html 태그의 이름을 아이디 이름으로 한다
+			var cellId = cellIds[index];
+		            
+            if (cellName === "wh_status"){
+            // 사용자가 입력한 값을 1 또는 2로 변환
+            var cvValue = cellValue === "Y" ? "1" : (cellValue === "N" ? "2" : cellValue);
+            // 셀 내에 <select> 요소를 생성
+            var selectHTML = '<select name="' + cellName + '" id="' + cellId + '" ' + cellOption + ' >' +
+                                   '<option value="1" ' + (cvValue === "1" ? "selected" : "") + '>Y</option>' +
+                                   '<option value="2" ' + (cvValue === "2" ? "selected" : "") + '>N</option>' +
+                                   '</select>';
+                                   
+           // 생성한 <select> 요소를 현재 셀에 삽입
+           $(this).html(selectHTML);
+           
+           } else {
+           // 다른 열은 그대로 입력 칸 생성
+           $(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + '  size="5">');
+           }
+            
+		});// end_find(행 검색 반복문 종료지점)
+	    
+		// 품목수정중에 품목추가,수정,삭제 버튼을 비활성화한다
+	  	$("#whAdd").attr('disabled','disabled');
+	  	$("#updateWh").attr('disabled','disabled');
+		$("#deleteWh").attr('disabled','disabled');
+		
+		// 품목수정중에 취소, 저장 버튼입력이 가능하다
+		$("#cancelWh").removeAttr("disabled");
+		$("#saveWh").removeAttr("disabled");
+		
+	} // end if
+	
+	// 체크박스가 선택되어있지않으면 에러가 발생한다
+	else if (selectedCheckbox.length === 0){
+		Swal.fire('수정할 행을 선택해 주십시오.', '실패', 'error');
+	// 여러개가 체크되어있으면 에러가 발생한다
+	} else {
+		Swal.fire('수정할 행은 한개만 선택 가능합니다.', '실패', 'error');
+	} // end else
+}); // end function
+
+/////////////////////////////////////////////// 취소 ///////////////////////////////////////////////////////
+
+$("#cancelWh").click(function(){
+	    		
+		// 상태가 수정인경우 초기화 작업 실행
+	    if(status === "update"){
+	    	
+		// 테이블 모든행에 따라 반복작업 실행
+		$("#datatablesSimple tr").each(function() {
+			
+		// 행 위치를 얻기위한 변수선언
+		var row = $(this);
+		
+		// 폼태그안의 모든 데이터를 초기값으로 리셋한다
+		$("#warehousList")[0].reset();
+		
+			// 각 셀의 값을 원래 상태로 되돌린다(마찬가지로 첫번째 셀은 제외한다)
+			row.find("td:not(:first-child)").each(function(index) {
+				// 텍스트 태그의 값을 찾는다
+				var cellValue = $(this).find("input").val();
+				// 텍스트 태그를 삭제하고 값만 td태그에 삽입한다
+				$(this).html(cellValue);
+			});// end_find(행 검색 반복문 종료지점)
+		});// end_each(행 반복문 종료지점)
+		
+		// 상태가 저장인경우 삭제작업 실행
+	    } else if(status === "save"){
+	    	// 추가한 행을 삭제한다
+	    	// $("tbody tr:nth-child(1)") 선택자는 <tbody> 요소 하위의 첫 번째 <tr> 요소를 선택합니다.
+	    	// 여기서 tbody는 테이블의 본문을 나타내며, tr:nth-child(1)은 첫 번째 행을 나타냅니다.
+	    	$("tbody tr:nth-child(1)").remove();
+	    }// end_if
+	    
+	 	// 취소가 완료되면 취소, 저장 버튼을 비활성화한다
+	  	$("#cancelWh").attr('disabled','disabled');
+	  	$("#saveWh").attr('disabled','disabled');
+		
+		// 다시 물품등록, 수정, 삭제를 할 수 있게 활성화한다
+		$("#whAdd").removeAttr("disabled");
+		$("#updateWh").removeAttr("disabled");
+		$("#deleteWh").removeAttr("disabled");
+		
+});// end function
+
+///////////////////////////////////////////////////////삭제////////////////////////////////////////////////////////////
+// 삭제 버튼 누를 시 실행되는 함수
+$("#deleteWh").click(function() {
+	
+	// 체크박스가 체크된 여부를 확인하기위한 변수선언
+	var selectedCheckbox = $("input[name='selectedProId']:checked");
+	
+	// 체크박스가 선택되어있지않다면 에러가 발생한다
+	if (selectedCheckbox.length === 0){
+		Swal.fire('삭제할 행을 선택해 주십시오.', '실패', 'error');
+	} 
+	// 체크박스가 선택되어있다면 함수실행
+	else {
+		
+		 // 데이터를 전송하기위한 폼 데이터 직렬화
+		 // serialize()는 jQuery에서 제공하는 메서드로, HTML 폼(form) 요소 내의 입력 필드들의 값을 쿼리 문자열로 직렬화합니다
+    	 var formData = $('#warehousList').serialize();
+		 
+    	 // AJAX 제출전에 값이 입력되어있는지 정규식 검사를 수행한다
+		 if(formTest(formData)){
+    	 	// 문제없다면 ajax 실행
+         	$.ajax({
+             	type: "POST",
+             	url: "${pageContext.request.contextPath}/warehouse_ajax/whDelete",
+             	data: formData,
+             	// 통신성공시 콜백함수 response매개변수에 "true" or "false" 결과값이 입력된다
+             	success: function(response) {
+            	 	// 공백을 제거한다
+            	 	const result = $.trim(response);
+            	 
+                 	if (result == "true") {
+                	 	Swal.fire('품목 삭제가 완료되었습니다.', '성공', 'success').then(result => {
+                			// 사용자가 확인창을 누르면 실행
+                			// isConfirmed:isConfirmed는 SweetAlert 라이브러리와 관련된 이벤트 처리 시 사용되는 변수입니다.
+                			// SweetAlert는 대화형 모달 다이얼로그를 생성하는 JavaScript 라이브러리 중 하나로,
+                			// 사용자와의 상호 작용을 통해 정보를 확인하거나 액션을 수행할 수 있도록 도와줍니다.
+                		 	if(result.isConfirmed){
+					 			location.reload(); // 성공 시 새로고침 한다
+					 		
+					 			// 삭제가 완료되면 취소, 저장 버튼을 비활성화한다
+					  			$("#cancelWh").attr('disabled','disabled');
+					  			$("#saveWh").attr('disabled','disabled');
+						
+								// 다시 물품등록, 수정, 삭제를 할 수 있게 활성화한다
+								$("#whAdd").removeAttr("disabled");
+								$("#updateWh").removeAttr("disabled");
+								$("#deleteWh").removeAttr("disabled");
+					 		}
+							
+					 	});// end alert
+                 	} else {
+                	 	Swal.fire('품목 삭제에 문제가 발생했습니다.', '실패', 'error');
+                 	}
+             	},
+             	error: function () {
+            	 	Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+             	}
+        	});// endAJAX(물품 삭제)
+		 }// end 정규식검사
+		}// end else
+});//end function
+
+/////////////////////////////////////////////////////enter조회/////////////////////////////////////////////////
+function enterwhSearch() {
+	   // 값 전달 하기위한 JSON 타입 변수선언
+	   var json = {
+     			category: $('#category').val(),
+     			content: $('#content').val()
+    			  };
+	
+	   // 검색 결과값을 받아오기 위한 ajax 호출
+	   $.ajax({
+			  url : '${pageContext.request.contextPath}/warehouse_ajax/search',
+			  // JSON타입의 변수를 스트링으로 변환한다
+			  // 이 코드는 JavaScript에서 사용되며, 주로 HTTP 요청을 보낼 때 서버로 데이터를 전송하기 위한 작업을 수행합니다.
+			  // 여기서 JSON.stringify(json)은 JavaScript 객체(json)를 JSON 문자열로 변환하는 역할을 합니다.
+			  data: JSON.stringify(json),
+			  
+			  // JSON타입의 변수를 전송한다
+	          contentType: 'application/json',
+	          
+			  type : 'POST',
+			  
+			  // 반환은 JSON 타입
+			  dataType: 'json',
+			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
+			  success:function(json){
+				  
+				    // tbody 내용을 초기화
+				    $('tbody').empty();
+					
+				    // 배열 크기만큼 반복
+				    json.forEach(function (data) {
+				    	// tr 태그 생성
+				        var $tr = $('<tr>');
+				    		//tr 에 내용추가
+				        	$tr.append(
+				        	'<td><input type="checkbox" name="selectedProId" value="' + data.wh_code + '"></td>',
+				        	"<td>"+data.wh_code+"</td>",
+				            "<td>"+data.wh_name+"</td>",
+				           	"<td>"+data.wh_type+"</td>",
+				            "<td>"+data.wh_location+"</td>",
+				         	"<td>"+data.wh_phone+"</td>",
+				         	"<td>"+data.wh_status+"</td>",
+				         	"<td>"+data.prod_code+"</td>",
+				         	"<td>"+data.raw_code+"</td>",
+				         	"<td>"+data.emp_num+"</td>",
+				         	"<td>"+data.wh_note+"</td>"
+				        	);
+				        // 생성한 <tr> 요소를 tbody에 추가
+				        $('tbody').append($tr);
+				    });
+		      }// 콜백함수 종료지점
+   });// end_of_ajax
+}// end function
 
 
+/////////////////////////////////////////////input 조회 //////////////////////////////////////////////
+$("#inputwhSearch").click(function()  {
+	   // 값 전달 하기위한 JSON 타입 변수선언
+	   var json = {
+     			category: $('#category').val(),
+     			content: $('#content').val()
+    			  };
+	
+	   // 검색 결과값을 받아오기 위한 ajax 호출
+	   $.ajax({
+			  url : '${pageContext.request.contextPath}/warehouse_ajax/search',
+			  // JSON타입의 변수를 스트링으로 변환한다
+			  // 이 코드는 JavaScript에서 사용되며, 주로 HTTP 요청을 보낼 때 서버로 데이터를 전송하기 위한 작업을 수행합니다.
+			  // 여기서 JSON.stringify(json)은 JavaScript 객체(json)를 JSON 문자열로 변환하는 역할을 합니다.
+			  data: JSON.stringify(json),
+			  
+			  // JSON타입의 변수를 전송한다
+	          contentType: 'application/json',
+	          
+			  type : 'POST',
+			  
+			  // 반환은 JSON 타입
+			  dataType: 'json',
+			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
+			  success:function(json){
+				  
+				    // tbody 내용을 초기화
+				    $('tbody').empty();
+					
+				    // 배열 크기만큼 반복
+				    json.forEach(function (data) {
+				    	// tr 태그 생성
+				        var $tr = $('<tr>');
+				    		//tr 에 내용추가
+				        	$tr.append(
+				        	'<td><input type="checkbox" name="selectedProId" value="' + data.wh_code + '"></td>',
+				        	"<td>"+data.wh_code+"</td>",
+				            "<td>"+data.wh_name+"</td>",
+				           	"<td>"+data.wh_type+"</td>",
+				            "<td>"+data.wh_location+"</td>",
+				         	"<td>"+data.wh_phone+"</td>",
+				         	"<td>"+data.wh_status+"</td>",
+				         	"<td>"+data.prod_code+"</td>",
+				         	"<td>"+data.raw_code+"</td>",
+				         	"<td>"+data.emp_num+"</td>",
+				         	"<td>"+data.wh_note+"</td>"
+				        	);
+				        // 생성한 <tr> 요소를 tbody에 추가
+				        $('tbody').append($tr);
+				    });
+		      }// 콜백함수 종료지점
+   });// end_of_ajax
+});// end function
+
+///////////////////////////////////////////기능함수 종료////////////////////////////////////////////////
+
+///////////////////////////////////////////이벤트 함수/////////////////////////////////////////////////
+
+
+////////////////////////////조회를 누르지 않고 enter만 쳐도 조회가 자동으로 되는 기능 ///////////////////////////
+//설명
+// 이 코드는 폼 제출을 막고, 사용자가 엔터 키를 누를 때 검색 함수가 실행되도록 하는 JavaScript 코드입니다.
+
+// `$('input[type="text"]').keydown(function() {`: 
+// 이 코드는 모든 텍스트 입력 필드(input 요소 중 타입이 "text"인 것)에 대한 keydown 이벤트 리스너를 추가합니다.
+// keydown 이란 키를 눌렸을떄 발생하게 하는 자바스크립트 함수
+
+// `if (event.keyCode === 13) {`: 사용자가 키를 눌렀을 때, 눌린 키의 keyCode를 확인하여 엔터 키인지 검사합니다.
+// keyCode === 13:엔터키를 눌린것으로 간주
+// 엔터 키: 13
+// 스페이스바: 32
+// ESC 키: 27
+// 백스페이스 키: 8
+// 탭 키: 9
+	
+// `event.preventDefault();`: 엔터 키의 기본 동작(폼 제출)을 막기 위해 
+// `event.preventDefault()`를 호출합니다. 이로써 폼이 서버로 전송되지 않게 됩니다.
+//  preventDefault :메서드는 이벤트의 기본 동작을 취소하거나 막는 데 사용됩니다.
+
+// `whSearch();`: 검색 함수 `whSearch()`를 호출합니다. 이 함수는 엔터 키를 누를 때 실행되어 검색을 수행합니다.
+
+// `$('#content').val("");`: 검색 입력 필드(`#content`)의 값을 초기화하여 사용자가 검색한 내용을 지웁니다.
+
+$('input[type="text"]').keydown(function() {
+	// 엔터키 이벤트 발생을 확인한다
+	if (event.keyCode === 13) {
+		// 폼 태그 제출을 막는다
+ 		event.preventDefault();
+		// 검색 함수를 실행한다
+        enterwhSearch();
+		// 검색입력창을 초기화한다
+ 		$('#content').val("");
+	}// end if
+});// end function
+
+
+//////////////////////////////////// 전체 체크///////////////////////////////////
+
+// thead의 체크박스를 클릭했을때 전체체크가되게끔 이벤트를 발생시킨다
+$('input[name="selectedAllProId"]').click(function() {
+    // 모든 selectedProId 체크박스의 상태를 selectedAllProId와 동일하게 설정한다
+    // $this로 AllProId의 상태를 가져온다
+    $('input[name="selectedProId"]').prop('checked', $(this).prop('checked'));
+});// end function
+
+//////////////////////////////////// 액셀 버튼 구현////////////////////////////////
+
+//엑셀 버튼 누를 시 실행되는 함수
+$("#excelProd").click(function(){
+	
+	// 체크박스가 체크된 여부를 확인하기위한 변수선언
+	var selectedCheckbox = $("input[name='selectedProId']:checked");
+	
+	if (selectedCheckbox.length === 0) {
+		Swal.fire('엑셀파일로 다운받을 행을 선택해주십시오', '', 'info');
+		return false;
+	}
+	
+	// 엑셀에 데이터를 삽입하기위한 배열 변수선언
+	var excelData = [];
+	
+	// 엑셀의 헤더가 되는 값을 삽입하기위한 변수선언
+	var headers = [];
+	
+		// table의 th태그만큼 반복문을 실행하되 첫번째 체크박스행은 제외한다
+		$("#datatablesSimple th:not(:first)").each(function(){
+			// 헤더에 텍스트값(th) 삽입
+			headers.push($(this).text());
+		});
+		// 엑셀 데이터 변수에 헤더값을 삽입한다
+		excelData.push(headers);
+	
+		// 체크박스가 체크된 행 만큼 엑셀 행삽입 반복문을 시행한다
+		selectedCheckbox.each(function () {
+		
+			// 엑셀의 행값을 담기위한 배열 변수선언
+	    	var row = [];
+			// tr태그를 찾아서 반복문을 실행하되 첫번째 td태그(체크박스)는 제외한다
+	    	$(this).closest("tr").find("td:not(:first-child)").each(function () {
+	    		// 행 변수에 테이블 행(td)태그의 텍스트 값을 삽입한다
+	        	row.push($(this).text());
+	    	});
+			// 엑셀 데이터 변수에 행값을 삽입한다
+	   		excelData.push(row);
+		});
+		
+		// 워크북을 생성한다
+		var workbook = XLSX.utils.book_new();
+		// 엑셀 데이터(헤더, 행)값을 시트로 변환한다
+		var worksheet = XLSX.utils.aoa_to_sheet(excelData);
+		// 데이터와 워크북 시트를 워크북에 추가한다
+		XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+		
+		// 워크북을 blob형태로 변환하고 xlsx 파일로 저장한다
+		var workbookOutput = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+		saveAs(
+			new Blob([workbookOutput], { type: "application/octet-stream" }),
+			"품목 리스트.xlsx"
+		);
+	
+});// end function
+
+/////////////////////////////////////////////이벤트 함수 종료//////////////////////////////////////////
+	
 });//document
 </script>
 </body>

@@ -1,6 +1,8 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ems.icemile.dto.WareHouseDTO;
 import ems.icemile.dto.WareHouseinsertDTO;
@@ -24,5 +26,11 @@ public interface WareHouseDAO {
     
 	//창고 추가
 	boolean whInsert(WareHouseinsertDTO warehouseinsertDTO);
+    
+	//창고 삭제
+	boolean whDelete(List<Map<String, String>> codeAndTypeList);
+    
+	//창고 검색
+	List<WareHouseDTO> whSearch(HashMap<String, Object> json);
 
 }
