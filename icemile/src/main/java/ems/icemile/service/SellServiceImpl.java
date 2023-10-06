@@ -1,5 +1,6 @@
 package ems.icemile.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -53,6 +54,13 @@ public class SellServiceImpl implements SellService{
 		log.debug("서비스 | 지점삭제");
 		
 		return sellDAO.branchDelete(branch_code);
+	}
+
+	@Override
+	public List<SellDTO> branchSearch(HashMap<String, Object> json) {
+		log.debug("서비스 | 지점 검색 기능");
+		
+		return sellDAO.branchSearch(json);
 	}
 	
 	

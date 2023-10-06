@@ -16,7 +16,10 @@ public interface BuyService {
 	public BuyDTO getBuyInfo(String buy_code);
 
 	// 구매처 수정
-	public void buyUpdate(BuyDTO buyDTO); 
+	public void buyUpdate(BuyDTO buyDTO);
+
+	// 구매처 삭제
+	boolean buyDelete(String buy_code); 
 	
 
 }

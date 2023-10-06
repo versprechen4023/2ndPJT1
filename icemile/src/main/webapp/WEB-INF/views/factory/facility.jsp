@@ -36,12 +36,20 @@
                         <input type="button" id="cancel" value="취소">
                         </c:if>
                         </div>
-                        <div class="card mb-4">
+                        <div class="card mb-4" id="card mb-4">
 <!--                             <div class="card-header"> -->
 <!--                                 <i class="fas fa-table me-1"></i> -->
 <!--                                 DataTable Example -->
 <!--                             </div> -->
                             <div class="card-body" id="card-body">
+                            <input type="button" name="allList" value="전체목록" onclick="location.reload();">
+							<select id="category">
+  								<option value="line_code">코드</option>
+  								<option value="line_name">이름</option>
+							</select>
+							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
+								id="content">
+							<input type="button" name="search" value="조회" onclick="facilitySearch()">
                                 <table id="datatablesSimple">
                                 
                                     <thead>
@@ -195,9 +203,7 @@
 			// 상태를 업데이트로 변경한다
 			// 이 함수의 목적이 추가(add)인 것을 나타내기 위함
 			status = "add";
-			
-			// 이 함수의 목적이 추가(add)인 것을 나타내기 위함
-			status = "add";
+
 			
 			// 체크박스
 			row += "<td>";
@@ -342,7 +348,7 @@
 				// input에 값이 입력되면 저장, input의 값이 변경되면 수정에 의한 저장
 				}else {
 					// form 태그의 액션을 변수 선언
-			        var formAction = $('#fr').attr("action");
+			        var formAction = $('#facilityList').attr("action");
 					
 			        var postData = {
 			                line_name: line_name,
@@ -355,14 +361,14 @@
 
 					// 상태가 add면 addPro로 넘어가서 input에 입력한 값이 데이터베이스로 넘어간다
 			        if (status === "add") {
-			            $('#fr').attr("action", "/home/factory/addPro");
+			            $('#facilityList').attr("action", "/home/factory/addPro");
 			        // 상태가 update면 update로 넘어가서 변경한 input의 값이 데이터베이스에 업데이트 된다
 			        } else if (status === "update") {
-			            $('#fr').attr("action", "/home/factory/updateFacility");
+			            $('#facilityList').attr("action", "/home/factory/updateFacility");
 			        }
 
-			        $('#fr').attr("method", "POST");
-			        $('#fr').submit();
+			        $('#facilityList').attr("method", "POST");
+			        $('#facilityList').submit();
 			    }
 			});// end save function
 			
@@ -489,7 +495,7 @@
                 	 			Swal.fire('라인 삭제가 완료되었습니다.', '성공', 'success').then(result => {
                 					// 사용자가 확인창을 누르면 실행
                 		 			if(result.isConfirmed){
-					 					location.reload(); // 성공 시 새로고침 한다
+                		 				$("#facilityList table").load("${pageContext.request.contextPath}/factory/facility #facilityList table"); // 성공 시 새로고침 한다
 					 				}
 							
 					 			});// end alert
@@ -504,6 +510,61 @@
 				 }// end if(formTest(formData)) 정규식검사
 				}// end else
 		});//end delete function
+		
+		
+		// 조회를 눌렀을때 실행되는 물품 검색관련 함수
+		function facilitySearch() {
+				
+			   // 값 전달 하기위한 JSON 타입 변수선언
+			   var json = {
+		        			category: $('#category').val(),
+		        			content: $('#content').val()
+		       			  };
+			
+			   // 검색 결과값을 받아오기 위한 ajax 호출
+		 	   $.ajax({
+		 			  url : '${pageContext.request.contextPath}/product_ajax/search',
+		 			  // JSON타입의 변수를 스트링으로 변환한다
+		 			  data: JSON.stringify(json),
+		 			  // JSON타입의 변수를 전송한다
+		 	          contentType: 'application/json',
+		 			  type : 'POST',
+		 			  // 반환은 JSON 타입
+		 			  dataType: 'json',
+		 			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
+		 			  success:function(json){
+		 				  
+		 				    // tbody 내용을 초기화
+		 				    $('tbody').empty();
+							
+		 				    // 배열 크기만큼 반복
+		 				    json.forEach(function (data) {
+		 				    	// tr 태그 생성
+		 				        var $tr = $('<tr>');
+		 				    		//tr 에 내용추가
+		 				        	$tr.append(
+		 				        	'<td><input type="checkbox" name="selectedProId" value="' + data.prod_code + '"></td>',
+		 				        	"<td>"+data.prod_code+"</td>",
+		 				            "<td>"+data.prod_name+"</td>",
+		 				           	"<td>"+data.prod_type+"</td>",
+		 				            "<td>"+data.prod_unit+"</td>",
+		 				         	"<td>"+data.prod_amount+"</td>",
+		 				         	"<td>"+data.prod_price+"</td>",
+		 				         	"<td>"+data.prod_exp+"</td>",
+		 				         	"<td>"+data.deal_code+"</td>",
+		 				         	"<td>"+data.wh_code+"</td>",
+		 				         	"<td>"+data.prod_note+"</td>"
+		 				        	);
+		 				        // 생성한 <tr> 요소를 tbody에 추가
+		 				        $('tbody').append($tr);
+		 				    });
+		 		      }// 콜백함수 종료지점
+		      });// end_of_ajax
+		}// end function
+		
+		
+		
+		
 		
 	});// end 함수
         

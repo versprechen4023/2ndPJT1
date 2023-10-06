@@ -1,5 +1,6 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ems.icemile.dto.SellDTO;
@@ -23,4 +24,8 @@ public interface SellDAO {
 	
 	// 지점 정보 삭제
 	public boolean branchDelete(String branch_code);
+	
+	// 지점 검색 기능
+	public List<SellDTO> branchSearch(HashMap<String, Object> json);
+
 }

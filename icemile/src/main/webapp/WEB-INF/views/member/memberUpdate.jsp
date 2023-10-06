@@ -4,9 +4,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  <link href="../resources/css/addTableVertical.css" rel="stylesheet" />
-
+  <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>아이스마일</title>
+	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+ 		<link href="../resources/css/addTableVertical.css" rel="stylesheet" />
 </head>
 <body>
 				<!-- 내용들어가는곳 -->

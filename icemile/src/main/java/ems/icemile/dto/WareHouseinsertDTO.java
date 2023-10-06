@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class WareHouseDTO {
+public class WareHouseinsertDTO {
 	  //창고 코드
 	  private String wh_code;
 	  
@@ -43,8 +43,9 @@ public class WareHouseDTO {
 	  
 	  //창고 비고 
 	  private String wh_note;
-
-	
+	  
+	  //원자재or완재품 구분
+	  private String type;
 	   
 	}
 
