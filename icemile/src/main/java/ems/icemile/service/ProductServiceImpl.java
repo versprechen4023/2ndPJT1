@@ -12,6 +12,7 @@ import ems.icemile.dao.ProductDAOImpl;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.dto.ProductAllDTO;
 import ems.icemile.dto.ProductInsertDTO;
+import ems.icemile.dto.RawMaterialDTO;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -90,5 +91,21 @@ public class ProductServiceImpl implements ProductService {
 		log.debug("서치 프로 네임 서비스");
 		
 		return productDAO.searchProName(prod_name);
+	}
+	
+	@Override
+	public List<RawMaterialDTO> getRawList() {
+
+		log.debug("getRawList 서비스");
+		
+		return productDAO.getRawList();
+	}
+	
+	@Override
+	public List<RawMaterialDTO> rowSearch(HashMap<String, Object> json) {
+		
+		log.debug("rowSearch 서비스");
+		
+		return productDAO.rowSearch(json);
 	}
 }

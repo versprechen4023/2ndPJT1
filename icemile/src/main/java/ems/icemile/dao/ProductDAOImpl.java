@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import ems.icemile.dto.ProductAllDTO;
 import ems.icemile.dto.ProductInsertDTO;
+import ems.icemile.dto.RawMaterialDTO;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository
@@ -79,5 +80,21 @@ public class ProductDAOImpl implements ProductDAO {
 		String result = sqlSession.selectOne(namespace+"searchProName", prod_name);
 		
 		return (result == null) ? true : false;
+	}
+	
+	@Override
+	public List<RawMaterialDTO> getRawList() {
+
+		log.debug("getRawList DAO 도달");
+		
+		return sqlSession.selectList(namespace+"getRawList");
+	}
+	
+	@Override
+	public List<RawMaterialDTO> rowSearch(HashMap<String, Object> json) {
+		
+		log.debug("rowSearch DAO 도달");
+		
+		return sqlSession.selectList(namespace+"rowSearch", json);
 	}
 }

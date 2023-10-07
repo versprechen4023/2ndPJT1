@@ -6,6 +6,7 @@ import java.util.Map;
 
 import ems.icemile.dto.ProductAllDTO;
 import ems.icemile.dto.ProductInsertDTO;
+import ems.icemile.dto.RawMaterialDTO;
 
 public interface ProductService {
 	
@@ -26,4 +27,10 @@ public interface ProductService {
 	
 	// 품목 이름 중복검사
 	public boolean searchProName(String prod_name);
+	
+	// 팝업창에서 사용할 원자재 리스트 출력
+	public List<RawMaterialDTO> getRawList();
+	
+	// 원자재 검색
+	public List<RawMaterialDTO> rowSearch(HashMap<String, Object> json);
 }

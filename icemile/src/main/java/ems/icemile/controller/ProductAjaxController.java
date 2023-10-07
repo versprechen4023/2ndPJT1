@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ems.icemile.dto.ProductAllDTO;
 import ems.icemile.dto.ProductInsertDTO;
+import ems.icemile.dto.RawMaterialDTO;
 import ems.icemile.service.ProductServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,5 +87,19 @@ public class ProductAjaxController {
 		log.debug("서치 프로 네임 AJAX 호출");
 		
 		return productService.searchProName(prod_name);
+	}
+	
+	@PostMapping("rowSearch")
+	public List<RawMaterialDTO> rowSearch(@RequestBody HashMap<String, Object> json) {
+		
+		log.debug("rowSearch AJAX 호출");
+		
+		// 원자재 리스트를 가져오기위한 원자재 리스트 객체생성
+		List<RawMaterialDTO> rawList = new ArrayList<RawMaterialDTO>();
+		//결과값에 따라 원자재 리스트를 가져온다
+		rawList = productService.rowSearch(json);
+		
+		// 콜백 함수에 결과값 리턴
+		return rawList;
 	}
 }
