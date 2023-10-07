@@ -41,28 +41,30 @@ h1 {
 	padding: 5px 20px; /* 버튼 안 여백 설정 */
 }
 
-th { 
-  border-bottom: 1px solid #444444; 
-  border: 1px solid;  
-  padding: 10px; 
-  text-align: center; 
-  width: 200px;
-   } 
-td { 
-  border-bottom: 1px solid #444444; 
-   border: 1px solid;  
-  padding: 10px; 
-  text-align: left; 
-   } 
+  th{
+    border-bottom: 1px solid #444444;
+    border-color: #DDE2E6;
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+    width: 150px; 
+    text-align: center; 
+  }
+td {
+    border-bottom: 1px solid #444444;
+    border-color: #DDE2E6;
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+  }
    
 table {
 /* box-shadow: 3px 3px 3px 3px gray; */
-   border: 1px solid; 
-   border-right:none;
-border-left:none;
-border-top:none;
-border-bottom:none;
-
+    border: 1px solid #444444;
+    border-color: #DDE2E6;
+	    border-collapse: collapse;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 </style>
 </head>
@@ -75,10 +77,10 @@ border-bottom:none;
 
 		<h1>비밀번호 변경</h1>
 <table border="1">
-<colgroup>
-<col style="background-color: #E0EBFF;">
-<col>
-</colgroup> 
+<%-- <colgroup> --%>
+<%-- <col style="background-color: #E0EBFF;"> --%>
+<%-- <col> --%>
+<%-- </colgroup>  --%>
 
 		<!-- 현재비밀번호 -->
 		<tr>
@@ -105,6 +107,10 @@ border-bottom:none;
 		<div id="btn">
 			<input type="submit" id="btn" value="등록">
 		</div>
+
+<!-- 푸터 --> 
+<jsp:include page="../include/footer.jsp"></jsp:include> 
+<!-- 푸터 -->   
 	</form>
 	
 

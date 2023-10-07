@@ -5,6 +5,9 @@
 <html lang="en">
 <head>
 
+<!-- 헤드 -->
+<jsp:include page="../include/head.jsp"></jsp:include>
+<!-- 헤드 -->
 <link href="../resources/css/addTableVertical.css" rel="stylesheet" />
 
 	<style>
@@ -36,9 +39,13 @@ h1 {
 }
 </style>
 </head>
+
+
 <body class="sb-nav-fixed">
+
 				<!-- 내용들어가는곳 -->
 	<form action="#" id="signup" name="signup" method="POST" enctype="multipart/form-data">
+	
 		<h1>사원정보수정</h1>
 
 <table>
@@ -118,6 +125,12 @@ h1 {
 		<div id="btn">
 			<input type="submit" id="btn" value="등록">
 		</div>
+		
+<!-- 푸터 -->
+<jsp:include page="../include/footer.jsp"></jsp:include>
+<!-- 푸터 -->  
+
+
 		<input type="hidden" id="emp_num" name="emp_num" value="${memberDTO.emp_num }">
 		<input type="hidden" id="emp_role" name="emp_role" value="">
 		<input type="hidden" id="email" name="email" value="">
@@ -338,62 +351,53 @@ $(document).ready(function() {
     $('#signup').submit(function(event) {
     	
     	if($('#emp_name').val() == ""){
-    		$('#namemsg').css('color','red');
-    		$('#namemsg').text("이름을 입력하십시오."); 
+    		$('#msg').text("이름을 입력하십시오."); 
     		$('#emp_name').focus();
     		return false;
     	}
     	
     	if($('#birthdate').val() == ""){
-    		$('#birthmsg').css('color','red');
-    		$('#birthmsg').text("생일을 입력하십시오.");
+    		$('#msg').text("생일을 입력하십시오.");
     		$('#birthdate').focus();
     		return false;
     	}
     	
     	if($('#dept_name').val() == ""){
-    		$('#deptmsg').css('color','red');
-    		$('#deptmsg').text("부서를 선택하십시오.");  
+    		$('#msg').text("부서를 선택하십시오.");  
     		$('#dept_name').focus();
     		return false;
     	}
     	
     	if($('#position').val() == ""){
-    		$('#positionmsg').css('color','red');
-    		$('#positionmsg').text("직급을 선택하십시오.");
+    		$('#msg').text("직급을 선택하십시오.");
     		$('#position').focus();
     		return false;
     	}
     	
     	if($('#phone_num').val() == ""){
-    		$('#phonemsg').css('color','red');
-    		$('#phonemsg').text("전화번호를 입력해주세요.");
+    		$('#msg').text("전화번호를 입력해주세요.");
     		$('#phone_num').focus();
     		return false;
     	}
     	
     	if($('#hotline').val() == ""){
-    		$('#hotlinemsg').css('color','red');
-    		$('#hotlinemsg').text("내선번호를 입력하십시오.");
+    		$('#msg').text("내선번호를 입력하십시오.");
     		$('#hotline').focus();
     		return false;
     	}
     	
     	if($('#email_id').val() == "" || $('#email_dns').val() == ""){
-    		$('#emailmsg').css('color','red');
-    		$('#emailmsg').text("이메일을 입력하십시오.");
+    		$('#msg').text("이메일을 입력하십시오.");
     		return false;
     	}
     	
     	if($('#emp_post').val() == "" || $('#addr1').val() == ""){
-    		$('#addressmsg').css('color','red');
-    		$('#addressmsg').text("주소를 입력하십시오.");
+    		$('#msg').text("주소를 입력하십시오.");
     		return false;
     	}
     	
     	if($('#hire_date').val() == ""){
-    		$('#hiremsg').css('color','red');
-    		$('#hiremsg').text("입사일을 입력하십시오.");
+    		$('#msg').text("입사일을 입력하십시오.");
     		$('#hire_date').focus();
     		return false;
     	}
@@ -435,6 +439,8 @@ $(document).ready(function() {
 
 
 </script>
+
+
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>

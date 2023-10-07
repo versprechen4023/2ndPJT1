@@ -11,9 +11,7 @@
 <body>
 				<!-- 내용들어가는곳 -->
 	<form action="#" id="signup" name="signup" method="POST" enctype="multipart/form-data">
-		<h1>
-			사원 정보 수정
-		</h1>
+		<h1>사원 정보 수정</h1>
 
 <table>
 <tr><td class="tdbold">사진</td><td>
