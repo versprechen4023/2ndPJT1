@@ -60,6 +60,12 @@ public class SellDAOImpl implements SellDAO{
 		log.debug("DAO| 지점 검색");
 		return sqlSession.selectList(namespace+"branchSearch", json);
 	}
+	
+//	@Override
+//	public SellDTO managerInfo(String emp_num) {
+//		log.debug("DAO| 매니저 정보 가져오기");
+//		return sqlSession.selectOne(namespace+"managerInfo", emp_num);
+//	}
 
 	
 	

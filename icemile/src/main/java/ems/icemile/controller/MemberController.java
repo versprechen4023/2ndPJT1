@@ -169,4 +169,21 @@ public class MemberController {
 		
 		return "/member/memberList";
 	}
+	
+	@GetMapping("/memberListPopUp")
+	public String getMemberListPopUp(Model model) {
+		
+		//사원 조회
+		log.debug("memberList");
+		
+		// 멤버리스트를 가져오기위한 멤버리스트 객체생성
+		List<MemberDTO> memberList = new ArrayList<MemberDTO>();
+		memberList = memberService.getMemberList();
+		
+		// 모델에 멤버 DTO값 저장
+		model.addAttribute("memberList", memberList);
+		
+		return "/member/memberListPopUp";
+	}
+	
 }

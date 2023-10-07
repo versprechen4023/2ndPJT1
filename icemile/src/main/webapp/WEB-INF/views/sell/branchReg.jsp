@@ -77,8 +77,8 @@ h1 {
 
 <br>
 <label for="branch_phone_label"><b>가맹 담당자</b></label> 
-<input type="text" name="emp_num" id="emp_num">
-<br> 
+<input type="text" name="emp_num" id="emp_num" placeholder="담당자검색" readonly>
+<input type="button" name="search" id="search" value="조회"><br>
 <span id="empmsg"></span>
 <br>
 
@@ -103,7 +103,7 @@ h1 {
 <br> 
 <label for="email_id_label"><b>이메일</b></label> 
 <input type="text" name="email_id" id="email_id"> @ 
-<input type="text" name="email_dns" id="email_dns" value="">
+<input type="text" name="email_dns" id="email_dns" value="naver.com">
 <select name="email_sel" id="email_sel" onchange="updateEmailDns()">
 <option value="">직접 입력</option>
 <option value="hanmail.net">DAUM</option>
@@ -144,7 +144,34 @@ h1 {
 	<script
 src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 
-<script>
+<!-- 담당자 검색기능 -->
+<script type="text/javascript">
+
+
+// 팝업 창을 열어주는 함수
+function openPopup(url) {
+    var width = 500;
+    var height = 500;
+    var left = (screen.width - width) / 2;
+    var top = (screen.height - height) / 2;
+    var popupWindow = window.open(url, '_blank', "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
+    popupWindow.focus();
+}
+
+$(document).ready(function() {
+    // 사원 검색 팝업 열기
+    $("#search").click(function() {
+        var url = '${pageContext.request.contextPath}/member/memberListPopUp';
+        openPopup(url);
+    });
+});
+
+//팝업 창에서 선택된 emp_num 값을 받아서 표시하는 함수
+function receiveSelectedEmpNum(empNum) {
+    document.getElementById('emp_num').value = empNum;
+}
+
+
 //우편번호 API 호출
 function call_Post_API() {
     new daum.Postcode({

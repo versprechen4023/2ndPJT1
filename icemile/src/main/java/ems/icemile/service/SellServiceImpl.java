@@ -62,6 +62,13 @@ public class SellServiceImpl implements SellService{
 		
 		return sellDAO.branchSearch(json);
 	}
+//
+//	@Override
+//	public SellDTO getManagerInfo(String emp_num) {
+//		log.debug("서비스 | 담당자 정보 가져오기");
+//
+//		return sellDAO.managerInfo(emp_num);
+//	}
 	
 	
 }

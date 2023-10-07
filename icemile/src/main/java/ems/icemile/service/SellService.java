@@ -24,4 +24,7 @@ public interface SellService {
 	
 	// 지점 검색 기능
 	public List<SellDTO> branchSearch(HashMap<String, Object> json);
+
+	// 담당자 정보 가져오기 
+//	public SellDTO getManagerInfo(String emp_num);
 }

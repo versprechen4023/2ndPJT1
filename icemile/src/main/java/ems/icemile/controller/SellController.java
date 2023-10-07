@@ -47,6 +47,23 @@ public class SellController {
 		
 	}
 	
+	// 멤버에서 하면 될
+//	@GetMapping("/managerInfo")
+//	public String managerInfo(@RequestParam("emp_num") String emp_num, Model model) {
+//		log.debug("컨트롤러| 지점 목록 페이지");
+//		
+//		// 디비에서 등록된 지점 정보 가져오기
+//		SellDTO sellDTO  = sellService.getManagerInfo(emp_num);
+//		
+//		// model에 가져온 데이터 담아서 branch.jsp 이동
+//		model.addAttribute("sellDTO",sellDTO);
+//		
+//		// 페이지 이동
+//		return "sell/managerInfo";
+//		
+//	}
+	
+	
 	@GetMapping("/branchUpdate")
 	public String branchUpdate(@RequestParam("branch_code") String branch_code, Model model) {
 		log.debug("컨트롤러| 지점 수정 페이지");
