@@ -49,8 +49,8 @@ public class SellAjaxController {
 		return branchList;
 	}
 	
-	@PostMapping("/branchReg")
-	public String branchInsert(SellDTO sellDTO, HttpSession session) throws Exception {
+	@PostMapping("/insert")
+	public String insert(SellDTO sellDTO, HttpSession session) throws Exception {
 		
 		log.debug("값 잘 넘어오나 "+sellDTO.toString());
 		

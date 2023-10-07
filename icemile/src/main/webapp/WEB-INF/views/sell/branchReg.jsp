@@ -105,12 +105,15 @@ h1 {
 </select> <br> 
 <br>
 <br>
+
 <span id="msg"></span>
-<!-- 버튼 --> 
+<div id="bottomContainer"> 
+		<!-- 등록 버튼 -->
+			<input type="button" id="btn" value="등록">			
+		</div>
 <input type="hidden" id="branch_email" name="branch_email" value="">
 <input type="hidden" id="branch_add" name="branch_add" value="">
-<input type="submit" id = "btn" value="등록"> 
-<input type="reset" value="취소">
+
 </form>
 
 <!-- 내용들어가는곳 -->
@@ -124,9 +127,6 @@ h1 {
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- 카카오 우편번호 API호출 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -407,17 +407,17 @@ $(document).ready(function() {
 		
 		// 정규식 검사 끝
 		
-    	    	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
+    	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
     	 
-    	 // 폼 데이터 객체생성
-		var formData = new FormData(document.getElementById('branchReg'));
-         
+		// 폼 데이터 객체생성
+    	 var formData = new FormData(document.getElementById('branchReg'));
+          
          $.ajax({
              type: "POST",
-             url: "${pageContext.request.contextPath}/sell_ajax/branchReg",
+             url: "${pageContext.request.contextPath}/sell_ajax/insert",
              data: formData,
-             contentType: false, // 멀티파트를 처리하기위해 객체를 직렬화하지 않고 직접 AJAX 통신할 수 있도록 설정
-             processData: false, 
+             processData: false,
+             contentType: false,
              success: function (response) {
             	 
             	 const result = $.trim(response);
@@ -439,7 +439,7 @@ $(document).ready(function() {
          });
     	
     });//submit기능 제어 끝
-
+				   
 
 }); // end JQuery;
 

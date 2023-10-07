@@ -93,6 +93,9 @@ public class SellServiceImpl implements SellService{
 		log.debug("서비스 | 지점 번호 중복 검사");
 		return sellDAO.searchPhone(branch_phone);
 	}
+
+
+
 	
 	
 }

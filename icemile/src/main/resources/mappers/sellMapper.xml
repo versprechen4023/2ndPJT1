@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mes.icemile.mappers.sellMapper">
 	
-	<select id="getNewBranchCode" resultType="java.lang.Integer">
+	<select id="getNewBranchCode" resultType="java.lang.String">
   	SELECT branch_code
   		FROM branch
   			ORDER BY branch_code desc
