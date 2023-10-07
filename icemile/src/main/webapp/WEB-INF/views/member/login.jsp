@@ -27,7 +27,7 @@
 		
 		
 		<div class = "loginBox">
-		<div class ="loginTitle"><h2>로그인</h2></div>
+<!-- 		<div class ="loginTitle"><h2>로그인</h2></div> -->
 		<form action="${pageContext.request.contextPath }/member/login" method="post">
 		<table>
 			<tr><td>		  

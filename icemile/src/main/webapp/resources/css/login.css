@@ -15,7 +15,7 @@
 }
 
 body{
-  background-color: #FFF3E1 !important;
+  background-color: #fff3e0 !important;
  height: 100vh;
   display: flex;
   flex-wrap: wrap;
@@ -46,20 +46,23 @@ table{
 	text-align: center;	
 }
  
-.loginTitle{
-	background-color: #D2D2D2;	
-	border-top-left-radius:10px;
-	border-top-right-radius:10px;
-} 
+/* .loginTitle{ */
+/* 	background-color: #ffebcd;	 */
+/* 	border-top-left-radius:10px; */
+/* 	border-top-right-radius:10px; */
+/* }  */
 
 
  
 .loginBox{
+	box-shadow: 5px 5px 5px 5px silver;
+	padding-top : 1em;
+	padding-bottom : 1.5em;
  	width: 32rem;
  	height: auto;
 	background-color: white;
 	border-radius: 10px;
-/* 	margin-top: 2.5em; */
+ 	margin-top: 2.5em;
 	margin-bottom: 2.5em;
 }
 
@@ -69,17 +72,18 @@ table{
 	color: red;
 }  
 
-.loginBtn{
-	background-color: #D2D2D2;
-	padding-top: 1em;
-    padding-bottom: 1em;
- 	height: auto;
-	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;	
-}
+/* .loginBtn{ */
+/* 	background-color: #ffebcd; */
+/* 	padding-top: 1em; */
+/*     padding-bottom: 1em; */
+/*  	height: auto; */
+/* 	border-bottom-left-radius: 10px; */
+/* 	border-bottom-right-radius: 10px;	 */
+/* } */
 
 
 .btnSubmit{
+	width: 4.5rem;
 	border-radius:5px;
 	background-color: #ffebcd;
 	border:none;
@@ -91,7 +95,7 @@ table{
     display:block;
 }
 
-.btnSubmit :hover{
+.btnSubmit:hover{
 	background-color: #ffdead;
 }
 
