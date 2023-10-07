@@ -1,16 +1,25 @@
 @charset "UTF-8";
 
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
 *{
+	font-family: 'Pretendard-Regular';
     margin: 0;
     padding: 0;
 }
 
 body{
-  background-color: #ffebcd !important;
+  background-color: #FFF3E1 !important;
  height: 100vh;
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row; /*수평 정렬*/
+  flex-direction: row; 
   align-items: center;
   justify-content: center;	
 }
@@ -19,21 +28,31 @@ main{
  
 }
 
-h3{
+h2{
 	padding-top : 1em;
 	padding-bottom : 1em;
 	text-align: center;
 } 
 
 table{
-	margin-top: 4em;
-	margin-bottom: 4em;
-	margin-left:7em;
+	margin-top: 2em;
+	margin-bottom: 1.5em;
+/* 	margin-left:7em; */
+	margin-left: auto;
+	margin-right: auto;
 
 }
 .form-control{
 	text-align: center;	
 }
+ 
+.loginTitle{
+	background-color: #D2D2D2;	
+	border-top-left-radius:10px;
+	border-top-right-radius:10px;
+} 
+
+
  
 .loginBox{
  	width: 32rem;
@@ -42,8 +61,39 @@ table{
 	border-radius: 10px;
 /* 	margin-top: 2.5em; */
 	margin-bottom: 2.5em;
+}
+
+.msg{
+	text-align: center;
+	margin-bottom: 1em;
+	color: red;
 }  
 
+.loginBtn{
+	background-color: #D2D2D2;
+	padding-top: 1em;
+    padding-bottom: 1em;
+ 	height: auto;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;	
+}
+
+
+.btnSubmit{
+	border-radius:5px;
+	background-color: #ffebcd;
+	border:none;
+	font-size:17px;
+	font-weight:bold;
+	padding:7px;
+    margin-left:auto;
+    margin-right:auto;
+    display:block;
+}
+
+.btnSubmit :hover{
+	background-color: #ffdead;
+}
 
   /* 푸터 */
 .py-4 {

@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Login - SB Admin</title>
+        <title>아이스마일</title>
  	    <link href="../resources/css/login.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 <style type="text/css">
@@ -25,33 +25,34 @@
 		
 		<img src="../resources/assets/img/icemile.png">
 		
+		
 		<div class = "loginBox">
-		<h3>로그인</h3>
-		<hr />
+		<div class ="loginTitle"><h2>로그인</h2></div>
 		<form action="${pageContext.request.contextPath }/member/login" method="post">
 		<table>
 			<tr><td>		  
 			<input class="form-control" id="emp_num" name="emp_num" type="text" placeholder="사원번호" />
-                                                <label for="inputEmail">사원번호</label></td></tr>
+                                              </td></tr>
 			<tr><td><input class="form-control" id="emp_pw" name="emp_pw" type="password" placeholder="비밀번호" />
-                                                <label for="inputPassword">비밀번호</label></td></tr>
+                                                </td></tr>
 			<tr><td><input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
                                                 <label class="form-check-label" for="inputRememberPassword">사원번호 기억하기</label></td></tr>
-			<tr><td>
-			<c:if test="${not empty msg}">
-        	  <span style="color: red;">${msg}</span><br>
-       	    </c:if>
-        	</td></tr>
-		
+				
 		</table>
-		<hr />
-		<div class="btn">
+		 	
+			<c:if test="${not empty msg}">
+        	  <div class="msg">${msg}</div>
+       	    </c:if>
+
+        	<div class="loginBtn">
 		
-		<input type="submit" value="로그인" style="margin-top: 1em;	margin-bottom: 1em;">
+		<input type="submit" value="로그인" class="btnSubmit">
 		
 		</div> 
-  		  </form>
-        </div>                                                                 
+  		  </form>     
+	
+        </div>      
+                                                      
 	
 	</div>
 	</main>
