@@ -1,5 +1,6 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,8 @@ public interface FactoryDAO {
 
 	// 설비(라인) 이름 중복검사
 	public boolean searchLineName(String line_name);
+
+	public List<FacilityDTO> facilitySearch(HashMap<String, Object> json);
 
 	
 	

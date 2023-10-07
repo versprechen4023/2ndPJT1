@@ -1,5 +1,6 @@
 package ems.icemile.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,6 +68,14 @@ public class FactoryServiceImpl implements FactoryService {
 		return factoryDAO.searchLineName(line_name);
 	}//searchLineName
 	
+	
+	@Override
+	public List<FacilityDTO> facilitySearch(HashMap<String, Object> json) {
+		
+		log.debug("FactoryService facilitySearch()");
+		
+		return factoryDAO.facilitySearch(json);
+	}// facilitySearch
 	
 	
 	

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ems.icemile.dto.ProductAllDTO;
+import ems.icemile.dto.FacilityDTO;
 import ems.icemile.service.FactoryService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,18 +47,18 @@ public class FactoryAjaxController {
 	}
 	
 	
-	@PostMapping("search")
-	public List<ProductAllDTO> facilitySearch(@RequestBody HashMap<String, Object> json) {
+	@PostMapping("/facilitySearch")
+	public List<FacilityDTO> facilitySearch(@RequestBody HashMap<String, Object> json) {
 		
 		log.debug("FactoryAjaxController facilitySearch");
 		
 		// 물품리스트를 가져오기위한 물품리스트 객체생성
-		List<ProductAllDTO> productList = new ArrayList<ProductAllDTO>();
+		List<FacilityDTO> facilityList = new ArrayList<FacilityDTO>();
 		//결과값에 따라 물품 리스트를 가져온다
-//		productList = productService.productSearch(json);
+		facilityList = factoryService.facilitySearch(json);
 		
 		// 콜백 함수에 결과값 리턴
-		return productList;
+		return facilityList;
 	}
 	
 	

@@ -194,7 +194,6 @@
 		}// end function formTest(formData)
 		
  		// 추가
- 		// addRow()라는 함수
   		$("#add").click(function() {
  			
         	// 변수 row에 <tr> 태그 할당
@@ -358,18 +357,40 @@
 			                emp_num: emp_num,
 			                line_note: line_note
 			            };
+			     // 중복값 검사수행
+					  if (line_name && line_name !== "") {
+						  // ajax 호출
+						  $.ajax({
+							  	type: "GET",
+						        url: "${pageContext.request.contextPath}/factory_ajax/searchLineName",
+						        data: {"line_name": line_name},
+						        success: function(response) {
+						        	// 공백을 제거한다
+				            		const resultAjax = $.trim(response);
+				            		
+						        	if(resultAjax == "false"){
+						        		result = false;
+						        		continueFor = false;
+						        		Swal.fire('이미 존재하는 이름입니다 다른 이름을 입력하십시오', '', 'info');
+						        	}else{
+										// 상태가 add면 addPro로 넘어가서 input에 입력한 값이 데이터베이스로 넘어간다
+								        if (status === "add") {
+								            $('#facilityList').attr("action", "/home/factory/addPro");
+								        // 상태가 update면 update로 넘어가서 변경한 input의 값이 데이터베이스에 업데이트 된다
+								        } else if (status === "update") {
+								            $('#facilityList').attr("action", "/home/factory/updateFacility");
+								        }
 
-					// 상태가 add면 addPro로 넘어가서 input에 입력한 값이 데이터베이스로 넘어간다
-			        if (status === "add") {
-			            $('#facilityList').attr("action", "/home/factory/addPro");
-			        // 상태가 update면 update로 넘어가서 변경한 input의 값이 데이터베이스에 업데이트 된다
-			        } else if (status === "update") {
-			            $('#facilityList').attr("action", "/home/factory/updateFacility");
-			        }
+								        $('#facilityList').attr("method", "POST");
+								        $('#facilityList').submit();
+						        	} 
+						        }//success 콜백함수 종료지점
+						  });// ajax
+					  }
 
-			        $('#facilityList').attr("method", "POST");
-			        $('#facilityList').submit();
-			    }
+
+			    
+				}
 			});// end save function
 			
 			
@@ -495,7 +516,7 @@
                 	 			Swal.fire('라인 삭제가 완료되었습니다.', '성공', 'success').then(result => {
                 					// 사용자가 확인창을 누르면 실행
                 		 			if(result.isConfirmed){
-                		 				$("#facilityList table").load("${pageContext.request.contextPath}/factory/facility #facilityList table"); // 성공 시 새로고침 한다
+                		 				location.reload(); // 성공 시 새로고침 한다
 					 				}
 							
 					 			});// end alert
@@ -511,10 +532,13 @@
 				}// end else
 		});//end delete function
 		
+		});// end 함수
 		
 		// 조회를 눌렀을때 실행되는 물품 검색관련 함수
 		function facilitySearch() {
 				
+			alert('실행');
+			
 			   // 값 전달 하기위한 JSON 타입 변수선언
 			   var json = {
 		        			category: $('#category').val(),
@@ -523,7 +547,7 @@
 			
 			   // 검색 결과값을 받아오기 위한 ajax 호출
 		 	   $.ajax({
-		 			  url : '${pageContext.request.contextPath}/product_ajax/search',
+		 			  url : '${pageContext.request.contextPath}/factory_ajax/facilitySearch',
 		 			  // JSON타입의 변수를 스트링으로 변환한다
 		 			  data: JSON.stringify(json),
 		 			  // JSON타입의 변수를 전송한다
@@ -543,17 +567,14 @@
 		 				        var $tr = $('<tr>');
 		 				    		//tr 에 내용추가
 		 				        	$tr.append(
-		 				        	'<td><input type="checkbox" name="selectedProId" value="' + data.prod_code + '"></td>',
-		 				        	"<td>"+data.prod_code+"</td>",
-		 				            "<td>"+data.prod_name+"</td>",
-		 				           	"<td>"+data.prod_type+"</td>",
-		 				            "<td>"+data.prod_unit+"</td>",
-		 				         	"<td>"+data.prod_amount+"</td>",
-		 				         	"<td>"+data.prod_price+"</td>",
-		 				         	"<td>"+data.prod_exp+"</td>",
-		 				         	"<td>"+data.deal_code+"</td>",
-		 				         	"<td>"+data.wh_code+"</td>",
-		 				         	"<td>"+data.prod_note+"</td>"
+		 				        	'<td><input type="checkbox" name="selectedLineCo" value="' + data.line_code + '"></td>',
+		 				        	"<td>"+data.line_code+"</td>",
+		 				            "<td>"+data.line_name+"</td>",
+		 				           	"<td>"+data.line_phone+"</td>",
+		 				            "<td>"+data.line_process+"</td>",
+		 				         	"<td>"+data.line_status+"</td>",
+		 				         	"<td>"+data.emp_num+"</td>",
+		 				         	"<td>"+data.line_note+"</td>"
 		 				        	);
 		 				        // 생성한 <tr> 요소를 tbody에 추가
 		 				        $('tbody').append($tr);
@@ -566,7 +587,7 @@
 		
 		
 		
-	});// end 함수
+
         
         </script>
         
