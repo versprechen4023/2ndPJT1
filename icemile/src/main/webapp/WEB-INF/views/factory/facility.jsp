@@ -115,83 +115,6 @@
 		
 		// 함수 시작지점
 		$(document).ready(function() {
-
-		// 정규식 제어함수
-		function formTest(formData) {
-			
-			// 결과값 반환을 위한 변수선언
-			var result = true;
-			
-			// 반복문 제어를 위한 변수선언
-			var continueFor = true;
-			
-			// &을 기준으로 끊고 배열 변수를 선언한다 이후 배열에 따라 반복문을 시행한다
-			// 기준 데이터는 아래와같다 "content=&type=&line_name="...
-			var formArray = formData.split("&");
-
-		    // 사용자에게 알려주기위해 영문 키값을 한글로 매핑한다
-		    // 매핑을 위한 JSON 변수선언
-		    var koreanNames = {
-				"line_code": "라인 코드", 
-				"line_name": "라인 이름", 
-				"line_phone": "라인 전화번호", 
-				"line_process": "생산 공정",
-				"line_status": "가동 상태",
-				"emp_num": "담당자",
-				"line_note": "비고"
-			};
-			// 반복문을 사용하여 각 항목을 검사한다
-			for (var i = 0; i < formArray.length; i++) {
-			  
-			  // 키값의 기준점은 = 이된다
-			  var keyValue = formArray[i].split("=");
-			  // 키변수에 키값을 담는다
-			  var key = decodeURIComponent(keyValue[0]);
-			  // 밸류 변수에 키의 리터럴 값을 담는다
-			  var value = decodeURIComponent(keyValue[1]);
-			  
-			  // 비고와 검색칸은 비어있어도 상관없음
-			  if ((key === "line_note" || key === "content") && value === ""){
-				  continue;
-			  }
-			  
-			  if (value === "") {
-			    // 값이 비어 있는 경우 결과값은 false가 된다
-			    Swal.fire(koreanNames[key]+' 값을 입력해주십시오.', '', 'info');
-			    result = false;
-			    break; // 비어있는 필드를 발견하면 반복문을 종료하고 false를 반환한다
-			  }
-			  
-			  // 중복값 검사수행
-			  if (key === "line_name" && value !== "") {
-				  // ajax 호출
-				  $.ajax({
-					  	type: "GET",
-				        url: "${pageContext.request.contextPath}/factory_ajax/searchLineName",
-				        data: {"line_name": value},
-				        success: function(response) {
-				        	// 공백을 제거한다
-		            		const resultAjax = $.trim(response);
-		            		
-				        	if(resultAjax == "false"){
-				        		result = false;
-				        		continueFor = false;
-				        		Swal.fire('이미 존재하는 이름입니다 다른 이름을 입력하십시오', '', 'info');
-				        	} 
-				        }//success 콜백함수 종료지점
-				  });// ajax
-				  
-				  // 중복값이 있다면 반복문을 종료한다
-				  if(!continueFor){
-					  break;
-				  }
-			 } // end 중복값 검증
-
-			}// end for
-			
-			// 결과값 반환
-			return result;
-		}// end function formTest(formData)
 		
  		// 추가
   		$("#add").click(function() {
@@ -322,6 +245,14 @@
 		
 			// 저장
          	$('#save').click(function () {
+         		
+         	    // 일반 전화번호 유효성 검사(080,070 제외)
+         	    var num = /^(0(2|3[1-3]|4[1-4]|5[1-5]|6[1-4]))-(\d{3,4})-(\d{4})$/;
+         	    var tel = $('#facilityList input[name="line_phone"]').val().trim();
+         	    if (!num.test(tel)) {
+         	        Swal.fire('전화번호 형식이 올바르지 않습니다', '', 'info');
+         	        return; // 전화번호 형식이 올바르지 않으면 더 이상 진행하지 않음
+         	    }
       		
 				// $(# )안에 있는 값 반환(.val()이 그 역할)해서 
 				// 선언한 var 변수에 할당
@@ -389,7 +320,6 @@
 					  }
 
 
-			    
 				}
 			});// end save function
 			
@@ -536,8 +466,6 @@
 		
 		// 조회를 눌렀을때 실행되는 물품 검색관련 함수
 		function facilitySearch() {
-				
-			alert('실행');
 			
 			   // 값 전달 하기위한 JSON 타입 변수선언
 			   var json = {

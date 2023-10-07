@@ -82,8 +82,10 @@ public class FactoryDAOImpl implements FactoryDAO {
 
 	@Override
 	public List<FacilityDTO> facilitySearch(HashMap<String, Object> json) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		log.debug("FactoryDAO searchLineName()");
+		
+		return sqlSession.selectList(namespace+"facilitySearch", json);
 	}
 	
 	
