@@ -38,14 +38,13 @@ h1 {
 		<div id="layoutSidenav_content">
 			<main>
 				<!-- 내용들어가는곳 -->
-<form action="${pageContext.request.contextPath }/sell/branchRegPro" id="branchReg" name="branchReg" method="POST">
+<form id="branchReg" name="branchReg" >
 				<h1>지점 추가</h1>
 <!-- 지점명 -->
 <br> 
 <label for="branch_name_label"><b>지점명</b></label>  
 <input type="text" name="branch_name" id="branch_name">점
 <br> 
-<span id="namemsg"></span>
 <br>
 
 <!--  사업자 등록 --> 
@@ -53,7 +52,6 @@ h1 {
 <label for="branch_num_label"><b>사업자 등록 번호</b></label> 
 <input type="text" name="branch_reg" id="branch_reg"> 
 <br> 
-<span id="brregmsg"></span>
 <br>
 
 <!-- 대표자 -->
@@ -61,7 +59,6 @@ h1 {
 <label for="branch_ceo_label"><b>대표자명</b></label> 
 <input type="text" name="branch_ceo" id="branch_ceo">
 <br> 
-<span id="brceomsg"></span>
 <br>
 
 <!-- 지점 연락처 -->
@@ -69,7 +66,6 @@ h1 {
 <label for="branch_phone_label"><b>지점연락처</b></label>
 <input type="text" name="branch_phone" id="branch_phone"> 
 <br> 
-<span id="brphonemsg"></span>
 <br>
 
 <!-- 가맹담당자 => 본사 직원 -->
@@ -79,7 +75,6 @@ h1 {
 <label for="branch_phone_label"><b>가맹 담당자</b></label> 
 <input type="text" name="emp_num" id="emp_num" placeholder="담당자검색" readonly>
 <input type="button" name="search" id="search" value="조회"><br>
-<span id="empmsg"></span>
 <br>
 
 		<!-- 주소 -->
@@ -96,7 +91,6 @@ h1 {
 		<label for="addr3_label"><b>상세주소</b></label> 
 		<input type="text" name="addr3" id="addr3" placeholder="상세주소"> 
 		<br>
-		<span id="addressmsg"></span>
 		<br>
 
 <!-- 지점 이메일 -->
@@ -110,9 +104,8 @@ h1 {
 <option value="gmail.com">GOOGLE</option>
 </select> <br> 
 <br>
-<span id="emailmsg"></span>
 <br>
-
+<span id="msg"></span>
 <!-- 버튼 --> 
 <input type="hidden" id="branch_email" name="branch_email" value="">
 <input type="hidden" id="branch_add" name="branch_add" value="">
@@ -237,8 +230,9 @@ function updateEmailDns() {
 $(document).ready(function() {
 
 	// 서브밋 될때 실행
-	$('form').on('submit', function () {
-	        // 이메일 값 합산 설정
+    function mergeData() {
+        
+        // 이메일 값 합산 설정
 	        // 입력이메일을 가져오기위한 변수선언
 	        var emailId = $("#email_id").val();
 	        var emailDns = $("#email_dns").val();
@@ -257,64 +251,166 @@ $(document).ready(function() {
 	        
 	        // 주소값을 합쳐서 address 필드에 저장
 	        $("#branch_add").val(addr1 + "" + addr2 + " " + addr3);
-	        
-	}); //서브밋 될 때 실행 끝
-	//서브밋 제어
-    $('#branchReg').submit(function(event) {
+    } 
+
+
+// 중복검사 관련함수
+    function isCanUseEmail() {
     	
+    	// 검증할 이메일을 가져온다
+    	var email = $("#branch_email").val();
+    	
+    	// 결과값 반환을 위한 변수선언
+    	var myBoolean = true;
+    	
+    	$.ajax({
+		  	type: "GET",
+	        url: "${pageContext.request.contextPath}/sell_ajax/searchEmail",
+	        data: {"branch_email": email},
+	        // 조건문 발동을 위해 비동기로 처리
+	        async: false,
+	        success: function(response) {
+	        	// 공백을 제거한다
+        		const result = $.trim(response);
+        		// 이미 값이 존재한다면 true 를 반환한다
+	        	if(result == "true"){
+	        		myBoolean = true;
+	        	} else {
+	        		myBoolean = false;
+	        	}
+	        	
+	        },//success 콜백함수 종료지점
+	        error: function () {
+	        	myBoolean = true;
+	        }
+	  	});// end ajax
+	  	
+    	return myBoolean;
+	} // end function
+	
+	function isCanUsePhone() {
+    	
+		// 검증할 전화번호를 가져온다
+    	var phone = $("#branch_phone").val();
+		// 결과값 반환을 위한 변수선언
+    	var myBoolean = true;
+    	$.ajax({
+		  	type: "GET",
+	        url: "${pageContext.request.contextPath}/sell_ajax/searchPhone",
+	        data: {"branch_phone": phone},
+	        // 조건문 발동을 위해 비동기로 처리
+	        async: false,
+	        success: function(response) {
+	        	// 공백을 제거한다
+        		const result= $.trim(response);
+	        	// 이미 값이 존재한다면 true 를 반환한다
+	        	if(result == "true"){
+	        		myBoolean = true;
+	        	} else {
+	        		myBoolean = false;
+	        	}
+	        	
+	        },//success 콜백함수 종료지점
+	        error: function () {
+	        	myBoolean = true;
+            }
+	  	});// end ajax
+	  	
+		return myBoolean;
+	} // end function
+	
+  	//서브밋 제어
+    $('#btn').click(function() {
+    	
+    	// 데이터 병합실행
+   	 	mergeData();
+    	 
     	if($('#branch_name').val() == ""){
-    		$('#namemsg').css('color','red');
-    		$('#namemsg').text("지점명을 입력하십시오."); 
+    		$('#msg').text("지점명을 입력하십시오."); 
     		$('#branch_name').focus();
     		return false;
     	}
     	
     	if($('#branch_reg').val() == ""){
-    		$('#brregmsg').css('color','red');
-    		$('#brregmsg').text("사업자 등록번호를 입력하십시오."); 
+    		$('#msg').text("사업자 등록번호를 입력하십시오.");
     		$('#branch_reg').focus();
     		return false;
     	}
-
+    	
     	if($('#branch_ceo').val() == ""){
-    		$('#brceomsg').css('color','red');
-    		$('#brceomsg').text("대표자명을 입력하십시오."); 
+    		$('#msg').text("대표자명을 입력하십시오.");  
     		$('#branch_ceo').focus();
     		return false;
     	}
     	
     	if($('#branch_phone').val() == ""){
-    		$('#brphonemsg').css('color','red');
-    		$('#brphonemsg').text("지점 연락처를 입력하십시오."); 
+    		$('#msg').text("지점 번호를 입력하십시오.");
     		$('#branch_phone').focus();
     		return false;
     	}
     	
     	if($('#emp_num').val() == ""){
-    		$('#namemsg').css('color','red');
-    		$('#namemsg').text("가맹 담당자를 입력하십시오."); 
+    		$('#msg').text("가맹 담당자를 선택하십시오.");
     		$('#emp_num').focus();
     		return false;
     	}
     	
     	if($('#branch_post').val() == ""){
-    		$('#addressmsg').css('color','red');
-    		$('#addressmsg').text("주소를 입력하십시오."); 
+    		$('#msg').text("우편번호를 입력해주세요.");
     		$('#branch_post').focus();
+    		return false;
+    	}
+
+	if($('#addr1').val() == "" || $('#addr1').val() == ""){
+    		$('#msg').text("주소를 입력하십시오.");
     		return false;
     	}
     	
     	if($('#email_id').val() == "" || $('#email_dns').val() == ""){
-    		$('#emailmsg').text("이메일을 입력하십시오.");
+    		$('#msg').text("이메일을 입력하십시오.");
     		return false;
     	}
     	
-    	
-    	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
-    	 event.preventDefault(); // 기본 폼 제출 동작을 막음
-    		
+    	// 정규식 검사
+    	// 검사를 위한 변수선언
+		var regName = /^[a-zA-Z가-힣]+$/;
+		var regEmail = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		var regPhone = /^[0-9]{9,11}$/;
+
+		if (!regName.test($('#branch_name').val())) {
+			$('#msg').text("올바른 이름을 입력해주세요 한글, 영/대소문자만 입력가능 합니다.");
+			$('#branch_name').focus();
+    		return false;
+		}
+		
+		if (!regEmail.test($('#email_dns').val())) {
+			$('#msg').text("유효한 이메일 주소를 입력해주세요.");
+			$('#email_dns').focus();
+    		return false;
+		}
+		
+		if (!regPhone.test($('#branch_phone').val())) {
+			$('#msg').text("- 없이 올바른 전화번호를 입력해주십시오.");
+			$('#branch_phone').focus();
+    		return false;
+		}
+		
+		if(isCanUseEmail()){
+			$('#msg').text("이미 등록된 이메일입니다.");
+			return false;
+		}
+		if(isCanUsePhone()){
+			$('#msg').text("이미 등록된 전화번호 입니다.");
+			$('#branch_phone').focus();
+			return false;
+		}
+		
+		// 정규식 검사 끝
+		
+    	    	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
+    	 
     	 // 폼 데이터 객체생성
-    	 var formData = new FormData(this);
+		var formData = new FormData(document.getElementById('branchReg'));
          
          $.ajax({
              type: "POST",
@@ -343,6 +439,7 @@ $(document).ready(function() {
          });
     	
     });//submit기능 제어 끝
+
 
 }); // end JQuery;
 

@@ -22,8 +22,20 @@ public class SellServiceImpl implements SellService{
 	public boolean branchReg(SellDTO sellDTO){
 		
 		log.debug("서비스 | 지점 인서트");
+		String getNum = sellDAO.getNewBranchCode();
+		
+		int branch_code = 0;
+		
+		// DB에 데이터가없다면 초기값(1)이되고
+		if(getNum == null) {
+			branch_code = 1;
+		// 아니라면 +1을 더한다
+		} else {
+			branch_code = Integer.parseInt(getNum.replaceAll("[^0-9]", ""))+1;
+		}
+		
 		//고유 번호 부여
-		sellDTO.setBranch_code(Integer.toString(sellDAO.getNewBranchCode()));
+		sellDTO.setBranch_code(Integer.toString(branch_code));
 		
 		return sellDAO.branchReg(sellDTO);
 	}
@@ -69,6 +81,18 @@ public class SellServiceImpl implements SellService{
 //
 //		return sellDAO.managerInfo(emp_num);
 //	}
+
+	@Override
+	public boolean searchEmail(String branch_email) {
+		log.debug("서비스 | 지점 이메일 중복 검사");
+		return sellDAO.searchEmail(branch_email);
+	}
+
+	@Override
+	public boolean searchPhone(String branch_phone) {
+		log.debug("서비스 | 지점 번호 중복 검사");
+		return sellDAO.searchPhone(branch_phone);
+	}
 	
 	
 }

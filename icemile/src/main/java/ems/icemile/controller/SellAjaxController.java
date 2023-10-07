@@ -7,6 +7,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,5 +65,20 @@ public class SellAjaxController {
 		return Boolean.toString(sellService.branchUpdate(sellDTO));
 	}
 	
+	@GetMapping("searchEmail")
+	public String searchEmail(@RequestParam("branch_email") String branch_email) {
+		
+		log.debug("{} 값 확인", branch_email);
+		
+		return Boolean.toString(sellService.searchEmail(branch_email));
+	}
+	
+	@GetMapping("searchPhone")
+	public String searchPhone(@RequestParam("branch_phone") String branch_phone) {
+		
+		log.debug("{} 값 확인", branch_phone);
+		
+		return Boolean.toString(sellService.searchPhone(branch_phone));
+	}
 
 }
