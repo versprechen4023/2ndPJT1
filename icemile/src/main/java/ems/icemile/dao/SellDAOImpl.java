@@ -22,9 +22,10 @@ public class SellDAOImpl implements SellDAO{
 	private static final String namespace = "mes.icemile.mappers.sellMapper.";
 	
 	@Override
-	public int getNewBranchCode() {
+	public String getNewBranchCode() {
 		return sqlSession.selectOne(namespace+"getNewBranchCode");
 	}
+	
 	@Override
 	public boolean branchReg(SellDTO sellDTO) {
 		log.debug("DAO| 지점 추가");
@@ -60,6 +61,26 @@ public class SellDAOImpl implements SellDAO{
 		log.debug("DAO| 지점 검색");
 		return sqlSession.selectList(namespace+"branchSearch", json);
 	}
+
+	@Override
+	public boolean searchEmail(String branch_email) {
+		log.debug("DAO| 지점 이메일 중복 검사");
+		String result = sqlSession.selectOne(namespace+"searchEmail", branch_email);
+		return (result == null) ? false : true;
+	}
+
+	@Override
+	public boolean searchPhone(String branch_phone) {
+		log.debug("DAO| 지점 번호 중복 검사");
+		String result = sqlSession.selectOne(namespace+"searchPhone", branch_phone);
+		return (result == null) ? false : true;
+	}
+	
+//	@Override
+//	public SellDTO managerInfo(String emp_num) {
+//		log.debug("DAO| 매니저 정보 가져오기");
+//		return sqlSession.selectOne(namespace+"managerInfo", emp_num);
+//	}
 
 	
 	
