@@ -34,18 +34,7 @@ h2{
 	text-align: center;
 } 
 
-table{
-	margin-top: 2em;
-	margin-bottom: 1.5em;
-/* 	margin-left:7em; */
-	margin-left: auto;
-	margin-right: auto;
 
-}
-.form-control{
-	text-align: center;	
-}
- 
 /* .loginTitle{ */
 /* 	background-color: #ffebcd;	 */
 /* 	border-top-left-radius:10px; */
@@ -58,12 +47,53 @@ table{
 	box-shadow: 5px 5px 5px 5px silver;
 	padding-top : 1em;
 	padding-bottom : 1.5em;
- 	width: 32rem;
+ 	width: 30rem;
  	height: auto;
 	background-color: white;
 	border-radius: 10px;
- 	margin-top: 2.5em;
+ 	margin-top: 2em;
 	margin-bottom: 2.5em;
+}
+
+#checkFormInput{
+	margin-top: 1.5em;
+/* 	margin-bottom: 1.5em; */
+	margin-left:auto;
+    margin-right:auto;
+}
+
+#emp_num{
+	width: 60%;
+	height: 2em;
+	padding :1px 6px;
+	border: 1px solid black;
+	border-radius: 4px;
+	font-size: 16px;
+	margin-bottom: 3px;
+	margin-left:auto;
+    margin-right:auto;
+    display: block;
+
+}
+#emp_pw{
+	width: 60%;
+	height: 2em;
+	padding :1px 6px;
+	border: 1px solid black;
+	border-radius: 5px;
+	font-size: 16px;
+	margin-bottom: 1em;
+	margin-left:auto;
+    margin-right:auto;
+    display: block;
+
+}
+
+.inputRememberPassword{
+/* 	margin-bottom: 5px;	 */
+	margin-left:20%;
+
+    display: block;
 }
 
 .msg{
@@ -97,6 +127,7 @@ table{
 
 .btnSubmit:hover{
 	background-color: #ffdead;
+	cursor: pointer;
 }
 
   /* 푸터 */

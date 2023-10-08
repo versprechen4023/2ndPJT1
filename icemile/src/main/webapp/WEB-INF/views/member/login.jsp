@@ -28,17 +28,17 @@
 		
 		<div class = "loginBox">
 <!-- 		<div class ="loginTitle"><h2>로그인</h2></div> -->
-		<form action="${pageContext.request.contextPath }/member/login" method="post">
-		<table>
-			<tr><td>		  
-			<input class="form-control" id="emp_num" name="emp_num" type="text" placeholder="사원번호" />
-                                              </td></tr>
-			<tr><td><input class="form-control" id="emp_pw" name="emp_pw" type="password" placeholder="비밀번호" />
-                                                </td></tr>
-			<tr><td><input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
-                                                <label class="form-check-label" for="inputRememberPassword">사원번호 기억하기</label></td></tr>
+		<form action="${pageContext.request.contextPath }/member/login" method="post" id ="checkForm">
+		
+			<div id ="checkFormInput">	  
+			<input id="emp_num" name="emp_num" type="text" placeholder="사원번호" />
+                                             
+			<input id="emp_pw" name="emp_pw" type="password" placeholder="비밀번호" />
+                                                
+			<div class="inputRememberPassword"><input id="inputRememberPassword" type="checkbox" value="" />
+                                                <label class="form-check-label" for="inputRememberPassword">사원번호 기억하기</label></div><br>
 				
-		</table>
+			</div>	
 		 	
 			<c:if test="${not empty msg}">
         	  <div class="msg">${msg}</div>
