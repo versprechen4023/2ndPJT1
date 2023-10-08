@@ -167,6 +167,11 @@ function memberSearch() {
  				        // 생성한 <tr> 요소를 tbody에 추가
  				        $('tbody').append($tr);
  				    });
+ 				    
+ 				    // 페이징 동적 처리어떻게 하는지 모르겠음 일단 삭제
+ 				    // 나중에 콜백함수 매개변수 길이만큼 조건문 넣어서 처리 하는 방법을 찾아보겠음
+ 				    $('.datatable-pagination-list').remove();
+ 				   
  		      }// 콜백함수 종료지점
       });// end_of_ajax
 }// end function

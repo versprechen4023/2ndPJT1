@@ -10,7 +10,7 @@
     		<when test='type == "P"'>
     		prod_code
       			FROM product
-      				ORDER BY prod_code
+      				ORDER BY prod_code desc
     		</when>
     		<when test='type == "R"'>
     		raw_code
@@ -117,7 +117,6 @@
  	SELECT raw_code, raw_name, raw_type, raw_price
  		FROM raw_material
  			WHERE ${category} LIKE #{content}
- 			
  </select>
  
 </mapper>

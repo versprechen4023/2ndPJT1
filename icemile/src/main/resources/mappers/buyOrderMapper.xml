@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ems.icemile.mappers.buyOrderMapper">
+
+ <select id="getNewRawOrderCode" resultType="java.lang.String">
+  	SELECT raw_order_code
+  		FROM raw_order
+  			ORDER BY raw_order_code desc
+  				LIMIT 1
+ </select>
+ 
+ <insert id="rawOrderInsert">
+ 	INSERT INTO raw_order(raw_order_code, buy_name, raw_name, raw_order_amount, raw_order_date, in_plan_date, raw_status, emp_num)
+ 		VALUES(#{raw_order_code}, #{buy_name}, #{raw_name}, #{raw_order_amount}, #{raw_order_date}, #{in_plan_date}, #{raw_status}, #{emp_num})
+ </insert>
+ 
+ <select id="getRawOrderList" resultType="ems.icemile.dto.RowOrderListDTO">
+ 	SELECT o.raw_order_code, r.raw_code, r.raw_name, r.raw_type,
+	    	b.buy_code, b.buy_name, o.raw_order_amount, r.raw_price,
+        	o.raw_order_date, o.in_plan_date, o.raw_status, o.emp_num
+				FROM raw_order o JOIN raw_material r
+					ON (o.raw_name = r.raw_name)
+						JOIN buy b
+							ON (o.buy_name = b.buy_name)
+ </select>
+ 
+ <delete id="rawOrderDelete" parameterType="java.util.List">
+	DELETE FROM raw_order
+		WHERE raw_order_code IN 
+			 <foreach collection="list" item="raw_order_code" open="(" separator="," close=")">
+			  	#{raw_order_code}
+			 </foreach>
+ </delete>
+
+ <update id="rawOrderUpdate">
+ 	UPDATE raw_order
+ 		SET in_plan_date = #{in_plan_date}, raw_status = #{raw_status}
+ 			WHERE raw_order_code = #{raw_order_code}
+ </update>
+</mapper>

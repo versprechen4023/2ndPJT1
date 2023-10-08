@@ -86,22 +86,29 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    <c:forEach var="RowOrderListDTO" items="${rawOrderList}">
                                         <tr>
-                      						<th><input type="checkbox" name="selectedRawOrderId"></th>
-                                        	<th>OB230924_1</th>
-                                            <th>R0001</th>
-                                            <th>원자재명</th>
-                                            <th>우유</th>
-                                            <th>BU0001</th>
-                                            <th>매입처명</th>
-                                            <th>10</th>
-                                            <th>100</th>
-                                            <th>1000</th>
-                                            <th>2023-10-07</th>
-                                            <th>2023-10-07</th>
-                                            <th>발주중</th>
-                                            <th>IM000001</th>
+                      						<td><input type="checkbox" name="selectedRawOrderId" value="${RowOrderListDTO.raw_order_code}"></td>
+                                        	<td>${RowOrderListDTO.raw_order_code}</td>
+                                            <td>${RowOrderListDTO.raw_code}</td>
+                                            <td>${RowOrderListDTO.raw_name}</td>
+                                            <td>${RowOrderListDTO.raw_type}</td>
+                                            <td>${RowOrderListDTO.buy_code}</td>
+                                            <td>${RowOrderListDTO.buy_name}</td>
+                                            <td>${RowOrderListDTO.raw_order_amount}</td>
+                                            <td>${RowOrderListDTO.raw_price}</td>
+                                            <td>${RowOrderListDTO.raw_fullprice}</td>
+                                            <td>${RowOrderListDTO.raw_order_date}</td>
+                                            <td>${RowOrderListDTO.in_plan_date}</td>
+                                            <c:if test="${RowOrderListDTO.raw_status eq 1}">
+                                            	<td>발주중</td>
+                                            </c:if>
+                                            <c:if test="${RowOrderListDTO.raw_status eq 2}">
+                                            	<td>발주확정</td>
+                                            </c:if>
+                                            <td>${RowOrderListDTO.emp_num}</td>
                                         </tr>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
 </form>
@@ -166,6 +173,61 @@ function getDate() {
 //함수 시작지점
 $(document).ready(function() {
 	
+	// 정규식 제어함수
+	function formTest(formData){
+		// 결과값 반환을 위한 변수선언
+		var result = true;
+		
+		// &을 기준으로 끊고 배열 변수를 선언한다 이후 배열에 따라 반복문을 시행한다
+		// 기준 데이터는 아래와같다 "content=&type=&prod_name="...
+		var formArray = formData.split("&");
+
+	    // 사용자에게 알려주기위해 영문 키값을 한글로 매핑한다
+	    // 매핑을 위한 JSON 변수선언
+	    var koreanNames = {
+	  		"raw_code": "원자재 코드",
+	  		"buy_code": "매입처 코드",
+	  		"raw_order_amount": "발주량",
+	  		"in_plan_date": "입고예정일",
+	  		"emp_num": "담당자"
+		};
+		// 반복문을 사용하여 각 항목을 검사한다
+		for (var i = 0; i < formArray.length; i++) {
+		  
+		  // 키값의 기준점은 = 이된다
+		  var keyValue = formArray[i].split("=");
+		  // 키변수에 키값을 담는다
+		  var key = decodeURIComponent(keyValue[0]);
+		  console.log(key);
+		  // 밸류 변수에 키의 리터럴 값을 담는다
+		  var value = decodeURIComponent(keyValue[1]);
+		  console.log(value);
+		  // 제외할 값을 담을 변수선언
+		  var isOk = (key === "rawOrderBegin" || key === "rawOrderEnd" || key === "rawOrderInBegin" 
+				      || key === "rawOrderInEnd" || key === "content" || key === "raw_order_code"
+				      || key === "raw_fullprice")
+		  // 제외할 값은 반복문을 무시하고 진행한다
+		  if (isOk && value === ""){
+			  continue;
+		  }
+		  
+		  if (value === "" || value == 0) {
+		    // 값이 비어 있는 경우 결과값은 false가 된다
+		    Swal.fire(koreanNames[key]+' 값을 입력해주십시오.', '', 'info');
+		    result = false;
+		    break; // 비어있는 필드를 발견하면 반복문을 종료하고 false를 반환한다
+		  }
+
+		}// end for
+		
+		// 결과값 반환
+		return result;
+		
+	}// end function
+	// 정규식 제어함수 끝
+
+	// 추가, 삭제, 수정등 기능 구현 함수 시작지점
+	
 	// 추가 버튼 누를 시 실행되는 함수
 	$("#rawOrderAdd").click(function(){
 		 // 상태를 저장으로 변경
@@ -182,19 +244,19 @@ $(document).ready(function() {
 	  		'<td><input type="text" id="raw_name" name="raw_name" readonly></td>',
 	  		'<td><input type="text" id="raw_type" name="raw_type" readonly></td>',
 	  		'<td><input type="text" id="buy_code" name="buy_code"></td>',
-	  		'<td><input type="text" id="buy_name" name="buy_name" readonly></td>',
+	  		'<td><input type="text" id="buy_name" name="buy_name"></td>',
 	  		'<td><input type="text" id="raw_order_amount" name="raw_order_amount" value ="0"></td>',
 	  		'<td><input type="text" id="raw_price" name="raw_price" readonly></td>',
 	  		'<td><input type="text" id="raw_fullprice" name="raw_fullprice" placeholder="(자동으로 계산됨)" readonly></td>',
 	  		'<td><input type="text" id="raw_order_date" name="raw_order_date" value="'+getDate()+'"></td>',
 	  		'<td><input type="text" id="in_plan_date" name="in_plan_date" readonly></td>',
-	  		'<td><input type="text" id="raw_status" name="raw_status" value="발주전" readonly></td>',
-	  		'<td><input type="text" id="emp_num" name="emp_num"></td>',
+	  		'<td><input type="text" id="raw_status_name" name="raw_status_name" value="발주전" readonly></td>',
+	  		'<td><input type="text" id="emp_num" name="emp_num" readonly></td>',
 	  		);
 	  	// 생성한 <tr> 요소를 tbody에 추가
 	  	$('tbody tr:nth-child(1)').before($tr);
 	  	
-	  	// 발주추가중에 품목추가,수정,삭제 버튼을 비활성화한다
+	  	// 발주추가중에 발주추가,수정,삭제 버튼을 비활성화한다
 	  	$("#rawOrderAdd").attr('disabled','disabled');
 	  	$("#updateRawOr").attr('disabled','disabled');
 		$("#deleteRawOr").attr('disabled','disabled');
@@ -213,6 +275,15 @@ $(document).ready(function() {
 		
 		// 체크박스가 체크된 여부를 확인하기위한 변수선언
 		var selectedCheckbox = $("input[name='selectedRawOrderId']:checked");
+		
+		// 발주상태를 확인하기위한 변수선언
+		var tdText = selectedCheckbox.closest("tr").find('td:eq(12)').text();
+		
+		// 발주 확정 상태라면 에러가 발생한다
+		if(tdText === "발주확정"){
+			Swal.fire('발주확정된 상태에서는 수정 할 수 없습니다.', '실패', 'error');
+			return false;
+		}
 		
 		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
 		if (selectedCheckbox.length === 1) {
@@ -283,7 +354,7 @@ $(document).ready(function() {
 				}
 			});// end_find(행 검색 반복문 종료지점)
 		
-		  	// 발주수정중에 품목추가,수정,삭제 버튼을 비활성화한다
+		  	// 발주수정중에 발주추가,수정,삭제 버튼을 비활성화한다
 		  	$("#rawOrderAdd").attr('disabled','disabled');
 		  	$("#updateRawOr").attr('disabled','disabled');
 			$("#deleteRawOr").attr('disabled','disabled');
@@ -354,11 +425,144 @@ $(document).ready(function() {
 			
 	});// end function
 	
+	// 저장 버튼 누를 시 실행되는 함수
+	$("#saveRawOr").click(function() {
+
+			// 상태가 수정인경우 수정 작업 실행
+	    	if(status === "update"){
+	     	
+	     	// 동적으로 생성된 셀렉트태그는 인식되지않으므로 셀렉트 태그의 값은 직접가져온다
+	     	var selectValue = $('#raw_status').val();
+	     	
+	    	// 데이터를 전송하기위한 폼 데이터 직렬화 및 셀렉트 태그 값을 직접 추가한다
+	    	var formData = $('#rawOrderList').serialize() + '&' + $.param({ raw_status: selectValue });
+	    	
+	    	// AJAX 제출전에 값이 입력되어있는지 정규식 검사를 수행한다
+			if(formTest(formData)){
+	    		// ajax 실행
+	        	$.ajax({
+	            	type: "POST",
+	            	url: "${pageContext.request.contextPath}/buyOrder/rawOrderUpdate",
+	            	data: formData,
+	            	// 통신성공시 콜백함수 response매개변수에 "true" or "false" 결과값이 입력된다
+	            	success: function(response) {
+	            		// 공백을 제거한다
+	            		const result = $.trim(response);
+	            	 
+	                 	if (result == "true") {
+	                	 	Swal.fire('발주 수정이 완료되었습니다.', '성공', 'success').then(result => {
+						 	 	// 사용자가 확인창을 누르면 실행
+	                		 	if(result.isConfirmed){
+						 			location.reload(); // 성공 시 새로고침한다						
+						 		}// end alert_if
+						 });// end alert
+	                 } else {
+	                	 Swal.fire('발주 수정에 문제가 발생했습니다.', '실패', 'error');
+	                 }
+	             },
+	             error: function () {
+	            	 Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+	             }
+	         });//endAJAX(물품 수정)
+			}// end 정규식검사
+			
+	      	// 상태가 추가인경우 추가 작업 실행
+	    	} else if(status === "save"){
+	    		 // 데이터를 전송하기위한 폼 데이터 직렬화
+	        	 var formData = $('#rawOrderList').serialize();
+	    		 
+	    		 // AJAX 제출전에 값이 입력되어있는지 정규식 검사를 수행한다
+				 if(formTest(formData)){
+	        	 	// ajax 실행
+	             	$.ajax({
+	                 	type: "POST",
+	                 	url: "${pageContext.request.contextPath}/buyOrder/rawOrderInsert",
+	                 	data: formData,
+	                 	// 통신성공시 콜백함수 response매개변수에 "true" or "false" 결과값이 입력된다
+	                 	success: function(response) {
+	                	 	// 공백을 제거한다
+	                	 	const result = $.trim(response);
+	                	 
+	                     	if (result == "true") {
+	                    		 Swal.fire('발주 추가가 완료되었습니다.', '성공', 'success').then(result => {
+	    					 	 	// 사용자가 확인창을 누르면 실행
+	                    		 	if(result.isConfirmed){
+	    					 			location.reload(); // 성공 시 새로고침한다
+	    					 		}// end alert_if
+	    					 	});// end alert
+	                     	} else {
+	                    	 	Swal.fire('발주 추가에 문제가 발생했습니다.', '실패', 'error');
+	                     	}
+	                 	},
+	                 	error: function () {
+	                	 	Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+	                 	}
+	             	});// endAJAX(물품 추가)
+	    	 	}// end 정규식검사
+	    	 }// end else_if
+	});// end function
+	
+	// 삭제 버튼 누를 시 실행되는 함수
+	$("#deleteRawOr").click(function() {
+		
+		// 체크박스가 체크된 여부를 확인하기위한 변수선언
+		var selectedCheckbox = $("input[name='selectedRawOrderId']:checked");
+		
+		// 체크박스가 선택되어있지않다면 에러가 발생한다
+		if (selectedCheckbox.length === 0){
+			Swal.fire('삭제할 행을 선택해 주십시오.', '실패', 'error');
+			return false;
+		}
+		
+		// 체크박스가 선택되어있다면 함수실행
+			
+			 // 데이터를 전송하기위한 폼 데이터 직렬화
+	    	 var formData = $('#rawOrderList').serialize();
+			 
+	    	 // AJAX 제출전에 값이 입력되어있는지 정규식 검사를 수행한다
+			 if(formTest(formData)){
+	    	 	// 문제없다면 ajax 실행
+	         	$.ajax({
+	             	type: "POST",
+	             	url: "${pageContext.request.contextPath}/buyOrder/rawOrderDelete",
+	             	data: formData,
+	             	// 통신성공시 콜백함수 response매개변수에 "true" or "false" 결과값이 입력된다
+	             	success: function(response) {
+	            	 	// 공백을 제거한다
+	            	 	const result = $.trim(response);
+	            	 
+	                 	if (result == "true") {
+	                	 	Swal.fire('발주 삭제가 완료되었습니다.', '성공', 'success').then(result => {
+	                			// 사용자가 확인창을 누르면 실행
+	                		 	if(result.isConfirmed){
+						 			location.reload(); // 성공 시 새로고침 한다
+						 		}
+								
+						 	});// end alert
+	                 	} else {
+	                	 	Swal.fire('발주 삭제에 문제가 발생했습니다.', '실패', 'error');
+	                 	}
+	             	},
+	             	error: function () {
+	            	 	Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+	             	}
+	        	});// endAJAX(물품 삭제)
+			 }// end 정규식검사
+			
+	});//end function
+	// 기능 함수 종료
+	
+	
 	// 이벤트 관련 함수 시작지점
 	
 	// 원자재 코드를 입력하면 새창을 여는 이벤트 리스너
 	$(document).on("click", "input[name='raw_code']", function() {
 		window.open('${pageContext.request.contextPath }/product/rawListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+	});// end function
+	
+	// 담당자를 입력하면 새창을 여는 이벤트 리스너
+	$(document).on("click", "input[name='emp_num']", function() {
+		window.open('${pageContext.request.contextPath }/member/memberListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 	});// end function
 	
 	// 숫자만 입력되야하는 텍스트필드의 이벤트 리스너
@@ -392,7 +596,7 @@ $(document).ready(function() {
 	});// end function
 
 	//엑셀 버튼 누를 시 실행되는 함수
-	$("#excelProd").click(function(){
+	$("#excelRawOrder").click(function(){
 		
 		// 체크박스가 체크된 여부를 확인하기위한 변수선언
 		var selectedCheckbox = $("input[name='selectedRawOrderId']:checked");
