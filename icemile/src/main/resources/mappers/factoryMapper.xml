@@ -33,12 +33,26 @@
 	
 	<delete id="deleteFacility" parameterType="java.util.List">
 		DELETE FROM facility 
-			Where line_code IN 
-			  <foreach collection="list" item="line_code" open="(" separator="," close=")">
+		WHERE line_code IN 
+			 <foreach collection="list" item="line_code" open="(" separator="," close=")">
 			  	#{line_code}
-			  </foreach>
+			 </foreach>
 	</delete>
 
+
+	<select id="searchLineName" resultType="java.lang.String"> 
+		SELECT DISTINCT line_name
+		FROM facility
+		WHERE line_name = #{line_name}
+	</select>
+	
+	
+	<select id="facilitySearch" resultType="ems.icemile.dto.FacilityDTO">
+	<bind name="content" value="'%' + content + '%'"/>
+		SELECT * 
+		FROM facility
+		WHERE ${category} LIKE #{content}
+	</select>
 
   
 </mapper>
