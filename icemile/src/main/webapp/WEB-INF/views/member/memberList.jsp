@@ -168,9 +168,43 @@ function memberSearch() {
  				        $('tbody').append($tr);
  				    });
  				    
- 				    // 페이징 동적 처리어떻게 하는지 모르겠음 일단 삭제
- 				    // 나중에 콜백함수 매개변수 길이만큼 조건문 넣어서 처리 하는 방법을 찾아보겠음
- 				    $('.datatable-pagination-list').remove();
+ 				    // 페이징 동적 처리
+ 				    // 태그 개수 구하기
+ 				    var trCount = $('tbody tr').length;
+ 				    // 페이징 처리를 위한 변수선언(태그 개수 계산)
+ 				    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
+ 				    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
+ 				   	var dataPageValues = [];
+ 				    	// 페이징 버튼의 밸류값을 추출 한다
+ 				  		$('.datatable-pagination-list-item a').each(function() {
+ 				      		var dataPageValue = $(this).data('page');
+ 				      		dataPageValues.push(dataPageValue);
+ 				  		});
+ 				    	
+ 				  	// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
+ 				  	dataPageValues = dataPageValues.filter(function(value) {
+    					return value > parseInt(pageCount);
+					});
+ 				  	
+ 				  	// 중복을 삭제한다
+ 				  	var myArray = dataPageValues.filter(function(value, index, self) {
+    					return self.indexOf(value) === index;
+					});
+ 				  	
+ 				  	// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
+ 				  	var minValue = Math.min(myArray);
+ 				  	var maxValue = Math.max(myArray);
+ 				  	
+ 				  	// 글이 11개 이하라면(즉 페이징이 필요없는경우)
+ 				    if(trCount < 11){
+ 				    	// 페이징을 삭제
+ 				   	    $('.datatable-pagination-list').remove();
+ 				    } else {
+ 				    	// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
+ 				    	for(var i = minValue; i<=maxValue; i++){
+ 				    		$('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
+ 				    	}
+ 				    }
  				   
  		      }// 콜백함수 종료지점
       });// end_of_ajax
