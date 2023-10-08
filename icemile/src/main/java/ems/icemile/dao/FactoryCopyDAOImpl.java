@@ -1,5 +1,6 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -56,5 +57,10 @@ public class FactoryCopyDAOImpl implements FactoryCopyDAO {
 	public void updateRequirement(RequirementDTO requirementDTO) {
 	 sqlSession.update(namespace+"updateRequirement", requirementDTO);	
 	}// updateRequirement
-
+	
+	@Override
+	public List<RequirementDTO> requirementSearch(HashMap<String, Object> json) {
+		log.debug("FactoryDAO requirementSearch");
+		return sqlSession.selectList(namespace+"requirementSearch", json);
+	}
 }

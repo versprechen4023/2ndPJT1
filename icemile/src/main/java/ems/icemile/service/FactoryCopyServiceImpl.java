@@ -1,5 +1,6 @@
 package ems.icemile.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -53,6 +54,12 @@ public class FactoryCopyServiceImpl implements FactoryCopyService {
 	public void updateRequirement(RequirementDTO requirementDTO) {
 		log.debug("FactoryService updateRequirement");
 		factoryCopyDAO.updateRequirement(requirementDTO);
+	}
+	
+	@Override
+	public List<RequirementDTO> requirementSearch(HashMap<String, Object> json) {
+		log.debug("FactoryService requirementSearch");
+		return factoryCopyDAO.requirementSearch(json);
 	}
 	
 }
