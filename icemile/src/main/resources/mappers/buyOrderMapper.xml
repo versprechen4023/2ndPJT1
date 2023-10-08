@@ -36,7 +36,7 @@
 
  <update id="rawOrderUpdate">
  	UPDATE raw_order
- 		SET in_plan_date = #{in_plan_date}, raw_status = #{raw_status}
+ 		SET raw_order_amount = #{raw_order_amount}, in_plan_date = #{in_plan_date}, raw_status = #{raw_status}
  			WHERE raw_order_code = #{raw_order_code}
  </update>
 </mapper>
