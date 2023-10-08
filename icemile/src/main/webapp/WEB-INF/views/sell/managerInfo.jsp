@@ -24,78 +24,64 @@
     font-family: 'Pretendard-Regular';
 }
 
-body{
-	margin: 0px;
-/* 	overflow-X: hidden; */
-/* 	overflow-Y: hidden; */
-	width: 100%;
+/* 사이드바, 헤더, 푸터 제외 내용부분 */
+.container{
+	width: 500px;		/* 넓이 */
+	margin: 0px auto;	/* 중앙 */
 }
 
-main{
-	margin: 8px;
+/* 사원정보에 대한 내용이 들어가는 부분 */
+.info{
+	margin : -3px auto; /* 중앙 */
+	width:360px;		
+	height:450px;
+	text-align:left;	/* 내용 왼쪽정렬 */
+	line-height: 50px;	/* 줄 간격 */
+	font-size: 15pt;	/* 글자사이즈 */
+	font-weight: bold;	/* 글자굵기 */
+	display: table;
+  border-collapse: collapse;
+}
+
+/* input type="text" 에 대한 모든 부분 */
+input[type="text"]{
+	border-style:none;	/* 내용을 들고올 때 수정 못함, 칸 테두리 없앰 */
+	line-height: normal;
 }
 
 h1 {
- 	margin-left: 5px;
-    font-size: 2em;
     font-weight: 500;
-     text-align: center; 
-     font-weight: bold; 
-     margin-top: 0; 
-     margin: auto;
-	 height: 110px;
-	 line-height: 3.2;
- }	
- 
- .btn{
- float: right;
- margin-bottom: 10px;
- }
-	
- table {
-    width: 45%;
-    border-top: 1px solid #444444;
-    border-collapse: collapse;
-    border-color: #DDE2E6;
-    margin-top: 30px;
-    margin-bottom: 20px;
+    line-height: 3.2;
+    margin-top: 0;
     margin: auto;
-    
-  }
-  th{
-    border-bottom: 1px solid #444444;
-    border-color: #DDE2E6;
-    padding: 10px;
-    text-align: left;
-    font-size: 14px;
-    width: 130px; 
     text-align: center; 
-      border-left: none;
-  border-right: none;
-  }
-td {
-    border-bottom: 1px solid #444444;
-    border-color: #DDE2E6;
-    padding: 10px;
-    text-align: left;
-    font-size: 14px;
-      border-left: none;
-  border-right: none;
-  }
-  
-.tdbold{
-font-weight: bold;
+    font-weight: bold;
+    height: 110px;
 }
 
-#msg{
-	color: red;
-}  
+table { 
+   width: 45%; 
+   border-top: 1px solid #444444; 
+   border-collapse: collapse; 
+   border: 2px solid; 
+   margin: auto;
+   margin-bottom : 20px;
+   } 
+   
+th { 
+  border-bottom: 1px solid #444444; 
+  border: 1px solid; 
+  padding: 10px; 
+  text-align: center; 
+  width: 130px;
+   } 
+td { 
+  border-bottom: 1px solid #444444; 
+  border: 1px solid; 
+  padding: 10px; 
+  text-align: left; 
+   } 
 
-#bottomContainer{
-	text-align: center;
-	margin: 0 auto;
-	margin-bottom: 20px;
-}
 
 </style>
 
@@ -124,10 +110,10 @@ font-weight: bold;
   <h1>마이페이지</h1>
   
 <table border="1">
-<!-- <colgroup> -->
-<!-- <col style="background-color: #E0EBFF;"> -->
-<!-- <col> -->
-<!-- </colgroup>  -->
+<colgroup>
+<col style="background-color: #E0EBFF;">
+<col>
+</colgroup> 
 
 <tr>
 <th>이름</th>
@@ -186,8 +172,7 @@ font-weight: bold;
   
 <div style="display: flex; justify-content: center; margin-bottom: 20px; ">
  <div class="btn">
-    <input type="button" value="수정" onclick="memberUpdate('${sessionScope.emp_num}')" id="updateEmp" >
-     <input type="button" value="비밀번호 변경"  onclick="memberPassword('${sessionScope.emp_num}')" id="passwordEmp" >
+    <input type="button" value="뒤로가기" onclick="goBack()" >
  </div>
  </div>
                 
@@ -199,12 +184,10 @@ font-weight: bold;
             </div>
         </div>
 <script type="text/javascript">
-function memberUpdate(emp_num){
-	window.open('${pageContext.request.contextPath }/member/empUpdate?emp_num='+emp_num, '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+function goBack() {
+    window.history.back();
 }
-function memberPassword(emp_num){
-	window.open('${pageContext.request.contextPath }/member/passwordUpdate', '_blank', 'width=600px, height=600px, left=600px, top=300px');
-}
+
 </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>

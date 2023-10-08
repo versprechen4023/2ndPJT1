@@ -4,9 +4,11 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mes.icemile.mappers.sellMapper">
 	
-	<select id="getNewBranchCode" resultType="java.lang.Integer">
-  	SELECT count(*) + 1
+	<select id="getNewBranchCode" resultType="java.lang.String">
+  	SELECT branch_code
   		FROM branch
+  			ORDER BY branch_code desc
+  				LIMIT 1
   	</select>
   
 	<insert id="branchReg">
@@ -42,6 +44,27 @@
   	SELECT *
   		FROM branch
   			WHERE ${category} LIKE #{content}
+  	</select>
+  	
+  	<select id="searchEmail" resultType="java.lang.String">
+  	SELECT branch_email
+  		FROM branch
+  			WHERE branch_email = #{branch_email}
+  				LIMIT 1
   </select>
+  
+  <select id="searchPhone" resultType="java.lang.String">
+  	SELECT branch_phone
+  		FROM branch
+  			WHERE branch_phone = #{branch_phone}
+  				LIMIT 1
+  </select>
+  
+<!--   	<select id="managerInfo" resultType="ems.icemile.dto.SellDTO">
+  	SELECT a.emp_name, a.dept_name, a.position, a.phone_num, a.hotline, a.email, a.address, a.profilepic, a.hire_date
+		FROM emp a JOIN branch b
+			WHERE a.emp_num = b.emp_num;
+  	</select> -->
+  
 	
 </mapper>

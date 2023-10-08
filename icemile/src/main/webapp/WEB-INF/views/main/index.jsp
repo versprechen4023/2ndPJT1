@@ -28,6 +28,9 @@
 *{
     font-family: 'Pretendard-Regular';
 }
+h1{
+	font-weight: 600;
+}
 </style>
         <div id="layoutSidenav">
 <!-- 사이드바 -->

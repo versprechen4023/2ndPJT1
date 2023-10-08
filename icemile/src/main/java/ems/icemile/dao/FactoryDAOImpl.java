@@ -1,5 +1,6 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,6 +77,15 @@ public class FactoryDAOImpl implements FactoryDAO {
 		String result = sqlSession.selectOne(namespace+"searchLineName", line_name);
 		
 		return result.isEmpty();
+	}
+
+
+	@Override
+	public List<FacilityDTO> facilitySearch(HashMap<String, Object> json) {
+		
+		log.debug("FactoryDAO searchLineName()");
+		
+		return sqlSession.selectList(namespace+"facilitySearch", json);
 	}
 	
 	
