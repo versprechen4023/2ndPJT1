@@ -6,47 +6,24 @@
 <head>
 
 <!-- 헤드 -->
-<jsp:include page="../include/head.jsp"></jsp:include>
-<!-- 헤드 -->
-<link href="../resources/css/addTableVertical.css" rel="stylesheet" />
+<head>
+  <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>아이스마일</title>
+	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+ 		<link href="../resources/css/addTableVertical.css" rel="stylesheet" />
 
-	<style>
-body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh; /* 화면 높이 100%로 설정하여 수직 중앙 정렬 */
-	margin: 0; /* 페이지 바깥 여백 제거 */
-}
-h1 {
-	text-align: center; /* 가로 중앙 정렬 */
-	 font-weight: 600;
-}
-#btn {
-	text-align: center; /* 가로 중앙 정렬 */
-	margin: 10px; /* 버튼 간격 설정 */
-	font-size: 16px; /* 버튼 텍스트 크기 설정 */
-	padding: 5px 20px; /* 버튼 안 여백 설정 */
-}
-@font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-}
-*{
-    font-family: 'Pretendard-Regular';
-}
-</style>
 </head>
 
 
-<body class="sb-nav-fixed">
+<body>
 
 				<!-- 내용들어가는곳 -->
 	<form action="#" id="signup" name="signup" method="POST" enctype="multipart/form-data">
-	
-		<h1>사원정보수정</h1>
+		<h1>사원 정보 수정</h1>
 
 <table>
 
@@ -120,16 +97,13 @@ h1 {
 			<c:if test="${memberDTO.position != '5' && memberDTO.position != '0'}">disabled</c:if>>물류
 		</label></td></tr>
 </table>
+		<span id="msg"></span>
 
+		<div id="bottomContainer"> 
 		<!-- 등록 버튼 -->
-		<div id="btn">
-			<input type="submit" id="btn" value="등록">
+			<input type="submit" id="btn" value="등록">			
 		</div>
 		
-<!-- 푸터 -->
-<jsp:include page="../include/footer.jsp"></jsp:include>
-<!-- 푸터 -->  
-
 
 		<input type="hidden" id="emp_num" name="emp_num" value="${memberDTO.emp_num }">
 		<input type="hidden" id="emp_role" name="emp_role" value="">
@@ -137,6 +111,9 @@ h1 {
 		<input type="hidden" id="address" name="address" value="">
 	</form>
 	
+<!-- 푸터 -->
+<jsp:include page="../include/footer.jsp"></jsp:include>
+<!-- 푸터 -->  
 	
 
 <!-- 데이트피커 J쿼리등을 사용하기위한 호출 -->

@@ -200,7 +200,7 @@ font-weight: bold;
         </div>
 <script type="text/javascript">
 function memberUpdate(emp_num){
-	window.open('${pageContext.request.contextPath }/member/empUpdate?emp_num='+emp_num, '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/member/empUpdate?emp_num='+emp_num, '_blank', 'width=590px, height=770px, left=600px, top=300px');
 }
 function memberPassword(emp_num){
 	window.open('${pageContext.request.contextPath }/member/passwordUpdate', '_blank', 'width=600px, height=600px, left=600px, top=300px');

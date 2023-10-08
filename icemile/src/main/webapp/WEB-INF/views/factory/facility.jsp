@@ -29,11 +29,11 @@
                         <div class="bnt">
                         <!-- 아이디 session 들고 와서 admin일 때만 추가~저장 버튼 보이게 -->
                         <c:if test="${sessionScope.emp_num eq 'admin'}">
-                        <input type="button" id="add" value="추가">
-                        <input type="button" id="update" value="수정">
-                        <input type="button" id="delete" value="삭제">
-                        <input type="button" id="save" value="저장">
-                        <input type="button" id="cancel" value="취소">
+                        <input type="button" class ="tableBtn" id="add" value="추가">
+                        <input type="button" class ="tableBtn" id="update" value="수정">
+                        <input type="button" class ="tableBtn" id="delete" value="삭제">
+                        <input type="button" class ="tableBtn" id="save" value="저장">
+                        <input type="button" class ="tableBtn" id="cancel" value="취소">
                         </c:if>
                         </div>
                         <div class="card mb-4" id="card mb-4">

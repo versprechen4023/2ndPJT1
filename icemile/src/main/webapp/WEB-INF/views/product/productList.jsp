@@ -28,11 +28,11 @@
                         </ol>
                         <div class="bnt">
                         <c:if test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
-							<input type="button" value="품목추가" id="productAdd">
-							<input type="button" value="수정" id="updateProd">
-							<input type="button" value="삭제" id="deleteProd">
-							<input type="button" value="취소" id="cancelProd" disabled>
-							<input type="button" value="저장" id="saveProd" disabled>
+							<input type="button" class ="tableBtn" value="품목추가" id="productAdd">
+							<input type="button" class ="tableBtn" value="수정" id="updateProd">
+							<input type="button" class ="tableBtn" value="삭제" id="deleteProd">
+							<input type="button" class ="tableBtn" value="취소" id="cancelProd" disabled>
+							<input type="button" class ="tableBtn" value="저장" id="saveProd" disabled>
 						</c:if>
                         </div>
                         <div class="card mb-4">

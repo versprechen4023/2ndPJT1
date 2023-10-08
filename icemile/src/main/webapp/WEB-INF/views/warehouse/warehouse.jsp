@@ -32,15 +32,11 @@
 
 							<c:if
 								test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
-								<input type="button" value="창고추가" id="whAdd">
-								<span>&nbsp;</span>
-								<input type="button" value="수정" id="updateWh">
-								<span>&nbsp;</span>
-								<input type="button" value="삭제" id="deleteWh">
-								<span>&nbsp;</span>
-								<input type="button" value="취소" id="cancelWh" disabled>
-								<span>&nbsp;</span>
-								<input type="button" value="저장" id="saveWh" disabled>
+								<input type="button" class ="tableBtn"  value="창고추가" id="whAdd">							
+								<input type="button" class ="tableBtn" value="수정" id="updateWh">
+								<input type="button" class ="tableBtn" value="삭제" id="deleteWh">
+								<input type="button" class ="tableBtn" value="취소" id="cancelWh" disabled>
+								<input type="button" class ="tableBtn" value="저장" id="saveWh" disabled>
 							</c:if>
 
 						</div>
