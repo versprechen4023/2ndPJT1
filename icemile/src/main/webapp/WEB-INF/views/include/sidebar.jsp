@@ -68,7 +68,7 @@
                             <div class="collapse" id="collapseTest3" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/factory/workOrder">작업지시</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/factory/workOrderList">작업지시</a>
                                             <a class="nav-link" href="${pageContext.request.contextPath}/pageTest/result">생산실적</a>
                                             <a class="nav-link" href="${pageContext.request.contextPath}/factory/facility">설비관리</a>
                                         </nav>

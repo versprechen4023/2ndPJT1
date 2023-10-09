@@ -78,7 +78,8 @@ public class BuyServiceImpl implements BuyService{
 		
 		return buyDAO.buyDelete(buy_code);
 	}
-
+	
+	@Override
 	public List<BuyDTO> buySearch(HashMap<String, Object> json) {
 		
 		log.debug("구매처 검색 서비스");

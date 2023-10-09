@@ -72,12 +72,11 @@ public class BuyController {
 		model.addAttribute("buyDTO", buyDTO);
 		
 		return "buy/buyUpdate";
-			
-		
+				
 	}
 	
 	@PostMapping("/buyUpdatePro")
-	public String branchUpdatePro(BuyDTO buyDTO) {
+	public String buyUpdatePro(BuyDTO buyDTO) {
 		log.debug("거래처 업데이트");
 		
 		buyService.buyUpdate(buyDTO);

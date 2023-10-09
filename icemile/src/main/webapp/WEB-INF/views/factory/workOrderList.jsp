@@ -19,14 +19,14 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">거래처 관리</h1>
+					<h1 class="mt-4">작업 지시 관리</h1>
 					<ol class="breadcrumb mb-4">
 						<!--                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
 						<!--                             <li class="breadcrumb-item active">Tables</li> -->
 					</ol>
 					<div class="bnt">
 						<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
-						<input type="button" value="거래처 등록" onclick="buyInsert()">
+						<input type="button" value="작업지시 추가" onclick="workOrderAdd()">
 						</c:if>
 					</div>
 					<div class="card mb-4">
@@ -37,56 +37,55 @@
 						<div class="card-body">
 						<input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
-  								<option value="buy_code">코드</option>
-  								<option value="buy_name">상호명</option>
-  								<option value="buy_type">업종유형</option>
-  								<option value="buy_phone">연락처</option>
-  								<option value="buy_email">이메일</option>
+  								<option value="work_code">지시코드</option>
+  								<option value="line_name">라인명</option>
+  								<option value="prod_name">제품명</option>
+  								<option value="branch_name">지점명</option>
+  
 							</select>
 							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
 								id="content">
-							<input type="button" name="search" value="조회" onclick="buySearch()">
+							<input type="button" name="search" value="조회" onclick="workOrderSearch()">
 							<table id="datatablesSimple">
 								<thead>
 									<!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
 									<tr>
-										<th>코드</th>
-										<th>상호명</th>
-										<th>사업자등록번호</th>
-										<th>대표자</th>
-										<th>담당자</th>
-										<th>구매담당자</th>
-										<th>업종유형</th>
-										<th>연락처</th>
-										<th>우편번호</th>
-										<th>주소</th>
-										<th>email</th>
+										<th>지시코드</th>
+										<th>작업지시자</th>
+										<th>라인코드</th>
+										<th>라인명</th>
+										<th>수주코드</th>
+										<th>제품명</th>
+										<th>주문량</th>
+										<th>생산공정</th>
+										<th>지시/수정날짜</th>
+										<th>지점명</th>
 										<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
 										<th data-sortable="false">관리</th>
 										</c:if>
 									</tr>
 								</thead>
 								<tbody id="tbody">
-									<c:forEach var="buyDTO" items="${buyList}">
+									<c:forEach var="workOrderDTO" items="${workOrderList}">
 										<tr>
-											<td>${buyDTO.buy_code}</td>
-											<td>${buyDTO.buy_name}</td>
-											<td>${buyDTO.buy_reg}</td>
-											<td>${buyDTO.buy_ceo}</td>
-											<td>${buyDTO.buy_emp}</td>
-											<td>${buyDTO.emp_num}</td>
-											<td>${buyDTO.buy_type}</td>
-											<td>${buyDTO.buy_phone}</td>
-											<td>${buyDTO.buy_post}</td>
-											<td>${buyDTO.buy_add}</td>
-											<td>${buyDTO.buy_email}</td>
+											<td>${workOrderDTO.work_code}</td>
+											<td>${workOrderDTO.emp_num}</td>
+											<td>${workOrderDTO.line_code}</td>
+											<td>${workOrderDTO.line_name}</td>
+											<td>${workOrderDTO.order_code}</td>
+											<td>${workOrderDTO.prod_name}</td>
+											<td>${workOrderDTO.order_amount}</td>
+											<td>${workOrderDTO.line_process}</td>
+											<td>${workOrderDTO.work_order_date}</td>
+											<td>${workOrderDTO.branch_name}</td>
+						
 								
 										
 											<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
 											<td><input type="button" value="수정"
-												onclick="buyUpdate('${buyDTO.buy_code}')" id="updateBuy">
+												onclick="workOrderUpdate('${workOrderDTO.work_code}')" id="updateWorkOrder">
 												<input type="button" value="삭제"
-												onclick="buyDelete('${buyDTO.buy_code}')" id="deleteBuy">
+												onclick="workOrderDelete('${workOrderDTO.work_code}')" id="deleteWorkOrder">
 											</td>
 											</c:if>
 										</tr>
@@ -120,7 +119,7 @@
 	
 <script>
 // 멤버 검색관련 함수
-function buySearch() {
+function workOrderSearch() {
 		
 		// 원래 매개변수로 전달할려했으나 처음에 언디파인드가 뜨는 문제가 있음 따라서 변수선언
  		var role = '${sessionScope.emp_role}';
@@ -133,7 +132,7 @@ function buySearch() {
 	
 	   // 검색 결과값을 받아오기 위한 ajax 호출
  	   $.ajax({
- 			  url : '${pageContext.request.contextPath}/buy_ajax/search',
+ 			  url : '${pageContext.request.contextPath}/factory_ajax/workOrderSearch',
  			  data: JSON.stringify(json),
  	          contentType: 'application/json',
  			  type : 'POST',
@@ -153,35 +152,33 @@ function buySearch() {
  				    	// 권한이있으면 수정 삭제 버튼도 같이 출력
  				    	if(role.charAt(0) === '1'){
  				        	$tr.append(
- 				            "<td>"+data.buy_code+"</td>",
- 				           	"<td>"+data.buy_name+"</td>",
- 				         	"<td>"+data.buy_reg+"</td>",
- 				         	"<td>"+data.buy_ceo+"</td>",
- 				         	"<td>"+data.buy_emp+"</td>",
- 				         	"<td>"+data.emp_num+"</td>",
- 				         	"<td>"+data.buy_type+"</td>",
- 				         	"<td>"+data.buy_phone+"</td>",
- 				         	"<td>"+data.buy_post+"</td>",
- 				         	"<td>"+data.buy_add+"</td>",
- 				         	"<td>"+data.buy_email+"</td>",
+ 				            "<td>"+data.work_code+"</td>",
+ 				           	"<td>"+data.emp_num+"</td>",
+ 				         	"<td>"+data.line_code+"</td>",
+ 				         	"<td>"+data.line_name+"</td>",
+ 				         	"<td>"+data.order_code+"</td>",
+ 				         	"<td>"+data.prod_name+"</td>",
+ 				         	"<td>"+data.order_amount+"</td>",
+ 				         	"<td>"+data.line_process+"</td>",
+ 				         	"<td>"+data.work_order_date+"</td>",
+ 				         	"<td>"+data.branch_name+"</td>",
  				            "<td>" +
- 				          	"<input type='button' value='수정' onclick='buyUpdate(\"" + data.buy_code + "\")' id='updateBuy'>" +
- 				            "<input type='button' value='삭제' onclick='buyDelete(\"" + data.buy_code + "\")' id='deleteBuy'>" +
+ 				          	"<input type='button' value='수정' onclick='workOrderUpdate(\"" + data.workOrder_code + "\")' id='updateworkOrder'>" +
+ 				            "<input type='button' value='삭제' onclick='workOrderDelete(\"" + data.workOrder_code + "\")' id='deleteworkOrder'>" +
  				            "</td>"
  				        	);
  				    	} else {
  				    		 $tr.append(
- 						            "<td>"+data.buy_code+"</td>",
- 		 				           	"<td>"+data.buy_name+"</td>",
- 		 				         	"<td>"+data.buy_reg+"</td>",
- 		 				         	"<td>"+data.buy_ceo+"</td>",
- 		 				         	"<td>"+data.buy_emp+"</td>",
- 		 				         	"<td>"+data.emp_num+"</td>",
- 		 				         	"<td>"+data.buy_type+"</td>",
- 		 				         	"<td>"+data.buy_phone+"</td>",
- 		 				         	"<td>"+data.buy_post+"</td>",
- 		 				         	"<td>"+data.buy_add+"</td>",
- 		 				         	"<td>"+data.buy_email+"</td>"
+ 				    	            "<td>"+data.work_code+"</td>",
+ 		 				           	"<td>"+data.emp_num+"</td>",
+ 		 				         	"<td>"+data.line_code+"</td>",
+ 		 				         	"<td>"+data.line_name+"</td>",
+ 		 				         	"<td>"+data.order_code+"</td>",
+ 		 				         	"<td>"+data.prod_name+"</td>",
+ 		 				         	"<td>"+data.order_amount+"</td>",
+ 		 				         	"<td>"+data.line_process+"</td>",
+ 		 				         	"<td>"+data.work_order_date+"</td>",
+ 		 				         	"<td>"+data.branch_name+"</td>"
  		 				     );
  				    	}
  				        // 생성한 <tr> 요소를 tbody에 추가
@@ -191,21 +188,22 @@ function buySearch() {
       });// end_of_ajax
 }// end function
 
-// 멤버 추가관련 함수
-function buyInsert(){
-	window.open('${pageContext.request.contextPath }/buy/buyInsert', '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+// 작업 지시 추가관련 함수
+function workOrderAdd(){
+	window.open('${pageContext.request.contextPath }/factory/workOrderAdd', '_blank', 'width=1700px, height=400px, left=600px, top=300px');
 } //end function
 
-function buyUpdate(buy_code){
-	window.open('${pageContext.request.contextPath }/buy/buyUpdate?buy_code='+buy_code, '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+// 작업 지시 수정관련 함수
+function workOrderUpdate(work_code){
+	window.open('${pageContext.request.contextPath }/factory/workOrderUpdate?work_code='+work_code, '_blank', 'width=1700px, height=400px, left=600px, top=300px');
 }
-// 멤버 삭제관련 함수
-function buyDelete(buy_code) {
+// 작업 지시 삭제관련 함수
+function workOrderDelete(work_code) {
 	
 	// sweetalert2 호출
 	Swal.fire({
-		   title: '구매처 삭제',
-		   text: '정말로 등록된 구매처를 삭제 하시겠습니까?',
+		   title: '작업 지시 삭제',
+		   text: '정말로 등록된 작업 지시를 삭제 하시겠습니까?',
 		   icon: 'warning',
 		   
 		   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
@@ -223,8 +221,8 @@ function buyDelete(buy_code) {
 			   
 			   // 멤버 삭제하는 ajax 호출
 			   $.ajax({
-					  url : '${pageContext.request.contextPath}/buy_ajax/delete',
-					  data: {"buy_code": buy_code},
+					  url : '${pageContext.request.contextPath}/factory_ajax/workOrderDelete',
+					  data: {"work_code": work_code},
 					  type : 'POST',
 					  success:function(data){
 							const result = $.trim(data);
@@ -247,7 +245,7 @@ function buyDelete(buy_code) {
 //엔터키 입력시 검색되게 이벤트 리스너 활성화
 document.addEventListener("keyup", function(event) {
     if (event.key === 'Enter') {
-    	buySearch();
+    	workOrderSearch();
     }// end if
 });// end function
 </script>
