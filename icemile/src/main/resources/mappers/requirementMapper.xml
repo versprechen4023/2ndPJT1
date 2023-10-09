@@ -32,7 +32,8 @@
 <!-- 	</insert> -->
 
 	<select id="getRequirement" resultType="ems.icemile.dto.RequirementDTO">
-	 SELECT * from requirement
+	 SELECT *
+	 FROM requirement
 	 WHERE req_code = #{req_code} 
 	</select>
 	
@@ -43,5 +44,16 @@
          req_note = #{req_note}
      WHERE req_code = #{req_code}
 	</update>
-  
+	
+	<select id="requirementSearch" resultType="ems.icemile.dto.RequirementDTO">
+      <bind name="content" value="'%' + content + '%'"/>
+ 		SELECT *
+			FROM(
+				SELECT req_code, prod_code as prod_code, raw_code, req_insertDATE, req_amount, 
+				req_upDATEDATE, req_note
+  					FROM requirement
+				) AS myTable
+					WHERE myTable.${category} LIKE #{content}
+ </select>
+
 </mapper>
