@@ -301,7 +301,7 @@ $(document).ready(function() {
 
    // branch_phone 형식을 000-0000-0000으로 변경하는 함수
    function formatBranchPhone() {
-       var branchPhones = document.querySelectorAll("#datatablesSimple td:nth-child(3)");
+       var branchPhones = document.querySelectorAll("#datatablesSimple td:nth-child(5)");
        branchPhones.forEach(function (branchPhoneCell) {
            var branchPhone = branchPhoneCell.textContent.trim();
            var formattedPhone = branchPhone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
