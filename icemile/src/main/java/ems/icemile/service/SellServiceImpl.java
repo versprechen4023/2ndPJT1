@@ -61,6 +61,7 @@ public class SellServiceImpl implements SellService{
 		
 		return sellDAO.branchUpdate(sellDTO);
 	}
+	
 	@Override
 	public boolean branchDelete(String branch_code) {
 		log.debug("서비스 | 지점삭제");

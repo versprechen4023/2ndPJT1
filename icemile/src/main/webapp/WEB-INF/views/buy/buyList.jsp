@@ -74,7 +74,7 @@
 											<td>${buyDTO.buy_reg}</td>
 											<td>${buyDTO.buy_ceo}</td>
 											<td>${buyDTO.buy_emp}</td>
-											<td>${buyDTO.emp_num}</td>
+                                            <td><a href="#" class="emp-num-link" data-emp-num="${buyDTO.emp_num}">${buyDTO.emp_num}</a></td>
 											<td>${buyDTO.buy_type}</td>
 											<td>${buyDTO.buy_phone}</td>
 											<td>${buyDTO.buy_post}</td>
@@ -118,7 +118,53 @@
 		crossorigin="anonymous"></script>
 	<script src="../resources/js/buyList_im.js"></script>
 	
-<script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $(".emp-num-link").click(function(event) {
+        event.preventDefault();
+        var empNum = $(this).data("emp-num"); // 클릭한 링크의 emp_num 값을 가져옵니다.
+
+        // 팝업 창 크기 및 위치 설정
+        var width = 400;
+        var height = 400;
+        var left = (screen.width - width) / 2;
+        var top = (screen.height - height) / 2;
+
+        // 팝업 창 열기
+        var url = '${pageContext.request.contextPath}/member/managerInfo?emp_num=' + empNum; // 팝업에 필요한 데이터를 URL에 포함
+        var popupWindow = window.open(url, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
+
+        // 팝업 창 포커스
+        popupWindow.focus();
+    });
+});
+
+
+$(document).ready(function() {
+    $("#emp_num").click(function() {
+        // 업체코드 입력란의 값을 가져옵니다.
+        // var emp_num = $("input[name='emp_num']").val();
+        // 여기에서 검색 기능을 구현하고, 필요한 로직을 수행합니다.
+        // 예: 업체코드를 이용하여 검색하고 결과를 표시합니다.
+        
+        $(document).ready(function() {
+	        $("#emp_num").click(function() {
+	            // 팝업 창 크기 및 위치 설정
+	            var width = 400;
+	            var height = 400;
+	            var left = (screen.width - width) / 2;
+	            var top = (screen.height - height) / 2;
+	            // 팝업 창 열기
+	            var url = '${pageContext.request.contextPath}/member/memberList'; // 업체 검색 페이지의 URL.
+	            var popupWindow = window.open(url, '_blank', "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
+	            // 팝업 창 포커스
+	            popupWindow.focus();
+	        });
+	    });
+    });
+});
+
+
 // 멤버 검색관련 함수
 function buySearch() {
 		

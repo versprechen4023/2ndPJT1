@@ -64,11 +64,11 @@ public class BuyServiceImpl implements BuyService{
 	}
 	
 	@Override
-	public void buyUpdate(BuyDTO buyDTO) {
+	public boolean buyUpdate(BuyDTO buyDTO) {
 		
 		log.debug("구매처 업데이트 서비스");
 		
-		buyDAO.buyUpdate(buyDTO);
+		return buyDAO.buyUpdate(buyDTO);
 	}
 	
 	@Override
@@ -79,11 +79,24 @@ public class BuyServiceImpl implements BuyService{
 		return buyDAO.buyDelete(buy_code);
 	}
 
+	@Override
 	public List<BuyDTO> buySearch(HashMap<String, Object> json) {
 		
 		log.debug("구매처 검색 서비스");
 		
 		return buyDAO.buySearch(json);
+	}
+
+	@Override
+	public boolean searchEmail(String buy_email) {
+		log.debug("구매처 이메일 중복 검사 서비스");
+		return buyDAO.searchEmail(buy_email);
+	}
+
+	@Override
+	public boolean searchPhone(String buy_phone) {
+		log.debug("구매처 번호 중복 검사 서비스");
+		return buyDAO.searchPhone(buy_phone);
 	}
 	
 	

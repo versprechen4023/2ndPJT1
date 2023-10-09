@@ -78,7 +78,7 @@ public class BuyController {
 	
 	@PostMapping("/buyUpdatePro")
 	public String branchUpdatePro(BuyDTO buyDTO) {
-		log.debug("거래처 업데이트");
+		log.debug("거래처 업데이트 넘기기");
 		
 		buyService.buyUpdate(buyDTO);
 		
