@@ -172,7 +172,7 @@ td {
   
 <div style="display: flex; justify-content: center; margin-bottom: 20px; ">
  <div class="btn">
-    <input type="button" value="뒤로가기" onclick="goBack()" >
+    <input type="button" value="닫기" onclick="windowClose()" >
  </div>
  </div>
                 
@@ -184,8 +184,8 @@ td {
             </div>
         </div>
 <script type="text/javascript">
-function goBack() {
-    window.history.back();
+function windowClose() {
+    window.close();
 }
 
 </script>
