@@ -62,7 +62,7 @@ h1 {
 
 		<br>
 		<label for="branch_phone_label"><b>가맹 담당자</b></label> 
-		<input type="text" name="emp_num" id="emp_num" placeholder="담당자검색" readonly>
+		<input type="text" name="emp_num" id="emp_num" value="${sellDTO.emp_num} " readonly>
 		<input type="button" name="search" id="search" value="조회"><br>
 		<br>
 		
