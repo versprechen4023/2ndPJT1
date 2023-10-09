@@ -154,7 +154,7 @@
 			
 			// 전화번호
 			row += "<td>";
-			row += "<input type='text' name='line_phone' id='line_phone' required class='#datatablesSimple tr'>";
+			row += "<input type='text' name='line_phone' id='line_phone' placeholder='-을 포함하여 입력하세요' required class='#datatablesSimple tr'>";
 			row += "</td>";
 			
 			// 생산공정
@@ -177,8 +177,7 @@
 			
 			// 담당자
 			row += "<td class='empBox' id='empBox'>";
-			//required 앞에 readonly 추가해 주기
-			row += "<input type='text' name='emp_num' id='emp_num' placeholder='담당자 검색' required class='#datatablesSimple tr'>";
+			row += "<input type='text' name='emp_num' id='emp_num' placeholder='담당자 검색' readonly required class='#datatablesSimple tr'>";
 			row += "<input type='button' name='empSearch' id='empSearch' value='조회'>";
 			row += "</td>";
 			
