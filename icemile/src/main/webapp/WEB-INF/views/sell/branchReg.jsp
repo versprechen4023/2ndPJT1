@@ -69,7 +69,7 @@ h1 {
 <br>
 
 <!-- 가맹담당자 => 본사 직원 -->
-<!-- 부서 영업팀 => 팝업창 => 리스트 출력 => 선택 / 드롭다운? => 선택 -->
+<!-- 부서 영업팀 => 팝업창 => 리스트 출력 => 선택 => 선택 -->
 
 <br>
 <label for="branch_phone_label"><b>가맹 담당자</b></label> 
@@ -99,11 +99,12 @@ h1 {
 <input type="text" name="email_id" id="email_id"> @ 
 <input type="text" name="email_dns" id="email_dns" value="naver.com">
 <select name="email_sel" id="email_sel" onchange="updateEmailDns()">
-<option value="">직접 입력</option>
-<option value="hanmail.net">DAUM</option>
-<option value="gmail.com">GOOGLE</option>
-</select> <br> 
-<br>
+	<option value="">직접 입력</option>
+	<option value="hanmail.net">HANMAIL</option>
+	<option value="gmail.com">GOOGLE</option>
+	<option value="daum.net">DAUM</option>
+	<option value="yahoo.com">YAHOO</option>
+</select> 
 <br>
 
 <span id="msg"></span>

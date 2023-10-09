@@ -76,11 +76,6 @@ public class SellDAOImpl implements SellDAO{
 		return (result == null) ? false : true;
 	}
 	
-//	@Override
-//	public SellDTO managerInfo(String emp_num) {
-//		log.debug("DAO| 매니저 정보 가져오기");
-//		return sqlSession.selectOne(namespace+"managerInfo", emp_num);
-//	}
 
 	
 	

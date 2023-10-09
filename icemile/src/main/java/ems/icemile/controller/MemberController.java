@@ -186,4 +186,20 @@ public class MemberController {
 		return "/member/memberListPopUp";
 	}
 	
+	// 브랜치리스트에서 매니저 누르면 정보 나오게
+	@GetMapping("/managerInfo")
+	public String managerInfo(@RequestParam("emp_num") String emp_num, Model model) {
+		log.debug("컨트롤러| 지점 목록 페이지");
+		
+		// 디비에서 등록된 지점 정보 가져오기
+		MemberDTO memberDTO  = memberService.getManagerInfo(emp_num);
+		
+		// model에 가져온 데이터 담아서 branch.jsp 이동
+		model.addAttribute("memberDTO",memberDTO);
+		
+		// 페이지 이동
+		return "member/managerInfo";
+		
+	}
+	
 }

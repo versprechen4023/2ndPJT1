@@ -60,11 +60,7 @@
   				LIMIT 1
   </select>
   
-<!--   	<select id="managerInfo" resultType="ems.icemile.dto.SellDTO">
-  	SELECT a.emp_name, a.dept_name, a.position, a.phone_num, a.hotline, a.email, a.address, a.profilepic, a.hire_date
-		FROM emp a JOIN branch b
-			WHERE a.emp_num = b.emp_num;
-  	</select> -->
+
   
 	
 </mapper>
