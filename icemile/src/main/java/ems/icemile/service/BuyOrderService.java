@@ -1,5 +1,6 @@
 package ems.icemile.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -68,6 +69,13 @@ public class BuyOrderService {
 		log.debug("rawOrderDelete 서비스");
 		
 		return buyOrderDAO.rawOrderUpdate(rawOrderDTO);
+	}
+
+	public List<RowOrderListDTO> rawOrderSearch(HashMap<String, Object> json) {
+		
+		log.debug("rawOrderSearch 서비스");
+		
+		return buyOrderDAO.rawOrderSearch(json);
 	}
 
 }

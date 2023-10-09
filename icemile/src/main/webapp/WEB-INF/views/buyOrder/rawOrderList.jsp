@@ -10,6 +10,114 @@
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
+<!-- j쿼리호출 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- 자바스크립트 함수 인식이 또 안됩니다.. -->
+<script>
+function rawOrderSearch() {
+	   // 값을 전달 하기위한 JSON 타입 변수선언
+	   var json = {
+			   		rawOrderBegin: $('#rawOrderBegin').val(),
+			   		rawOrderEnd: $('#rawOrderEnd').val(),
+			   		rawOrderInBegin: $('#rawOrderInBegin').val(),
+			   		rawOrderInEnd: $('#rawOrderInEnd').val(),
+       				status: $('#status').val(),
+       				content: $('#content').val()
+      			  };
+
+	   // 검색 결과값을 받아오기 위한 ajax 호출
+	   $.ajax({
+			  url : '${pageContext.request.contextPath}/buyOrder/rawOrderSearch',
+			  // JSON타입의 변수를 스트링으로 변환한다
+			  data: JSON.stringify(json),
+			  // JSON타입의 변수를 전송한다
+	          contentType: 'application/json',
+			  type : 'POST',
+			  // 반환은 JSON 타입
+			  dataType: 'json',
+			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
+			  success:function(json){
+				  
+				    // tbody 내용을 초기화
+				    $('tbody').empty();
+					
+				    // 배열 크기만큼 반복
+				    json.forEach(function (data) {
+				    	
+				    	// 상태표현을 위한변수 선언
+				    	var status = "";
+				    	if(data.raw_status == 1){
+				    		status = "발주중";
+				    	} else {
+				    		status = "발주확정";
+				    	}
+				    	
+				    	// tr 태그 생성
+				        var $tr = $('<tr>');
+				    		//tr 에 내용추가
+				        	$tr.append(
+				        	'<td><input type="checkbox" name="selectedRawOrderId" value="' + data.raw_order_code + '"></td>',
+				        	"<td>"+data.raw_order_code+"</td>",
+				            "<td>"+data.raw_code+"</td>",
+				           	"<td>"+data.raw_name+"</td>",
+				            "<td>"+data.raw_type+"</td>",
+				         	"<td>"+data.buy_code+"</td>",
+				         	"<td>"+data.buy_name+"</td>",
+				         	"<td>"+data.raw_order_amount+"</td>",
+				         	"<td>"+data.raw_price+"</td>",
+				         	"<td>"+data.raw_fullprice+"</td>",
+				         	"<td>"+data.raw_order_date+"</td>",
+				         	"<td>"+data.in_plan_date+"</td>",
+				         	"<td>"+status+"</td>",
+				         	"<td>"+data.emp_num+"</td>"
+				        	);
+				        // 생성한 <tr> 요소를 tbody에 추가
+				        $('tbody').append($tr);
+				    });
+				    
+					// 페이징 동적 처리
+				    // 태그 개수 구하기
+				    var trCount = $('tbody tr').length;
+				    // 페이징 처리를 위한 변수선언(태그 개수 계산)
+				    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
+				    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
+				   	var dataPageValues = [];
+				    	// 페이징 버튼의 밸류값을 추출 한다
+				  		$('.datatable-pagination-list-item a').each(function() {
+				      		var dataPageValue = $(this).data('page');
+				      		dataPageValues.push(dataPageValue);
+				  		});
+				    	
+				  	// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
+				  	dataPageValues = dataPageValues.filter(function(value) {
+   					return value > parseInt(pageCount);
+					});
+				  	
+				  	// 중복을 삭제한다 indexOf로 첫번째 위치만을 출력한다 중복된다면 첫번째위치가 아닌 다른위치에 있을 것이므로
+				  	// 모두 false 처리하여 삭제한다
+				  	var myArray = dataPageValues.filter(function(value, index, self) {
+   					return self.indexOf(value) === index;
+					});
+				  	
+				  	// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
+				  	var minValue = Math.min(myArray);
+				  	var maxValue = Math.max(myArray);
+				  	
+				  	// 글이 11개 이하라면(즉 페이징이 필요없는경우)
+				    if(trCount < 11){
+				    	// 페이징을 삭제
+				   	    $('.datatable-pagination-list').remove();
+				    } else {
+				    	// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
+				    	for(var i = minValue; i<=maxValue; i++){
+				    		$('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
+				    	}
+				    }
+				  	
+		      }// 콜백함수 종료지점
+     });// end_of_ajax
+}
+</script>
     </head>
 <body class="sb-nav-fixed">
 <div id="layoutSidenav">
@@ -56,14 +164,14 @@
                             <br>
                             
                             발주상태
-							<select id="category">
-  								<option value="rawOrderAll">전체</option>
-  								<option value="rawOrderUn">발주중</option>
-  								<option value="rawOrderCom">발주확정</option>
+							<select id="status">
+  								<option value="">전체</option>
+  								<option value="1">발주중</option>
+  								<option value="2">발주확정</option>
 							</select>
 							<input type="text" name="content" size=60 placeholder="자재명을 입력하세요"
 								id="content">
-							<input type="button" name="search" value="조회" onclick="productSearch()">
+							<input type="button" name="search" value="조회" onclick="rawOrderSearch()">
                                 <table id="datatablesSimple">
                                 
                                     <thead>
@@ -126,7 +234,6 @@
         </div>
 <!-- 데이트피커 J쿼리등을 사용하기위한 호출 -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!--  데이트피커 커스텀 css-->
@@ -398,7 +505,8 @@ $(document).ready(function() {
 					if ($(this).find("select").length) {
 						// 셀렉트 텍스트값(발주중)을 변수에 삽입한다
 						var selected = $(this).find("select option:selected").text();
-						// 셀렉트가 있는 경우 셀렉트가 선택된 옵션의 텍스트로 변경 한다
+						// 셀렉트가 있는 경우 셀렉트가 선택된 옵션의 텍스트로 변경 한다(어짜피 발주확정 상태 에서는 수정할수없으므로 항시 발주중이된다)
+						// 만약 발주확정 상태에서도 수정하게 하려면 삼항연산자로 추가 수정등에 selected옵션을 부여해야한다 
 						$(this).html(selected);
 					}else {
 						// 텍스트 태그를 삭제하고 값만 td태그에 삽입한다
@@ -550,6 +658,7 @@ $(document).ready(function() {
 			 }// end 정규식검사
 			
 	});//end function
+	
 	// 기능 함수 종료
 	
 	
@@ -649,6 +758,21 @@ $(document).ready(function() {
 			);
 		
 	});// end function
+	
+	// 폼제출을 막고 엔터키로 조회가 가능하게 하는 함수
+	// 텍스트타입 제출을 막음
+	$('input[type="text"]').keydown(function() {
+		// 엔터키 이벤트 발생을 확인한다
+		if (event.keyCode === 13) {
+			// 폼 태그 제출을 막는다
+	 		event.preventDefault();
+			// 검색 함수를 실행한다
+	 		rawOrderSearch();
+			// 검색입력창을 초기화한다
+	 		$('#content').val("");
+		}// end if
+	});// end function
+	
 	// 이벤트 관련 함수 종료
 	
 	// 데이트피커 초기화 관련함수
@@ -685,8 +809,8 @@ $(document).ready(function() {
     yearSuffix: '년',
     onSelect: function(selectedDate) {
     	
-    	// 발주일자 끝점을 초기화한다
-    	$("#rawOrderEnd").datepicker({
+    	// 발주일자 끝점(데이트피커)을 초기화하고 동적변경을 위해 데이트피커의 초기값을 변수에 담는다
+    	var mySecondDatePicker = $("#rawOrderEnd").datepicker({
         dateFormat: 'yy-mm-dd',
         prevText: '이전 달',
         nextText: '다음 달',
@@ -702,6 +826,10 @@ $(document).ready(function() {
     	
     	// 발주일자 끝점을 선택할 수 있게한다
     	$("#rawOrderEnd").removeAttr("disabled");
+    	// 발주일자 끝점을 초기화한다
+    	$("#rawOrderEnd").val("");
+    	// 동적으로 minDate 를 업데이트한다
+    	mySecondDatePicker.datepicker("option", "minDate", selectedDate);
     	
     }// end OnSelect
 	
@@ -721,8 +849,8 @@ $(document).ready(function() {
     yearSuffix: '년',
     onSelect: function(selectedDate) {
     	
-    	// 입고예정일 끝점을 초기화한다
-    	$("#rawOrderInEnd").datepicker({
+    	// 입고예정일 끝점(데이트피커)을 초기화하고 동적변경을 위해 데이트피커의 초기값을 변수에 담는다
+    	var mySecondDatePicker = $("#rawOrderInEnd").datepicker({
         dateFormat: 'yy-mm-dd',
         prevText: '이전 달',
         nextText: '다음 달',
@@ -736,13 +864,16 @@ $(document).ready(function() {
         minDate: selectedDate
     	}); // end 끝점 데이트피커
     	
-    	// 발주일자 끝점을 선택할 수 있게한다
+    	// 입고예정일 끝점을 선택할 수 있게한다
     	$("#rawOrderInEnd").removeAttr("disabled");
+    	// 입고예정일 끝점을 초기화한다
+    	$("#rawOrderInEnd").val("");
+    	// 동적으로 minDate 를 업데이트한다
+    	mySecondDatePicker.datepicker("option", "minDate", selectedDate);
     	
     }// end OnSelect
 	
 	}); // end 데이트피커
-	
 	
 });// end 함수
 </script>

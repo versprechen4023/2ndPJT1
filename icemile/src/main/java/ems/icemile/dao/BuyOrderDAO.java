@@ -1,5 +1,6 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -54,6 +55,13 @@ public class BuyOrderDAO {
 		log.debug("rawOrderUpdate DAO 도달");
 		
 		return sqlSession.update(namespace+"rawOrderUpdate", rawOrderDTO) > 0;
+	}
+
+	public List<RowOrderListDTO> rawOrderSearch(HashMap<String, Object> json) {
+		
+		log.debug("rawOrderSearch DAO 도달");
+		
+		return sqlSession.selectList(namespace+"rawOrderSearch", json);
 	}
 
 }

@@ -2,7 +2,9 @@ package ems.icemile.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -78,5 +81,32 @@ public class BuyOrderContorller {
 		List<String> deleteRawList = Arrays.asList(selectedRawOrderId);
 		
 		return buyOrderService.rawOrderDelete(deleteRawList);
+	}
+	
+	@PostMapping("/rawOrderSearch")
+	@ResponseBody
+	public List<RowOrderListDTO> rawOrderSearch(@RequestBody HashMap<String, Object> json) {
+		
+		log.debug("발주 검색");
+		
+		// 값 확인
+//		for (Entry<String, Object> entry : json.entrySet()) {
+//            String key = entry.getKey();
+//            Object value = entry.getValue();
+//            boolean test = entry.getValue().toString().isEmpty();
+//            log.debug("키값 {} 밸류 값 {}",key,value);
+//            log.debug("빈값{}",test);
+//        }
+		
+		// 발주리스트를 가져오기위한 품목리스트 객체생성
+		List<RowOrderListDTO> rawOrderList = new ArrayList<RowOrderListDTO>();
+		rawOrderList = buyOrderService.rawOrderSearch(json);
+				
+		// 총가격 저장
+		for(RowOrderListDTO a : rawOrderList) {
+			a.setRaw_fullprice(a.getRaw_order_amount()*a.getRaw_price());
+		}
+		
+		return rawOrderList;
 	}
 }
