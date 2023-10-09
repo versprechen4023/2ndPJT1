@@ -157,4 +157,10 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberDAO.searchPhone(phone_num);
 	}
+
+	@Override
+	public MemberDTO getManagerInfo(String emp_num) {
+		log.debug("getManagerInfo 서비스");
+		return memberDAO.getmanagerInfo(emp_num);
+	}
 }

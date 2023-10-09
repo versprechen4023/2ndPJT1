@@ -107,7 +107,7 @@ td {
 
 
 
-  <h1>마이페이지</h1>
+  <h1>담당자 정보</h1>
   
 <table border="1">
 <colgroup>
@@ -122,7 +122,7 @@ td {
 
 <tr>
 <th>사진</th>
-<td><img src="../resources/assets/img/photo.jpg" width="25%" height="100%"></td>
+<td><img src="../resources/assets/img/photo.jpg" width="100px" height="100px"></td>
 </tr>
 
 <tr>

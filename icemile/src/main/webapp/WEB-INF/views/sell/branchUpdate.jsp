@@ -38,21 +38,15 @@ h1 {
 		<label for="branch_name_label"><b>지점명:</b></label>
 		<input type="text" name="branch_name" id="branch_name" value="${sellDTO.branch_name }">
 		<br>
-		<span id="namemsg"></span>
-		<br>
 		
 		<!-- 사업자 등록 번호 -->
 		<label for="branch_num_label"><b>사업자 등록 번호:</b></label>
 		<input type="text" name="branch_reg" id="branch_reg" value="${sellDTO.branch_reg }" readonly>
 		<br>
-		<span id="brregmsg"></span>
-		<br>
 
 		<!-- 대표자 -->
 		<label for="branch_ceo_label"><b>대표자:</b></label>
 		<input type="text" name="branch_ceo" id="branch_ceo" value="${sellDTO.branch_ceo }" >
-		<br>
-		<span id="brceomsg"></span>
 		<br>
 
 		
@@ -60,18 +54,16 @@ h1 {
 		<!-- 지점 연락처 -->
 		<label for="branch_phone_label"><b>지점 연락처:</b></label> 
 		<input type="text" name="branch_phone" id="branch_phone" value="${sellDTO.branch_phone }">
-		<br> 
-		<span id="brphonemsg"></span>
 		<br>
-		
+
+
 		<!-- 가맹담당자 => 본사 직원 -->
-		<!-- 부서 영업팀 => 팝업창 => 리스트 출력 => 선택 / 드롭다운? => 선택 -->
+		<!-- 부서 영업팀 => 팝업창 => 리스트 출력 => 선택 => 선택 -->
 
 		<br>
 		<label for="branch_phone_label"><b>가맹 담당자</b></label> 
-		<input type="text" name="emp_num" id="emp_num">
-		<br> 
-		<span id="empmsg"></span>
+		<input type="text" name="emp_num" id="emp_num" placeholder="담당자검색" readonly>
+		<input type="button" name="search" id="search" value="조회"><br>
 		<br>
 		
 
@@ -88,8 +80,6 @@ h1 {
 		<label for="addr3_label"><b>상세주소</b></label> 
 		<input type="text" name="addr3" id="addr3" placeholder="상세주소"> 
 		<br>
-		<span id="addressmsg"></span>
-		<br>
 
 		<!-- 지점 이메일 -->
 		<label for="email_id_label"><b>이메일</b></label> 
@@ -97,16 +87,18 @@ h1 {
 		<input type="text" name="email_dns" id="email_dns" value="naver.com"> 
 		<select name="email_sel" id="email_sel" onchange="updateEmailDns()">
 			<option value="">직접 입력</option>
-			<option value="hanmail.net">DAUM</option>
+			<option value="hanmail.net">HANMAIL</option>
 			<option value="gmail.com">GOOGLE</option>
+			<option value="daum.net">DAUM</option>
+			<option value="yahoo.com">YAHOO</option>
+			
 		</select>
 		<br>
-		<span id="emailmsg"></span>
-		<br>
 
+		<span id="msg"></span>
+		<div id="bottomContainer"> 
 		<!-- 등록 버튼 -->
-		<div id="btn">
-			<input type="button" id="btn" value="등록">
+			<input type="button" id="btn" value="수정">
 		</div>
 		<input type="hidden" id="branch_code" name="branch_code" value="${sellDTO.branch_code }">
 		<input type="hidden" id="branch_email" name="branch_email" value="">
@@ -122,8 +114,34 @@ h1 {
 		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 	<script
 src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+<!-- 담당자 검색기능 -->
+<script type="text/javascript">
 
-<script>
+
+// 팝업 창을 열어주는 함수
+function openPopup(url) {
+    var width = 500;
+    var height = 500;
+    var left = (screen.width - width) / 2;
+    var top = (screen.height - height) / 2;
+    var popupWindow = window.open(url, '_blank', "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
+    popupWindow.focus();
+}
+
+$(document).ready(function() {
+    // 사원 검색 팝업 열기
+    $("#search").click(function() {
+        var url = '${pageContext.request.contextPath}/member/memberListPopUp';
+        openPopup(url);
+    });
+});
+
+//팝업 창에서 선택된 emp_num 값을 받아서 표시하는 함수
+function receiveSelectedEmpNum(empNum) {
+    document.getElementById('emp_num').value = empNum;
+}
+
+
 //전역변수 선언
 var email = '${sellDTO.branch_email}';
 var address = '${sellDTO.branch_add}';
@@ -251,66 +269,158 @@ $(document).ready(function() {
 
     };
     
+ // 중복검사 관련함수
+//     function isCanUseEmail() {
+    	
+//     	// 검증할 이메일을 가져온다
+//     	var email = $("#branch_email").val();
+    	
+//     	// 결과값 반환을 위한 변수선언
+//     	var myBoolean = true;
+    	
+//     	$.ajax({
+// 		  	type: "GET",
+// 	        url: "${pageContext.request.contextPath}/sell_ajax/searchEmail",
+// 	        data: {"branch_email": email},
+// 	        // 조건문 발동을 위해 비동기로 처리
+// 	        async: false,
+// 	        success: function(response) {
+// 	        	// 공백을 제거한다
+//         		const result = $.trim(response);
+//         		// 이미 값이 존재한다면 true 를 반환한다
+// 	        	if(result == "true"){
+// 	        		myBoolean = true;
+// 	        	} else {
+// 	        		myBoolean = false;
+// 	        	}
+	        	
+// 	        },//success 콜백함수 종료지점
+// 	        error: function () {
+// 	        	myBoolean = true;
+// 	        }
+// 	  	});// end ajax
+	  	
+//     	return myBoolean;
+// 	} // end function
+	
+// 	function isCanUsePhone() {
+    	
+// 		// 검증할 전화번호를 가져온다
+//     	var phone = $("#branch_phone").val();
+// 		// 결과값 반환을 위한 변수선언
+//     	var myBoolean = true;
+//     	$.ajax({
+// 		  	type: "GET",
+// 	        url: "${pageContext.request.contextPath}/sell_ajax/searchPhone",
+// 	        data: {"branch_phone": phone},
+// 	        // 조건문 발동을 위해 비동기로 처리
+// 	        async: false,
+// 	        success: function(response) {
+// 	        	// 공백을 제거한다
+//         		const result= $.trim(response);
+// 	        	// 이미 값이 존재한다면 true 를 반환한다
+// 	        	if(result == "true"){
+// 	        		myBoolean = true;
+// 	        	} else {
+// 	        		myBoolean = false;
+// 	        	}
+	        	
+// 	        },//success 콜백함수 종료지점
+// 	        error: function () {
+// 	        	myBoolean = true;
+//             }
+// 	  	});// end ajax
+	  	
+// 		return myBoolean;
+// 	} // end function
+	
   	//서브밋 제어
     $('#btn').click(function() {
+    	
     	// 데이터 병합실행
    	 	mergeData();
-    	
-    	//지점명 공백 시 
+    	 
     	if($('#branch_name').val() == ""){
-    		$('#namemsg').css('color','red');
-    		$('#namemsg').text("지점명을 입력하십시오."); 
+    		$('#msg').text("지점명을 입력하십시오."); 
     		$('#branch_name').focus();
     		return false;
     	}
     	
-		// 사업자 등록번호 공백 시 
     	if($('#branch_reg').val() == ""){
-    		$('#brregmsg').css('color','red');
-    		$('#brregmsg').text("사업자 등록번호를 입력하십시오."); 
+    		$('#msg').text("사업자 등록번호를 입력하십시오.");
     		$('#branch_reg').focus();
     		return false;
     	}
-
-		// 대표자명 공백 시 
+    	
     	if($('#branch_ceo').val() == ""){
-    		$('#brceomsg').css('color','red');
-    		$('#brceomsg').text("대표자명을 입력하십시오."); 
+    		$('#msg').text("대표자명을 입력하십시오.");  
     		$('#branch_ceo').focus();
     		return false;
     	}
-
-		// 지점 연락처 공백 시 
+    	
     	if($('#branch_phone').val() == ""){
-    		$('#brphonemsg').css('color','red');
-    		$('#brphonemsg').text("지점 연락처를 입력하십시오."); 
+    		$('#msg').text("지점 번호를 입력하십시오.");
     		$('#branch_phone').focus();
     		return false;
     	}
-		
-		// 본사 직원 공백시  => 새창 리스트 할 건지 고민중....
+    	
     	if($('#emp_num').val() == ""){
-    		$('#empmsg').css('color','red');
-    		$('#empmsg').text("가맹 담당자를 입력하십시오."); 
+    		$('#msg').text("가맹 담당자를 선택하십시오.");
     		$('#emp_num').focus();
     		return false;
     	}
-
-		// 주소 공백시  
+    	
     	if($('#branch_post').val() == ""){
-    		$('#addressmsg').css('color','red');
-    		$('#addressmsg').text("주소를 입력하십시오."); 
+    		$('#msg').text("우편번호를 입력해주세요.");
     		$('#branch_post').focus();
     		return false;
     	}
 
-		// 이메일 공백시  
-    	if($('#branch_email').val() == ""){
-    		$('#emailmsg').css('color','red');
-    		$('#emailmsg').text("이메일를 입력하십시오."); 
-    		$('#branch_email').focus();
+	if($('#addr1').val() == "" || $('#addr1').val() == ""){
+    		$('#msg').text("주소를 입력하십시오.");
     		return false;
     	}
+    	
+    	if($('#email_id').val() == "" || $('#email_dns').val() == ""){
+    		$('#msg').text("이메일을 입력하십시오.");
+    		return false;
+    	}
+    	
+    	// 정규식 검사
+//     	// 검사를 위한 변수선언
+// 		var regName = /^[a-zA-Z가-힣]+$/;
+// 		var regEmail = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+// 		var regPhone = /^[0-9]{9,11}$/;
+
+// 		if (!regName.test($('#branch_name').val())) {
+// 			$('#msg').text("올바른 이름을 입력해주세요 한글, 영/대소문자만 입력가능 합니다.");
+// 			$('#branch_name').focus();
+//     		return false;
+// 		}
+		
+// 		if (!regEmail.test($('#email_dns').val())) {
+// 			$('#msg').text("유효한 이메일 주소를 입력해주세요.");
+// 			$('#email_dns').focus();
+//     		return false;
+// 		}
+		
+// 		if (!regPhone.test($('#branch_phone').val())) {
+// 			$('#msg').text("- 없이 올바른 전화번호를 입력해주십시오.");
+// 			$('#branch_phone').focus();
+//     		return false;
+// 		}
+		
+// 		if(isCanUseEmail()){
+// 			$('#msg').text("이미 등록된 이메일입니다.");
+// 			return false;
+// 		}
+// 		if(isCanUsePhone()){
+// 			$('#msg').text("이미 등록된 전화번호 입니다.");
+// 			$('#branch_phone').focus();
+// 			return false;
+// 		}
+		
+// 		// 정규식 검사 끝
     	
     	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
     		

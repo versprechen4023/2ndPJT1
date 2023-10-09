@@ -39,5 +39,8 @@ public interface MemberDAO {
 	
 	// 전화번호 중복검사
 	public boolean searchPhone(String phone_num);
+
+	// 담당자 정보 가져오기
+	public MemberDTO getmanagerInfo(String emp_num);
 	
 }

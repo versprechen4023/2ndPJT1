@@ -139,7 +139,7 @@ $(document).ready(function() {
         var top = (screen.height - height) / 2;
 
         // 팝업 창 열기
-        var url = '${pageContext.request.contextPath}/sell/managerInfo?emp_num=' + empNum; // 팝업에 필요한 데이터를 URL에 포함
+        var url = '${pageContext.request.contextPath}/member/managerInfo?emp_num=' + empNum; // 팝업에 필요한 데이터를 URL에 포함
         var popupWindow = window.open(url, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
 
         // 팝업 창 포커스

@@ -103,6 +103,12 @@ public class MemberDAOImpl implements MemberDAO {
 	
 		return (result == null) ? false : true;
 	}
+
+	@Override
+	public MemberDTO getmanagerInfo(String emp_num) {
+		log.debug("getmanagerInfo DAO 도달");
+		return sqlSession.selectOne(namespace+"getmanagerInfo", emp_num);
+	}
 	
 	
 }
