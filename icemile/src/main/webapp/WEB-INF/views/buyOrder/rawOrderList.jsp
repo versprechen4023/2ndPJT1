@@ -117,6 +117,20 @@ function rawOrderSearch() {
 		      }// 콜백함수 종료지점
      });// end_of_ajax
 }
+
+//부모창에서 전달받을때 금액 업데이트
+function openUpdate() {
+	// 수주량을 가져온다
+	var raw_order_amount = parseInt($("#raw_order_amount").val());
+	// 단가를 가져온다
+	var raw_price = parseInt($("#raw_price").val());
+	// 수주량과 단가를 계산한다
+	var result = raw_order_amount * raw_price;
+	
+	// 밸류값을 최종가격으로 변경한다
+	$("#raw_fullprice").val(result);
+}
+
 </script>
     </head>
 <body class="sb-nav-fixed">
@@ -696,6 +710,25 @@ $(document).ready(function() {
 		  // 밸류값을 업데이트한다
 		  $(this).val(inputValue);
 	});// end function
+	
+	// 금액 계산
+	$(document).on("input", "#raw_order_amount", function() {
+		
+		// 수주량을 가져온다
+		var raw_order_amount = parseInt($(this).val());
+		// 단가를 가져온다
+		var raw_price = parseInt($("#raw_price").val());
+		// 수주량과 단가를 계산한다
+		var result = raw_order_amount * raw_price;
+		
+		// 밸류값을 최종가격으로 변경한다
+		if(isNaN(result) || result == 0){
+			$("#raw_fullprice").val("");
+		} else {
+			$("#raw_fullprice").val(result);
+		}
+		
+	});
 	
 	// thead의 체크박스를 클릭했을때 전체체크가되게끔 이벤트를 발생시킨다
 	$('input[name="selectedAllRawOrderId"]').click(function() {

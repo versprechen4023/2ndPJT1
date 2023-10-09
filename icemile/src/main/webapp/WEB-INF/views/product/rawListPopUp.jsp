@@ -186,6 +186,9 @@ $(document).ready(function() {
 	      opener.document.getElementById("raw_type").value = raw_type;
 	      opener.document.getElementById("raw_price").value = raw_price;
 	      
+	      // 부모창에서 가격값을 갱신하기위해 함수를 호출한다
+	      opener.openUpdate(); 
+	      
 	      // 창을 종료한다
 	      window.close();
 	      
