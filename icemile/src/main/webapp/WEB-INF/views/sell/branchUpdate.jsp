@@ -41,7 +41,7 @@ h1 {
 		
 		<!-- 사업자 등록 번호 -->
 		<label for="branch_num_label"><b>사업자 등록 번호:</b></label>
-		<input type="text" name="branch_reg" id="branch_reg" value="${sellDTO.branch_reg }" readonly>
+		<input type="text" name="branch_reg" id="branch_reg" value="${sellDTO.branch_reg }" >
 		<br>
 
 		<!-- 대표자 -->

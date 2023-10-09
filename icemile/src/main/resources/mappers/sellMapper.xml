@@ -29,7 +29,7 @@
   	
   	<update id="branchUpdate">
   	UPDATE branch
-  		SET branch_ceo = #{branch_ceo}, emp_num = #{emp_num}, branch_phone = #{branch_phone},
+  		SET branch_reg = #{branch_reg}, branch_ceo = #{branch_ceo}, emp_num = #{emp_num}, branch_phone = #{branch_phone},
   			branch_post = #{branch_post}, branch_add = #{branch_add}, branch_email = #{branch_email}
   				 	WHERE branch_code = #{branch_code}
   	</update>
