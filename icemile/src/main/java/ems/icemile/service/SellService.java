@@ -31,6 +31,4 @@ public interface SellService {
 	// 지점 번호 중복 검사
 	boolean searchPhone(String branch_phone);
 
-	// 담당자 정보 가져오기 
-//	public SellDTO getManagerInfo(String emp_num);
 }
