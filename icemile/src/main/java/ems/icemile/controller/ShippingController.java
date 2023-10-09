@@ -1,22 +1,86 @@
 package ems.icemile.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ems.icemile.dto.InMaterialDTO;
+import ems.icemile.dto.RequirementDTO;
+import ems.icemile.service.ShippingService;
+import ems.icemile.service.ShippingServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
 @RequestMapping("/shipping/*")
 public class ShippingController {
+	
+	@Inject
+	private ShippingServiceImpl shippingService;
+	
+	// 입고 리스트
+	@GetMapping("/inMaterial")
+	public String requirementList(Model model) {
+
+		log.debug("ShippingController requirement");
+		
+		List<InMaterialDTO> inMaterialList = new ArrayList<InMaterialDTO>();
+		inMaterialList = shippingService.getInMaterialList();
+		
+		model.addAttribute("inMaterialList", inMaterialList);
+		
+		return "/shipping/inMaterial";
+	}// requirementList()
+	
+	// 입고 목록 삭제
+	@GetMapping("/deleteInMaterial")
+	public String deleteInMaterial(InMaterialDTO inMaterialDTO) {
+		log.debug("ShippingController deleteInMaterial");
+		shippingService.deleteInMaterial(inMaterialDTO);
+		return "redirect:/shipping/inMaterial";
+	}// deleteRequirement()
    
+	// 입고 등록 페이지
 	@GetMapping("/in_material_add")
 	public String in_material_add() {
 		
 		log.debug("in_material_add");
 		
 		return "shipping/in_material_add";
+	}// in_material_add
+	
+	// 입고 등록
+	@PostMapping("/inMaterialInsert")
+	public String inMaterialInsert(InMaterialDTO inMaterialDTO) {
+		log.debug("ShippingController inMaterialInsert");
+		shippingService.inMaterialInsert(inMaterialDTO);
+		return "redirect:/shipping/inMaterial";
+	}// inMaterialInsert()
+	
+	// 입고 수정 페이지
+	@GetMapping("/inMaterialUpdate")
+	public String inMaterialUpdate(HttpServletRequest request, Model model) {
+		log.debug("ShippingController inMaterialUpdate");
+		String in_code = request.getParameter("in_code");
+		InMaterialDTO inMaterialDTO = shippingService.getInMaterial(in_code);
+		model.addAttribute("inMaterialDTO", inMaterialDTO);
+		return "shipping/inMaterialUpdate";
+	}// requirementAdd()
+	
+	// 입고 수정
+	@PostMapping("/updateInMaterial")
+	public String updateInMaterial(InMaterialDTO inMaterialDTO) {
+		log.debug("ShippingController updateInMaterial");
+		shippingService.updateInMaterial(inMaterialDTO);
+		return "redirect:/shipping/inMaterial";
 	}
 	
 	@GetMapping("/out_material_add")

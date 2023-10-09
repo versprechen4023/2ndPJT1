@@ -42,8 +42,15 @@
 <!-- DataTable Example -->
 <!-- </div> -->
 <div class="card-body">
-<table id="datatablesSimple">
-                                
+<select id="category" name="category">
+	<option value="req_code">소요량 코드</option>
+  	<option value="prod_code">제품 코드</option>
+</select>
+<input type="text" name="content" size="60" placeholder="검색어를 입력하세요" id="content">
+<input type="button" name="requirementSearch" value="검색" onclick="requirementSearch()">
+<!-- <input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content"> -->
+<!-- <input type="button" name="search" value="조회" onclick="productSearch()"> -->
+<table id="datatablesSimple">   
 <thead>
 <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
 <tr>
@@ -58,20 +65,7 @@
 <th>관리</th>
 </tr>
 </thead>
-<!--                                     <tfoot> -->
-<!--                                     "테이블 바닥글"을 나타냅니다. 이 부분은 테이블의 하단 요약 정보나 추가 설명 등을 담습니다. -->
-<!--                                     <tfoot> 부분은 없어도 될 것 같은데 기존 템플릿에 있던 태그라 그냥 둔 겁니다! -->
-<!--                                         <tr> -->
-<!--                                             <th>순서</th> -->
-<!--                                             <th>코드</th> -->
-<!--                                             <th>완제품 코드</th> -->
-<!--                                             <th>원자재 코드</th> -->
-<!--                                             <th>등록일</th> -->
-<!--                                             <th>소요량</th> -->
-<!--                                             <th>수정일</th> -->
-<!--                                             <th>비고</th> -->
-<!--                                         </tr> -->
-<!--                                     </tfoot> -->                                   
+                                
 <tbody>
 <!--순서값 1씩 증가 시키기 위한 rowNum -->
 <c:set var="rowNum" value="0" />
@@ -107,13 +101,66 @@
 
             </div>
         </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="../resources/js/warehouse_IM.js"></script>
+        <script src="../resources/js/requirement.js"></script>
         
      	
-        <script>
+<script type="text/javascript">
+
+//조회를 눌렀을때 실행되는 물품 검색관련 함수
+function requirementSearch() {
+		
+	   // 값 전달 하기위한 JSON 타입 변수선언
+	   var json = {
+        			category: $('#category').val(),
+        			content: $('#content').val()
+       			  };
+	
+	   // 검색 결과값을 받아오기 위한 ajax 호출
+ 	   $.ajax({
+ 			  url : '${pageContext.request.contextPath}/factory_ajax/requirementSearch',
+ 			  // JSON타입의 변수를 스트링으로 변환한다
+ 			  data: JSON.stringify(json),
+ 			  // JSON타입의 변수를 전송한다
+ 	          contentType: 'application/json',
+ 			  type : 'POST',
+ 			  // 반환은 JSON 타입
+ 			  dataType: 'json',
+ 			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
+ 			  success:function(json){
+ 				  
+ 				    // tbody 내용을 초기화
+ 				    $('tbody').empty();
+					
+ 				    // 배열 크기만큼 반복
+ 				    json.forEach(function (data) {
+ 				    	// tr 태그 생성
+ 				        var $tr = $('<tr>');
+ 				    		//tr 에 내용추가
+ 				        	$tr.append(				        					     
+ 				        	"<td>"+data.req_code+"</td>",
+ 				            "<td>"+data.prod_code+"</td>",
+ 				           	"<td>"+data.raw_code+"</td>",
+ 				            "<td>"+data.req_insertDATE+"</td>",
+ 				         	"<td>"+data.req_amount+"</td>",
+ 				         	"<td>"+data.req_upDATEDATE+"</td>",
+ 				         	"<td>"+data.req_note+"</td>",
+ 				         	 '<td>' +
+ 				            '<input type="button" value="수정" onclick="openEditPopup(\'' + data.req_code + '\')">' +
+ 				            '<input type="button" value="삭제" onclick="confirmDelete(\'' + '${pageContext.request.contextPath}/factory/deleteRequirement?req_code=' + data.req_code + '\')">' +
+ 				            '</td>' 
+ 				        	);
+ 				        // 생성한 <tr> 요소를 tbody에 추가
+ 				        $('tbody').append($tr);
+ 				    });
+ 		      }// 콜백함수 종료지점
+      });// end_of_ajax
+}// end function
+
+// 기능 함수 종료
 //         삭제시 확인,취소 버튼 띄운 후
 function confirmDelete(deleteUrl) {
     if (confirm("삭제하시겠습니까?")) {
@@ -123,19 +170,19 @@ function confirmDelete(deleteUrl) {
         // 취소 버튼을 눌렀을 때의 처리 (생략 가능)
     }
 }
-function openEditPopup(req_code) {
-    // 팝업 창의 URL을 서버의 컨트롤러 엔드포인트로 설정
-    var editUrl = '/factory/requirementUpdate?req_code=' +req_code;
+// function openEditPopup(req_code) {
+//     // 팝업 창의 URL을 서버의 컨트롤러 엔드포인트로 설정
+//     var editUrl = '/factory/requirementUpdate?req_code=' +req_code;
 
-    // 팝업 창의 속성 설정
-    var popupWidth = 800;
-    var popupHeight = 600;
-    var left = (screen.width - popupWidth) / 2;
-    var top = (screen.height - popupHeight) / 2;
+//     // 팝업 창의 속성 설정
+//     var popupWidth = 800;
+//     var popupHeight = 600;
+//     var left = (screen.width - popupWidth) / 2;
+//     var top = (screen.height - popupHeight) / 2;
 
-    // 팝업 창 열기
-    window.open(editUrl, 'editPopup', 'width=' + popupWidth + ',height=' + popupHeight + ',left=' + left + ',top=' + top);
-}
+//     // 팝업 창 열기
+//     window.open(editUrl, 'editPopup', 'width=' + popupWidth + ',height=' + popupHeight + ',left=' + left + ',top=' + top);
+// }
 </script>
 
     </body>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Tables - SB Admin</title>
+        <title>아이스마일</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="../resources/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -23,80 +24,115 @@
 <jsp:include page="../include/sidebar.jsp"></jsp:include>
 <!-- 사이드바 -->
         
-            <div id="layoutSidenav_content">
-                <main>
-                <!-- 내용들어가는곳 -->
-                    <div class="container-fluid px-4">
-                        <h1 class="mt-4">입고</h1>
-                        <ol class="breadcrumb mb-4">
+<div id="layoutSidenav_content">
+<main>
+<!-- 내용들어가는곳 -->
+<div class="container-fluid px-4">
+<h1 class="mt-4">입고</h1>
+<ol class="breadcrumb mb-4">
 <!--                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
-                        </ol>
-                        <div class="bnt">
-                        <button>추가</button><button>수정</button>
-                        <button>삭제</button><button>취소</button><button>저장</button></div>
-                        <div class="card mb-4">
+</ol>
+<div class="bnt">
+<input type="button" value="등록" onclick="location.href='${pageContext.request.contextPath}/shipping/in_material_add'">
+</div>
+<div class="card mb-4">
 <!--                             <div class="card-header"> -->
 <!--                                 <i class="fas fa-table me-1"></i> -->
 <!--                                 DataTable Example -->
 <!--                             </div> -->
-                            <div class="card-body">
-                                <table id="datatablesSimple">
+<div class="card-body">
+<table id="datatablesSimple">
                                 
-                                    <thead>
-                                    <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
-                                        <tr>
-                                        	<th>선택</th>
-                                            <th>순서</th>
-                                            <th>코드</th>
-                                            <th>창고 코드</th>
-                                            <th>발주 코드</th>
-                                            <th>담당자</th>
-                                            <th>입고 현황</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                    <!-- "테이블 바닥글"을 나타냅니다. 이 부분은 테이블의 하단 요약 정보나 추가 설명 등을 담습니다. -->
-                                    <!-- <tfoot> 부분은 없어도 될 것 같은데 기존 템플릿에 있던 태그라 그냥 둔 겁니다! -->
-                                        <tr>
-                                        	<th>선택</th>
-                                            <th>순서</th>
-                                            <th>코드</th>
-                                            <th>창고 코드</th>
-                                            <th>발주 코드</th>
-                                            <th>담당자</th>
-                                            <th>입고 현황</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        <tr>
-                                        	<th class="eachCheck">
-            					 				<input type="checkbox" name="cbox" class="eachCheckbox"></th>
-                                            <th>1</th>
-                                            <th>IN230925거래처코드_1</th> <!-- 대충... -->
-                                            <th>WH0001R</th>
-                                            <th>OB230925거래처코드</th>
-                                            <th>IM000001</th>
-                                            <th>발주확정</th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                <!-- 내용 들어가는 곳 -->
-                </main>
+<thead>
+<!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
+<tr>
+<th>순서</th>
+<th>입고코드</th>
+<th>창고코드</th>
+<th>발주코드</th>
+<th>담당자</th>
+<th>입고현황</th>
+<!-- <th>수정일</th> -->
+<th>관리</th>
+</tr>
+</thead>
+<!-- <tfoot> -->
+<!-- "테이블 바닥글"을 나타냅니다. 이 부분은 테이블의 하단 요약 정보나 추가 설명 등을 담습니다. -->
+<!-- <tfoot> 부분은 없어도 될 것 같은데 기존 템플릿에 있던 태그라 그냥 둔 겁니다! -->
+<!-- <tr> -->
+<!-- <th>순서</th> -->
+<!-- <th>입고코드</th> -->
+<!-- <th>창고코드</th> -->
+<!-- <th>발주코드</th> -->
+<!-- <th>담당자</th> -->
+<!-- <th>입고 현황</th> -->
+<!-- <th>수정일</th> -->
+<!-- </tr> -->
+<!-- </tfoot> -->
+<tbody>
+<!--순서값 1씩 증가 시키기 위한 rowNum -->
+<c:set var="rowNum" value="0" />
+<c:forEach var="inMaterialDTO" items="${inMaterialList }">
+<c:set var="rowNum" value="${rowNum + 1}" />
+<tr>
+<!-- <th class="eachCheck"> -->
+<!-- <input type="checkbox" name="cbox" class="eachCheckbox"></th> -->
+<td>${rowNum}</td>
+<td>${inMaterialDTO.in_code }</td> <!-- 대충... -->
+<td>${inMaterialDTO.in_wh_code }</td>
+<td>${inMaterialDTO.raw_order_code }</td>
+<td>${inMaterialDTO.emp_num }</td>
+<td>${inMaterialDTO.in_status }</td>
+<%-- <td>${inMaterialDTO.updatedate }</td> --%>
+<td><input type="button" value="수정" onclick="location.href='${pageContext.request.contextPath}/shipping/inMaterialUpdate?in_code=${inMaterialDTO.in_code}'">
+<input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/shipping/deleteInMaterial?in_code=${inMaterialDTO.in_code }')">
+</td>
+</tr>
+</c:forEach>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- 내용 들어가는 곳 -->
+</main>
                 
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 -->  
-                
-            </div>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+			</div>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="../resources/js/datatables-simple-demo.js"></script>
+        <script src="../resources/js/inMaterial.js"></script>
+        
+        
+        <script>
+//         삭제시 확인,취소 버튼 띄운 후
+function confirmDelete(deleteUrl) {
+    if (confirm("삭제하시겠습니까?")) {
+        // 확인 버튼을 눌렀을 때만 삭제 요청을 보냄
+        window.location.href = deleteUrl;
+    } else {
+        // 취소 버튼을 눌렀을 때의 처리 (생략 가능)
+    }
+}
+function openEditPopup(in_code) {
+    // 팝업 창의 URL을 서버의 컨트롤러 엔드포인트로 설정
+    var editUrl = '/shipping/inMaterialUpdate?in_code=' +in_code;
+
+    // 팝업 창의 속성 설정
+    var popupWidth = 800;
+    var popupHeight = 600;
+    var left = (screen.width - popupWidth) / 2;
+    var top = (screen.height - popupHeight) / 2;
+
+    // 팝업 창 열기
+    window.open(editUrl, 'editPopup', 'width=' + popupWidth + ',height=' + popupHeight + ',left=' + left + ',top=' + top);
+}
+</script>
     </body>
 </html>

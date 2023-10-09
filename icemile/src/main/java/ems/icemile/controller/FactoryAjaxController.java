@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import ems.icemile.dto.FacilityDTO;
+import ems.icemile.dto.RequirementDTO;
+import ems.icemile.service.FactoryCopyServiceImpl;
 import ems.icemile.service.FactoryService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +29,9 @@ public class FactoryAjaxController {
 	
 	@Inject // 팩토리 서비스 의존성 주입
 	private FactoryService factoryService;
+	
+	@Inject 
+	private FactoryCopyServiceImpl factoryCopyService;
 	
 	
 	@PostMapping("/deleteFacility")
@@ -61,9 +67,19 @@ public class FactoryAjaxController {
 		return facilityList;
 	}
 	
-	
-	
-
+	@PostMapping("requirementSearch")
+	public List<RequirementDTO> requirementSearch(@RequestBody HashMap<String, Object> json) {
+		
+		log.debug("FactoryAjaxController requirementSearch");
+		
+		// 물품리스트를 가져오기위한 물품리스트 객체생성
+		List<RequirementDTO> requirementList = new ArrayList<RequirementDTO>();
+		//결과값에 따라 물품 리스트를 가져온다
+		requirementList = factoryCopyService.requirementSearch(json);
+		
+		// 콜백 함수에 결과값 리턴
+		return requirementList;
+	}
 
 }// class FactoryAjaxController
 	

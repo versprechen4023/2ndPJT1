@@ -1,5 +1,6 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ems.icemile.dto.RequirementDTO;
@@ -23,4 +24,7 @@ public interface FactoryCopyDAO {
 		
 	// 소요량 수정
 	public void updateRequirement(RequirementDTO requirementDTO);
+	
+	// 검색
+	public List<RequirementDTO> requirementSearch(HashMap<String, Object> json);
 }
