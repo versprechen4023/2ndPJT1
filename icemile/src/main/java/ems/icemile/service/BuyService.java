@@ -22,14 +22,15 @@ public interface BuyService {
 	// 구매처 삭제
 	public boolean buyDelete(String buy_code);
 
-	// 검색 기능
-	public List<BuyDTO> buySearch(HashMap<String, Object> json);
-
 	// 이메일 중복 검사
 	public boolean searchEmail(String buy_email);
 
 	// 번호 중복 검사
 	public boolean searchPhone(String buy_phone); 
+
+	// 구매처 검색
+	public List<BuyDTO> buySearch(HashMap<String, Object> json); 
+
 	
 
 }

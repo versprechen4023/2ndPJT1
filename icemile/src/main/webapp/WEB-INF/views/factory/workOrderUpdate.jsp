@@ -27,7 +27,7 @@ h1 {
 </head>
 <body class="sb-nav-fixed">
 				<!-- 내용들어가는곳 -->
-	<form action="${pageContext.request.contextPath }/factory/workOrderAddPro" id="registration" name="registration" method="POST" enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath }/factory/workOrderUpdatePro" id="registration" name="registration" method="POST" enctype="multipart/form-data">
 		<h1>
 			<b>작업 지시 추가</b>
 		</h1>
@@ -50,15 +50,15 @@ h1 {
 		<tr>
 						<!-- 일단 타입 텍스트로 다 작업. 추후에 불러올 때 수정 -->
 						<!-- <td><input type="text" name="work_code" id="work_code"></td>  -->
-						<td><input type="text" name="emp_num" id="emp_num"></td>  <!-- 사원 정보 가져오기 --> 
-						<td><input type="text" name="line_code" id="line_code"></td>  <!-- 라인 코드(정보) 가져오기 -->
-						<td><input type="text" name="line_name" id="line_name"></td>  <!-- 사원 코드 가져왔을시 자동으로 해당 라인 이름 등록 -->
-						<td><input type="text" name="order_code" id="order_code"></td>  <!-- 수주 코드(정보) 가져오기 -->
-						<td><input type="text" name="prod_name" id="prod_name"></td>   <!-- 수주 코드 가져왔을시 자동으로 해당 제품명 등록 -->
-						<td><input type="text" name="order_amount" id="order_amount"></td>  <!-- 수주 코드 가져왔을시 자동으로 해당 지시량 등록 -->
-						<td><input type="text" name="line_process" id="line_process"></td>  <!-- 라인 코드 가져왔을시 자동으로 해당 라인 공정 등록 -->
+						<td><input type="text" name="emp_num" id="emp_num" value="${workOrderDTO.emp_num}"></td>  <!-- 사원 정보 가져오기 --> 
+						<td><input type="text" name="line_code" id="line_code" value="${workOrderDTO.line_code}"></td>  <!-- 라인 코드(정보) 가져오기 -->
+						<td><input type="text" name="line_name" id="line_name" value="${workOrderDTO.line_name}"></td>  <!-- 사원 코드 가져왔을시 자동으로 해당 라인 이름 등록 -->
+						<td><input type="text" name="order_code" id="order_code" value="${workOrderDTO.order_code}"></td>  <!-- 수주 코드(정보) 가져오기 -->
+						<td><input type="text" name="prod_name" id="prod_name" value="${workOrderDTO.prod_name}"></td>   <!-- 수주 코드 가져왔을시 자동으로 해당 제품명 등록 -->
+						<td><input type="text" name="order_amount" id="order_amount" value="${workOrderDTO.order_amount}"></td>  <!-- 수주 코드 가져왔을시 자동으로 해당 지시량 등록 -->
+						<td><input type="text" name="line_process" id="line_process" value="${workOrderDTO.line_process}"></td>  <!-- 라인 코드 가져왔을시 자동으로 해당 라인 공정 등록 -->
 						<!-- <td><input type="text" name="work_order_date" id="work_odrder_date"></td>  -->
-						<td><input type="text" name="branch_name" id="branch_name"></td>  <!-- 수주 코드 가져왔을시 자동으로 해당 지점명 등록 -->
+						<td><input type="text" name="branch_name" id="branch_name" value="${workOrderDTO.branch_name}"></td>  <!-- 수주 코드 가져왔을시 자동으로 해당 지점명 등록 -->
 
 		</tr>
 		
@@ -75,9 +75,9 @@ h1 {
 
 		<!-- 등록 버튼 -->
 		<div id="btn">
-			<input type="submit" id="btn" value="추가">
+			<input type="submit" id="btn" value="수정">
 		</div>
-
+	<input type="hidden" name="work_code" id="work_code" value="${workOrderDTO.work_code}">
 	</form>
 
 
@@ -170,7 +170,7 @@ $(document).ready(function() {
          
     	 $.ajax({
     		    type: "POST",
-    		    url: "${pageContext.request.contextPath}/factory_ajax/workOrderAdd",
+    		    url: "${pageContext.request.contextPath}/factory_ajax/workOrderUpdate",
     		    data: formData,
     		    contentType: false,
     		    processData: false,

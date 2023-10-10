@@ -227,7 +227,7 @@ function buySearch() {
  		 				         	"<td>"+data.buy_phone+"</td>",
  		 				         	"<td>"+data.buy_post+"</td>",
  		 				         	"<td>"+data.buy_add+"</td>",
- 		 				         	"<td>"+data.buy_email+"</td>",
+ 		 				         	"<td>"+data.buy_email+"</td>"
  		 				     );
  				    	}
  				        // 생성한 <tr> 요소를 tbody에 추가
