@@ -14,7 +14,8 @@ public interface FactoryCopyDAO {
 	public void deleteRequirement(RequirementDTO requirementDTO);
 	
 //	// 소요량 코드 자동 부여 
-	public int getNewReq_code();
+//	public int getNewReq_code();
+	public String getNewReq_code();
 	
 	// 소요량 등록
 	public boolean insertRequirement(RequirementDTO requirementDTO);
@@ -27,4 +28,5 @@ public interface FactoryCopyDAO {
 	
 	// 검색
 	public List<RequirementDTO> requirementSearch(HashMap<String, Object> json);
+
 }
