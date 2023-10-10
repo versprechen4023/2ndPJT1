@@ -281,7 +281,7 @@ row += "</td>";
 //창고 코드 
 row += "<td>";
 row += "<select name='type' id='type' required class='#datatablesSimple tr'>";
-row += "<option value='C'>품목종류를 선택하십시오</option>";
+row += "<option value='C' disabled selected >품목종류를 선택하십시오</option>";
 row += "<option value='R'>원자재</option>";
 row += "<option value='P'>완제품</option>";
 row += "</select>";
@@ -295,9 +295,9 @@ row += "</td>";
 //창고 종류 
 row += "<td>";
 row += "<select name='wh_type' id='wh_type' required class='#datatablesSimple tr'>";
-row += "<option value='c'>--선택--</option>";
-row += "<option value='r'>R:원자재</option>";
-row += "<option value='p'>P:완재품</option>";
+row += "<option value='c' disabled selected>--선택--</option>";
+row += "<option value='R'>R:원자재</option>";
+row += "<option value='P'>P:완재품</option>";
 row += "</select>";
 row += "</td>";
 
@@ -682,6 +682,11 @@ function enterwhSearch() {
      			category: $('#category').val(),
      			content: $('#content').val()
     			  };
+	   //검색 후에 가용상태 Y or N로 표시 하기 위한 방
+	   var statusText = {
+   		    1: "Y",
+   		    2: "N",
+   		};
 	
 	   // 검색 결과값을 받아오기 위한 ajax 호출
 	   $.ajax({
@@ -716,11 +721,12 @@ function enterwhSearch() {
 				           	"<td>"+data.wh_type+"</td>",
 				            "<td>"+data.wh_location+"</td>",
 				         	"<td>"+data.wh_phone+"</td>",
-				         	"<td>"+data.wh_status+"</td>",
+				         	"<td>"+ (statusText[data.wh_status] || '알 수 없음') +"</td>",
 				         	"<td>"+data.prod_code+"</td>",
 				         	"<td>"+data.raw_code+"</td>",
 				         	"<td>"+data.emp_num+"</td>",
 				         	"<td>"+data.wh_note+"</td>"
+				         	
 				        	);
 				        // 생성한 <tr> 요소를 tbody에 추가
 				        $('tbody').append($tr);
@@ -737,6 +743,12 @@ $("#inputwhSearch").click(function()  {
      			category: $('#category').val(),
      			content: $('#content').val()
     			  };
+	   
+	 //검색 후에 가용상태 Y or N로 표시 하기 위한 방
+	   var statusText = {
+   		    1: "Y",
+   		    2: "N",
+   		};
 	
 	   // 검색 결과값을 받아오기 위한 ajax 호출
 	   $.ajax({
@@ -771,7 +783,7 @@ $("#inputwhSearch").click(function()  {
 				           	"<td>"+data.wh_type+"</td>",
 				            "<td>"+data.wh_location+"</td>",
 				         	"<td>"+data.wh_phone+"</td>",
-				         	"<td>"+data.wh_status+"</td>",
+				         	"<td>"+ (statusText[data.wh_status] || '알 수 없음') +"</td>",
 				         	"<td>"+data.prod_code+"</td>",
 				         	"<td>"+data.raw_code+"</td>",
 				         	"<td>"+data.emp_num+"</td>",
