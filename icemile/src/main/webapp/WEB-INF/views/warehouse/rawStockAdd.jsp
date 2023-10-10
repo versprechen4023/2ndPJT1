@@ -1,16 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <title>icemile</title>
-  <link href="../resources/css/addTable.css" rel="stylesheet" />
+<!-- 헤더 -->
+<jsp:include page="../include/header.jsp"></jsp:include>
+<!-- 헤더 -->
+<!-- 헤드 -->
+<jsp:include page="../include/head.jsp"></jsp:include>
+<!-- 헤드 -->
 </head>
+<body class="sb-nav-fixed">
+<div id="layoutSidenav">
+		<!-- 사이드바 -->
+		<jsp:include page="../include/sidebar.jsp"></jsp:include>
+		<!-- 사이드바 -->
+            <div id="layoutSidenav_content">
+<main>
 
-<body>
-		<main>
-
-<h1>원자재재고 추가</h1>
+<h1>원자재 재고</h1>
 
 <div class = "btn">
 <input type="submit" value="추가">
@@ -62,12 +71,16 @@
 </main>
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
-<!-- 푸터 -->  
-                
-     
+<!-- 푸터 -->
+
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="../resources/js/datatables-simple-demo.js"></script>
+        <script src="../resources/js/facilityList_im.js"></script>
     </body>
 </html>

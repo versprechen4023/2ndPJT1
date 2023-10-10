@@ -16,25 +16,28 @@ body {
 }
 h1 {
 	text-align: center; /* 가로 중앙 정렬 */
+	margin: 30px;
 }
 #btn {
 	text-align: center; /* 가로 중앙 정렬 */
-	margin: 10px; /* 버튼 간격 설정 */
+	margin: 20px; /* 버튼 간격 설정 */
 	font-size: 16px; /* 버튼 텍스트 크기 설정 */
-	padding: 10px 20px; /* 버튼 안 여백 설정 */
+	padding: 5px 20px; /* 버튼 안 여백 설정 */
 }
+th {
+	text-align: center; /* 가로 중앙 정렬 */
+}
+#msg{
+	color: red;
+}  
 </style>
 </head>
 <body class="sb-nav-fixed">
 				<!-- 내용들어가는곳 -->
 	<form action="${pageContext.request.contextPath }/factory/workOrderAddPro" id="registration" name="registration" method="POST" enctype="multipart/form-data">
-		<h1>
-			<b>작업 지시 추가</b>
-		</h1>
+		<h1>작업 지시 추가</h1>
 
-		<br>
-
-		<table class="">
+		<table>
 		<tr>
 						<!-- <th>지시코드</th> -->
 						<th>작업지시자</th>
@@ -66,21 +69,18 @@ h1 {
 		
 		</table>
 
-
-
-
-
-
-
+			<span id="msg"></span>
 
 		<!-- 등록 버튼 -->
 		<div id="btn">
 			<input type="submit" id="btn" value="추가">
 		</div>
 
+<!-- 푸터 -->
+<jsp:include page="../include/footer.jsp"></jsp:include>
+<!-- 푸터 -->  
+
 	</form>
-
-
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -100,65 +100,55 @@ $(document).ready(function() {
     $('#registration').submit(function(event) {
     	
        	if($('#buy_name').val() == ""){
-    		$('#buy_name_msg').css('color','red');
-    		$('#buy_name_msg').text("상호명을 입력하십시오."); 
+    		$('#msg').text("상호명을 입력하십시오."); 
     		$('#buy_name').focus();
     		return false;
     	}
     	
     	if($('#buy_reg').val() == ""){
-    		$('#buy_reg_msg').css('color','red');
-    		$('#buy_reg_msg').text("사업자 등록번호을 입력하십시오.");
+    		$('#msg').text("사업자 등록번호을 입력하십시오.");
     		$('#buy_reg').focus();
     		return false;
     	}
     	
     	if($('#buy_ceo').val() == ""){
-    		$('#buy_ceo_msg').css('color','red');
-    		$('#buy_ceo_msg').text("대표자를 입력하십시오.");  
+    		$('#msg').text("대표자를 입력하십시오.");  
     		$('#buy_ceo').focus();
     		return false;
     	}
     	
     	if($('#buy_emp').val() == ""){
-    		$('#buy_emp_msg').css('color','red');
-    		$('#buy_emp_msg').text("거래처 직원을 입력하십시오.");
+    		$('#msg').text("거래처 직원을 입력하십시오.");
     		$('#buy_emp').focus();
     		return false;
     	}
     	
     	if($('#emp_num').val() == ""){
-    		$('#emp_num_msg').css('color','red');
-    		$('#emp_num_msg').text("구매 담당자를 입력하십시오.");
+    		$('#msg').text("구매 담당자를 입력하십시오.");
     		$('#emp_num').focus();
     		return false;
     	}
     	
     	if($('#buy_type').val() == ""){
-    		$('#buy_type_msg').css('color','red');
-    		$('#buy_type_msg').text("업종 유형을 선택하십시오.");
+    		$('#msg').text("업종 유형을 선택하십시오.");
     		$('#buy_type').focus();
     		return false;
     	}
     	
     	if($('#hbuy_phone').val() == ""){
-    		$('#buy_phone_msg').css('color','red');
-    		$('#buy_phone_msg').text("전화번호를 입력하십시오.");
+    		$('#msg').text("전화번호를 입력하십시오.");
     		$('#buy_phone').focus();
     		return false;
     	}
     	
-
     	
     	if($('#buy_post').val() == "" || $('#addr1').val() == ""){
-    		$('#buy_add_msg').css('color','red');
     		$('#buy_add_msg').text("주소를 입력하십시오.");
     		return false;
     	}
     	
     	if($('#email_id').val() == "" || $('#email_dns').val() == ""){
-    		$('#emailmsg').css('color','red');
-    		$('#emailmsg').text("이메일을 입력하십시오.");
+    		$('#msg').text("이메일을 입력하십시오.");
     		return false;
     	}
     	

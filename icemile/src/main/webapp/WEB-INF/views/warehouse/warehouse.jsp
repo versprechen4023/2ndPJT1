@@ -291,7 +291,7 @@ row += "</td>";
 //창고 종류 
 row += "<td>";
 row += "<select name='wh_type' id='wh_type' required class='#datatablesSimple tr'>";
-row += "<option value='c' disabled selected>--선택--</option>";
+row += "<option value='C' disabled selected>--선택--</option>";
 row += "<option value='R'>R:원자재</option>";
 row += "<option value='P'>P:완재품</option>";
 row += "</select>";
@@ -843,6 +843,70 @@ $('input[name="selectedAllProId"]').click(function() {
     $('input[name="selectedProId"]').prop('checked', $(this).prop('checked'));
 });// end function
 
+/////////////////////////type을 누르면 wh_type이 자동으로 바뀌는것/////////////////////
+ 
+ // 이 코드는 jQuery를 사용하여 "type" 선택 상자(#type)의 변경 이벤트(change)를 감지하고,
+ // 선택된 값에 따라 "wh_type" 선택 상자(#wh_type)의 값을 설정하는 이벤트 핸들러를 등록하는 부분입니다. 이 코드를 하나씩 설명해보겠습니다:
+
+ // $(document).on('change', '#type', function() { ... });: 이 부분은 문서(document)에 대한 이벤트 핸들러를 등록하는 코드입니다.
+ // 이벤트는 "change" 이벤트로 설정되어 있으며, 이 이벤트는 "type" 선택 상자(#type)의 값이 변경될 때 발생합니다. 즉,
+ // "type" 선택 상자에서 새로운 값을 선택했을 때 아래의 함수가 실행됩니다.
+
+ // var selectedType = $(this).val();: 이 코드는 "type" 선택 상자(#type)에서 선택된 값을 가져와서 selectedType 변수에 저장합니다.
+ // $(this)는 현재 이벤트가 발생한 HTML 엘리먼트를 가리키며, .val() 메서드는 해당 엘리먼트의 값을 가져옵니다.
+
+ // if (selectedType === "R") { ... } else if (selectedType === "P") { ... }: 이 부분은 선택된 "type" 값인 selectedType을 검사하고,
+ // 해당 값에 따라 "wh_type" 선택 상자(#wh_type)의 값을 설정하는 역할을 합니다.
+
+ // 만약 selectedType이 "R"인 경우, "wh_type" 선택 상자의 값을 "R"로 설정합니다.
+ // 만약 selectedType이 "P"인 경우, "wh_type" 선택 상자의 값을 "P"로 설정합니다.
+ // 이렇게 하면 "type" 선택 상자의 변경 이벤트가 발생할 때, 선택된 값에 따라 "wh_type"이 자동으로 설정되어 사용자에게 더 나은 사용 경험을 제공할 수 있게 됩니다.
+
+ $(document).on('change', '#type', function() {
+    var selectedType = $(this).val();
+    
+    // "wh_type" 선택상자의 값을 설정합니다.
+    if (selectedType === "R") {
+      $("#wh_type").val("R");
+    } else if (selectedType === "P") {
+      $("#wh_type").val("P");
+    }
+  });
+ 
+ 
+////////////////////////////////전화번호 유효성 검사/////////////////////////////////
+
+//blur:사용자가 입력을 마치고 다른 곳을 클릭했을 때 실행됩니다.
+$(document).on('blur', 'input[name="wh_phone"]', function() {
+    var phoneNumber = $(this).val();
+    var phoneNumberPattern = /^(01[016789])-(\d{3,4})-(\d{4})$/; // 한국식 전화번호 정규 표현식
+    
+    if (!phoneNumberPattern.test(phoneNumber)) {
+      
+      Swal.fire('올바른 전화번호 형식이 아닙니다', '', 'info');	
+    }
+  });
+
+ //////////////////////////////////원자재 코드를 입력하면 새창을 여는 이벤트 리스너///////////////////////////////////
+ 
+	$(document).on("click", "input[name='raw_code']", function() {
+		window.open('${pageContext.request.contextPath }/product/rawListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+	});// end function
+	
+ 
+ ////////////////////////////////////완재품 코드 입력하면 새창을 여는 이벤트 리스너 /////////////////////////////////////
+	 
+    $(document).on("click", "input[name='prod_code']", function() {
+		window.open('${pageContext.request.contextPath }/product/productListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+	});// end function
+	
+ //////////////////////////////////// 담당자를 입력하면 새창을 여는 이벤트 리스너 ///////////////////////////////////
+
+	$(document).on("click", "input[name='emp_num']", function() {
+		window.open('${pageContext.request.contextPath }/member/memberListPopUp', '_blank', 'width=800px, height=770px, left=600px, top=300px');
+	});// end function
+ 
+	
 //////////////////////////////////// 액셀 버튼 구현////////////////////////////////
 
 //엑셀 버튼 누를 시 실행되는 함수

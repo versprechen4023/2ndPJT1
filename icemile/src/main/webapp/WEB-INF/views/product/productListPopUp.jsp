@@ -12,7 +12,7 @@
 <!-- 	자바스크립트 또 지랄나서 위치바꿈 -->
 <script type="text/javascript">
 //조회를 눌렀을때 실행되는 원자재 검색관련 함수
-function rawSearch() {
+function productSearch() {
 		
 	   // 값 전달 하기위한 JSON 타입 변수선언
 	   var json = {
@@ -22,7 +22,7 @@ function rawSearch() {
 	
 	   // 검색 결과값을 받아오기 위한 ajax 호출
  	   $.ajax({
- 			  url : '${pageContext.request.contextPath}/product_ajax/rowSearch',
+ 			  url : '${pageContext.request.contextPath}/product_ajax/productSearch',
  			  // JSON타입의 변수를 스트링으로 변환한다
  			  data: JSON.stringify(json),
  			  // JSON타입의 변수를 전송한다
@@ -42,10 +42,9 @@ function rawSearch() {
  				        var $tr = $('<tr>');
  				    		//tr 에 내용추가
  				        	$tr.append(
- 				        	"<td>"+data.raw_code+"</td>",
- 				            "<td>"+data.raw_name+"</td>",
- 				           	"<td>"+data.raw_type+"</td>",
- 				            "<td>"+data.raw_price+"</td>"
+ 				        	"<td>"+data.product_code+"</td>",
+ 				            "<td>"+data.product_name+"</td>",
+ 				           	"<td>"+data.product_taste+"</td>"
  				        	);
  				        // 생성한 <tr> 요소를 tbody에 추가
  				        $('tbody').append($tr);
@@ -115,32 +114,30 @@ function rawSearch() {
                             <div class="card-body">
                             <input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
-  								<option value="raw_code">코드</option>
-  								<option value="raw_name">품명</option>
-  								<option value="raw_type">종류</option>
+  								<option value="prod_code">코드</option>
+  								<option value="prod_name">품명</option>
+  								<option value="prod_taste">종류</option>
 							</select>
 							<input type="text" name="content" size=20 placeholder="검색어를 입력하세요"
 								id="content">
-							<input type="button" name="search" value="조회" onclick="rawSearch()">
+							<input type="button" name="search" value="조회" onclick="productSearch()">
 </form>
                                 <table id="datatablesSimple">
                                 
                                     <thead>
                                     <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
                                         <tr>
-                                            <th>코드</th>
+                                           <th>코드</th>
                                             <th>품명</th>
                                             <th>종류</th>
-                                            <th>가격</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="rawListDTO" items="${rawList}">
+                                    <c:forEach var="productDTO" items="${productListPopUp}">
                                         <tr>
-                                            <td>${rawListDTO.raw_code}</td>
-                                            <td>${rawListDTO.raw_name}</td>
-                                            <td>${rawListDTO.raw_type}</td>
-                                            <td>${rawListDTO.raw_price}</td>
+                                            <td>${productDTO.prod_code}</td>
+                                            <td>${productDTO.prod_name}</td>
+                                            <td>${productDTO.prod_taste}</td>                                       
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -175,20 +172,18 @@ $(document).ready(function() {
 		
 		  // 값을 전달하기 위한 변수선언
 		  // 이벤트가 발생되는 테이블의 첫번째(0)부터 4번째 까지 텍스트를 변수에 저장한다
-	      var raw_code = $(this).find("td:eq(0)").text();
-	      var raw_name = $(this).find("td:eq(1)").text();
-	      var raw_type = $(this).find("td:eq(2)").text();
-	      var raw_price = $(this).find("td:eq(3)").text();
+	      var prod_code = $(this).find("td:eq(0)").text();
+	      var prod_name = $(this).find("td:eq(1)").text();
+	      var prod_taste = $(this).find("td:eq(2)").text();
 		  
 
 	      // 부모창으로 값을 전달한다
-	      opener.document.getElementById("raw_code").value = raw_code;
-	      opener.document.getElementById("raw_name").value = raw_name;
-	      opener.document.getElementById("raw_type").value = raw_type;
-	      opener.document.getElementById("raw_price").value = raw_price;
+	      opener.document.getElementById("prod_code").value = prod_code;
+	      opener.document.getElementById("prod_name").value = prod_name;
+	      opener.document.getElementById("prod_taste").value = prod_taste;
 	      
 	      // 부모창에서 가격값을 갱신하기위해 함수를 호출한다
-	      opener.openUpdate(); 
+	      opener.openUpdate();
 	      
 	      // 창을 종료한다
 	      window.close();
@@ -203,7 +198,7 @@ $(document).ready(function() {
 			// 폼 태그 제출을 막는다
 	 		event.preventDefault();
 			// 검색 함수를 실행한다
-	 		rawSearch();
+	 		productSearch();
 			// 검색입력창을 초기화한다
 	 		$('#content').val("");
 		}// end if

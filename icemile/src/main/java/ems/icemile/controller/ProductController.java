@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ems.icemile.dto.ProductAllDTO;
+import ems.icemile.dto.ProductDTO;
 import ems.icemile.dto.RawMaterialDTO;
 import ems.icemile.service.ProductServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +52,21 @@ public class ProductController {
 		model.addAttribute("rawList", rawList);
 		
 		return "product/rawListPopUp";
+	}
+	
+	@GetMapping("/productListPopUp")
+	public String productList2PopUp(Model model) {
+		
+		log.debug("product/productListPopUp.jsp");
+		
+		// 완재품 리스트를 가져오기위한 완재품 리스트 객체생성
+		List<ProductDTO> productListPopUp = new ArrayList<ProductDTO>();
+		productListPopUp = productService.getProductListPopUp();
+				
+		// 모델에 멤버 DTO값 저장
+		model.addAttribute("productListPopUp", productListPopUp);
+		
+		return "product/productListPopUp";
 	}
 	
 	@GetMapping("/productAdd")
