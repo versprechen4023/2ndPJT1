@@ -33,72 +33,15 @@
 
 	<!-- 출고 코드 자동 부여 -->
 	<select id="getNewmtId" resultType="java.lang.String">
-	 	SELECT
-  		<choose>
-    		<when test='branch == "1"'>
-    		out_code
-      			FROM out_material
-                where out_code LIKE '%1%'
-                ORDER BY out_code desc
-    		</when>
-    		<when test='branch == "2"'>
-    		out_code
-      			FROM out_material
-      			where out_code LIKE '%2%'
-      			ORDER BY out_code desc
-    		</when>
-    		<when test='branch == "3"'>
-    		out_code
-      			FROM out_material
-      			where out_code LIKE '%3%'
-      			ORDER BY out_code desc
-    		</when>
-    		<when test='branch == "4"'>
-    		out_code
-      			FROM out_material
-      			where out_code LIKE '%4%'
-      			ORDER BY out_code desc
-    		</when>
-    		<when test='branch == "5"'>
-    		out_code
-      			FROM out_material
-      			where out_code LIKE '%5%'
-      			ORDER BY out_code desc
-    		</when>
-    		<when test='branch == "6"'>
-    		out_code
-      			FROM out_material
-      			where out_code LIKE '%6%'
-      			ORDER BY out_code desc
-    		</when>
-    		<when test='branch == "7"'>
-    		out_code
-      			FROM out_material
-      			where out_code LIKE '%7%'
-      			ORDER BY out_code desc
-    		</when>
-    		<when test='branch == "8"'>
-    		out_code
-      			FROM out_material
-      			where out_code LIKE '%8%'
-      			ORDER BY out_code desc
-    		</when>
-    		<when test='branch == "9"'>
-    		out_code
-      			FROM out_material
-      			where out_code LIKE '%9%'
-      			ORDER BY out_code desc
-    		</when>
-    		<when test='branch == "10"'>
-    		out_code
-      			FROM out_material
-      			where out_code LIKE '%10%'
-      			ORDER BY out_code desc
-    		</when>
-  		</choose>
-  		LIMIT 1
+       <bind name="trBranchNumber" value="'%\\_' + trBranchNumber + '%'" />
+		SELECT out_code
+		FROM out_material
+		WHERE out_code LIKE #{trBranchNumber}
+		ORDER BY out_code DESC
+		LIMIT 1
 	</select>
 	<!-- 출고 코드 자동 부여 -->
+	
 
 	<!-- 출고 추가 -->
 	<insert id="mtInsert">
@@ -120,11 +63,13 @@
 
 	<!-- 출고 검색 -->
 	<!-- LIKE 연산자와 함께 사용될 때 와일드카드(%)를 포함한 문자열 검색을 수행할 수 있습니다. -->
-	<select id="mtSearch" resultType="ems.icemile.dto.outMaterialDTO">
+	<select id="mtSearch"
+		resultType="ems.icemile.dto.outMaterialDTO">
 		<bind name="content" value="'%' + content + '%'" />
 		SELECT *
 		FROM out_material AS myTable
-		WHERE myTable.${category} LIKE #{content}
+		WHERE myTable.${category} LIKE
+		#{content}
 	</select>
 	<!-- 출고 검색 -->
 

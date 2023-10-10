@@ -160,7 +160,7 @@ $(document).ready(function() {
 	"order_code": "수주 코드",
 	"emp_num": "출고 담당자",
 	"out_status": "출고 현황",
-	"banch":"지점코드"
+	"branch":"출고 지점"
 };
   
 // 반복문을 사용하여 각 항목을 검사한다
@@ -182,7 +182,7 @@ $(document).ready(function() {
 	  // 마찬가지로 decodeURIComponent 함수를 사용하여 필드의 값을 디코딩합니다.
 	  var value = decodeURIComponent(keyValue[1]);
 	  
-	  // 비고와 검색칸은 비어있어도 상관없음
+	  // 검색칸은 비어있어도 상관없음
 	  // 검사에서 제외사항
 	  if ((key === "content") && value === ""){
 		  continue;
@@ -254,29 +254,28 @@ $(document).ready(function() {
 
 	//출고 코드 	
 	row += "<td>";
-	row += "<select name='branch' id='branch' required class='#datatablesSimple tr'>";
-	row += "</select>";
+	row += "<input type='text' name='branch' id='branch' size='7' required class='#datatablesSimple tr' placeholder='지점 검색' style='text-align: center; text-align-last: center;'>";	
 	row += "</td>";
 
 	//창고 코드 
 	row += "<td>";
-	row += "<input type='text' name='out_wh_code' id='out_wh_code' size='5' required class='#datatablesSimple tr'>";
+	row += "<input type='text' name='out_wh_code' id='out_wh_code' size='10' required class='#datatablesSimple tr' placeholder='창고 검색' style='text-align: center;'>";
 	row += "</td>";
 
 	//수주 코드 
 	row += "<td>";
-	row += "<input type='text' name='order_code' id='order_code' size='5' required class='#datatablesSimple tr'>";
+	row += "<input type='text' name='order_code' id='order_code' size='10' required class='#datatablesSimple tr' placeholder='수주 코드 검색' style='text-align: center;'>";
 	row += "</td>";
 
 	//담당자 
 	row += "<td>";
-	row += "<input type='text' name='emp_num' id='emp_num' size='5' required class='#datatablesSimple tr'>";
+	row += "<input type='text' name='emp_num' id='emp_num' size='9' required class='#datatablesSimple tr' placeholder='담당자 검색' style='text-align: center;'>";
 	row += "</td>";
 
 	//출고현황 	
 	row += "<td>";
 	row += "<select name='out_status' id='out_status' required class='#datatablesSimple tr'>";
-	row += "<option value='C' disabled selected > 출고 현황을 선택하십시오</option>";
+	row += "<option value='' > 출고 현황을 선택하십시오</option>";
 	row += "<option value='1'>출고전</option>";
 	row += "<option value='2'>출고중</option>";
 	row += "<option value='3'>출고확정</option>";
@@ -760,6 +759,31 @@ $('input[name="selectedAllProId"]').click(function() {
     $('input[name="selectedProId"]').prop('checked', $(this).prop('checked'));
 });// end function
 
+////////////////////////////////////담당자을 클릭하면 새창을 여는 이벤트 리스너 ///////////////////////////////////
+
+$(document).on("click", "input[name='emp_num']", function() {
+	window.open('${pageContext.request.contextPath }/member/memberListPopUp', '_blank', 'width=800px, height=770px, left=600px, top=300px');
+});// end function
+
+////////////////////////////////////출고 지점을 클릭하면 새창을 여는 이벤트 리스너 ///////////////////////////////////
+
+$(document).on("click", "input[name='branch']", function() {
+	window.open('${pageContext.request.contextPath }/sell/branchListPopUp', '_blank', 'width=800px, height=770px, left=600px, top=300px');
+});// end function
+
+////////////////////////////////////창고 코드을 클릭하면 새창을 여는 이벤트 리스너 ///////////////////////////////////
+
+$(document).on("click", "input[name='out_wh_code']", function() {
+	window.open('${pageContext.request.contextPath }/warehouse/warehouseListPopUp', '_blank', 'width=800px, height=770px, left=600px, top=300px');
+});// end function
+
+////////////////////////////////////수주 코드을 클릭하면 새창을 여는 이벤트 리스너 ///////////////////////////////////
+
+$(document).on("click", "input[name='order_code']", function() {
+	window.open('${pageContext.request.contextPath }/sell/ordersListPopUp', '_blank', 'width=800px, height=770px, left=600px, top=300px');
+});// end function
+
+
 ////////////////////////////////////액셀 버튼 구현////////////////////////////////
 
 //엑셀 버튼 누를 시 실행되는 함수
@@ -820,6 +844,12 @@ $("#excelProd").click(function(){
 /////////////////////////////////////////////이벤트 함수 종료//////////////////////////////////////////
 
 });//document
+
+//////////////////////////////////PopUp창 오류 및 close/////////////////////////////////////////////////////
+function openUpdate() {
+//내용은 필요 없음	
+} 
+//////////////////////////////////PopUp창 오류 및 close/////////////////////////////////////////////////////
 </script>
 </body>
 </html>
