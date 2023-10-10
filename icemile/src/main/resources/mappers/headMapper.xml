@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ems.icemile.mappers.headMapper">
+
+	<select id="getResultList" resultType="ems.icemile.dto.ResultDTO">
+		SELECT * 
+			FROM result
+	</select>
+	
+	<select id="resultSearch" resultType="ems.icemile.dto.ResultDTO">
+  	<bind name="content" value="'%' + content + '%'"/>
+  	SELECT *
+  		FROM result
+			<where>
+				<if test="rs_process != null and rs_process != ''">
+					AND rs_process = #{rs_process}
+				</if>
+				<if test="content != null and content != ''">
+					AND raw_name LIKE #{content}
+				</if>
+				<if test="done_dateBegin != null and done_dateBegin != '' and done_dateEnd != null and done_dateEnd != ''">
+            		AND done_date BETWEEN #{done_dateBegin} AND #{rawOrderEnd}
+        		</if>
+        		<if test="done_dateBegin != null and done_dateBegin != ''">
+            		AND done_date >= #{done_dateBegin}
+        		</if>
+        	</where>
+  	</select>
+	
+</mapper>
