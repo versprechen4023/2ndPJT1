@@ -246,11 +246,11 @@ $(document).ready(function() {
 
 // 지점 추가관련 함수
    function branchReg(){
-   	window.open('${pageContext.request.contextPath }/sell/branchReg', '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+   	window.open('${pageContext.request.contextPath }/sell/branchReg', '_blank', 'width=615px, height=603px, left=600px, top=300px');
    } //end function
 
    function branchUpdate(branch_code){
-   	window.open('${pageContext.request.contextPath }/sell/branchUpdate?branch_code='+branch_code, '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+   	window.open('${pageContext.request.contextPath }/sell/branchUpdate?branch_code='+branch_code, '_blank', 'width=615px, height=603px, left=600px, top=300px');
    }
    
 // 지점 삭제관련 함수
