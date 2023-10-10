@@ -158,6 +158,24 @@
 	<script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
     <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 
+<script>
+//추가, 수정 을 구분하기위한 전역변수선언
+var status = "";
+
+//실적 검색 관련 함수
+function resultSearch(){
+	// 값을 전달 하기위한 JSON 타입 변수선언
+	   var json = {
+			   		done_dateBegin: $('#done_dateBegin').val(),
+			   		done_dateEnd: $('#done_dateEnd').val(),
+			   		status: $('#status').val(),
+    				content: $('#content').val()	
+					}; //JSON
+					
+		// 검색 결과값을 받아오기 위한 ajax 호출
+		$.ajax({url : '${pageContext.request.contextPath}/head_Ajax/resultSearch',
+}// resultSearch()
+
 
 </body>
 </html>
