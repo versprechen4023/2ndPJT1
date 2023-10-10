@@ -49,7 +49,8 @@
 
 <table border="1">
 <tr>
-<th>소요량 코드</th>
+
+<!-- <th>소요량 코드</th> 소요량 코드는 자동추가를 하기때문에 필요없을 듯.. -->
 <th>완제품 코드</th>
 <th>원자재 코드</th>
 <th>소요량</th>
@@ -61,7 +62,7 @@
 
 <tr>
 <!-- 소요량 코드 -->
-<td><input type="text" value="${requireDTO.req_code }" name="req_code" size="11"></td>
+<!-- <td><input type="text" value="" name="req_code" size="11"></td> -->
 <!-- 완제품 코드 -->
 <td><input type="text" name="prod_code" size="11"></td>
 <!-- 원자재 코드 -->
@@ -88,9 +89,57 @@
                 
             </div>
         </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/datatables-simple-demo.js"></script>
+<script>
+$(document).ready(function() {
+    $("form").submit(function(event) {
+        // 입력 필드 중 빈 칸이 있는지 확인합니다.
+        var reqCode = $("input[name='req_code']").val();
+        var prodCode = $("input[name='prod_code']").val();
+        var rawCode = $("input[name='raw_code']").val();
+        var reqAmount = $("input[name='req_amount']").val();
+        var reqInsertDate = $("input[name='req_insertDATE']").val();
+        var reqUpdateDate = $("input[name='req_upDATEDATE']").val();
+        var errorFlag = false;
+
+        if (reqCode === "") {
+            alert("소요량 코드를 입력해 주세요.");
+            errorFlag = true;
+        }
+        if (prodCode === "") {
+            alert("완제품 코드를 입력해 주세요.");
+            errorFlag = true;
+        }
+        if (rawCode === "") {
+			alert("원자재 코드를 입력해 주세요.");
+			errorFlag = true;
+        }
+        if (reqAmount === ""){
+        	alert("소요량을 입력해 주세요.");
+        	errorFlag = true;
+        }
+        if (reqInsertDate === "") {
+			alert("등록일을 입력해 주세요.");
+			errorFlag = true;
+        }
+        if (reqUpdateDate === "") {
+			alert("수정일을 입력해 주세요.");
+			errorFlag = true;
+        }
+        if (reqUpdateDate === "") {
+			alert("수정일을 입력해 주세요.");
+			errorFlag = true;
+        }
+        if (errorFlag) {
+            // 빈 칸이 있을 경우, 폼 제출을 막습니다.
+            event.preventDefault();
+        }
+    });
+});
+</script>
     </body>
 </html>

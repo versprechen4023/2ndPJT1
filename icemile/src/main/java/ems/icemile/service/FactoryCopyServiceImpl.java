@@ -38,7 +38,17 @@ public class FactoryCopyServiceImpl implements FactoryCopyService {
 	public boolean insertRequirement(RequirementDTO requirementDTO) {
 		log.debug("FactoryService insertRequirement");
 		// 소요량 코드 자동부여 
-		requirementDTO.setReq_code(Integer.toString(factoryCopyDAO.getNewReq_code()));
+//		requirementDTO.setReq_code(Integer.toString(factoryCopyDAO.getNewReq_code()));
+		String getCode = factoryCopyDAO.getNewReq_code();
+		int codeNum = 0;
+		
+		if(getCode==null) {
+			codeNum = 1;
+		}else {
+			codeNum = Integer.parseInt(getCode.replaceAll("[^0-9]", ""))+1;
+		}
+		
+		requirementDTO.setReq_code(Integer.toString(codeNum));
 		return factoryCopyDAO.insertRequirement(requirementDTO);
 	}
 	
