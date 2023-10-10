@@ -37,12 +37,6 @@
     , #{req_note})
 </insert>
 
-
-<!-- 	<insert id="insertRequirement"> -->
-<!-- 	 INSERT INTO requirement -->
-<!-- 	 	VALUES(#{req_code}, #{prod_code}, #{raw_code}, #{req_insertDATE}, #{req_amount}, #{req_upDATEDATE}, #{req_note} ) -->
-<!-- 	</insert> -->
-
 	<select id="getRequirement" resultType="ems.icemile.dto.RequirementDTO">
 	 SELECT *
 	 FROM requirement
