@@ -298,6 +298,38 @@ $(document).ready(function() {
    	  });// end_of_function(alert 콜백함수 종료지점)
    }// end_of_function
    
+
+   // branch_phone 형식을 000-0000-0000으로 변경하는 함수
+   function formatBranchPhone() {
+       var branchPhones = document.querySelectorAll("#datatablesSimple td:nth-child(5)");
+       branchPhones.forEach(function (branchPhoneCell) {
+           var branchPhone = branchPhoneCell.textContent.trim();
+           var formattedPhone = branchPhone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+           branchPhoneCell.textContent = formattedPhone;
+       });
+   }
+
+   // 페이지 로드 시 호출하여 전체 테이블의 branch_phone 형식 변경
+   window.addEventListener("load", function () {
+       formatBranchPhone();
+   });
+
+// branch_reg 형식을 XXX-XX-XXXXX로 변경하는 함수
+   function formatBranchReg() {
+       var branchRegs = document.querySelectorAll("#datatablesSimple td:nth-child(3)");
+       branchRegs.forEach(function (branchRegCell) {
+           var branchReg = branchRegCell.textContent.trim();
+           var formattedBranchReg = branchReg.replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3');
+           branchRegCell.textContent = formattedBranchReg;
+       });
+   }
+
+   // 페이지 로드 시 호출하여 전체 테이블의 branch_reg 형식 변경
+   window.addEventListener("load", function () {
+       formatBranchReg();
+   });
+
+   
  //엔터키 입력시 검색되게 이벤트 리스너 활성화
    document.addEventListener("keyup", function(event) {
        if (event.key === 'Enter') {

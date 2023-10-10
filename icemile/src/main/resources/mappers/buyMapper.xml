@@ -31,12 +31,12 @@
   	WHERE buy_code = #{buy_code}
   </select>
   
-    <update id="buyUpdate">
+  <update id="buyUpdate">
   	UPDATE buy
-  	SET buy_name = #{buy_name}, buy_reg = #{buy_reg}, buy_ceo = #{buy_ceo},
-  					buy_emp = #{buy_emp}, emp_num = #{emp_num}, buy_type = #{buy_type}, buy_phone = #{buy_phone}, buy_post = #{buy_post},
-  				    buy_add = #{buy_add}, buy_email = #{buy_email} 
-   	WHERE buy_code = #{buy_code}
+  		SET buy_name = #{buy_name}, buy_reg = #{buy_reg}, buy_ceo = #{buy_ceo},
+  			buy_emp = #{buy_emp}, emp_num = #{emp_num}, buy_type = #{buy_type}, buy_phone = #{buy_phone}, buy_post = #{buy_post},
+  			buy_add = #{buy_add}, buy_email = #{buy_email} 
+   				WHERE buy_code = #{buy_code}
   </update>
 
 	  <delete id="buyDelete">
@@ -50,5 +50,18 @@
   		FROM buy
   			WHERE ${category} LIKE #{content}
   </select>
-
+  	
+  	<select id="searchEmail" resultType="java.lang.String">
+	SELECT buy_email
+  		FROM buy
+  			WHERE buy_email = #{buy_email}
+  				LIMIT 1
+  </select>
+  
+  <select id="searchPhone" resultType="java.lang.String">
+  	SELECT buy_phone
+  		FROM buy
+  			WHERE buy_phone = #{buy_phone}
+  				LIMIT 1
+  </select>
 </mapper>

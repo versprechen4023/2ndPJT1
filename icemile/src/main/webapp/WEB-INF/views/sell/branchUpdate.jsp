@@ -41,7 +41,7 @@ h1 {
 		
 		<!-- 사업자 등록 번호 -->
 		<label for="branch_num_label"><b>사업자 등록 번호:</b></label>
-		<input type="text" name="branch_reg" id="branch_reg" value="${sellDTO.branch_reg }" readonly>
+		<input type="text" name="branch_reg" id="branch_reg" value="${sellDTO.branch_reg }" >
 		<br>
 
 		<!-- 대표자 -->
@@ -62,7 +62,7 @@ h1 {
 
 		<br>
 		<label for="branch_phone_label"><b>가맹 담당자</b></label> 
-		<input type="text" name="emp_num" id="emp_num" placeholder="담당자검색" readonly>
+		<input type="text" name="emp_num" id="emp_num" value="${sellDTO.emp_num} " readonly>
 		<input type="button" name="search" id="search" value="조회"><br>
 		<br>
 		
@@ -269,70 +269,7 @@ $(document).ready(function() {
 
     };
     
- // 중복검사 관련함수
-//     function isCanUseEmail() {
-    	
-//     	// 검증할 이메일을 가져온다
-//     	var email = $("#branch_email").val();
-    	
-//     	// 결과값 반환을 위한 변수선언
-//     	var myBoolean = true;
-    	
-//     	$.ajax({
-// 		  	type: "GET",
-// 	        url: "${pageContext.request.contextPath}/sell_ajax/searchEmail",
-// 	        data: {"branch_email": email},
-// 	        // 조건문 발동을 위해 비동기로 처리
-// 	        async: false,
-// 	        success: function(response) {
-// 	        	// 공백을 제거한다
-//         		const result = $.trim(response);
-//         		// 이미 값이 존재한다면 true 를 반환한다
-// 	        	if(result == "true"){
-// 	        		myBoolean = true;
-// 	        	} else {
-// 	        		myBoolean = false;
-// 	        	}
-	        	
-// 	        },//success 콜백함수 종료지점
-// 	        error: function () {
-// 	        	myBoolean = true;
-// 	        }
-// 	  	});// end ajax
-	  	
-//     	return myBoolean;
-// 	} // end function
-	
-// 	function isCanUsePhone() {
-    	
-// 		// 검증할 전화번호를 가져온다
-//     	var phone = $("#branch_phone").val();
-// 		// 결과값 반환을 위한 변수선언
-//     	var myBoolean = true;
-//     	$.ajax({
-// 		  	type: "GET",
-// 	        url: "${pageContext.request.contextPath}/sell_ajax/searchPhone",
-// 	        data: {"branch_phone": phone},
-// 	        // 조건문 발동을 위해 비동기로 처리
-// 	        async: false,
-// 	        success: function(response) {
-// 	        	// 공백을 제거한다
-//         		const result= $.trim(response);
-// 	        	// 이미 값이 존재한다면 true 를 반환한다
-// 	        	if(result == "true"){
-// 	        		myBoolean = true;
-// 	        	} else {
-// 	        		myBoolean = false;
-// 	        	}
-	        	
-// 	        },//success 콜백함수 종료지점
-// 	        error: function () {
-// 	        	myBoolean = true;
-//             }
-// 	  	});// end ajax
-	  	
-// 		return myBoolean;
-// 	} // end function
+ 
 	
   	//서브밋 제어
     $('#btn').click(function() {
@@ -387,28 +324,28 @@ $(document).ready(function() {
     	}
     	
     	// 정규식 검사
-//     	// 검사를 위한 변수선언
-// 		var regName = /^[a-zA-Z가-힣]+$/;
-// 		var regEmail = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-// 		var regPhone = /^[0-9]{9,11}$/;
+    	// 검사를 위한 변수선언
+		var regName = /^[a-zA-Z가-힣]+$/;
+		var regEmail = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		var regPhone = /^[0-9]{9,11}$/;
 
-// 		if (!regName.test($('#branch_name').val())) {
-// 			$('#msg').text("올바른 이름을 입력해주세요 한글, 영/대소문자만 입력가능 합니다.");
-// 			$('#branch_name').focus();
-//     		return false;
-// 		}
+		if (!regName.test($('#branch_name').val())) {
+			$('#msg').text("올바른 이름을 입력해주세요 한글, 영/대소문자만 입력가능 합니다.");
+			$('#branch_name').focus();
+    		return false;
+		}
 		
-// 		if (!regEmail.test($('#email_dns').val())) {
-// 			$('#msg').text("유효한 이메일 주소를 입력해주세요.");
-// 			$('#email_dns').focus();
-//     		return false;
-// 		}
+		if (!regEmail.test($('#email_dns').val())) {
+			$('#msg').text("유효한 이메일 주소를 입력해주세요.");
+			$('#email_dns').focus();
+    		return false;
+		}
 		
-// 		if (!regPhone.test($('#branch_phone').val())) {
-// 			$('#msg').text("- 없이 올바른 전화번호를 입력해주십시오.");
-// 			$('#branch_phone').focus();
-//     		return false;
-// 		}
+		if (!regPhone.test($('#branch_phone').val())) {
+			$('#msg').text("- 없이 올바른 전화번호를 입력해주십시오.");
+			$('#branch_phone').focus();
+    		return false;
+		}
 		
 // 		if(isCanUseEmail()){
 // 			$('#msg').text("이미 등록된 이메일입니다.");
@@ -420,7 +357,7 @@ $(document).ready(function() {
 // 			return false;
 // 		}
 		
-// 		// 정규식 검사 끝
+		// 정규식 검사 끝
     	
     	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
     		

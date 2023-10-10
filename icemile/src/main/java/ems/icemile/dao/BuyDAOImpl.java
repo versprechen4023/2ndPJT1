@@ -47,10 +47,10 @@ public class BuyDAOImpl implements BuyDAO {
 	}
 	
 	@Override
-	public void buyUpdate(BuyDTO buyDTO) {
+	public boolean buyUpdate(BuyDTO buyDTO) {
 		log.debug("구매처 업데이트 DAO 도달");
 		
-		sqlSession.update(namespace+".buyUpdate",buyDTO);
+		return sqlSession.update(namespace+".buyUpdate",buyDTO) > 0;
 		
 	}
 	
@@ -62,11 +62,26 @@ public class BuyDAOImpl implements BuyDAO {
 		return sqlSession.delete(namespace+".buyDelete", buy_code) > 0;
 	}
 
+	
 	public List<BuyDTO> buySearch(HashMap<String, Object> json) {
 		
 		log.debug("구매처 서치 DAO 도달");
 		
 		return sqlSession.selectList(namespace+".buySearch", json);
+	}
+
+	@Override
+	public boolean searchEmail(String buy_email) {
+		log.debug("구매처 이메일 중복 검사 DAO 도달");
+		String result = sqlSession.selectOne(namespace+"searchEmail", buy_email);
+		return (result == null) ? false : true;
+	}
+
+	@Override
+	public boolean searchPhone(String buy_phone) {
+		log.debug("구매처 번호 중복 검사 DAO 도달");
+		String result = sqlSession.selectOne(namespace+"searchPhone", buy_phone);
+		return (result == null) ? false : true;
 	}
 	
 	}

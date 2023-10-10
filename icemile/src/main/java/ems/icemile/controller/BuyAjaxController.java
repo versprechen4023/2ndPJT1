@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ems.icemile.dto.BuyDTO;
 import ems.icemile.dto.MemberDTO;
+import ems.icemile.dto.SellDTO;
 import ems.icemile.service.BuyServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,16 +40,24 @@ public class BuyAjaxController {
         }
     }
 	
-    @PostMapping("/update")
-    public ResponseEntity<String> buyUpdate(BuyDTO buyDTO) {
-        try {
-            buyService.buyUpdate(buyDTO);
-            return new ResponseEntity<>("true", HttpStatus.OK); // 성공 시 "true" 반환
-        } catch (Exception e) {
-            log.error("Error during buy insertion: {}", e.getMessage());
-            return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
-        }
-    }
+//    @PostMapping("/update")
+//    public ResponseEntity<String> buyUpdate(BuyDTO buyDTO) {
+//        try {
+//            buyService.buyUpdate(buyDTO);
+//            return new ResponseEntity<>("true", HttpStatus.OK); // 성공 시 "true" 반환
+//        } catch (Exception e) {
+//            log.error("Error during buy insertion: {}", e.getMessage());
+//            return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
+//        }
+//    }
+    
+	@PostMapping("/update")
+	public String branchUpdate(BuyDTO buyDTO) throws Exception {
+		
+		log.debug("값 잘 넘어오나 "+buyDTO.toString());
+		
+		return Boolean.toString(buyService.buyUpdate(buyDTO));
+	}
 	
 	@PostMapping("delete")
 	public String buyDelete(@RequestParam("buy_code") String buy_code) {
@@ -69,6 +79,22 @@ public class BuyAjaxController {
 		
 		// 콜백 함수에 결과값 리턴
 		return buyList;
+	}
+	
+	@GetMapping("searchEmail")
+	public String searchEmail(@RequestParam("buy_email") String buy_email) {
+		
+		log.debug("{} 값 확인", buy_email);
+		
+		return Boolean.toString(buyService.searchEmail(buy_email));
+	}
+	
+	@GetMapping("searchPhone")
+	public String searchPhone(@RequestParam("buy_phone") String buy_phone) {
+		
+		log.debug("{} 값 확인", buy_phone);
+		
+		return Boolean.toString(buyService.searchPhone(buy_phone));
 	}
 	
 }
