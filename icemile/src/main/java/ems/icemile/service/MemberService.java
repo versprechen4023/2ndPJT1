@@ -40,4 +40,7 @@ public interface MemberService {
 	// 담당자 정보 가져오기
 	public MemberDTO getManagerInfo(String emp_num);
 	
+	// 사원 비밀번호 초기화
+	public boolean memberReset(String emp_num);
+	
 }

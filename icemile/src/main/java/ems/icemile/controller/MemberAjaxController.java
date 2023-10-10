@@ -154,4 +154,13 @@ public class MemberAjaxController {
 		
 		return Boolean.toString(memberService.searchPhone(phone_num));
 	}
+	
+	@PostMapping("reset")
+	public String memberReset(@RequestParam("emp_num") String emp_num) {
+		
+		log.debug("멤버 리셋 AJAX 호출");
+		
+		// 콜백 함수에 결과값 리턴
+		return Boolean.toString(memberService.memberReset(emp_num));
+	}
 }

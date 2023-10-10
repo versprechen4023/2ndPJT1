@@ -75,6 +75,8 @@
 												onclick="memberUpdate('${memberDTO.emp_num}')" id="updateEmp">
 												<input type="button" value="삭제"
 												onclick="memberDelete('${memberDTO.emp_num}')" id="deleteEmp">
+												<input type="button" value="비밀번호 초기화"
+												onclick="memberReset('${memberDTO.emp_num}')" id="resetEmp">
 											</td>
 											</c:if>
 										</tr>
@@ -152,6 +154,7 @@ function memberSearch() {
  				            "<td>" +
  				          	"<input type='button' value='수정' onclick='memberUpdate(\"" + data.emp_num + "\")' id='updateEmp'>" +
  				            "<input type='button' value='삭제' onclick='memberDelete(\"" + data.emp_num + "\")' id='deleteEmp'>" +
+ 				           "<input type='button' value='삭제' onclick='memberReset(\"" + data.emp_num + "\")' id='resetEmp'>" +
  				            "</td>"
  				        	);
  				    	} else {
@@ -256,6 +259,47 @@ function memberDelete(emp_num) {
 							});
 							} else {
 							Swal.fire('삭제에 실패헀습니다.', '실패', 'error');
+							}
+				      }// 콜백함수 종료지점
+		       });// end_of_ajax
+		  }// end_of_if(컨펌확인)
+	  });// end_of_function(alert 콜백함수 종료지점)
+}// end_of_function
+
+//멤버 비밀번호 초기화 관련 함수
+function memberReset(emp_num) {
+	
+	// sweetalert2 호출
+	Swal.fire({
+		   title: '비밀번호 초기화',
+		   text: '정말로 사원의 비밀번호를 초기화 하시겠습니까?',
+		   icon: 'warning',
+		   
+		   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+		   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+		   cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+		   confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+		   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+		   
+		   reverseButtons: true, // 버튼 순서 거꾸로
+		
+		// 람다식 alert 창이 닫히면 호출
+		}).then(result => {
+		   // 만약 Promise리턴을 받으면,
+		   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+			   
+			   // 멤버 삭제하는 ajax 호출
+			   $.ajax({
+					  url : '${pageContext.request.contextPath}/member_ajax/reset',
+					  data: {"emp_num": emp_num},
+					  type : 'POST',
+					  success:function(data){
+							const result = $.trim(data);
+							
+							if(result == "true"){
+							Swal.fire('사원의 비밀번호가 생일로 초기화 되었습니다.', '성공', 'success');
+							} else {
+							Swal.fire('초기화 과정에서 문제가 발생했습니다.', '실패', 'error');
 							}
 				      }// 콜백함수 종료지점
 		       });// end_of_ajax

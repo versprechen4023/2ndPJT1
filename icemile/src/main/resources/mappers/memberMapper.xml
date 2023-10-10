@@ -79,5 +79,11 @@
   	SELECT *
 		FROM emp
 			WHERE emp_num = #{emp_num}
-  	</select>
+  </select>
+  
+  <update id="memberReset">
+  	UPDATE emp
+  		SET emp_pw = #{emp_pw}
+  			WHERE emp_num = #{emp_num}
+  </update>
 </mapper>

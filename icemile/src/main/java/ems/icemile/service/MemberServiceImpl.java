@@ -163,4 +163,18 @@ public class MemberServiceImpl implements MemberService {
 		log.debug("getManagerInfo 서비스");
 		return memberDAO.getmanagerInfo(emp_num);
 	}
+	
+	@Override
+	public boolean memberReset(String emp_num) {
+		
+		log.debug("memberReset 서비스");
+		
+		// 사원의 생일을 가져온다
+		MemberDTO memberDTO = memberDAO.getMemberInfo(emp_num);
+		
+		// 생일을 기준으로 비밀번호를 암호화 하여 저장한다
+		memberDTO.setEmp_pw(passwordEncoder.encode(memberDTO.getBirthdate().replaceAll("-", "").substring(2)));
+		
+		return memberDAO.memberReset(memberDTO);
+	}
 }

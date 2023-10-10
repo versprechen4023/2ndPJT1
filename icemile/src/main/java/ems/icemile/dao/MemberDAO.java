@@ -43,4 +43,7 @@ public interface MemberDAO {
 	// 담당자 정보 가져오기
 	public MemberDTO getmanagerInfo(String emp_num);
 	
+	// 사원 비밀번호 초기화
+	public boolean memberReset(MemberDTO memberDTO);
+	
 }
