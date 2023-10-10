@@ -171,7 +171,7 @@ function rawSearch() {
 $(document).ready(function() {
 	
 	// 테이블 클릭 관련 이벤트 함수
-	$(document).on("click", "tbody", function() {
+	$(document).on("click", "tbody tr", function() {
 		
 		  // 값을 전달하기 위한 변수선언
 		  // 이벤트가 발생되는 테이블의 첫번째(0)부터 4번째 까지 텍스트를 변수에 저장한다
