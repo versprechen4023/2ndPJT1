@@ -36,9 +36,7 @@
 	<!-- 헤더 -->
 
 	<div id="layoutSidenav">
-		<!-- 사이드바 -->
-		<jsp:include page="../include/sidebar.jsp"></jsp:include>
-		<!-- 사이드바 -->
+
 		<div id="layoutSidenav_content">
 			<main>
 <h1>소요량 등록</h1>
@@ -111,19 +109,19 @@ $(document).ready(function(){
 	        // 유효성 검사
 		if($('#prod_code').val()==""){
 			Swal.fire('완제품을 선택해주세요.', '실패', 'error');
-			return;
+			return false;
 		}
 		if($('#raw_code').val()==""){
 			Swal.fire('원재료를 선택해주세요.', '실패', 'error');
-			return;
+			return false;
 		}
 		if($('#req_amount').val()==""){
 			Swal.fire('소요량을 입력해주세요.', '실패', 'error');
-			return;
+			return false;
 		}
 		if($('#req_insertDATE').val()==""){
 			Swal.fire('등록일을 선택해주세요.', '실패', 'error');
-			return;
+			return false;
 		}
 // 		if($('#req_upDATEDATE').val()==""){
 // 			Swal.fire('수정일을 선택해주세요.', '실패', 'error');
