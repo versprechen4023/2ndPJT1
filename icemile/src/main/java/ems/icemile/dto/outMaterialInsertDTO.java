@@ -25,4 +25,7 @@ public class outMaterialInsertDTO {
   
   //지점코드
   private String branch;
+  
+  //지점코드의 숫자
+  private String trBranchNumber;
 }
