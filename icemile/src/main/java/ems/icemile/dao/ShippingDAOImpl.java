@@ -62,7 +62,8 @@ public class ShippingDAOImpl implements ShippingDAO {
 		sqlSession.update(namespace+"updateInMaterial", inMaterialDTO);
 	}
 
-
+////////////////////////////////////////////출고 ////////////////////////////////////////////////////////////
+	
 	// 네임 스페이스 사용을 위한 변수 선언
 	private static final String namespace2 = "mes.icemile.mappers.outMaterialMapper.";
 	

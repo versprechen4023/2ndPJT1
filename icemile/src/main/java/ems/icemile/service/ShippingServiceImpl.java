@@ -59,6 +59,9 @@ public class ShippingServiceImpl implements ShippingService {
 		shippingDAO.updateInMaterial(inMaterialDTO);
 	}
 	
+	
+	//////////////////////////////////////////// 출고 ////////////////////////////////////////////////////////////
+	
 	//outMaterial List 가져오기
 	@Override
 	public List<outMaterialDTO> getoutMaterialList() {

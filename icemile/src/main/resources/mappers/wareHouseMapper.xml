@@ -68,12 +68,14 @@
     		<when test='type == "P"'>
     		wh_code
       			FROM warehouse
-      				ORDER BY wh_code desc
+                where wh_code LIKE '%P%'
+                ORDER BY wh_code desc
     		</when>
     		<when test='type == "R"'>
     		wh_code
       			FROM warehouse
-      				ORDER BY wh_code desc
+      			where wh_code LIKE '%R%'
+      			ORDER BY wh_code desc
     		</when>
   		</choose>
   		LIMIT 1
