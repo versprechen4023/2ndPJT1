@@ -33,11 +33,70 @@
 
 	<!-- 출고 코드 자동 부여 -->
 	<select id="getNewmtId" resultType="java.lang.String">
-		SELECT out_code
-		FROM
-		out_material
-		ORDER BY out_code desc
-		LIMIT 1
+	 	SELECT
+  		<choose>
+    		<when test='branch == "1"'>
+    		out_code
+      			FROM out_material
+                where out_code LIKE '%1%'
+                ORDER BY out_code desc
+    		</when>
+    		<when test='branch == "2"'>
+    		out_code
+      			FROM out_material
+      			where out_code LIKE '%2%'
+      			ORDER BY out_code desc
+    		</when>
+    		<when test='branch == "3"'>
+    		out_code
+      			FROM out_material
+      			where out_code LIKE '%3%'
+      			ORDER BY out_code desc
+    		</when>
+    		<when test='branch == "4"'>
+    		out_code
+      			FROM out_material
+      			where out_code LIKE '%4%'
+      			ORDER BY out_code desc
+    		</when>
+    		<when test='branch == "5"'>
+    		out_code
+      			FROM out_material
+      			where out_code LIKE '%5%'
+      			ORDER BY out_code desc
+    		</when>
+    		<when test='branch == "6"'>
+    		out_code
+      			FROM out_material
+      			where out_code LIKE '%6%'
+      			ORDER BY out_code desc
+    		</when>
+    		<when test='branch == "7"'>
+    		out_code
+      			FROM out_material
+      			where out_code LIKE '%7%'
+      			ORDER BY out_code desc
+    		</when>
+    		<when test='branch == "8"'>
+    		out_code
+      			FROM out_material
+      			where out_code LIKE '%8%'
+      			ORDER BY out_code desc
+    		</when>
+    		<when test='branch == "9"'>
+    		out_code
+      			FROM out_material
+      			where out_code LIKE '%9%'
+      			ORDER BY out_code desc
+    		</when>
+    		<when test='branch == "10"'>
+    		out_code
+      			FROM out_material
+      			where out_code LIKE '%10%'
+      			ORDER BY out_code desc
+    		</when>
+  		</choose>
+  		LIMIT 1
 	</select>
 	<!-- 출고 코드 자동 부여 -->
 

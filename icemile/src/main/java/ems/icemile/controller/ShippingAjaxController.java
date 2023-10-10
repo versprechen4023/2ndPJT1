@@ -29,9 +29,10 @@ public class ShippingAjaxController {
 	@Inject
 	private ShippingServiceImpl shippingService;
 	
+	//////////////////////////////////////////////출고/////////////////////////////////////////////
 	@GetMapping("searchOutCode")
 	// 이 부분은 Spring Framework에서 사용되는 어노테이션입니다.
-	// Ajax 요청에서 "wh_code"이라는 파라미터를 받아서 이 메서드의 wh_code 매개변수에 할당합니다.
+	// Ajax 요청에서 "wh_code"이라는 파라미터를 받아서 이 메서드의 out_code 매개변수에 할당합니다.
 	public boolean searchProName(@RequestParam("out_code") String out_code) {
 
 		log.debug("서치 출고 코드 AJAX 호출");

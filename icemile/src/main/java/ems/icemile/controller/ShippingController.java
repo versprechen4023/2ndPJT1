@@ -86,6 +86,8 @@ public class ShippingController {
 		return "redirect:/shipping/inMaterial";
 	}
 	
+	
+	//////////////////////////////////////////출고////////////////////////////////////////////////
     @GetMapping("/outMaterial")
     public String out_material(Model model) {
     	//출고 관리

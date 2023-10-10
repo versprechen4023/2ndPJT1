@@ -49,8 +49,7 @@
 							<div class="card-body">
 
 								<input type="button" name="allList" value="전체목록"
-									onclick="location.reload();">
-								    <select id="category">
+									onclick="location.reload();"> <select id="category">
 									<option value="out_code">출고 지점</option>
 									<option value="out_wh_code">창고코드</option>
 									<option value="order_code">수주코드</option>
@@ -183,6 +182,12 @@ $(document).ready(function() {
 	  // 마찬가지로 decodeURIComponent 함수를 사용하여 필드의 값을 디코딩합니다.
 	  var value = decodeURIComponent(keyValue[1]);
 	  
+	  // 비고와 검색칸은 비어있어도 상관없음
+	  // 검사에서 제외사항
+	  if ((key === "content") && value === ""){
+		  continue;
+	  }
+	  
 	  //이 부분의 코드는 폼 필드의 값이 비어있을 때 실행되며,사용자에게 오류 메세지를 표시하고'result'값을 'false'로 설정하는 역할을 합니다.
 	  if (value === "") {
 	    // 값이 비어 있는 경우 결과값은 false가 된다
@@ -250,17 +255,6 @@ $(document).ready(function() {
 	//출고 코드 	
 	row += "<td>";
 	row += "<select name='branch' id='branch' required class='#datatablesSimple tr'>";
-	row += "<option value='C' disabled selected >지점을 선택하십시오</option>";
-	row += "<option value='1'>BR0001</option>";
-	row += "<option value='2'>BR0002</option>";
-	row += "<option value='3'>BR0003</option>";
-	row += "<option value='4'>BR0004</option>";
-	row += "<option value='5'>BR0005</option>";
-	row += "<option value='6'>BR0006</option>";
-	row += "<option value='7'>BR0007</option>";
-	row += "<option value='8'>BR0008</option>";
-	row += "<option value='9'>BR0009</option>";
-	row += "<option value='10'>BR0010</option>";
 	row += "</select>";
 	row += "</td>";
 
