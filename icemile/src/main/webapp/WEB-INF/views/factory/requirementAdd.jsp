@@ -79,6 +79,9 @@
 
 </table>
 </form>
+<input type="hidden" name="prod_name" id="prod_name" value="">
+<input type="hidden" name="prod_taste" id="prod_taste" value="">
+
 <input type="hidden" name="raw_name" id="raw_name" value="">
 <input type="hidden" name="raw_type" id="raw_type" value="">
 <input type="hidden" name="raw_price" id="raw_price" value="">				
@@ -160,8 +163,14 @@ $(document).ready(function(){
 function openUpdate() {
 }
 
+// 원자재 팝업 리스트 
 $(document).on("click", "input[name='raw_code']", function() {
 	window.open('${pageContext.request.contextPath }/product/rawListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+});// end function
+
+// 완제품 팝업 리스트
+$(document).on("click", "input[name='prod_code']", function() {
+	window.open('${pageContext.request.contextPath }/product/productListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 });// end function
 </script>
     </body>

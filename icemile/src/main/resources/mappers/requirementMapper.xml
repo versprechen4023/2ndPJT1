@@ -21,12 +21,21 @@
   				LIMIT 1
   </select>
   
-  <insert id="insertRequirement">
-  	INSERT INTO requirement(req_code, prod_code, raw_code, req_insertDATE,
-  	req_amount, req_upDATEDATE, req_note)
-  		VALUES(CONCAT('RE',LPAD(#{req_code},4,'0')),#{prod_code}, #{raw_code},
-  		#{req_insertDATE}, #{req_amount}, #{req_upDATEDATE}, #{req_note})
-  </insert>
+<!--   <insert id="insertRequirement"> -->
+<!--   	INSERT INTO requirement(req_code, prod_code, raw_code, req_insertDATE, -->
+<!--   	req_amount, req_upDATEDATE, req_note) -->
+<!--   		VALUES(CONCAT('RE',LPAD(#{req_code},4,'0')),#{prod_code}, #{raw_code}, -->
+<!--   		#{req_insertDATE}, #{req_amount}, #{req_upDATEDATE}, #{req_note}) -->
+<!--   </insert> -->
+
+<insert id="insertRequirement">
+    INSERT INTO requirement(req_code, prod_code, raw_code, req_insertDATE, req_amount
+    <if test="req_upDATEDATE != null and req_upDATEDATE != ''">, req_upDATEDATE</if>
+    , req_note)
+    VALUES(CONCAT('RE', LPAD(#{req_code}, 4, '0')), #{prod_code}, #{raw_code}, #{req_insertDATE}, #{req_amount}
+    <if test="req_upDATEDATE != null and req_upDATEDATE != ''">, #{req_upDATEDATE}</if>
+    , #{req_note})
+</insert>
 
 
 <!-- 	<insert id="insertRequirement"> -->
