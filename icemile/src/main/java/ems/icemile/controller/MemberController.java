@@ -63,7 +63,12 @@ public class MemberController {
 	}//end_of_loginPro
 	
 	@GetMapping("/memberInsert")
-	public String memberInsert() {
+	public String memberInsert(HttpSession session) {
+		
+		// 세션 검증
+		if(session.getAttribute("emp_num")==null){
+			return "redirect:/member/login";
+		};
 		
 		log.debug("사용자 추가 페이지");
 		
