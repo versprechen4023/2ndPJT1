@@ -34,7 +34,7 @@
 <!--<li class="breadcrumb-item active">Tables</li> --> 
 </ol>
 <div class="bnt">
-<input type="button" value="추가" onclick="location.href='${pageContext.request.contextPath}/factory/requirementAdd'">
+<input type="button" value="추가" onclick="requirementAdd()">
 </div>
 <div class="card mb-4">
 <!--<div class="card-header"> -->
@@ -82,7 +82,7 @@
 <td>${requirementDTO.req_amount }</td><!-- 소요량 -->
 <td>${requirementDTO.req_upDATEDATE }</td><!-- 수정일 -->
 <td>${requirementDTO.req_note }</td><!-- 비고 -->
-<td><input type="button" value="수정" onclick="location.href='${pageContext.request.contextPath}/factory/requirementUpdate?req_code=${requirementDTO.req_code}'">
+<td><input type="button" value="수정" onclick="requirementUpdate('${requirementDTO.req_code}')">
 <input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/factory/deleteRequirement?req_code=${requirementDTO.req_code}')">
 </td>
 </tr>
@@ -136,11 +136,14 @@ function requirementSearch() {
  				    $('tbody').empty();
 					
  				    // 배열 크기만큼 반복
+ 				    var num = 0;
  				    json.forEach(function (data) {
  				    	// tr 태그 생성
  				        var $tr = $('<tr>');
+ 				    		num+=1;
  				    		//tr 에 내용추가
- 				        	$tr.append(				        					     
+ 				        	$tr.append(			
+ 				        	"<td>"+num+"</td>",
  				        	"<td>"+data.req_code+"</td>",
  				            "<td>"+data.prod_code+"</td>",
  				           	"<td>"+data.raw_code+"</td>",
@@ -149,7 +152,7 @@ function requirementSearch() {
  				         	"<td>"+data.req_upDATEDATE+"</td>",
  				         	"<td>"+data.req_note+"</td>",
  				         	 '<td>' +
- 				            '<input type="button" value="수정" onclick="openEditPopup(\'' + data.req_code + '\')">' +
+ 				            '<input type="button" value="수정" onclick="requirementUpdate(\'' + data.req_code + '\')">' +
  				            '<input type="button" value="삭제" onclick="confirmDelete(\'' + '${pageContext.request.contextPath}/factory/deleteRequirement?req_code=' + data.req_code + '\')">' +
  				            '</td>' 
  				        	);
@@ -170,19 +173,17 @@ function confirmDelete(deleteUrl) {
         // 취소 버튼을 눌렀을 때의 처리 (생략 가능)
     }
 }
-// function openEditPopup(req_code) {
-//     // 팝업 창의 URL을 서버의 컨트롤러 엔드포인트로 설정
-//     var editUrl = '/factory/requirementUpdate?req_code=' +req_code;
+// 등록 페이지 팝업
+ function requirementAdd(){        
+	window.open('${pageContext.request.contextPath }/factory/requirementAdd', '_blank', 'width=600px, height=667px, left=600px, top=300px');
+} //end function
 
-//     // 팝업 창의 속성 설정
-//     var popupWidth = 800;
-//     var popupHeight = 600;
-//     var left = (screen.width - popupWidth) / 2;
-//     var top = (screen.height - popupHeight) / 2;
-
-//     // 팝업 창 열기
-//     window.open(editUrl, 'editPopup', 'width=' + popupWidth + ',height=' + popupHeight + ',left=' + left + ',top=' + top);
-// }
+// 수정 페이지 팝업
+ function requirementUpdate(req_code){      
+// 	alert(req_code);
+	window.open('${pageContext.request.contextPath }/factory/requirementUpdate?req_code='+req_code+'', '_blank', 'width=600px, height=667px, left=600px, top=300px');
+} 
+	
 </script>
 
     </body>
