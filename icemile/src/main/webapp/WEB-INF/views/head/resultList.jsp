@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -33,65 +34,90 @@
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
                         </ol>
                         <div class="bnt">
-                        <button>추가</button><button>수정</button>
-                        <button>삭제</button><button>취소</button><button>저장</button></div>
+                        <c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
+							<input type="button" value="추가" id="rsAdd">
+							<input type="button" value="수정" id="rsupdate">
+							<input type="button" value="삭제" id="rsdelete">
+							<input type="button" value="취소" id="rscancel" disabled>
+							<input type="button" value="저장" id="rssave" disabled>
+						</c:if>
+						</div>
                         <div class="card mb-4">
 <!--                             <div class="card-header"> -->
 <!--                                 <i class="fas fa-table me-1"></i> -->
 <!--                                 DataTable Example -->
 <!--                             </div> -->
                             <div class="card-body">
+                            <div class="card-body">
+                            <input type="button" name="allList" value="전체목록" onclick="location.reload();">
+                           
+                            
+                            완료일자
+                            <input type="text" name="done_dateBegin" id="done_dateBegin"> ~
+                            <input type="text" name="done_dateEnd" id="done_dateEnd" disabled>
+                            <br>
+                            
+                            
+                            진행상태
+							<select id="rs_process">
+  								<option value="">전체</option>
+  								<option value="1">진행중</option>
+  								<option value="2">마감</option>
+							</select>
+							<input type="text" name="content" size=60 placeholder="자재명을 입력하세요"
+								id="content">
+							<input type="button" name="search" value="조회" onclick="resultSearch()">
                                 <table id="datatablesSimple">
                                 
                                     <thead>
                                     <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
                                         <tr>
-                                        	<th>선택</th>
-                                            <th>순서</th>
-                                            <th>코드</th>
-                                            <th>완료 작업 목록</th>
+                                        	                                        	
+                                        	<th data-sortable="false"><input type="checkbox" name="selectedAllRSList"></th>
+                                            <th>실적 코드</th>
                                             <th>작업 지시 코드</th>
+                                            <th>작업 지시 완료 날짜</th>
                                             <th>라인 코드</th>
                                             <th>완제품 코드</th>
+                                            <th>지시 수량</th>
                                             <th>양품</th>
                                             <th>불량</th>
                                             <th>불량 사유</th>
+                                            <th>진행 현황</th>                                            
                                             <th>비고</th>
 
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                    <!-- "테이블 바닥글"을 나타냅니다. 이 부분은 테이블의 하단 요약 정보나 추가 설명 등을 담습니다. -->
-                                    <!-- <tfoot> 부분은 없어도 될 것 같은데 기존 템플릿에 있던 태그라 그냥 둔 겁니다! -->
-                                        <tr>
-                                        	<th>선택</th>
-                                            <th>순서</th>
-                                            <th>코드</th>
-                                            <th>완료 작업 목록</th>
-                                            <th>작업 지시 코드</th>
-                                            <th>라인 코드</th>
-                                            <th>완제품 코드</th>
-                                            <th>양품</th>
-                                            <th>불량</th>
-                                            <th>불량 사유</th>
-                                            <th>비고</th>
-                                        </tr>
-                                    </tfoot>
+                                
                                     <tbody>
+                                   	<c:forEach var="ResultListDTO" items="${resultList}">
                                         <tr>
-                                        	<th class="eachCheck">
-            					 				<input type="checkbox" name="cbox" class="eachCheckbox"></th>
-                                            <th>1</th>
-                                            <th>RE0001</th> <!-- 대충... -->
-                                            <th>완료(?)</th>
-                                            <th>WO100B</th>
-                                            <th>LI200</th>
-                                            <th>PROD001</th>
-                                            <th></th>
-                                            <th>ㅇ</th>
-                                            <th>한회은 사원이 몰래 초코볼 2개 먹음</th>
-                                            <th>비고</th>
+                                        	<td><input type="checkbox" name="selectedRSList" value="${ResultListDTO.result_code}"></td>
+                                            <td>${ResultDTO.result_code}</td> 
+                                            <td>${ResultDTO.work_code}</td>
+                                          	<c:choose>
+   												<c:when test="${empty ResultDTO.done_date}">
+        											<td>-</td>
+    											</c:when>
+    											<c:otherwise>
+        											<td>${ResultDTO.done_date}</td>
+    											</c:otherwise>
+											</c:choose>
+                                            <td>${ResultDTO.line_code}</td>
+                                            <td>${ResultDTO.prod_code}</td>
+                                            <td>${ResultDTO.order_amount}</td>
+                                            <td>${ResultDTO.good_prod}</td>
+                                            <td>${ResultDTO.faulty_prod}</td>
+                                            <td>${ResultDTO.faulty_reason}</td>
+                                            <c:if test="${ResultListDTO.rs_process eq 0}">
+                                            	<td>진행중</td>
+                                            </c:if>
+                                            <c:if test="${ResultListDTO.rs_process eq 1}">
+                                            	<td>마감</td>
+                                            </c:if>
+                                            <td>${ResultDTO.remark}</td>
                                         </tr>
+                                       </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -102,13 +128,36 @@
                 
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
-<!-- 푸터 -->
-
+<!-- 푸터 --> 
+                
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="../resources/js/scripts.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="../resources/js/datatables-simple-demo.js"></script>
-    </body>
+<!-- 데이트피커 J쿼리등을 사용하기위한 호출 -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<!--  데이트피커 커스텀 css-->
+<link rel="stylesheet" type="text/css" href="../resources/css/datepicker.css">
+
+<!-- 모달 alert를 위한 sweetalert 호출 -->
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+	<script
+		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
+	<script src="../resources/js/scripts.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+		crossorigin="anonymous"></script>
+	<script src="../resources/js/productList_im.js"></script>
+	
+<!-- 엑셀파일 저장을 위한 스크립트 호출 -->
+	<script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
+
+</body>
 </html>
