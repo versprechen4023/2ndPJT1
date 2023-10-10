@@ -10,6 +10,17 @@
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
+
+<style>
+#empBox {
+    display: flex;
+}
+
+#emp_num {
+    margin-right: 7px;
+}
+</style>
+
 </head>
 <body class="sb-nav-fixed">
 <div id="layoutSidenav">
@@ -75,7 +86,7 @@
                                             <td>${facilityDTO.line_phone}</td>
                                             <td>${facilityDTO.line_process}</td>
                                             <td>${facilityDTO.line_status}</td>
-                                            <td>${facilityDTO.emp_num}</td>
+                                            <td><a href="#" class="emp-num-link" data-emp-num="${facilityDTO.emp_num}">${facilityDTO.emp_num}</a></td>
                                             <td>${facilityDTO.line_note}</td>
                                             <!-- <td><input type="button" value="수정"
 												onclick="facilityUpdate()" id="updatefac">
@@ -143,22 +154,31 @@
 			
 			// 전화번호
 			row += "<td>";
-			row += "<input type='text' name='line_phone' id='line_phone' required class='#datatablesSimple tr'>";
+			row += "<input type='text' name='line_phone' id='line_phone' placeholder='-을 포함하여 입력하세요' required class='#datatablesSimple tr'>";
 			row += "</td>";
 			
 			// 생산공정
 			row += "<td>";
-			row += "<input type='text' name='line_process' id='line_process' required class='#datatablesSimple tr'>";
+			row += "<select name='line_process' id='line_process' required class='#datatablesSimple tr'>";
+			row += "<option value='1'>1차 공장</option>";
+			row += "<option value='2'>2차 공정</option>";
+			row += "<option value='3'>3차 공정</option>";
+			row += "</select>";
 			row += "</td>";
 			
 			// 가동상태
 			row += "<td>";
-			row += "<input type='text' name='line_status' id='line_status' required class='#datatablesSimple tr'>";
+			row += "<select name='line_status' id='line_status' required class='#datatablesSimple tr'>";
+			row += "<option value='1'>1:가동중</option>";
+			row += "<option value='2'>2:대기중</option>";
+			row += "<option value='3'>3:고장</option>";
+			row += "</select>";
 			row += "</td>";
 			
 			// 담당자
-			row += "<td>";
-			row += "<input type='text' name='emp_num' id='emp_num' required class='#datatablesSimple tr'>";
+			row += "<td class='empBox' id='empBox'>";
+			row += "<input type='text' name='emp_num' id='emp_num' placeholder='담당자 검색' readonly required class='#datatablesSimple tr'>";
+			row += "<input type='button' name='empSearch' id='empSearch' value='조회'>";
 			row += "</td>";
 			
 			// 비고
@@ -177,6 +197,12 @@
 			
 			// 생성한 <tr> 요소를 tbody의 첫 행 위에 추가
 			$('tbody tr:nth-child(1)').before(row);
+			
+		    // 사원 검색 팝업 열기
+		    $("#empSearch").click(function() {
+		        var url = '${pageContext.request.contextPath}/member/memberListPopUp';
+		        openPopup(url);
+		    });
 			
 		  	// 품목추가중에 품목추가,수정,삭제 버튼을 비활성화한다
 		  	// disabled(비활성화) 속성 추가(attr) -> .attr('속성 이름', '속성 값')
@@ -259,7 +285,7 @@
 				var line_name = $('#line_name').val();
 				var line_phone = $('#line_phone').val();
 				var line_process = $('#line_process').val();
-				var line_status = $('#line_status').val();
+				var line_status = $('#line_status').val(); 
 				var emp_num = $('#emp_num').val();
 				var line_note = $('#line_note').val();
 				
@@ -276,7 +302,7 @@
 					})
 				
 				// input에 값이 입력되면 저장, input의 값이 변경되면 수정에 의한 저장
-				}else {
+				}else if(status === "update"){
 					// form 태그의 액션을 변수 선언
 			        var formAction = $('#facilityList').attr("action");
 					
@@ -288,6 +314,12 @@
 			                emp_num: emp_num,
 			                line_note: line_note
 			            };
+				
+				            $('#facilityList').attr("action", "/home/factory/updateFacility");
+					        $('#facilityList').attr("method", "POST");
+					        $('#facilityList').submit();
+				}else{
+			        
 			     // 중복값 검사수행
 					  if (line_name && line_name !== "") {
 						  // ajax 호출
@@ -303,23 +335,27 @@
 						        		result = false;
 						        		continueFor = false;
 						        		Swal.fire('이미 존재하는 이름입니다 다른 이름을 입력하십시오', '', 'info');
-						        	}else{
-										// 상태가 add면 addPro로 넘어가서 input에 입력한 값이 데이터베이스로 넘어간다
-								        if (status === "add") {
-								            $('#facilityList').attr("action", "/home/factory/addPro");
-								        // 상태가 update면 update로 넘어가서 변경한 input의 값이 데이터베이스에 업데이트 된다
-								        } else if (status === "update") {
-								            $('#facilityList').attr("action", "/home/factory/updateFacility");
-								        }
+						        	// 상태가 add면 addPro로 넘어가서 input에 입력한 값이 데이터베이스로 넘어간다
+						        	}else if(status === "add"){
+										// form 태그의 액션을 변수 선언
+								        var formAction = $('#facilityList').attr("action");
+										
+								        var postData = {
+								                line_name: line_name,
+								                line_phone: line_phone,
+								                line_process: line_process,
+								                line_status: line_status,
+								                emp_num: emp_num,
+								                line_note: line_note
+								            };
 
+								        $('#facilityList').attr("action", "/home/factory/addPro");
 								        $('#facilityList').attr("method", "POST");
 								        $('#facilityList').submit();
 						        	} 
 						        }//success 콜백함수 종료지점
 						  });// ajax
 					  }
-
-
 				}
 			});// end save function
 			
@@ -381,9 +417,41 @@
 					// 반복문의 숫자에 따라 html 태그의 이름을 아이디 이름으로 한다
 					var cellId = cellIds[index];
 			
-					// 반복문에 따라 이너 html 실행 모든 입력칸을 텍스트태그로 바꾼다
-					$(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' >');
+					if (cellName === "line_process") {
+					    // 선택 옵션 값 가져오기
+					    var selectedValue = $(this).find("select").val();
+					    $(this).html('<select name="' + cellName + '" id="' + cellId + '" ' + cellOption + '>' + 
+					        '<option value="1" ' + (selectedValue === "1" ? "selected" : "") + '>1차 공정</option>' +
+					        '<option value="2" ' + (selectedValue === "2" ? "selected" : "") + '>2차 공정</option>' +
+					        '<option value="3" ' + (selectedValue === "3" ? "selected" : "") + '>3차 공정</option>' +
+					        '</select>');
+					} else if (cellName === "line_status") {
+					    var selectedValue = $(this).find("select").val();
+					    $(this).html('<select name="' + cellName + '" id="' + cellId + '" ' + cellOption + '>' + 
+					        '<option value="1" ' + (selectedValue === "1" ? "selected" : "") + '>1:가동중</option>' +
+					        '<option value="2" ' + (selectedValue === "2" ? "selected" : "") + '>2:대기중</option>' +
+					        '<option value="3" ' + (selectedValue === "3" ? "selected" : "") + '>3:고장</option>' +
+					        '</select>');
+					} else if(cellName === "emp_num"){
+						$(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' >');
+						$(this).append('<input type="button" name="empSearch" id="empSearch" value="조회">');	
+						// css 적용 안 됨
+						// document.getElementById("empBox").style.display = "flex !important";
+						// document.getElementById("emp_num").style.marginRight = "7px !important";
+						
+					    // 사원 검색 팝업 열기
+					    $("#empSearch").click(function() {
+					        var url = '${pageContext.request.contextPath}/member/memberListPopUp';
+					        openPopup(url);
+					    });
+					} else {
+					    $(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' >');			
+					}
+
 				});// end_find(행 검색 반복문 종료지점)
+				
+				// "담당자" 열에 있는 입력란 옆에 "조회" 버튼을 추가
+		        //row.find("#empBox").append('<input type="button" name="empSearch" id="empSearch" value="조회">');
 	
 				// 품목수정중에 품목추가,수정,삭제 버튼을 비활성화한다
 	  			$("#add").attr('disabled','disabled');
@@ -512,6 +580,43 @@
 		}// end function
 		
 		
+		$(document).ready(function() {
+		    $(".emp-num-link").click(function(event) {
+		        event.preventDefault();
+		        var empNum = $(this).data("emp-num"); // 클릭한 링크의 emp_num 값을 가져옵니다.
+
+		        // 팝업 창 크기 및 위치 설정
+		        var width = 400;
+		        var height = 400;
+		        var left = (screen.width - width) / 2;
+		        var top = (screen.height - height) / 2;
+
+		        // 팝업 창 열기
+		        var url = '${pageContext.request.contextPath}/member/memberInfo?emp_num=' + empNum; // 팝업에 필요한 데이터를 URL에 포함
+		        var popupWindow = window.open(url, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
+
+		        // 팝업 창 포커스
+		        popupWindow.focus();
+		    });
+		});
+		
+		
+		// 팝업 창을 열어주는 함수
+		function openPopup(url) {
+		    var width = 500;
+		    var height = 500;
+		    var left = (screen.width - width) / 2;
+		    var top = (screen.height - height) / 2;
+		    var popupWindow = window.open(url, '_blank', "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
+		    popupWindow.focus();
+		}
+
+
+
+		//팝업 창에서 선택된 emp_num 값을 받아서 표시하는 함수
+		function receiveSelectedEmpNum(empNum) {
+		    document.getElementById('emp_num').value = empNum;
+		}
 		
 		
 		
