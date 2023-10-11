@@ -6,8 +6,11 @@
   
   
   	<select id="getRawStockList" resultType="ems.icemile.dto.StockDTO">
-  		SELECT *
-  		FROM stock
+		SELECT s.stock_code, r.raw_name, r.raw_code, r.raw_type, r.raw_amount AS 'stock_status', 
+       		   r.wh_code, s.stock_date
+		FROM raw_material r 
+		LEFT JOIN stock s ON r.wh_code = s.wh_code
+		
   	</select>
 
   

@@ -40,8 +40,8 @@
                         <div class="bnt">
                         <!-- 아이디 session 들고 와서 admin일 때만 추가~저장 버튼 보이게 -->
                         <c:if test="${sessionScope.emp_num eq 'admin'}">
-                        <!-- <input type="button" class ="tableBtn" id="add" value="추가"> -->
-                        <input type="button" class ="tableBtn" id="update" value="수정">
+                        <input type="button" class ="tableBtn" id="add" value="추가">
+                        <!-- <input type="button" class ="tableBtn" id="update" value="수정"> -->
                         <!-- <input type="button" class ="tableBtn" id="delete" value="삭제"> -->
                         <input type="button" class ="tableBtn" id="save" value="저장">
                         <input type="button" class ="tableBtn" id="cancel" value="취소">
@@ -67,10 +67,11 @@
                                             <th>원자재 이름</th>
                                             <th>종류</th>
                                             <th>수량</th>
+                                            <th>실수량</th>
                                             <th>창고 코드</th>
                                             <th>담당자</th>
-                                            <th>재고 실사</th>
                                             <th>확인 날짜</th>
+                                            <th>관리</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tableBody">
@@ -78,17 +79,16 @@
                                         <tr>
                                         	<td><input type="checkbox" name="selected" value="${facilityDTO.line_code}"></td>
                                             <td>${stockDTO.stock_code}</td>
-                                            <td>${productAllDTO.prod_name}</td>
-                                            <td>${productAllDTO.prod_type}</td>
-                                            <td>${productAllDTO.prod_amount}</td>
-                                            <td>${productAllDTO.wh_code}</td>
-                                            <td>IM000014</td>
+                                            <td>${stockDTO.raw_name}</td>
+                                            <td>${stockDTO.raw_type}</td>
+                                            <td>${stockDTO.stock_status}</td>
                                             <td>${stockDTO.stock_amount}</td>
+                                            <td>${stockDTO.wh_code}</td>
+                                            <td>IM000014</td>
                                             <td>${stockDTO.stock_date}</td>
-                                            <!-- <td><input type="button" value="수정"
-												onclick="facilityUpdate()" id="updatefac">
-												<input type="button" value="삭제"
-												onclick="facilityDelete()" id="updatefac"></td> -->
+                                            <td><input type="button" class ="tableBtn" id="update" value="수정">
+												<!-- <input type="button" value="삭제"
+												onclick="facilityDelete()" id="updatefac"> --></td>
                                         </tr>
                                         </c:forEach>
                                     </tbody>

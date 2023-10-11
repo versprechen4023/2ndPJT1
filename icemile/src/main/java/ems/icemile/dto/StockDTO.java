@@ -15,10 +15,13 @@ public class StockDTO {
 	  private String stock_code;
 	  
 	  // 원자재 이름
-	  private String raw_code;
+	  private String raw_name;
 	  
 	  // 재고 현황
-	  private String stock_status;
+	  private int stock_status;
+	  
+	  // 재고 종류
+	  private String raw_type;
 	  
 	  // 재고 실사
 	  private int stock_amount;
