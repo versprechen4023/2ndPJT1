@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import ems.icemile.dao.ProductDAOImpl;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.dto.ProductAllDTO;
+import ems.icemile.dto.ProductDTO;
 import ems.icemile.dto.ProductInsertDTO;
 import ems.icemile.dto.RawMaterialDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -107,5 +108,13 @@ public class ProductServiceImpl implements ProductService {
 		log.debug("rowSearch 서비스");
 		
 		return productDAO.rowSearch(json);
+	}
+	
+	@Override
+	public List<ProductDTO> getProductListPopUp() {
+		
+		log.debug("겟 프로덕트 리스트 팝업 서비스");
+		
+		return productDAO.getProductListPopUp();
 	}
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mes.icemile.mappers.outMaterialMapper">
+
+	<!-- 창고 리스트 가져오기 -->
+	<select id="outMaterialList"
+		resultType="ems.icemile.dto.outMaterialDTO">
+		SELECT *
+		FROM out_material
+	</select>
+	<!-- 창고 리스트 가져오기 -->
+
+	<!-- 출고 창고 코드 중복검사 -->
+	<select id="searchOutCode" resultType="java.lang.String">
+		SELECT *
+		FROM out_material
+		WHERE out_code = #{out_code}
+	</select>
+	<!-- 출고 창고 코드 중복검사 -->
+
+	<!-- 출고수정 -->
+	<update id="mtUpdate">
+		UPDATE out_material
+		SET out_wh_code = #{out_wh_code},
+		order_code = #{order_code},
+		emp_num = #{emp_num}, out_status =
+		#{out_status}
+		WHERE out_code = #{out_code}
+	</update>
+	<!-- 출고수정 -->
+
+	<!-- 출고 코드 자동 부여 -->
+	<select id="getNewmtId" resultType="java.lang.String">
+       <bind name="trBranchNumber" value="'%\\_' + trBranchNumber + '%'" />
+		SELECT out_code
+		FROM out_material
+		WHERE out_code LIKE #{trBranchNumber}
+		ORDER BY out_code DESC
+		LIMIT 1
+	</select>
+	<!-- 출고 코드 자동 부여 -->
+	
+
+	<!-- 출고 추가 -->
+	<insert id="mtInsert">
+		INSERT INTO
+		out_material(out_code,out_wh_code,order_code,emp_num,out_status)
+		VALUES(#{out_code}, #{out_wh_code}, #{order_code}, #{emp_num},
+		#{out_status})
+	</insert>
+	<!-- 출고 추가 -->
+
+	<!-- 출고 삭제 -->
+	<delete id="mtDelete" parameterType="java.util.List">
+		<foreach collection="list" item="item" separator=";">
+			DELETE FROM
+			out_material WHERE out_code =#{item.code}
+		</foreach>
+	</delete>
+	<!-- 출고 삭제 -->
+
+	<!-- 출고 검색 -->
+	<!-- LIKE 연산자와 함께 사용될 때 와일드카드(%)를 포함한 문자열 검색을 수행할 수 있습니다. -->
+	<select id="mtSearch"
+		resultType="ems.icemile.dto.outMaterialDTO">
+		<bind name="content" value="'%' + content + '%'" />
+		SELECT *
+		FROM out_material AS myTable
+		WHERE myTable.${category} LIKE
+		#{content}
+	</select>
+	<!-- 출고 검색 -->
+
+
+
+</mapper>
+  

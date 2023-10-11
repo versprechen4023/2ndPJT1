@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import ems.icemile.dto.ProductAllDTO;
+import ems.icemile.dto.ProductDTO;
 import ems.icemile.dto.ProductInsertDTO;
 import ems.icemile.dto.RawMaterialDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -96,5 +97,13 @@ public class ProductDAOImpl implements ProductDAO {
 		log.debug("rowSearch DAO 도달");
 		
 		return sqlSession.selectList(namespace+"rowSearch", json);
+	}
+	
+	@Override
+	public List<ProductDTO> getProductListPopUp() {
+		
+		log.debug("getProductListPopUp DAO 도달");
+		
+		return sqlSession.selectList(namespace+"getProductListPopUp");
 	}
 }

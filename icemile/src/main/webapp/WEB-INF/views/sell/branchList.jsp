@@ -50,7 +50,6 @@
 							<select id="category">
   								<option value="branch_code">지점코드</option>
   								<option value="branch_name">지점명</option>
-  								<option value="emp_num">가맹 담당자명</option>
   								<option value="branch_phone">지점 연락처</option>
 							</select>
 							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
@@ -217,7 +216,7 @@ $(document).ready(function() {
     				         	"<td>"+data.branch_post+"</td>",
     				         	"<td>"+data.branch_add+"</td>",
     				         	"<td>"+data.branch_email+"</td>",
-    				         	"<td>"+data.emp_name+"</td>",
+    				         	"<td>"+data.emp_num+"</td>",
     				            "<td>" +
     				            "<input type='button' value='수정' onclick='branchUpdate(\"" + data.branch_code + "\")' id='branchUpdate1'>" +
     				            "<input type='button' value='삭제' onclick='branchDelete(\"" + data.branch_code + "\")' id='branchDelete1'>" +
@@ -234,7 +233,7 @@ $(document).ready(function() {
     				         	"<td>"+data.branch_post+"</td>",
     				         	"<td>"+data.branch_add+"</td>",
     				         	"<td>"+data.branch_email+"</td>",
-    				         	"<td>"+data.emp_name+"</td>",
+    				         	"<td>"+data.emp_num+"</td>",
     		 				     );
     				    	}
     				        // 생성한 <tr> 요소를 tbody에 추가
@@ -246,11 +245,11 @@ $(document).ready(function() {
 
 // 지점 추가관련 함수
    function branchReg(){
-   	window.open('${pageContext.request.contextPath }/sell/branchReg', '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+   	window.open('${pageContext.request.contextPath }/sell/branchReg', '_blank', 'width=615px, height=603px, left=600px, top=300px');
    } //end function
 
    function branchUpdate(branch_code){
-   	window.open('${pageContext.request.contextPath }/sell/branchUpdate?branch_code='+branch_code, '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+   	window.open('${pageContext.request.contextPath }/sell/branchUpdate?branch_code='+branch_code, '_blank', 'width=615px, height=603px, left=600px, top=300px');
    }
    
 // 지점 삭제관련 함수

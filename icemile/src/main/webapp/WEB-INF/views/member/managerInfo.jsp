@@ -3,15 +3,9 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Tables - SB Admin</title>
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="../resources/css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<!-- 헤드 -->
+<jsp:include page="../include/head.jsp"></jsp:include>
+<!-- 헤드 -->
     
     <style type="text/css">
 @font-face {
@@ -24,96 +18,89 @@
     font-family: 'Pretendard-Regular';
 }
 
-/* 사이드바, 헤더, 푸터 제외 내용부분 */
-.container{
-	width: 500px;		/* 넓이 */
-	margin: 0px auto;	/* 중앙 */
+body{
+	margin: 0px;
+/* 	overflow-X: hidden; */
+/* 	overflow-Y: hidden; */
+	width: 100%;
 }
 
-/* 사원정보에 대한 내용이 들어가는 부분 */
-.info{
-	margin : -3px auto; /* 중앙 */
-	width:360px;		
-	height:450px;
-	text-align:left;	/* 내용 왼쪽정렬 */
-	line-height: 50px;	/* 줄 간격 */
-	font-size: 15pt;	/* 글자사이즈 */
-	font-weight: bold;	/* 글자굵기 */
-	display: table;
-  border-collapse: collapse;
-}
-
-/* input type="text" 에 대한 모든 부분 */
-input[type="text"]{
-	border-style:none;	/* 내용을 들고올 때 수정 못함, 칸 테두리 없앰 */
-	line-height: normal;
+main{
+	margin: 8px;
 }
 
 h1 {
+ 	margin-left: 5px;
+    font-size: 2em;
     font-weight: 500;
-    line-height: 3.2;
-    margin-top: 0;
+     text-align: center; 
+     font-weight: bold; 
+     margin-top: 0; 
+     margin: auto;
+	 height: 110px;
+	 line-height: 3.2;
+ }	
+ 
+ .btn{
+ float: right;
+ margin-bottom: 10px;
+ }
+	
+ table {
+    width: 45%;
+    border-top: 1px solid #444444;
+    border-collapse: collapse;
+    border-color: #DDE2E6;
+    margin-top: 30px;
+    margin-bottom: 20px;
     margin: auto;
+    
+  }
+  th{
+    border-bottom: 1px solid #444444;
+    border-color: #DDE2E6;
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+    width: 130px; 
     text-align: center; 
-    font-weight: bold;
-    height: 110px;
+      border-left: none;
+  border-right: none;
+  }
+td {
+    border-bottom: 1px solid #444444;
+    border-color: #DDE2E6;
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+      border-left: none;
+  border-right: none;
+  }
+  
+.tdbold{
+font-weight: bold;
 }
 
-table { 
-   width: 45%; 
-   border-top: 1px solid #444444; 
-   border-collapse: collapse; 
-   border: 2px solid; 
-   margin: auto;
-   margin-bottom : 20px;
-   } 
-   
-th { 
-  border-bottom: 1px solid #444444; 
-  border: 1px solid; 
-  padding: 10px; 
-  text-align: center; 
-  width: 130px;
-   } 
-td { 
-  border-bottom: 1px solid #444444; 
-  border: 1px solid; 
-  padding: 10px; 
-  text-align: left; 
-   } 
+#msg{
+	color: red;
+}  
 
-
+#bottomContainer{
+	text-align: center;
+	margin: 0 auto;
+	margin-bottom: 20px;
+}
 </style>
 
-
-
-
-    
-    
     </head>
      <body class="sb-nav-fixed">
-        
-<!-- 헤더 -->
-<jsp:include page="../include/header.jsp"></jsp:include>
-<!-- 헤더 -->
-        <div id="layoutSidenav">
-<!-- 사이드바 -->
-<jsp:include page="../include/sidebar.jsp"></jsp:include>
-<!-- 사이드바 -->
-        
-            <div id="layoutSidenav_content">
+       <div id="layoutSidenav_content">
                 <main>
                 <!-- 내용들어가는곳 -->
-
-
 
   <h1>담당자 정보</h1>
   
 <table border="1">
-<colgroup>
-<col style="background-color: #E0EBFF;">
-<col>
-</colgroup> 
 
 <tr>
 <th>이름</th>
@@ -157,12 +144,7 @@ td {
 
 <tr>
 <th>주소</th>
-<td><input type="text" value="${memberDTO.address }" readonly size="35"></td>
-</tr>
-
-<tr>
-<th>입사일</th>
-<td><input type="text" value="${memberDTO.hire_date }" readonly></td>
+<td><input type="text" value="${memberDTO.address }" readonly size="45"></td>
 </tr>
 
 </table>
@@ -172,23 +154,13 @@ td {
   
 <div style="display: flex; justify-content: center; margin-bottom: 20px; ">
  <div class="btn">
-    <input type="button" value="닫기" onclick="windowClose()" >
+    <input type="button" value="닫기" onclick="window.close();" >
  </div>
  </div>
                 
               
-<!-- 푸터 -->
-<jsp:include page="../include/footer.jsp"></jsp:include>
-<!-- 푸터 -->  
                 
             </div>
-        </div>
-<script type="text/javascript">
-function windowClose() {
-    window.close();
-}
-
-</script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>
     </body>

@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.RequirementDTO;
 import ems.icemile.service.ShippingService;
+import ems.icemile.dto.WareHouseDTO;
+import ems.icemile.dto.outMaterialDTO;
 import ems.icemile.service.ShippingServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -83,13 +86,28 @@ public class ShippingController {
 		return "redirect:/shipping/inMaterial";
 	}
 	
-	@GetMapping("/out_material_add")
-	public String out_material_add() {
+	
+	//////////////////////////////////////////출고////////////////////////////////////////////////
+    @GetMapping("/outMaterial")
+    public String out_material(Model model) {
+    	//출고 관리
+    	log.debug("shippingController outMaterial");
+    	
+    	List<outMaterialDTO> outMaterialList = new ArrayList<outMaterialDTO>();
+    	outMaterialList = shippingService.getoutMaterialList();
 		
-		log.debug("out_material_add");
+    	//모델에 하우스DTO값 저장
+	    model.addAttribute("outMaterialList",outMaterialList);
 		
-		return "shipping/out_material_add";
-	}
+		return "shipping/outMaterial";
+    	
+    }
+    
+        
+		
+    
+	
+
 	
 	
 }

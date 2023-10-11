@@ -6,6 +6,7 @@
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
+<link href="../resources/css/addTableVertical.css" rel="stylesheet" />	
 	<style>
 body {
 	display: flex;
@@ -16,53 +17,54 @@ body {
 }
 h1 {
 	text-align: center; /* 가로 중앙 정렬 */
+	font-weight: 600;
 }
 #btn {
 	text-align: center; /* 가로 중앙 정렬 */
 	margin: 10px; /* 버튼 간격 설정 */
 	font-size: 16px; /* 버튼 텍스트 크기 설정 */
-	padding: 10px 20px; /* 버튼 안 여백 설정 */
+	padding: 5px 20px; /* 버튼 안 여백 설정 */
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+*{
+    font-family: 'Pretendard-Regular';
 }
 </style>
 </head>
 <body class="sb-nav-fixed">
 				<!-- 내용들어가는곳 -->
 	<form name="registration" id="registration">
-		<h1>
-			<b>거래처 수정</b>
-		</h1>
+		<h1>거래처 수정</h1>
 
-		<br>
-
-		<!-- 상호명 -->
-		<label for="buy_name_label"><b>상호명:</b> </label>
+<table>
+<tr><td class="tdbold">상호명</td><td> 
 		<input type="text" name="buy_name" id="buy_name" value="${buyDTO.buy_name}">
-		<br>
+		</td></tr>
 		
-		<!-- 사업자 등록번호 -->
-		<label for="buy_reg_label"><b>사업자 등록번호:</b></label> 
+<tr><td class="tdbold">사업자 등록번호</td><td>  
 		<input type="text" name="buy_reg" id="buy_reg" value="${buyDTO.buy_reg}">
-		<br> 
+		</td></tr>
 
-		<!-- 대표자 -->
-		<label for="buy_ceo_label"><b>대표자:</b> </label>
+<tr><td class="tdbold">대표자</td><td> 
 		<input type="text" name="buy_ceo" id="buy_ceo" value="${buyDTO.buy_ceo}">
-		<br>
+		</td></tr>
 		
-		<!-- 거래처 직원 -->
-		<label for="buy_emp_label"><b>거래처 직원:</b> </label>
+<tr><td class="tdbold">거래처 직원</td><td> 
 		<input type="text" name="buy_emp" id="buy_emp" value="${buyDTO.buy_emp}">
-		<br>
+		</td></tr>
 		
 		<!-- 본사 구매 담당자 / 추후에 부서별 리스트를 뽑아 그중에서 고를 수 있도록 수정? -->
-		<label for="emp_num_label"><b>구매담당자:</b> </label>
+<tr><td class="tdbold">구매담당자</td><td> 
 		<input type="text" name="emp_num" id="emp_num" value="${buyDTO.emp_num}">
 		<input type="button" name="search" id="search" value="조회"><br>
-		<br>
+		</td></tr>
 		
-
-		<!-- 업종 유형 -->
-		<label for="buy_type_label"><b>업종 유형:</b></label> 
+<tr><td class="tdbold">업종 유형</td><td> 
 		<select name="buy_type" id="buy_type">
 			<option value="">업종 유형을 선택하십시오</option>
 			<option value="우유">우유</option>
@@ -71,30 +73,27 @@ h1 {
     		<option value="파우더">파우더</option>
     		<option value="조미료">조미료</option>
     		<option value="포장">포장</option>
-		</select> 
-		<br>
+		</select> </td></tr>
 		
-		<!-- 전화번호 -->
-		<label for="buy_phone_label"><b>연락처:</b></label> 
+<tr><td class="tdbold">연락처</td><td> 
 		<input type="text" name="buy_phone" id="buy_phone" value="${buyDTO.buy_phone}">
-		<br> 
+		</td></tr>
 		
-		<!-- 주소 -->
-		<label for="buy_add_label"><b>주소검색</b></label> 
+<tr><td class="tdbold">주소검색</td><td> 
 		<input type="text" name="buy_post" id="buy_post" placeholder="우편번호" value="${buyDTO.buy_post}">
 		<button type="button" id="call_api" onclick="call_Post_API()">우편번호 찾기</button>
-		<br> 
-		<label for="addr1_label"><b>주소</b></label> 
-		<input type="text" name="addr1" id="addr1" placeholder="기본주소"> 
-		<label for="addr2_label"></label> 
-		<input type="text" name="addr2" id="addr2" placeholder="동명">
-		<br>
-		<label for="addr3_label"><b>상세주소</b></label> 
-		<input type="text" name="addr3" id="addr3" placeholder="상세주소"> 
-		<br>
+		</td></tr>
 		
-		<!-- 이메일 -->
-		<label for="buy_email_label"><b>이메일</b></label> 
+<tr><td class="tdbold">주소</td><td> 
+		<input type="text" name="addr1" id="addr1" placeholder="기본주소"> 
+		<input type="text" name="addr2" id="addr2" placeholder="동명">
+		</td></tr>
+		
+<tr><td class="tdbold">상세주소</td><td> 
+		<input type="text" name="addr3" id="addr3" placeholder="상세주소"> 
+		</td></tr>
+		
+<tr><td class="tdbold">이메일</td><td> 
 		<input type="text" name="email_id" id="email_id"> @ 
 		<input type="text" name="email_dns" id="email_dns"> 
 		<select name="email_sel" id="email_sel" onchange="updateEmailDns()">
@@ -103,14 +102,19 @@ h1 {
 			<option value="gmail.com">GOOGLE</option>
 			<option value="daum.net">DAUM</option>
 			<option value="yahoo.com">YAHOO</option>
-		</select>
-		<br>
+		</select></td></tr>
+</table>
 
-		<span id="msg"></span>
-		<div id="bottomContainer"> 
-		<!-- 등록 버튼 -->
-			<input type="button" id="btn" value="수정">
-		</div>
+<span id="msg"></span>
+
+<!-- 등록 버튼 -->
+<div id="btn">
+	<input type="submit" id="btn" value="등록">
+</div>
+	
+<!-- 푸터 -->
+<jsp:include page="../include/footer.jsp"></jsp:include>
+<!-- 푸터 -->
 
 		<input type="hidden" id="buy_email" name="buy_email" value="">
 		<input type="hidden" id="buy_add" name="buy_add" value="">

@@ -99,11 +99,6 @@ font-weight: bold;
 
 </style>
 
-
-
-
-    
-    
     </head>
      <body class="sb-nav-fixed">
         
@@ -124,11 +119,6 @@ font-weight: bold;
   <h1>마이페이지</h1>
   
 <table border="1">
-<!-- <colgroup> -->
-<!-- <col style="background-color: #E0EBFF;"> -->
-<!-- <col> -->
-<!-- </colgroup>  -->
-
 <tr>
 <th>이름</th>
 <td><input type="text" value="${memberDTO.emp_name }" readonly></td>

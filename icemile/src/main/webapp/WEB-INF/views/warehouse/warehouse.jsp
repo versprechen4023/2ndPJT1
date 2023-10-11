@@ -32,11 +32,13 @@
 
 							<c:if
 								test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
-								<input type="button" class ="tableBtn"  value="창고추가" id="whAdd">							
-								<input type="button" class ="tableBtn" value="수정" id="updateWh">
-								<input type="button" class ="tableBtn" value="삭제" id="deleteWh">
-								<input type="button" class ="tableBtn" value="취소" id="cancelWh" disabled>
-								<input type="button" class ="tableBtn" value="저장" id="saveWh" disabled>
+								<input type="button" class="tableBtn" value="창고추가" id="whAdd">
+								<input type="button" class="tableBtn" value="수정" id="updateWh">
+								<input type="button" class="tableBtn" value="삭제" id="deleteWh">
+								<input type="button" class="tableBtn" value="취소" id="cancelWh"
+									disabled>
+								<input type="button" class="tableBtn" value="저장" id="saveWh"
+									disabled>
 							</c:if>
 
 						</div>
@@ -52,62 +54,60 @@
 									<option value="wh_location">위치</option>
 									<option value="wh_status">가용상태</option>
 									<option value="emp_num">담당자</option>
-								</select> 
-								<input type="text" name="content" size=60
-									placeholder="검색어를 입력하세요" id="content">
-								<input
-									type="button" name="search" id="inputwhSearch" value="조회" >
-							
+								</select> <input type="text" name="content" size=60
+									placeholder="검색어를 입력하세요" id="content"> <input
+									type="button" name="search" id="inputwhSearch" value="조회">
 
-									<table id="datatablesSimple">
-										<thead>
+
+								<table id="datatablesSimple">
+									<thead>
+										<tr>
+											<!-- data-sortable="false":데이터를 테이블에서 정렬할수 있는지 여부를 나타내는것 false로 설정되어 있으므로 이 열은 정렬할수 없는 열 -->
+											<!-- name="selectedAllProId": 이 속성은 입력 요소에 이름을 부여합니다. 이 경우 "selectedAllProId"로 설정되어 JavaScript나 서버 측 코드에서 이 체크박스를 식별할 수 있습니다. -->
+											<th data-sortable="false"><input type="checkbox"
+												name="selectedAllProId"></th>
+											<th>창고 코드</th>
+											<th>창고 이름</th>
+											<th>창고 종류</th>
+											<th>창고 위치</th>
+											<th>창고 전화번호</th>
+											<th>창고 가용상태</th>
+											<th>완제품 코드</th>
+											<th>원자재 코드</th>
+											<th>창고 담당자</th>
+											<th>비고</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<c:forEach var="WareHouseDTO" items="${houseList}">
 											<tr>
-												<!-- data-sortable="false":데이터를 테이블에서 정렬할수 있는지 여부를 나타내는것 false로 설정되어 있으므로 이 열은 정렬할수 없는 열 -->
-												<!-- name="selectedAllProId": 이 속성은 입력 요소에 이름을 부여합니다. 이 경우 "selectedAllProId"로 설정되어 JavaScript나 서버 측 코드에서 이 체크박스를 식별할 수 있습니다. -->
-												<th data-sortable="false"><input type="checkbox"
-													name="selectedAllProId"></th>
-												<th>창고 코드</th>
-												<th>창고 이름</th>
-												<th>창고 종류</th>
-												<th>창고 위치</th>
-												<th>창고 전화번호</th>
-												<th>창고 가용상태</th>
-												<th>완제품 코드</th>
-												<th>원자재 코드</th>
-												<th>창고 담당자</th>
-												<th>비고</th>
+												<!--체크박스를 선택하면 wh_code가 서버로 이동하면서 checkbox의 값이 지정되어서 체크박스가 어떤행을 선택하게 되는지 알수 있다 -->
+												<td><input type="checkbox" name="selectedProId"
+													value="${WareHouseDTO.wh_code}"></td>
+												<td>${WareHouseDTO.wh_code}</td>
+												<td>${WareHouseDTO.wh_name}</td>
+												<td>${WareHouseDTO.wh_type}</td>
+												<td>${WareHouseDTO.wh_location}</td>
+												<td>${WareHouseDTO.wh_phone}</td>
+
+												<c:choose>
+													<c:when test="${WareHouseDTO.wh_status == 1}">
+														<td>Y</td>
+													</c:when>
+													<c:when test="${WareHouseDTO.wh_status == 2}">
+														<td>N</td>
+													</c:when>
+												</c:choose>
+
+												<td>${WareHouseDTO.prod_code}</td>
+												<td>${WareHouseDTO.raw_code}</td>
+												<td>${WareHouseDTO.emp_num}</td>
+												<td>${WareHouseDTO.wh_note}</td>
 											</tr>
-										</thead>
-
-										<tbody>
-											<c:forEach var="WareHouseDTO" items="${houseList}">
-												<tr>
-													<!--체크박스를 선택하면 wh_code가 서버로 이동하면서 checkbox의 값이 지정되어서 체크박스가 어떤행을 선택하게 되는지 알수 있다 -->
-													<td><input type="checkbox" name="selectedProId"
-														value="${WareHouseDTO.wh_code}"></td>
-													<td>${WareHouseDTO.wh_code}</td>
-													<td>${WareHouseDTO.wh_name}</td>
-													<td>${WareHouseDTO.wh_type}</td>
-													<td>${WareHouseDTO.wh_location}</td>
-													<td>${WareHouseDTO.wh_phone}</td>
-
-													<c:choose>
-														<c:when test="${WareHouseDTO.wh_status == 1}">
-															<td>Y</td>
-														</c:when>
-														<c:when test="${WareHouseDTO.wh_status == 2}">
-															<td>N</td>
-														</c:when>
-													</c:choose>
-
-													<td>${WareHouseDTO.prod_code}</td>
-													<td>${WareHouseDTO.raw_code}</td>
-													<td>${WareHouseDTO.emp_num}</td>
-													<td>${WareHouseDTO.wh_note}</td>
-												</tr>
-											</c:forEach>
-										</tbody>
-									</table>
+										</c:forEach>
+									</tbody>
+								</table>
 			</form>
 
 		</div>
@@ -180,7 +180,7 @@ $(document).ready(function() {
 	"wh_phone": "창고 전화번호",
 	"prod_code": "완제품 코드",
 	"raw_code": "원자재 코드",
-	"emp_num": "담당자",
+	"emp_num": "창고 담당자",
 	"wh_status": "가용상태",
 };
   
@@ -277,7 +277,7 @@ row += "</td>";
 //창고 코드 
 row += "<td>";
 row += "<select name='type' id='type' required class='#datatablesSimple tr'>";
-row += "<option value='C'>품목종류를 선택하십시오</option>";
+row += "<option value='' >품목종류를 선택하십시오</option>";
 row += "<option value='R'>원자재</option>";
 row += "<option value='P'>완제품</option>";
 row += "</select>";
@@ -291,9 +291,9 @@ row += "</td>";
 //창고 종류 
 row += "<td>";
 row += "<select name='wh_type' id='wh_type' required class='#datatablesSimple tr'>";
-row += "<option value='c'>--선택--</option>";
-row += "<option value='r'>R:원자재</option>";
-row += "<option value='p'>P:완재품</option>";
+row += "<option value='' >--선택--</option>";
+row += "<option value='R'>R:원자재</option>";
+row += "<option value='P'>P:완재품</option>";
 row += "</select>";
 row += "</td>";
 
@@ -310,6 +310,7 @@ row += "</td>";
 //가용상태
 row += "<td>";
 row += "<select name='wh_status' id='wh_status'>";
+row += "<option value='' >--선택--</option>";
 row += "<option value='1'>Y</option>";
 row += "<option value='2'>N</option>";
 row += "</select>";
@@ -318,11 +319,16 @@ row += "</td>";
 //완재품 코드
 row += "<td>";
 row += "<input type='text' name='prod_code' id='prod_code' size='5' required class='#datatablesSimple tr'>"
+row += "<input type='hidden' name='prod_name' id='prod_name' class='#datatablesSimple tr'>"
+row += "<input type='hidden' name='prod_taste' id='prod_taste' class='#datatablesSimple tr'>"
 row += "</td>";
 
 //원자재 코드
 row += "<td>";
 row += "<input type='text' name='raw_code' id='raw_code' size='5' required class='#datatablesSimple tr'>"
+row += "<input type='hidden' name='raw_name' id='raw_name' class='#datatablesSimple tr'>"
+row += "<input type='hidden' name='raw_type' id='raw_type' class='#datatablesSimple tr'>"
+row += "<input type='hidden' name='raw_price' id='raw_price' class='#datatablesSimple tr'>"
 row += "</td>";
 
 //담당자
@@ -678,6 +684,11 @@ function enterwhSearch() {
      			category: $('#category').val(),
      			content: $('#content').val()
     			  };
+	   //검색 후에 가용상태 Y or N로 표시 하기 위한 방
+	   var statusText = {
+   		    1: "Y",
+   		    2: "N",
+   		};
 	
 	   // 검색 결과값을 받아오기 위한 ajax 호출
 	   $.ajax({
@@ -712,11 +723,12 @@ function enterwhSearch() {
 				           	"<td>"+data.wh_type+"</td>",
 				            "<td>"+data.wh_location+"</td>",
 				         	"<td>"+data.wh_phone+"</td>",
-				         	"<td>"+data.wh_status+"</td>",
+				         	"<td>"+ (statusText[data.wh_status] || '알 수 없음') +"</td>",
 				         	"<td>"+data.prod_code+"</td>",
 				         	"<td>"+data.raw_code+"</td>",
 				         	"<td>"+data.emp_num+"</td>",
 				         	"<td>"+data.wh_note+"</td>"
+				         	
 				        	);
 				        // 생성한 <tr> 요소를 tbody에 추가
 				        $('tbody').append($tr);
@@ -733,6 +745,12 @@ $("#inputwhSearch").click(function()  {
      			category: $('#category').val(),
      			content: $('#content').val()
     			  };
+	   
+	 //검색 후에 가용상태 Y or N로 표시 하기 위한 방
+	   var statusText = {
+   		    1: "Y",
+   		    2: "N",
+   		};
 	
 	   // 검색 결과값을 받아오기 위한 ajax 호출
 	   $.ajax({
@@ -767,7 +785,7 @@ $("#inputwhSearch").click(function()  {
 				           	"<td>"+data.wh_type+"</td>",
 				            "<td>"+data.wh_location+"</td>",
 				         	"<td>"+data.wh_phone+"</td>",
-				         	"<td>"+data.wh_status+"</td>",
+				         	"<td>"+ (statusText[data.wh_status] || '알 수 없음') +"</td>",
 				         	"<td>"+data.prod_code+"</td>",
 				         	"<td>"+data.raw_code+"</td>",
 				         	"<td>"+data.emp_num+"</td>",
@@ -831,6 +849,70 @@ $('input[name="selectedAllProId"]').click(function() {
     $('input[name="selectedProId"]').prop('checked', $(this).prop('checked'));
 });// end function
 
+/////////////////////////type을 누르면 wh_type이 자동으로 바뀌는것/////////////////////
+ 
+ // 이 코드는 jQuery를 사용하여 "type" 선택 상자(#type)의 변경 이벤트(change)를 감지하고,
+ // 선택된 값에 따라 "wh_type" 선택 상자(#wh_type)의 값을 설정하는 이벤트 핸들러를 등록하는 부분입니다. 이 코드를 하나씩 설명해보겠습니다:
+
+ // $(document).on('change', '#type', function() { ... });: 이 부분은 문서(document)에 대한 이벤트 핸들러를 등록하는 코드입니다.
+ // 이벤트는 "change" 이벤트로 설정되어 있으며, 이 이벤트는 "type" 선택 상자(#type)의 값이 변경될 때 발생합니다. 즉,
+ // "type" 선택 상자에서 새로운 값을 선택했을 때 아래의 함수가 실행됩니다.
+
+ // var selectedType = $(this).val();: 이 코드는 "type" 선택 상자(#type)에서 선택된 값을 가져와서 selectedType 변수에 저장합니다.
+ // $(this)는 현재 이벤트가 발생한 HTML 엘리먼트를 가리키며, .val() 메서드는 해당 엘리먼트의 값을 가져옵니다.
+
+ // if (selectedType === "R") { ... } else if (selectedType === "P") { ... }: 이 부분은 선택된 "type" 값인 selectedType을 검사하고,
+ // 해당 값에 따라 "wh_type" 선택 상자(#wh_type)의 값을 설정하는 역할을 합니다.
+
+ // 만약 selectedType이 "R"인 경우, "wh_type" 선택 상자의 값을 "R"로 설정합니다.
+ // 만약 selectedType이 "P"인 경우, "wh_type" 선택 상자의 값을 "P"로 설정합니다.
+ // 이렇게 하면 "type" 선택 상자의 변경 이벤트가 발생할 때, 선택된 값에 따라 "wh_type"이 자동으로 설정되어 사용자에게 더 나은 사용 경험을 제공할 수 있게 됩니다.
+
+ $(document).on('change', '#type', function() {
+    var selectedType = $(this).val();
+    
+    // "wh_type" 선택상자의 값을 설정합니다.
+    if (selectedType === "R") {
+      $("#wh_type").val("R");
+    } else if (selectedType === "P") {
+      $("#wh_type").val("P");
+    }
+  });
+ 
+ 
+////////////////////////////////전화번호 유효성 검사/////////////////////////////////
+
+//blur:사용자가 입력을 마치고 다른 곳을 클릭했을 때 실행됩니다.
+$(document).on('blur', 'input[name="wh_phone"]', function() {
+    var phoneNumber = $(this).val();
+    var phoneNumberPattern = /^(01[016789])-(\d{3,4})-(\d{4})$/; // 한국식 전화번호 정규 표현식
+    
+    if (!phoneNumberPattern.test(phoneNumber)) {
+      
+      Swal.fire('올바른 전화번호 형식이 아닙니다', '', 'info');	
+    }
+  });
+
+ //////////////////////////////////원자재 코드를 입력하면 새창을 여는 이벤트 리스너///////////////////////////////////
+ 
+	$(document).on("click", "input[name='raw_code']", function() {
+		window.open('${pageContext.request.contextPath }/product/rawListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+	});// end function
+	
+ 
+ ////////////////////////////////////완재품 코드 입력하면 새창을 여는 이벤트 리스너 /////////////////////////////////////
+	 
+    $(document).on("click", "input[name='prod_code']", function() {
+		window.open('${pageContext.request.contextPath }/product/productListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+	});// end function
+	
+ //////////////////////////////////// 담당자를 입력하면 새창을 여는 이벤트 리스너 ////////////////////////////////////////
+
+	$(document).on("click", "input[name='emp_num']", function() {
+		window.open('${pageContext.request.contextPath }/member/memberListPopUp', '_blank', 'width=800px, height=770px, left=600px, top=300px');
+	});// end function
+	
+  
 //////////////////////////////////// 액셀 버튼 구현////////////////////////////////
 
 //엑셀 버튼 누를 시 실행되는 함수
@@ -888,9 +970,16 @@ $("#excelProd").click(function(){
 	
 });// end function
 
-/////////////////////////////////////////////이벤트 함수 종료//////////////////////////////////////////
+/////////////////////////////////////////////이벤트 함수 종료////////////////////////////////////////////////
 	
 });//document
+
+//////////////////////////////////PopUp창 오류 및 close/////////////////////////////////////////////////////
+function openUpdate() {
+//내용은 필요 없음	
+} 
+//////////////////////////////////PopUp창 오류 및 close/////////////////////////////////////////////////////
+
 </script>
 </body>
 </html>
