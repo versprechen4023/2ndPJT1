@@ -15,31 +15,38 @@
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 	
 	<style>
- table {
-    width: 100%;
-    border-top: 1px solid #444444;
-    border-collapse: collapse;
-  }
-  th, td {
-    border-bottom: 1px solid #444444;
-    padding: 10px;
-        text-align: center;
-  }
-  
-
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh; /* 화면 높이 100%로 설정하여 수직 중앙 정렬 */
+	margin: 0; /* 페이지 바깥 여백 제거 */
+}
+h1 {
+	text-align: center; /* 가로 중앙 정렬 */
+	margin: 30px;
+}
+#btn {
+	text-align: center; /* 가로 중앙 정렬 */
+	margin: 20px; /* 버튼 간격 설정 */
+	font-size: 16px; /* 버튼 텍스트 크기 설정 */
+	padding: 5px 20px; /* 버튼 안 여백 설정 */
+}
+th {
+	text-align: center; /* 가로 중앙 정렬 */
+}
 </style>
 </head>
 
 <body class="sb-nav-fixed">
+
+			<main>
 <h1>소요량 수정</h1>
 
 <form action="${pageContext.request.contextPath}/factory/updateRequirement?req_code=${requirementDTO.req_code}" method="POST">
-<input type="submit" value="수정">
-<!-- <input type="button" value="취소" onclick="window.close();"> 스크립트 사용시 화면 닫음-->
-<!-- 초기화 버튼 -->
-<input type="reset" value="취소">
 
-<table border="1">
+
+<table>
 <tr>
 <th>소요량 코드</th>
 <th>완제품 코드</th>
@@ -53,23 +60,35 @@
 
 <tr>
 <!-- 소요량 코드 -->
-<td>${requirementDTO.req_code }</td>
+<td><input type="text" name="req_code" id="req_code" value="${requirementDTO.req_code }"></td>
 <!-- 완제품 코드 -->
-<td><input type="text" name="prod_code" size="11"></td>
+<td><input type="text" name="prod_code"></td>
 <!-- 원자재 코드 -->
-<td><input type="text" name="raw_code" size="11"></td> 
+<td><input type="text" name="raw_code" ></td> 
 <!-- 소요량 -->
-<td><input type="text" name="req_amount" size="3"></td>
+<td><input type="text" name="req_amount"></td>
 <!-- 등록일 -->
-<td><input type="date" name="req_insertDATE"  size="12"></td>
+<td><input type="date" name="req_insertDATE"></td>
 <!-- 수정일 -->
-<td><input type="date" name="req_upDATEDATE"  size="12"></td>
+<td><input type="date" name="req_upDATEDATE" ></td>
 <!-- 비고 -->
-<td><input type="text" name="req_note"  size="6"></td>
+<td><input type="text" name="req_note"></td>
 </tr>
 
 </table>
+
+		<!-- 등록 버튼 -->
+		<div id="btn">
+			<input type="submit" id="btn" value="수정">
+		</div>
+		
+<!-- 푸터 -->
+<jsp:include page="../include/footer.jsp"></jsp:include>
+<!-- 푸터 --> 
+
 </form>
+
+			</main>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>
