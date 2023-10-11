@@ -72,4 +72,12 @@
 								</where>
 										ORDER BY o.raw_order_code DESC
  </select>
+ 
+
+ <select id="getRawOrderListPopUp" resultType="ems.icemile.dto.RowOrderListDTO">
+ 	SELECT *
+ 	FROM raw_order
+ </select>
+ 
+ 
 </mapper>

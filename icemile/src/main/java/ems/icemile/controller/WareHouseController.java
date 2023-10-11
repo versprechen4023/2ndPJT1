@@ -71,5 +71,20 @@ public class WareHouseController {
 
 		return "/warehouse/warehouseListPopUp";
 	}
+	
+	@GetMapping("/inWhListPopUp")
+	public String inWhListPopUp(Model model) {
+		// 창고 조회
+		log.debug("inWhListPopUp");
+
+		// 멤버리스트를 가져오기위한 멤버리스트 객체생성
+		List<WareHouseDTO> warehouseList = new ArrayList<WareHouseDTO>();
+		warehouseList = warehouseService.gethouseList();
+
+		// 모델에 warehouse DTO값 저장
+		model.addAttribute("warehouseList", warehouseList);
+
+		return "/warehouse/inWhListPopUp";
+	}
 
 }// WareHouseController
