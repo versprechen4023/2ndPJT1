@@ -71,11 +71,6 @@
 
 </table>
 </form>
-<input type="hidden" name="wh_name" id="wh_name" value="">
-<input type="hidden" name="wh_phone" id="wh_phone" value="">
-<input type="hidden" name="prod_code" id="prod_code" value="">
-<input type="hidden" name="raw_code" id="raw_code" value="">
-<input type="hidden" name="emp_num" id="emp_num" value="">
 <!-- 내용들어가는곳 -->
 				
 			</main>
@@ -159,6 +154,11 @@ function openUpdate() {
 // 창고 팝업 리스트
 $(document).on("click", "input[name='in_wh_code']", function() {
 	window.open('${pageContext.request.contextPath }/warehouse/inWhListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+});
+
+// 발주 코드 팝업 리스트
+$(document).on("click", "input[name='raw_order_code']", function() {
+	window.open('${pageContext.request.contextPath }/buyOrder/rawOrderListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 });
 
 </script>
