@@ -67,6 +67,7 @@
 										<th>생산공정</th>
 										<th>지시/수정날짜</th>
 										<th>지점명</th>
+										<th>완료날짜</th>
 										<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
 										<th data-sortable="false">관리</th>
 										</c:if>
@@ -85,6 +86,7 @@
 											<td>${workOrderDTO.line_process}</td>
 											<td>${workOrderDTO.work_order_date}</td>
 											<td>${workOrderDTO.branch_name}</td>
+											<td>${workOrderDTO.done_date}</td>
 						
 								
 										
@@ -93,6 +95,8 @@
 												onclick="workOrderUpdate('${workOrderDTO.work_code}')" id="updateWorkOrder">
 												<input type="button" value="삭제"
 												onclick="workOrderDelete('${workOrderDTO.work_code}')" id="deleteWorkOrder">
+												<input type="button" value="완료"
+												onclick="workOrderDone('${workOrderDTO.work_code}')" id="doneWorkOrder">
 											</td>
 											</c:if>
 										</tr>
@@ -179,6 +183,7 @@ function workOrderSearch() {
  				         	"<td>"+data.line_process+"</td>",
  				         	"<td>"+data.work_order_date+"</td>",
  				         	"<td>"+data.branch_name+"</td>",
+ 				         	"<td>"+data.done_date+"</td>",
  				            "<td>" +
  				          	"<input type='button' value='수정' onclick='workOrderUpdate(\"" + data.workOrder_code + "\")' id='updateworkOrder'>" +
  				            "<input type='button' value='삭제' onclick='workOrderDelete(\"" + data.workOrder_code + "\")' id='deleteworkOrder'>" +
@@ -195,7 +200,8 @@ function workOrderSearch() {
  		 				         	"<td>"+data.order_amount+"</td>",
  		 				         	"<td>"+data.line_process+"</td>",
  		 				         	"<td>"+data.work_order_date+"</td>",
- 		 				         	"<td>"+data.branch_name+"</td>"
+ 		 				         	"<td>"+data.branch_name+"</td>",
+ 		 				         	"<td>"+data.done_date+"</td>"
  		 				     );
  				    	}
  				        // 생성한 <tr> 요소를 tbody에 추가
@@ -207,12 +213,12 @@ function workOrderSearch() {
 
 // 작업 지시 추가관련 함수
 function workOrderAdd(){
-	window.open('${pageContext.request.contextPath }/factory/workOrderAdd', '_blank', 'width=1745px, height=345px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/factory/workOrderAdd', '_blank', 'width=1700px, height=400px, left=600px, top=300px');
 } //end function
 
 // 작업 지시 수정관련 함수
 function workOrderUpdate(work_code){
-	window.open('${pageContext.request.contextPath }/factory/workOrderUpdate?work_code='+work_code, '_blank', 'width=1745px, height=345px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/factory/workOrderUpdate?work_code='+work_code, '_blank', 'width=1700px, height=400px, left=600px, top=300px');
 }
 // 작업 지시 삭제관련 함수
 function workOrderDelete(work_code) {
@@ -262,6 +268,44 @@ function workOrderDelete(work_code) {
 	
 }// end_of_function
 
+function workOrderDone(work_code) {
+    // 현재 시간을 얻습니다.
+    var currentTime = new Date();
+    // 날짜 포맷을 원하는 형태로 변환합니다.
+    var formattedTime = currentTime.toISOString(); // 예를 들어 '2023-10-11T15:30:00.000Z' 형식
+
+    // 서버에 현재 시간을 전송하고 DB 업데이트를 수행합니다.
+    $.ajax({
+        url: '${pageContext.request.contextPath}/factory_ajax/workOrderDone',
+        data: { "work_code": work_code, "done_date": formattedTime },
+        type: 'POST',
+        success: function (data) {
+            // DB 업데이트 성공 여부를 확인하고 작업을 처리할 수 있습니다.
+            if (data === "true") {
+                // 성공 시, 화면에 완료 시간 표시 및 기타 동작 수행
+                // 여기에 완료 시간 표시 등을 구현하세요.
+                var currentTime = new Date();
+                var formattedTime = currentTime.toLocaleString(); // 예시: "10/11/2023, 15:30:00"
+                
+                // DB 업데이트 성공 메시지 표시
+                Swal.fire('작업이 성공적으로 완료되었습니다.', '성공', 'success');
+                
+                // 완료 시간 표시
+                $("#doneWorkOrder_" + work_code).text(formattedTime);
+
+                // 기타 동작 수행
+                // ...
+
+            } else {
+                // DB 업데이트 실패 시, 오류 처리 로직을 추가하세요.
+                Swal.fire('DB 업데이트에 실패했습니다.', '실패', 'error');
+            }
+        }
+
+    });
+}
+
+
 //지시/수정날짜 시작점
 $("#workOrderBegin").datepicker({
 dateFormat: 'yy-mm-dd',
@@ -300,19 +344,12 @@ onSelect: function(selectedDate) {
 	
 }// end OnSelect
 }); // end 데이트피커
-
-
-
-
 //엔터키 입력시 검색되게 이벤트 리스너 활성화
 document.addEventListener("keyup", function(event) {
     if (event.key === 'Enter') {
     	workOrderSearch();
     }// end if
 });// end function
-
-
-
 </script>
 </body>
 </html>

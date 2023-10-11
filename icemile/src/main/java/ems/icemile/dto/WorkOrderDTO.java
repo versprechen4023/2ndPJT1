@@ -29,4 +29,6 @@ public class WorkOrderDTO {
 	private String work_order_date;
 	// 지점명
 	private String branch_name;
+	// 완료날짜
+	private String done_date;
 }
