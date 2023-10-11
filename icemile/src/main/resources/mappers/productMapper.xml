@@ -122,7 +122,7 @@
  <select id="getProductListPopUp" resultType="ems.icemile.dto.ProductDTO">
  	SELECT prod_code, prod_name, prod_taste
  		FROM product
- </select>
- 
+ </select> 
+
  
 </mapper>
