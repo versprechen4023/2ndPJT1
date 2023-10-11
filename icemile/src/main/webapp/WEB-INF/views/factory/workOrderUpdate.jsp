@@ -3,41 +3,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 헤드 -->
-<jsp:include page="../include/head.jsp"></jsp:include>
-<!-- 헤드 -->
-	<style>
-body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh; /* 화면 높이 100%로 설정하여 수직 중앙 정렬 */
-	margin: 0; /* 페이지 바깥 여백 제거 */
-}
-h1 {
-	text-align: center; /* 가로 중앙 정렬 */
-	margin: 30px;
-}
-#btn {
-	text-align: center; /* 가로 중앙 정렬 */
-	margin: 20px; /* 버튼 간격 설정 */
-	font-size: 16px; /* 버튼 텍스트 크기 설정 */
-	padding: 5px 20px; /* 버튼 안 여백 설정 */
-}
-th {
-	text-align: center; /* 가로 중앙 정렬 */
-}
-#msg{
-	color: red;
-}
-</style>
+  <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>아이스마일</title>
+	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+ 		<link href="../resources/css/addTableHorizontal.css" rel="stylesheet" />
 </head>
-<body class="sb-nav-fixed">
-				<!-- 내용들어가는곳 -->
+<body>
+	<div id ="container">			
+	<!-- 내용들어가는곳 -->
 	<form action="${pageContext.request.contextPath }/factory/workOrderUpdatePro" id="registration" name="registration" method="POST" enctype="multipart/form-data">
 		<h1>작업 지시 수정</h1>
 
-		<table>
+		<table border="1">
 		<tr>
 						<!-- <th>지시코드</th> -->
 						<th>작업지시자</th>
@@ -63,28 +44,23 @@ th {
 						<!-- <td><input type="text" name="work_order_date" id="work_odrder_date"></td>  -->
 						<td><input type="text" name="branch_name" id="branch_name" value="${workOrderDTO.branch_name}"></td>  <!-- 수주 코드 가져왔을시 자동으로 해당 지점명 등록 -->
 
-		</tr>
-		
-		
-		
+		</tr>	
 		</table>
 
 			<span id="msg"></span>
 
 		<!-- 등록 버튼 -->
-		<div id="btn">
+		<div id="bottomContainer">
 			<input type="submit" id="btn" value="수정">
 		</div>
+		<input type="hidden" name="work_code" id="work_code" value="${workOrderDTO.work_code}">
+	   </form>
+	   <!-- 내용들어가는곳 -->
+	   </div>
 		
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 --> 
-
-	<input type="hidden" name="work_code" id="work_code" value="${workOrderDTO.work_code}">
-	</form>
-
-
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- sweetalert2 API 호출 -->

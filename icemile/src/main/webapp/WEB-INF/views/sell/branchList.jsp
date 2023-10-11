@@ -132,8 +132,8 @@ $(document).ready(function() {
         var empNum = $(this).data("emp-num"); // 클릭한 링크의 emp_num 값을 가져옵니다.
 
         // 팝업 창 크기 및 위치 설정
-        var width = 400;
-        var height = 400;
+        var width = 590;
+        var height = 705;
         var left = (screen.width - width) / 2;
         var top = (screen.height - height) / 2;
 
