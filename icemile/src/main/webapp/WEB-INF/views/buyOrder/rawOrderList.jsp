@@ -45,13 +45,13 @@
                             <br>
                             
                             발주일자
-                            <input type="text" name="rawOrderBegin" id="rawOrderBegin"> ~
-                            <input type="text" name="rawOrderEnd" id="rawOrderEnd" disabled>
+                            <input type="text" name="rawOrderBegin" id="rawOrderBegin" readonly> ~
+                            <input type="text" name="rawOrderEnd" id="rawOrderEnd" readonly disabled>
                             <br>
                             
                             입고예정일
-                            <input type="text" name="rawOrderInBegin" id="rawOrderInBegin"> ~
-                            <input type="text" name="rawOrderInEnd" id="rawOrderInEnd" disabled>
+                            <input type="text" name="rawOrderInBegin" id="rawOrderInBegin" readonly> ~
+                            <input type="text" name="rawOrderInEnd" id="rawOrderInEnd" readonly disabled>
                             <br>
                             
                             발주상태
@@ -105,7 +105,7 @@
                                             <c:if test="${RowOrderListDTO.raw_status eq 2}">
                                             	<td>발주확정</td>
                                             </c:if>
-                                            <td>${RowOrderListDTO.emp_num}</td>
+                                            <td><a href="#" onclick="memberInfo('${RowOrderListDTO.emp_num}')">${RowOrderListDTO.emp_num}</a></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -215,7 +215,7 @@ function rawOrderSearch() {
 				         	"<td>"+data.raw_order_date+"</td>",
 				         	"<td>"+data.in_plan_date+"</td>",
 				         	"<td>"+status+"</td>",
-				         	"<td>"+data.emp_num+"</td>"
+				         	'<td><a href="#" onclick="memberInfo(\'' + data.emp_num + '\')">' + data.emp_num + '</a></td>'
 				        	);
 				        // 생성한 <tr> 요소를 tbody에 추가
 				        $('tbody').append($tr);
@@ -294,6 +294,9 @@ function getDate() {
 	return formattedDate;
 }// end function
 
+function memberInfo(emp_num) {
+	window.open('${pageContext.request.contextPath }/member/managerInfo?emp_num='+ emp_num+'', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+}
 //함수 시작지점
 $(document).ready(function() {
 	
@@ -367,8 +370,8 @@ $(document).ready(function() {
 	  		'<td><input type="text" id="raw_code" name="raw_code" readonly></td>',
 	  		'<td><input type="text" id="raw_name" name="raw_name" readonly></td>',
 	  		'<td><input type="text" id="raw_type" name="raw_type" readonly></td>',
-	  		'<td><input type="text" id="buy_code" name="buy_code"></td>',
-	  		'<td><input type="text" id="buy_name" name="buy_name"></td>',
+	  		'<td><input type="text" id="buy_code" name="buy_code" readonly></td>',
+	  		'<td><input type="text" id="buy_name" name="buy_name" readonly></td>',
 	  		'<td><input type="text" id="raw_order_amount" name="raw_order_amount" value ="0"></td>',
 	  		'<td><input type="text" id="raw_price" name="raw_price" readonly></td>',
 	  		'<td><input type="text" id="raw_fullprice" name="raw_fullprice" placeholder="(자동으로 계산됨)" readonly></td>',
@@ -681,14 +684,19 @@ $(document).ready(function() {
 	
 	// 이벤트 관련 함수 시작지점
 	
-	// 원자재 코드를 입력하면 새창을 여는 이벤트 리스너
+	// 원자재 코드를 선택하면 새창을 여는 이벤트 리스너
 	$(document).on("click", "input[name='raw_code']", function() {
 		window.open('${pageContext.request.contextPath }/product/rawListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 	});// end function
 	
-	// 담당자를 입력하면 새창을 여는 이벤트 리스너
+	// 담당자를 선택하면 새창을 여는 이벤트 리스너
 	$(document).on("click", "input[name='emp_num']", function() {
 		window.open('${pageContext.request.contextPath }/member/memberListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+	});// end function
+	
+	// 매입처코드를 선택하면 새창을 여는 이벤트 리스너
+	$(document).on("click", "input[name='buy_code']", function() {
+		window.open('${pageContext.request.contextPath }/buy/buyListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 	});// end function
 	
 	// 숫자만 입력되야하는 텍스트필드의 이벤트 리스너

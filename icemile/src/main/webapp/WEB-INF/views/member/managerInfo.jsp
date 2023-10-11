@@ -3,15 +3,9 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Tables - SB Admin</title>
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="../resources/css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<!-- 헤드 -->
+<jsp:include page="../include/head.jsp"></jsp:include>
+<!-- 헤드 -->
     
     <style type="text/css">
 @font-face {
@@ -153,11 +147,6 @@ font-weight: bold;
 <td><input type="text" value="${memberDTO.address }" readonly size="45"></td>
 </tr>
 
-<tr>
-<th>입사일</th>
-<td><input type="text" value="${memberDTO.hire_date }" readonly></td>
-</tr>
-
 </table>
  
                 <!-- 내용 들어가는 곳 -->
@@ -165,22 +154,13 @@ font-weight: bold;
   
 <div style="display: flex; justify-content: center; margin-bottom: 20px; ">
  <div class="btn">
-    <input type="button" value="닫기" onclick="windowClose()" >
+    <input type="button" value="닫기" onclick="window.close();" >
  </div>
  </div>
                 
               
-<!-- 푸터 -->
-<jsp:include page="../include/footer.jsp"></jsp:include>
-<!-- 푸터 -->  
                 
             </div>
-<script type="text/javascript">
-function windowClose() {
-    window.close();
-}
-
-</script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>
     </body>
