@@ -15,24 +15,11 @@ body {
 	height: 100vh; /* 화면 높이 100%로 설정하여 수직 중앙 정렬 */
 	margin: 0; /* 페이지 바깥 여백 제거 */
 }
-h1 {
-	text-align: center; /* 가로 중앙 정렬 */
-	font-weight: 600;
-}
 #btn {
 	text-align: center; /* 가로 중앙 정렬 */
 	margin: 10px; /* 버튼 간격 설정 */
 	font-size: 16px; /* 버튼 텍스트 크기 설정 */
 	padding: 5px 20px; /* 버튼 안 여백 설정 */
-}
-@font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-}
-*{
-    font-family: 'Pretendard-Regular';
 }
 </style>
 </head>

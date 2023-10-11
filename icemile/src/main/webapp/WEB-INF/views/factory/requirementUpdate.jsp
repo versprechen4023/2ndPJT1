@@ -10,9 +10,8 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>아이스마일</title>
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-<link href="../resources/css/styles.css" rel="stylesheet" />
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+ 		<link href="../resources/css/addTableHorizontal.css" rel="stylesheet" />
 	
 	<style>
 body {
@@ -22,18 +21,11 @@ body {
 	height: 100vh; /* 화면 높이 100%로 설정하여 수직 중앙 정렬 */
 	margin: 0; /* 페이지 바깥 여백 제거 */
 }
-h1 {
-	text-align: center; /* 가로 중앙 정렬 */
-	margin: 30px;
-}
 #btn {
 	text-align: center; /* 가로 중앙 정렬 */
 	margin: 20px; /* 버튼 간격 설정 */
 	font-size: 16px; /* 버튼 텍스트 크기 설정 */
 	padding: 5px 20px; /* 버튼 안 여백 설정 */
-}
-th {
-	text-align: center; /* 가로 중앙 정렬 */
 }
 </style>
 </head>
