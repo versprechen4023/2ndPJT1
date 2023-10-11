@@ -176,13 +176,13 @@ function confirmDelete(deleteUrl) {
 }
 // 등록 페이지 팝업
  function requirementAdd(){        
-	window.open('${pageContext.request.contextPath }/factory/requirementAdd', '_blank', 'width=600px, height=667px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/factory/requirementAdd', '_blank', 'width=1024px, height=326px, left=400px, top=300px');
 } //end function
 
 // 수정 페이지 팝업
  function requirementUpdate(req_code){      
 // 	alert(req_code);
-	window.open('${pageContext.request.contextPath }/factory/requirementUpdate?req_code='+req_code+'', '_blank', 'width=600px, height=667px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/factory/requirementUpdate?req_code='+req_code+'', '_blank', 'width=1220px, height=326px, left=400px, top=300px');
 } 
 	
 </script>
