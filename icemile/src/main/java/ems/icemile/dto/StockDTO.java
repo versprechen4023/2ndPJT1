@@ -1,6 +1,5 @@
 package ems.icemile.dto;
 
-import java.sql.Timestamp;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +12,9 @@ public class StockDTO {
 	
 	  // 재고 코드
 	  private String stock_code;
+	  
+	  // 원자재 코드
+	  private String raw_code;
 	  
 	  // 원자재 이름
 	  private String raw_name;
@@ -27,7 +29,7 @@ public class StockDTO {
 	  private int stock_amount;
 	  
 	  // 재고 체크 날짜
-	  private Timestamp stock_date;
+	  private String stock_date;
 
 	  // 재고 관리 담당자
 	  private String emp_num;

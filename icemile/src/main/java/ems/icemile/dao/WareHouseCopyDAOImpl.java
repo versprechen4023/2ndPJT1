@@ -32,8 +32,33 @@ public class WareHouseCopyDAOImpl implements WareHouseCopyDAO {
 	}// getRawStockList()
 
 	
-	
-	
+	// 원자재 재고 삽입
+	@Override
+	public boolean insertRawStock(StockDTO stockDTO) {
+		
+		 log.debug("WareHouseDAO insertStock()");
+		 
+	     int result = sqlSession.insert(namespace + "insertRawStock", stockDTO);
+	     // 삽입된 게 적어도 하나 이상일 때를 의미하며, true를 반환하는 것
+	     return result > 0;
+	}
+
+
+	// 재고 코드 생성
+	@Override
+	public int getNewStockCode() {
+		
+		return sqlSession.selectOne(namespace+"getNewStockCode");
+	}
+
+
+	@Override
+	public boolean deleteRawStock(String prod_code) {
+	    int result = sqlSession.delete(namespace + "deleteRawStock", prod_code);
+	    return result > 0;
+	}
+
+
 	
 
 }// class WareHouseDAOImpl
