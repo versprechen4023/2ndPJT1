@@ -1,100 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>     
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-<!-- 헤드 -->
-<jsp:include page="../include/head.jsp"></jsp:include>
-<!-- 헤드 -->
-    
-    <style type="text/css">
-@font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-}
-*{
-    font-family: 'Pretendard-Regular';
-}
-
-body{
-	margin: 0px;
-/* 	overflow-X: hidden; */
-/* 	overflow-Y: hidden; */
-	width: 100%;
-}
-
-main{
-	margin: 8px;
-}
-
-h1 {
- 	margin-left: 5px;
-    font-size: 2em;
-    font-weight: 500;
-     text-align: center; 
-     font-weight: bold; 
-     margin-top: 0; 
-     margin: auto;
-	 height: 110px;
-	 line-height: 3.2;
- }	
- 
- .btn{
- float: right;
- margin-bottom: 10px;
- }
-	
- table {
-    width: 45%;
-    border-top: 1px solid #444444;
-    border-collapse: collapse;
-    border-color: #DDE2E6;
-    margin-top: 30px;
-    margin-bottom: 20px;
-    margin: auto;
-    
-  }
-  th{
-    border-bottom: 1px solid #444444;
-    border-color: #DDE2E6;
-    padding: 10px;
-    text-align: left;
-    font-size: 14px;
-    width: 130px; 
-    text-align: center; 
-      border-left: none;
-  border-right: none;
-  }
-td {
-    border-bottom: 1px solid #444444;
-    border-color: #DDE2E6;
-    padding: 10px;
-    text-align: left;
-    font-size: 14px;
-      border-left: none;
-  border-right: none;
-  }
-  
-.tdbold{
-font-weight: bold;
-}
-
-#msg{
-	color: red;
-}  
-
-#bottomContainer{
-	text-align: center;
-	margin: 0 auto;
-	margin-bottom: 20px;
-}
-</style>
+   <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>아이스마일</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link href="../resources/css/managerInfo.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
     </head>
-     <body class="sb-nav-fixed">
-       <div id="layoutSidenav_content">
+     <body>
                 <main>
                 <!-- 내용들어가는곳 -->
 
@@ -109,7 +30,17 @@ font-weight: bold;
 
 <tr>
 <th>사진</th>
-<td><img src="../resources/assets/img/photo.jpg" width="100px" height="100px"></td>
+<td>
+<!-- profilepic 없는 경우 디폴트이미지파일 보여지게 -->
+<c:choose>
+    <c:when test="${not empty memberDTO.profilepic}">
+        <img src="${memberDTO.profilepic}" alt="사원프로필사진" width="100px" height="100px">
+    </c:when>
+    <c:otherwise>
+        <img src="../resources/assets/img/icemile.png" width="100px" height="100px">
+    </c:otherwise>
+</c:choose>
+</td>
 </tr>
 
 <tr>
@@ -151,16 +82,17 @@ font-weight: bold;
  
                 <!-- 내용 들어가는 곳 -->
                 </main>
+  				
   
-<div style="display: flex; justify-content: center; margin-bottom: 20px; ">
- <div class="btn">
-    <input type="button" value="닫기" onclick="window.close();" >
+ <div id="bottomContainer"> 
+    <input type="button" id="btn" value="닫기" onclick="window.close();" >
  </div>
- </div>
+ 
+<!-- 푸터 -->
+<jsp:include page="../include/footer.jsp"></jsp:include>
+<!-- 푸터 --> 
                 
-              
-                
-            </div>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>
     </body>
