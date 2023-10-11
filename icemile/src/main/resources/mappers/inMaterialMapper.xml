@@ -15,6 +15,21 @@
   		WHERE in_code = #{in_code}
   	</delete>
 	
+	<select id="getNewIn_code" resultType="java.lang.String">
+	  <bind name="buy_codeNum2" value="'%_' + buy_codeNum2 + '%'"/>
+		SELECT in_code
+		FROM in_material
+		WHERE in_code LIKE #{buy_codeNum2}
+		ORDER BY in_code DESC
+		LIMIT 1
+	</select>
+	
+	<select id="getBuy_code" resultType="java.lang.String">
+		SELECT buy_code
+		FROM in_material
+		LIMIT 1
+	</select>
+	
 	<insert id="inMaterialInsert">
 		INSERT INTO in_material
 		VALUES(#{in_code}, #{in_wh_code}, #{raw_order_code}, #{emp_num}, #{in_status})
@@ -32,5 +47,15 @@
          emp_num = #{emp_num}, in_status = #{in_status}
      WHERE in_code = #{in_code}
 	</update>
+	
+	<select id="inMateSearch" resultType="ems.icemile.dto.InMaterialDTO">
+      <bind name="content" value="'%' + content + '%'"/>
+ 		SELECT *
+			FROM(
+				SELECT in_code, in_wh_code, raw_order_code as raw_order_code, emp_num, in_status
+  					FROM in_material
+				) AS myTable
+					WHERE myTable.${category} LIKE #{content}
+	</select>
   
 </mapper>

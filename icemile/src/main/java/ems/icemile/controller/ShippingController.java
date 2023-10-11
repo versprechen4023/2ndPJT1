@@ -55,7 +55,7 @@ public class ShippingController {
 	@GetMapping("/in_material_add")
 	public String in_material_add() {
 		
-		log.debug("in_material_add");
+		log.debug("ShippingController in_material_add()");
 		
 		return "shipping/in_material_add";
 	}// in_material_add

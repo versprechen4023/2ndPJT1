@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ems.icemile.dto.InMaterialDTO;
+import ems.icemile.dto.RequirementDTO;
 import ems.icemile.dto.WareHouseDTO;
 import ems.icemile.dto.WareHouseinsertDTO;
 import ems.icemile.dto.outMaterialDTO;
@@ -28,6 +32,33 @@ public class ShippingAjaxController {
 	
 	@Inject
 	private ShippingServiceImpl shippingService;
+	
+	// 검색
+	@PostMapping("inMateSearch")
+	public List<InMaterialDTO> inMateSearch(@RequestBody HashMap<String, Object> json) {
+		
+		log.debug("ShippingAjaxController inMateSearch");
+		
+		// 입고리스트를 가져오기위한 객체생성
+		List<InMaterialDTO> inMaterialList = new ArrayList<InMaterialDTO>();
+		//결과값에 따라 물품 리스트를 가져온다
+		inMaterialList = shippingService.inMateSearch(json);
+		
+		// 콜백 함수에 결과값 리턴
+		return inMaterialList;
+	} //inMateSearch
+	
+    @PostMapping("/inMaterialInsert")
+    public ResponseEntity<String> inMaterialInsert(InMaterialDTO inMaterialDTO) {
+    	try {
+    		log.debug("{}",inMaterialDTO);
+//            shippingService.inMaterialInsert(inMaterialDTO);
+            return new ResponseEntity<>("true", HttpStatus.OK); // 성공 시 "true" 반환
+        } catch (Exception e) {
+            log.error("Error during insertInMaterial: {}", e.getMessage());
+            return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
+        }
+    }
 	
 	//////////////////////////////////////////////출고/////////////////////////////////////////////
 	@GetMapping("searchOutCode")
@@ -93,5 +124,4 @@ public class ShippingAjaxController {
 		// 콜백 함수에 결과값 리턴
 		return outMaterialList;
 	}	
-
 }

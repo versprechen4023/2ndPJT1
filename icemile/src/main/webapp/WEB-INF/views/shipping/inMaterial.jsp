@@ -34,7 +34,7 @@
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
 </ol>
 <div class="bnt">
-<input type="button" value="등록" onclick="location.href='${pageContext.request.contextPath}/shipping/in_material_add'">
+<input type="button" value="추가" onclick="in_material_add()">
 </div>
 <div class="card mb-4">
 <!--                             <div class="card-header"> -->
@@ -42,34 +42,29 @@
 <!--                                 DataTable Example -->
 <!--                             </div> -->
 <div class="card-body">
+<select id="category" name="category">
+	<option value="in_code">입고 코드</option>
+  	<option value="in_wh_code">창고 코드</option>
+  	<option value="raw_order_code">발주 코드</option>
+</select>
+<input type="text" name="content" size="60" placeholder="검색어를 입력하세요" id="content">
+<input type="button" name="inMateSearch" value="검색" onclick="inMateSearch()">
 <table id="datatablesSimple">
                                 
 <thead>
 <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
 <tr>
 <th>순서</th>
-<th>입고코드</th>
-<th>창고코드</th>
-<th>발주코드</th>
-<th>담당자</th>
-<th>입고현황</th>
+<th>입고코드</th> <!-- IN+년월일+거래처코드+1 IN230924_1 -->
+<th>창고코드</th> <!-- 창고 팝업으로 리스트 불러오기 -->
+<th>발주코드</th> <!-- 발주코드 팝업 리스트/코드,주문량,입고예정일,진행상황,담당자 -->
+<th>담당자</th>   <!-- 입고담당자 팝업 리스트 불러오기 -->
+<th>입고현황</th>	<!-- 1(입고전),2(입고중),3(입고확정) -->
 <!-- <th>수정일</th> -->
 <th>관리</th>
 </tr>
 </thead>
-<!-- <tfoot> -->
-<!-- "테이블 바닥글"을 나타냅니다. 이 부분은 테이블의 하단 요약 정보나 추가 설명 등을 담습니다. -->
-<!-- <tfoot> 부분은 없어도 될 것 같은데 기존 템플릿에 있던 태그라 그냥 둔 겁니다! -->
-<!-- <tr> -->
-<!-- <th>순서</th> -->
-<!-- <th>입고코드</th> -->
-<!-- <th>창고코드</th> -->
-<!-- <th>발주코드</th> -->
-<!-- <th>담당자</th> -->
-<!-- <th>입고 현황</th> -->
-<!-- <th>수정일</th> -->
-<!-- </tr> -->
-<!-- </tfoot> -->
+
 <tbody>
 <!--순서값 1씩 증가 시키기 위한 rowNum -->
 <c:set var="rowNum" value="0" />
@@ -78,14 +73,23 @@
 <tr>
 <!-- <th class="eachCheck"> -->
 <!-- <input type="checkbox" name="cbox" class="eachCheckbox"></th> -->
-<td>${rowNum}</td>
-<td>${inMaterialDTO.in_code }</td> <!-- 대충... -->
-<td>${inMaterialDTO.in_wh_code }</td>
-<td>${inMaterialDTO.raw_order_code }</td>
-<td>${inMaterialDTO.emp_num }</td>
-<td>${inMaterialDTO.in_status }</td>
+<td>${rowNum}</td> <!-- 순서 -->
+<td>${inMaterialDTO.in_code }</td> <!-- 입고코드 -->
+<td>${inMaterialDTO.in_wh_code }</td> <!-- 창고코드 -->
+<td>${inMaterialDTO.raw_order_code }</td> <!-- 발주코드 -->
+<td>${inMaterialDTO.emp_num }</td>	<!-- 담당자 -->
+<td>
+  <c:choose>
+    <c:when test="${inMaterialDTO.in_status == 1}">입고전</c:when>
+    <c:when test="${inMaterialDTO.in_status == 2}">입고중</c:when>
+    <c:when test="${inMaterialDTO.in_status == 3}">입고완료</c:when>
+    <c:otherwise>알 수 없음</c:otherwise>
+  </c:choose>
+</td>
+<%-- <td>${inMaterialDTO.in_status}</td> <!-- 입고현황 --> --%>
 <%-- <td>${inMaterialDTO.updatedate }</td> --%>
-<td><input type="button" value="수정" onclick="location.href='${pageContext.request.contextPath}/shipping/inMaterialUpdate?in_code=${inMaterialDTO.in_code}'">
+<td>
+<input type="button" value="수정" onclick="location.href='${pageContext.request.contextPath}/shipping/inMaterialUpdate?in_code=${inMaterialDTO.in_code}'">
 <input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/shipping/deleteInMaterial?in_code=${inMaterialDTO.in_code }')">
 </td>
 </tr>
@@ -104,13 +108,68 @@
 
 			</div>
 		</div>
+		
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/inMaterial.js"></script>
         
-        
-        <script>
+<script type="text/javascript">
+
+//조회를 눌렀을때 실행되는 물품 검색관련 함수
+function inMateSearch() {
+		
+	   // 값 전달 하기위한 JSON 타입 변수선언
+	   var json = {
+        			category: $('#category').val(),
+        			content: $('#content').val()
+       			  };
+	
+	   // 검색 결과값을 받아오기 위한 ajax 호출
+ 	   $.ajax({
+ 			  url : '${pageContext.request.contextPath}/Shipping_ajax/inMateSearch',
+ 			  // JSON타입의 변수를 스트링으로 변환한다
+ 			  data: JSON.stringify(json),
+ 			  // JSON타입의 변수를 전송한다
+ 	          contentType: 'application/json',
+ 			  type : 'POST',
+ 			  // 반환은 JSON 타입
+ 			  dataType: 'json',
+ 			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
+ 			  success:function(json){
+ 				  
+ 				    // tbody 내용을 초기화
+ 				    $('tbody').empty();
+					
+ 				    // 배열 크기만큼 반복
+ 				    var num = 0;
+ 				    json.forEach(function (data) {
+ 				    	// tr 태그 생성
+ 				        var $tr = $('<tr>');
+ 				    		num+=1;
+ 				    		//tr 에 내용추가
+ 				        	$tr.append(			
+ 				        	"<td>"+num+"</td>",
+ 				        	"<td>"+data.in_code+"</td>",
+ 				            "<td>"+data.in_wh_code+"</td>",
+ 				           	"<td>"+data.raw_order_code+"</td>",
+ 				            "<td>"+data.emp_num+"</td>",
+ 				         	"<td>"+data.in_status+"</td>",
+ 				         	 '<td>' +
+ 				            '<input type="button" value="수정" onclick="inMaterialUpdate(\'' + data.in_code + '\')">' +
+ 				            '<input type="button" value="삭제" onclick="confirmDelete(\'' + '${pageContext.request.contextPath}/shipping/deleteRequirement?req_code=' + data.req_code + '\')">' +
+ 				            '</td>' 
+ 				        	);
+ 				        // 생성한 <tr> 요소를 tbody에 추가
+ 				        $('tbody').append($tr);
+ 				    });
+ 		      }// 콜백함수 종료지점
+      });// end_of_ajax
+}// end function        
+
+
+
 //         삭제시 확인,취소 버튼 띄운 후
 function confirmDelete(deleteUrl) {
     if (confirm("삭제하시겠습니까?")) {
@@ -120,19 +179,17 @@ function confirmDelete(deleteUrl) {
         // 취소 버튼을 눌렀을 때의 처리 (생략 가능)
     }
 }
-function openEditPopup(in_code) {
-    // 팝업 창의 URL을 서버의 컨트롤러 엔드포인트로 설정
-    var editUrl = '/shipping/inMaterialUpdate?in_code=' +in_code;
 
-    // 팝업 창의 속성 설정
-    var popupWidth = 800;
-    var popupHeight = 600;
-    var left = (screen.width - popupWidth) / 2;
-    var top = (screen.height - popupHeight) / 2;
+// 등록 페이지 팝업
+ function in_material_add(){        
+	window.open('${pageContext.request.contextPath }/shipping/in_material_add', '_blank', 'width=600px, height=667px, left=600px, top=300px');
+} //end function
 
-    // 팝업 창 열기
-    window.open(editUrl, 'editPopup', 'width=' + popupWidth + ',height=' + popupHeight + ',left=' + left + ',top=' + top);
-}
+//수정 페이지 팝업
+function inMaterialUpdate(in_code){      
+//	alert(req_code);
+	window.open('${pageContext.request.contextPath }/shipping/inMaterialUpdate?in_code='+in_code+'', '_blank', 'width=600px, height=667px, left=600px, top=300px');
+} 
 </script>
     </body>
 </html>
