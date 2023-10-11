@@ -4,6 +4,19 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ems.icemile.mappers.headMapper">
 
+	<select id="getNewRSCode" resultType="java.lang.String">	
+  	SELECT result_code
+  		FROM result
+  			ORDER BY result_code desc
+  				LIMIT 1
+  	</select>
+  	
+  	<insert id="resultInsert">
+	INSERT INTO result(result_code, work_code, line_code, prod_code, good_prod, faulty_prod, faulty_reason, remark, order_amount, re_process, done_date)
+		VALUES(CONCAT(‘RS’, LPAD(#{branch_code}, 4, '0')),#{result_code},
+			#{work_code},#{line_code},#{prod_code},#{good_prod},#{faulty_prod},#{faulty_reason}, #{remark}, #{order_amount}, #{re_process}, #{done_date})
+	</insert>
+
 	<select id="getResultList" resultType="ems.icemile.dto.ResultDTO">
 		SELECT * 
 			FROM result

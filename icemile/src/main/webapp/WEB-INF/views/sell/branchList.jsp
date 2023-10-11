@@ -127,7 +127,8 @@
 	<script src="../resources/js/branchList_im.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-    $(".emp-num-link").click(function(event) {
+	
+	$(document).on("click", ".emp-num-link", function(event) {
         event.preventDefault();
         var empNum = $(this).data("emp-num"); // 클릭한 링크의 emp_num 값을 가져옵니다.
 
@@ -216,9 +217,8 @@ $(document).ready(function() {
     				         	"<td>"+data.branch_post+"</td>",
     				         	"<td>"+data.branch_add+"</td>",
     				         	"<td>"+data.branch_email+"</td>",
-    				         	"<td>"+data.emp_num+"</td>",
-    				            "<td>" +
-    				            "<input type='button' value='수정' onclick='branchUpdate(\"" + data.branch_code + "\")' id='branchUpdate1'>" +
+    				         	'<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>',    				            
+    				         	"<input type='button' value='수정' onclick='branchUpdate(\"" + data.branch_code + "\")' id='branchUpdate1'>" +
     				            "<input type='button' value='삭제' onclick='branchDelete(\"" + data.branch_code + "\")' id='branchDelete1'>" +
     				            "</td>"
 
@@ -233,15 +233,36 @@ $(document).ready(function() {
     				         	"<td>"+data.branch_post+"</td>",
     				         	"<td>"+data.branch_add+"</td>",
     				         	"<td>"+data.branch_email+"</td>",
-    				         	"<td>"+data.emp_num+"</td>",
-    		 				     );
-    				    	}
+    				         	'<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>'	            
+    				    	);}
     				        // 생성한 <tr> 요소를 tbody에 추가
     				        $('tbody').append($tr);
     				    });
     		      }// 콜백함수 종료지점
          });// end_of_ajax
    }// end function
+   
+ /*   $(document).ready(function() {
+	    // emp-num-link 클래스를 가진 링크를 클릭했을 때 팝업 창을 엽니다.
+	    $(document).on('click', '.emp-num-link', function(event) {
+	        event.preventDefault();
+	        var empNum = $(this).data('emp-num'); // 클릭한 링크의 emp_num 값을 가져옵니다.
+
+	     	// 팝업 창 크기 및 위치 설정
+	        var width = 400;
+	        var height = 400;
+	        var left = (screen.width - width) / 2;
+	        var top = (screen.height - height) / 2;
+	        
+	        // 팝업 창 열기
+	        var url = '${pageContext.request.contextPath}/member/managerInfo?emp_num=' + empNum; // 팝업에 필요한 데이터를 URL에 포함
+	        var popupWindow = window.open(url, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
+
+	        // 팝업 창 포커스
+	        popupWindow.focus();
+	    });
+	}); */
+
 
 // 지점 추가관련 함수
    function branchReg(){
