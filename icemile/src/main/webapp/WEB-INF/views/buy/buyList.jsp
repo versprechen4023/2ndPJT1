@@ -239,11 +239,11 @@ function buySearch() {
 
 // 멤버 추가관련 함수
 function buyInsert(){
-	window.open('${pageContext.request.contextPath }/buy/buyInsert', '_blank', 'width=620px, height=687px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/buy/buyInsert', '_blank', 'width=620px, height=598px, left=600px, top=300px');
 } //end function
 
 function buyUpdate(buy_code){
-	window.open('${pageContext.request.contextPath }/buy/buyUpdate?buy_code='+buy_code, '_blank', 'width=620px, height=687px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/buy/buyUpdate?buy_code='+buy_code, '_blank', 'width=570px, height=666px, left=600px, top=300px');
 }
 // 멤버 삭제관련 함수
 function buyDelete(buy_code) {
