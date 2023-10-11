@@ -4,12 +4,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 헤더 -->
-<jsp:include page="../include/header.jsp"></jsp:include>
-<!-- 헤더 -->
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
+<!-- 헤더 -->
+<jsp:include page="../include/header.jsp"></jsp:include>
+<!-- 헤더 -->
 </head>
 <body class="sb-nav-fixed">
 <div id="layoutSidenav">
@@ -239,11 +239,11 @@ function buySearch() {
 
 // 멤버 추가관련 함수
 function buyInsert(){
-	window.open('${pageContext.request.contextPath }/buy/buyInsert', '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/buy/buyInsert', '_blank', 'width=620px, height=687px, left=600px, top=300px');
 } //end function
 
 function buyUpdate(buy_code){
-	window.open('${pageContext.request.contextPath }/buy/buyUpdate?buy_code='+buy_code, '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/buy/buyUpdate?buy_code='+buy_code, '_blank', 'width=620px, height=687px, left=600px, top=300px');
 }
 // 멤버 삭제관련 함수
 function buyDelete(buy_code) {

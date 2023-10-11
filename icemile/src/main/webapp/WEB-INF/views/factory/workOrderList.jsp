@@ -190,12 +190,12 @@ function workOrderSearch() {
 
 // 작업 지시 추가관련 함수
 function workOrderAdd(){
-	window.open('${pageContext.request.contextPath }/factory/workOrderAdd', '_blank', 'width=1700px, height=400px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/factory/workOrderAdd', '_blank', 'width=1745px, height=345px, left=600px, top=300px');
 } //end function
 
 // 작업 지시 수정관련 함수
 function workOrderUpdate(work_code){
-	window.open('${pageContext.request.contextPath }/factory/workOrderUpdate?work_code='+work_code, '_blank', 'width=1700px, height=400px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/factory/workOrderUpdate?work_code='+work_code, '_blank', 'width=1745px, height=345px, left=600px, top=300px');
 }
 // 작업 지시 삭제관련 함수
 function workOrderDelete(work_code) {
