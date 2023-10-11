@@ -300,12 +300,19 @@ onSelect: function(selectedDate) {
 	
 }// end OnSelect
 }); // end 데이트피커
+
+
+
+
 //엔터키 입력시 검색되게 이벤트 리스너 활성화
 document.addEventListener("keyup", function(event) {
     if (event.key === 'Enter') {
     	workOrderSearch();
     }// end if
 });// end function
+
+
+
 </script>
 </body>
 </html>

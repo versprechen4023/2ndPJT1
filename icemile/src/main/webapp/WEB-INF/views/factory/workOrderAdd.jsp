@@ -183,6 +183,12 @@ $(document).ready(function() {
     	
     });//submit기능 제어 끝
 });
+
+//라인 코드를 선택하면 새창을 여는 이벤트 리스너
+$(document).on("click", "input[name='line_code']", function() {
+	window.open('${pageContext.request.contextPath }/factory/facilityPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+});// end function
+
 </script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
