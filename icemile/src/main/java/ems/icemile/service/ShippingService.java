@@ -36,12 +36,15 @@ public interface ShippingService {
 	public void deleteInMaterial(InMaterialDTO inMaterialDTO);
 	
 	// 입고 등록
-	public void inMaterialInsert(InMaterialDTO inMaterialDTO);
+	public boolean inMaterialInsert(InMaterialDTO inMaterialDTO);
 	
 	// 입고 수정 페이지 in_code 값 받아서
 	public InMaterialDTO getInMaterial(String in_code);
 	
 	// 입고 수정
 	public void updateInMaterial(InMaterialDTO inMaterialDTO);
+	
+	// 입고 검색
+	public List<InMaterialDTO> inMateSearch(HashMap<String, Object> json);
 
 }
