@@ -14,6 +14,8 @@ import ems.icemile.dto.ProductAllDTO;
 import ems.icemile.dto.ProductDTO;
 import ems.icemile.dto.ProductInsertDTO;
 import ems.icemile.dto.RawMaterialDTO;
+import ems.icemile.enums.Department;
+import ems.icemile.enums.RawMaterial;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -53,6 +55,12 @@ public class ProductServiceImpl implements ProductService {
 		
 		// 고유 번호 저장
 		productInsertDTO.setProd_code(productInsertDTO.getType()+numStr);
+		
+		// 종류 저장
+		if(productInsertDTO.getType().equals("R")) {
+			productInsertDTO.setProd_type(RawMaterial.fromNumber(Integer.parseInt(productInsertDTO.getProd_type())).getName());
+		}
+
 		
 		log.debug("프로덕트 테스트 출력" + productInsertDTO.toString());
 		
