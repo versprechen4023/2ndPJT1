@@ -149,8 +149,8 @@
 //추가, 수정 을 구분하기위한 전역변수선언
 var status = "";
 
-//수주 검색 관련 함수
-function rawOrderSearch() {
+// 수주 검색 관련 함수
+function proOrderSearch() {
 	   // 값을 전달 하기위한 JSON 타입 변수선언
 	   var json = {
 			   		proOrderBegin: $('#proOrderBegin').val(),
@@ -159,11 +159,11 @@ function rawOrderSearch() {
 			   		proOrderOutEnd: $('#proOrderOutEnd').val(),
     				status: $('#status').val(),
     				content: $('#content').val()
-   			  };
+   			  	  };
 
 	   // 검색 결과값을 받아오기 위한 ajax 호출
 	   $.ajax({
-			  url : '${pageContext.request.contextPath}/sell/proOrderSearch',
+			  url : '${pageContext.request.contextPath}/sell_ajax/proOrderSearch',
 			  // JSON타입의 변수를 스트링으로 변환한다
 			  data: JSON.stringify(json),
 			  // JSON타입의 변수를 전송한다
@@ -187,32 +187,23 @@ function rawOrderSearch() {
 				    // 배열 크기만큼 반복
 				    json.forEach(function (data) {
 				    	
-				    	// 상태표현을 위한변수 선언
-				    	var status = "";
-				    	if(data.raw_status == 1){
-				    		status = "발주중";
-				    	} else {
-				    		status = "발주확정";
-				    	}
-				    	
 				    	// tr 태그 생성
 				        var $tr = $('<tr>');
 				    		//tr 에 내용추가
 				        	$tr.append(
 				        	'<td><input type="checkbox" name="selectedProOrderId" value="' + data.order_code + '"></td>',
-				        	"<td>"+data.raw_order_code+"</td>",
-				            "<td>"+data.raw_code+"</td>",
-				           	"<td>"+data.raw_name+"</td>",
-				            "<td>"+data.raw_type+"</td>",
-				         	"<td>"+data.buy_code+"</td>",
-				         	"<td>"+data.buy_name+"</td>",
-				         	"<td>"+data.raw_order_amount+"</td>",
-				         	"<td>"+data.raw_price+"</td>",
-				         	"<td>"+data.raw_fullprice+"</td>",
-				         	"<td>"+data.raw_order_date+"</td>",
-				         	"<td>"+data.in_plan_date+"</td>",
-				         	"<td>"+status+"</td>",
-				         	'<td><a href="#" onclick="memberInfo(\'' + data.emp_num + '\')">' + data.emp_num + '</a></td>'
+				        	"<td>"+data.order_code+"</td>",
+				            "<td>"+data.emp_num+"</td>",
+				           	"<td>"+data.branch_code+"</td>",
+				            "<td>"+data.prod_code+"</td>",
+				         	"<td>"+data.prod_name+"</td>",
+				         	"<td>"+data.prod_taste+"</td>",
+				         	"<td>"+data.prod_price+"</td>",
+				         	"<td>"+data.order_amount+"</td>",
+				         	"<td>"+data.order_price+"</td>",
+				         	"<td>"+data.order_date+"</td>",
+				         	"<td>"+data.out_plan_date+"</td>",
+				         	"<td>"+data.order_status+"</td>",
 				        	);
 				        // 생성한 <tr> 요소를 tbody에 추가
 				        $('tbody').append($tr);
