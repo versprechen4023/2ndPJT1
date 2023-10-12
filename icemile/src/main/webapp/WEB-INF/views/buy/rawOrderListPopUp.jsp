@@ -45,11 +45,7 @@ function rawOrderSearch() {
  				        	"<td>"+data.raw_order_code+"</td>",
  				            "<td>"+data.buy_name+"</td>",
  				           	"<td>"+data.raw_name+"</td>",
- 				            "<td>"+data.raw_order_amount+"</td>",
- 				            "<td>"+data.raw_order_DATE+"</td>",
- 				            "<td>"+data.in_plan_DATE+"</td>",
- 				            "<td>"+data.raw_status+"</td>",
- 				            "<td>"+data.emp_num+"</td>"          
+ 				            "<td>"+data.raw_order_amount+"</td>"         
  				        	);
  				        // 생성한 <tr> 요소를 tbody에 추가
  				        $('tbody').append($tr);
@@ -136,23 +132,15 @@ function rawOrderSearch() {
                                             <th>거래처명</th>
                                             <th>원재료명</th>
                                             <th>발주량</th>
-                                            <th>발주 일자</th>
-                                            <th>입고 예정일</th>
-                                            <th>진행 상황</th>
-                                            <th>담당자</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="rawOrderDTO" items="${rawOrderList}">
+                                    <c:forEach var="RowOrderListDTO" items="${rawOrderList}">
                                         <tr>
-                                            <td>${rawOrderDTO.raw_order_code}</td>
-                                            <td>${rawOrderDTO.buy_name}</td>
-                                            <td>${rawOrderDTO.raw_name}</td>
-                                            <td>${rawOrderDTO.raw_order_amount}</td>
-                                            <td>${rawOrderDTO.raw_order_date}</td>
-                                            <td>${rawOrderDTO.in_plan_date}</td>
-                                            <td>${rawOrderDTO.raw_status}</td>
-                                            <td>${rawOrderDTO.emp_num}</td>
+                                            <td>${RowOrderListDTO.raw_order_code}</td>
+                                            <td>${RowOrderListDTO.buy_name}</td>
+                                            <td>${RowOrderListDTO.raw_name}</td>
+                                            <td>${RowOrderListDTO.raw_order_amount}</td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -191,13 +179,8 @@ $(document).ready(function() {
 	      var buy_name = $(this).find("td:eq(1)").text();
 	      var raw_name = $(this).find("td:eq(2)").text();
 	      var raw_order_amount = $(this).find("td:eq(3)").text();
-	      var raw_order_date = $(this).find("td:eq(4)").text();
-	      var in_plan_date = $(this).find("td:eq(5)").text();
-	      var raw_status = $(this).find("td:eq(6)").text();
-	      var emp_num = $(this).find("td:eq(7)").text();
-
 	      // 부모창으로 값을 전달한다
-	      opener.document.getElementById("raw_order_code").value = raw_code;
+	      opener.document.getElementById("raw_order_code").value = raw_order_code;
 	 		
 	      
 	      // 부모창에서 가격값을 갱신하기위해 함수를 호출한다

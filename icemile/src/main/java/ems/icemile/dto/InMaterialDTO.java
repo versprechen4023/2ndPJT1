@@ -23,6 +23,6 @@ public class InMaterialDTO {
 //	private String updatedate;
 	private String buy_code;
 	
-	private String buy_codeNum2;
+	private String trBuy_codeNum;
 	
 }

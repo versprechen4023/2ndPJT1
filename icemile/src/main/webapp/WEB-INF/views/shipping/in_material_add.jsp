@@ -71,6 +71,7 @@
 
 </table>
 </form>
+<input type="hidden" name="buy_name" id="buy_name">
 <!-- 내용들어가는곳 -->
 				
 			</main>
@@ -160,6 +161,16 @@ $(document).on("click", "input[name='in_wh_code']", function() {
 $(document).on("click", "input[name='raw_order_code']", function() {
 	window.open('${pageContext.request.contextPath }/buyOrder/rawOrderListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 });
+
+//담당자 팝업 리스트
+$(document).on("click", "input[name='emp_num']", function() {
+	window.open('${pageContext.request.contextPath }/member/memberListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+});
+
+//매입처 팝업 리스트
+$(document).on("click", "input[name='buy_code']", function() {
+	window.open('${pageContext.request.contextPath }/buy/buyListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+})
 
 </script>
 </body>
