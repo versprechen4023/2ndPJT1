@@ -48,15 +48,22 @@ public class WareHouseCopyDAOImpl implements WareHouseCopyDAO {
 	@Override
 	public int getNewStockCode() {
 		
+		log.debug("WareHouseDAO getNewStockCode()");
+		
 		return sqlSession.selectOne(namespace+"getNewStockCode");
 	}
 
-
+	
+	// 원자재 실수량 수정
 	@Override
-	public boolean deleteRawStock(String prod_code) {
-	    int result = sqlSession.delete(namespace + "deleteRawStock", prod_code);
-	    return result > 0;
+	public void updateRawStock(StockDTO stockDTO) {
+		
+		log.debug("WareHouseDAO updateRawStock()");
+		
+		sqlSession.update(namespace+"updateRawStock", stockDTO);
 	}
+
+
 
 
 	

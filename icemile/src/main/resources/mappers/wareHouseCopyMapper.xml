@@ -28,10 +28,11 @@
 	</select>
 	
 	
-	<!-- 재고 삭제 -->
-	<delete id="deleteRawStock" parameterType="String">
-    	DELETE FROM stock WHERE raw_code = #{prod_code}
-	</delete>
+	<update id="updateRawStock">
+		UPDATE stock
+		SET stock_amount = #{stock_amount}
+		WHERE stock_code = #{stock_code}
+	</update>
 
   
  </mapper>

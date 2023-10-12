@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ems.icemile.dao.ProductDAOImpl;
 import ems.icemile.dao.WareHouseCopyDAO;
@@ -157,10 +158,10 @@ public class ProductServiceImpl implements ProductService {
 	
 	// 원자재 재고 삭제
 	@Override
-	public boolean deleteRawStock(String prod_code) {
-        log.debug("프로덕트 삭제 서비스");
+	public boolean deleteRawStock(List<String> rawStockDelete) {
+        log.debug("원자재 재고 삭제 서비스");
 
-        return wareHouseDAO.deleteRawStock(prod_code);
+        return productDAO.deleteRawStock(rawStockDelete);
     }
 
 }

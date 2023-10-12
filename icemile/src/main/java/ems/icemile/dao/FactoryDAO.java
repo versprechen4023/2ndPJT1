@@ -15,7 +15,7 @@ public interface FactoryDAO {
 	public void insertFacility(FacilityDTO facilityDTO);
 
 	// 설비(라인) 코드 고유 번호 부여
-	public int getNewFacilityCode();
+	public String getNewFacilityCode();
 
 	// 설비(라인) 수정
 	public void updateFacility(FacilityDTO facilityDTO);

@@ -83,7 +83,7 @@
                                             <td>${stockDTO.stock_status}</td>
                                             <td>${stockDTO.stock_amount}</td>
                                             <td>${stockDTO.wh_code}</td>
-                                            <td>IM000014</td>
+                                            <td><a href="#" onclick="memberInfo('${stockDTO.emp_num}')">admin</a></td>
                                             <td>${stockDTO.stock_date}</td>
                                         </tr>
                                         </c:forEach>
@@ -112,6 +112,114 @@
         
         
 		<script type="text/javascript">
+		
+		
+		// 추가, 수정 을 구분하기위한 전역변수선언
+		// 전역변수란? 함수 밖에서 선언하고 어디서든지 사용 가능한 변수
+		var status = "";
+		
+		
+		
+		function memberInfo(emp_num) {
+			window.open('${pageContext.request.contextPath }/member/managerInfo?emp_num='+ emp_num+'', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+		}
+		
+		
+		// 수정
+		$("#update").click(function(){
+
+		// 상태를 업데이트로 변경한다
+		// 이 함수의 목적이 수정(update)인 것을 나타내기 위함
+		status = "update";
+
+		// 체크박스가 체크된 여부를 확인하기위한 변수선언
+		var selectedCheckbox = $("input[name='selectedLineCo']:checked");
+
+		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+		if (selectedCheckbox.length === 1) {
+	
+			// 텍스트태그를 추가할 tr태그를 선택한다
+			var row = selectedCheckbox.closest("tr");
+	
+			// input type의 name 값 지정
+			var cellNames = [
+				"line_code", 
+				"line_name", 
+				"line_phone", 
+				"line_process",
+				"line_status",
+				"emp_num",
+				"line_note"
+			];
+	
+			// input type의 id 값 지정
+			var cellIds = [
+				"line_code", 
+				"line_name", 
+				"line_phone", 
+				"line_process",
+				"line_status",
+				"emp_num",
+				"line_note"
+			];
+	
+	
+			// 각 셀을 수정 가능한 텍스트 입력 필드로 변경(단 첫번째의 체크박스가 있는 셀은 제외한다)
+			row.find("td:not(:first-child)").each(function(index) {
+		
+				// 기존 텍스트 값을 변수에 저장한다
+				var cellValue = $(this).text();
+				// 삼항연산자 0번째 행(코드)와 1번째행(이름)는 리드온리로 변경할 수 없다
+				var cellOption = index === 0 || index === 1 ? "readonly" : "";
+				// 반복문의 숫자에 따라 html 태그의 이름을 네임 이름으로 한다
+				var cellName = cellNames[index];
+				// 반복문의 숫자에 따라 html 태그의 이름을 아이디 이름으로 한다
+				var cellId = cellIds[index];
+		
+				if (cellName === "line_process") {
+				    // 선택 옵션 값 가져오기
+				    var selectedValue = $(this).find("select").val();
+				    $(this).html('<select name="' + cellName + '" id="' + cellId + '" ' + cellOption + '>' + 
+				        '<option value="1" ' + (selectedValue === "1" ? "selected" : "") + '>1차 공정</option>' +
+				        '<option value="2" ' + (selectedValue === "2" ? "selected" : "") + '>2차 공정</option>' +
+				        '<option value="3" ' + (selectedValue === "3" ? "selected" : "") + '>3차 공정</option>' +
+				        '</select>');
+				} else if (cellName === "line_status") {
+				    var selectedValue = $(this).find("select").val();
+				    $(this).html('<select name="' + cellName + '" id="' + cellId + '" ' + cellOption + '>' + 
+				        '<option value="1" ' + (selectedValue === "1" ? "selected" : "") + '>1:가동중</option>' +
+				        '<option value="2" ' + (selectedValue === "2" ? "selected" : "") + '>2:대기중</option>' +
+				        '<option value="3" ' + (selectedValue === "3" ? "selected" : "") + '>3:고장</option>' +
+				        '</select>');
+				} else {
+				    $(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' >');			
+				}
+
+			});// end_find(행 검색 반복문 종료지점)
+			
+			// "담당자" 열에 있는 입력란 옆에 "조회" 버튼을 추가
+	        //row.find("#empBox").append('<input type="button" name="empSearch" id="empSearch" value="조회">');
+
+			// 품목수정중에 품목추가,수정,삭제 버튼을 비활성화한다
+  			$("#add").attr('disabled','disabled');
+  			$("#update").attr('disabled','disabled');
+			$("#delete").attr('disabled','disabled');
+	
+			// 품목수정중에 취소, 저장 버튼입력이 가능하다
+			$("#cancel").removeAttr("disabled");
+			$("#save").removeAttr("disabled");
+	
+		} // end if
+
+		// 체크박스가 선택되어있지않으면 에러가 발생한다
+		else if (selectedCheckbox.length === 0){
+			Swal.fire('수정할 행을 선택해 주십시오.', '실패', 'error');
+		// 여러개가 체크되어있으면 에러가 발생한다
+		} else {
+			Swal.fire('수정할 행은 한개만 선택 가능합니다.', '실패', 'error');
+		} // end else
+	}); // end update function
+		
 		
         </script>
         

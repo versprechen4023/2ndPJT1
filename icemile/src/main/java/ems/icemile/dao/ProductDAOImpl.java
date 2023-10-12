@@ -107,19 +107,12 @@ public class ProductDAOImpl implements ProductDAO {
 		return sqlSession.selectList(namespace+"getProductListPopUp");
 	}
 
-	public boolean rawStockDelete(String prod_code) {
-        log.debug("rawStockDelete DAO 도달");
 
-        // Product 테이블에서 삭제
-        boolean rawStockDelete = sqlSession.delete(namespace+"rawStockDelete", prod_code) > 0;
-
-        if (rawStockDelete) {
-            // Stock 테이블에서 삭제
-            boolean rStockDelete = sqlSession.delete(namespace+"rStockDelete", prod_code) > 0;
-
-            return rStockDelete;
-        }
-		return false;
+	// 원자재 삭제
+	public boolean deleteRawStock(List<String> rawStockDelete) {
+		log.debug("deleteRawStock DAO 도달");
+		
+		return sqlSession.delete(namespace+"deleteRawStock", rawStockDelete)>0;
 	}
 
 }
