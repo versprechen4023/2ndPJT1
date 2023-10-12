@@ -7,7 +7,7 @@
 
 	<select id="getInMaterialList" resultType="ems.icemile.dto.InMaterialDTO">
 		SELECT *
-		FROM in_material
+		FROM in_material 
 	</select>
 	
   	<delete id="deleteInMaterial">

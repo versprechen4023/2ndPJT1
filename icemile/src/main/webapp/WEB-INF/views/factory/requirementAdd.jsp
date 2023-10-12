@@ -79,6 +79,7 @@ body {
 </form>
 <input type="hidden" name="prod_name" id="prod_name" value="">
 <input type="hidden" name="prod_taste" id="prod_taste" value="">
+<input type="hidden" name="prod_price" id="prod_price" value="">
 
 <input type="hidden" name="raw_name" id="raw_name" value="">
 <input type="hidden" name="raw_type" id="raw_type" value="">
