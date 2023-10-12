@@ -50,6 +50,14 @@ public class HeadAjaxController {
 		return headService.resultInsert(resultDTO);
 	}
 	
+	@PostMapping("/resultUpdate")
+	public boolean resultUpdate(ResultDTO resultDTO) {
+		log.debug("실적 등록");
+		log.debug("값 잘 넘어오나"+resultDTO);
+		
+		return headService.resultUpdate(resultDTO);
+	}
+	
 
 
 }// class 
