@@ -60,7 +60,27 @@
   				LIMIT 1
   </select>
   
-
+  <select id="proOrderList" resultType="map">
+  	SELECT o.order_code, o.emp_num, o.branch_code, p.prod_code, 
+  		   o.prod_name, p.prod_taste, p.prod_price, o.order_amount,
+  		   o.order_date, o.out_plan_date, o.order_status
+				FROM orders o JOIN product p
+					ON (o.prod_name = p.prod_name)
+						ORDER BY o.order_code DESC
+  </select>
   
+   <select id="getNewProOrderCode" resultType="java.lang.String">
+   <bind name="myDate" value="'%' + myDate+ '%'"/>
+  	SELECT order_code
+  		FROM orders
+  			WHERE order_code LIKE #{myDate}
+  				ORDER BY order_code desc
+  					LIMIT 1
+  </select>
+  
+  <insert id="proOrderInsert">
+  	INSERT INTO orders(order_code, branch_code, prod_name, order_amount, order_date, out_plan_date, order_status, emp_num)
+ 		VALUES(#{order_code}, #{branch_code}, #{prod_name}, #{order_amount}, #{order_date}, #{out_plan_date}, #{order_status}, #{emp_num})
+  </insert>
 	
 </mapper>

@@ -3,6 +3,7 @@ package ems.icemile.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ems.icemile.dto.ProOrderDTO;
 import ems.icemile.dto.SellDTO;
 import ems.icemile.service.SellServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -79,6 +81,22 @@ public class SellAjaxController {
 		log.debug("{} 값 확인", branch_phone);
 		
 		return Boolean.toString(sellService.searchPhone(branch_phone));
+	}
+	
+	@PostMapping("proOrderUpdate")
+	public boolean proOrderUpdate(ProOrderDTO proOrderDTO) {
+		
+		log.debug("proOrderUpdate ajax 실행");
+		
+		return sellService.proOrderUpdate(proOrderDTO);
+	}
+	
+	@PostMapping("proOrderInsert")
+	public boolean proOrderInsert(ProOrderDTO proOrderDTO) {
+		
+		log.debug("proOrderInsert ajax 실행");
+				
+		return sellService.proOrderInsert(proOrderDTO);
 	}
 
 }

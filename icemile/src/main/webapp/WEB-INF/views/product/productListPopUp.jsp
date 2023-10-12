@@ -127,9 +127,10 @@ function productSearch() {
                                     <thead>
                                     <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
                                         <tr>
-                                           <th>코드</th>
+                                            <th>코드</th>
                                             <th>품명</th>
                                             <th>종류</th>
+                                            <th>가격</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -137,7 +138,8 @@ function productSearch() {
                                         <tr>
                                             <td>${productDTO.prod_code}</td>
                                             <td>${productDTO.prod_name}</td>
-                                            <td>${productDTO.prod_taste}</td>                                       
+                                            <td>${productDTO.prod_taste}</td>
+                                            <td>${productDTO.prod_price}</td>                                      
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -175,12 +177,14 @@ $(document).ready(function() {
 	      var prod_code = $(this).find("td:eq(0)").text();
 	      var prod_name = $(this).find("td:eq(1)").text();
 	      var prod_taste = $(this).find("td:eq(2)").text();
+	      var prod_price = $(this).find("td:eq(3)").text();
 		  
 
 	      // 부모창으로 값을 전달한다
 	      opener.document.getElementById("prod_code").value = prod_code;
 	      opener.document.getElementById("prod_name").value = prod_name;
 	      opener.document.getElementById("prod_taste").value = prod_taste;
+	      opener.document.getElementById("prod_price").value = prod_price;
 	      
 	      // 부모창에서 가격값을 갱신하기위해 함수를 호출한다
 	      opener.openUpdate();

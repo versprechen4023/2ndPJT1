@@ -76,6 +76,7 @@
                                             <th>지점코드</th>
                                             <th>완제품코드</th>
                                             <th>완제품명</th>
+                                            <th>완제품종류</th>
                                             <th>완제품가격</th>
                                             <th>주문량</th>
                                             <th>수주금액</th>
@@ -86,20 +87,23 @@
                                     </thead>
                                     
                                     <tbody>
+                                    <c:forEach var="proOrderListDTO" items="${proOrderList}">
                                         <tr>
                                         	<td data-sortable="false"><input type="checkbox" name="selectedProOrderId"></td>
-                                        	<td>order_code</td>
-                                            <td>emp_num</td>
-                                            <td>branch_code</td>
-                                            <td>prod_code</td>
-                                            <td>prod_name</td>
-                                            <td>prod_price</td>
-                                            <td>order_amount</td>
-                                            <td>order_price</td>
-                                            <td>order_date</td>
-                                            <td>out_plan_date</td>
-                                            <td>생산중</td>
+                                        	<td>${proOrderListDTO.order_code}</td>
+                                            <td>${proOrderListDTO.emp_num}</td>
+                                            <td>${proOrderListDTO.branch_code}</td>
+                                            <td>${proOrderListDTO.prod_code}</td>
+                                            <td>${proOrderListDTO.prod_name}</td>
+                                            <td>${proOrderListDTO.prod_taste}</td>
+                                            <td>${proOrderListDTO.prod_price}</td>
+                                            <td>${proOrderListDTO.order_amount}</td>
+                                            <td>${proOrderListDTO.order_price}</td>
+                                            <td>${proOrderListDTO.order_date}</td>
+                                            <td>${proOrderListDTO.out_plan_date}</td>
+                                            <td>${proOrderListDTO.order_status}</td>
                                         </tr>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
 </form>
@@ -162,9 +166,27 @@ function getDate() {
 	return formattedDate;
 }// end function
 
+//부모창에서 전달받을때 금액 업데이트
+function openUpdate() {
+	// 주문량을 가져온다
+	var order_amount = parseInt($("#order_amount").val());
+	// 단가(완제품가격)를 가져온다
+	var prod_price = parseInt($("#prod_price").val());
+	// 수주량과 단가를 계산한다
+	var result = (order_amount * prod_price) * 1.2;
+	
+	// 밸류값을 최종가격으로 변경한다
+	$("#order_price").val(result);
+} // end function
+
 //함수 시작지점
 $(document).ready(function() {
-// 추가, 삭제, 수정등 기능 구현 함수 시작지점
+	// 정규식 제어함수
+	function formTest(formData){
+		return true;
+	}
+	
+	// 추가, 삭제, 수정등 기능 구현 함수 시작지점
 	
 	// 추가 버튼 누를 시 실행되는 함수
 	$("#proOrderAdd").click(function(){
@@ -182,12 +204,13 @@ $(document).ready(function() {
 	  		'<td><input type="text" id="branch_code" name="branch_code" readonly></td>',
 	  		'<td><input type="text" id="prod_code" name="prod_code" readonly></td>',
 	  		'<td><input type="text" id="prod_name" name="prod_name" readonly></td>',
+	  		'<td><input type="text" id="prod_taste" name="prod_taste" readonly></td>',
 	  		'<td><input type="text" id="prod_price" name="prod_price" readonly></td>',
 	  		'<td><input type="text" id="order_amount" name="order_amount" value ="0"></td>',
 	  		'<td><input type="text" id="order_price" name="order_price" placeholder="(자동으로 계산됨)" readonly></td>',
-	  		'<td><input type="text" id="order_date" name="order_date" value="'+getDate()+'"></td>',
+	  		'<td><input type="text" id="order_date" name="order_date" value="'+getDate()+'" readonly></td>',
 	  		'<td><input type="text" id="out_plan_date" name="out_plan_date" readonly></td>',
-	  		'<td><input type="text" id="order_status" name="order_status" value="대기중" readonly></td>'
+	  		'<td><input type="text" id="order_status_name"" name="order_status_name"" value="대기중" readonly></td>'
 	  		);
 	  	// 생성한 <tr> 요소를 tbody에 추가
 	  	$('tbody tr:nth-child(1)').before($tr);
@@ -213,8 +236,7 @@ $(document).ready(function() {
 		var selectedCheckbox = $("input[name='selectedProOrderId']:checked");
 		
 		// 진행 상황을 확인하기위한 변수선언
-		var tdText = selectedCheckbox.closest("tr").find('td:eq(11)').text();
-		console.log("상태확인"+tdText);
+		var tdText = selectedCheckbox.closest("tr").find('td:eq(12)').text();
 		// 납품완료 상태라면 에러가 발생한다
 		if(tdText === "납품완료"){
 			Swal.fire('납품완료된 상태에서는 수정 할 수 없습니다.', '실패', 'error');
@@ -234,12 +256,12 @@ $(document).ready(function() {
 				"branch_code", 
 				"prod_code", 
 				"prod_name",
+				"prod_taste",
 				"prod_price",
 				"order_amount",
 				"order_price",
 				"order_date",
 				"out_plan_date",
-				"raw_order_date",
 				"order_status"
 			];
 			
@@ -250,12 +272,12 @@ $(document).ready(function() {
 				"branch_code", 
 				"prod_code", 
 				"prod_name",
+				"prod_taste",
 				"prod_price",
 				"order_amount",
 				"order_price",
 				"order_date",
 				"out_plan_date",
-				"raw_order_date",
 				"order_status"
 			];
 			
@@ -267,16 +289,23 @@ $(document).ready(function() {
 				
 				// 기존 텍스트 값을 변수에 저장한다
 				var cellValue = $(this).text();
-				// 삼항연산자 6번째 행(주문량)및 1번쨰 행(진행상태)를 제외하고는 리드온리로 변경할 수 없다
-				var cellOption = index === 6 || index === 10 ? "" : "readonly";
+				// 삼항연산자 6번째 행(주문량)및 1번쨰 행(진행상태)를 제외하고는 리드온리로 변경할 수 없다			
+				// 단 셀렉트태그는 직접 부여되므로 마찬가지로 수정 할 수 있다
+				if(index === 7 || index === 9 || index === 10){
+					cellOption = "";
+				} else if(index === 0){
+					cellOption = "readonly";
+				} else {
+					cellOption = "disabled";
+				}
 				// 반복문의 숫자에 따라 html 태그의 이름을 네임 이름으로 한다
 				var cellName = cellNames[index];
 				// 반복문의 숫자에 따라 html 태그의 이름을 아이디 이름으로 한다
 				var cellId = cellIds[index];
 				
 				// 반복문에 따라 이너 html 실행 모든 입력칸을 텍스트태그로 바꾼다 단 10행은 셀렉트태그
-				// 단 10번째 행은 셀렉트태그로 하며, tdText(기존의 진행상황값)에 따라 selected 옵션을 삼항연산자 조건문으로 부여한다
-				if(index === 10){
+				// 단 11번째 행은 셀렉트태그로 하며, tdText(기존의 진행상황값)에 따라 selected 옵션을 삼항연산자 조건문으로 부여한다
+				if(index === 11){
 					select = '<td>'+
 					'<select id="'+cellId+'">'+
 						'<option value="1" ' + (tdText === '대기중' ? 'selected' : '') + '>대기중</option>'+
@@ -363,11 +392,88 @@ $(document).ready(function() {
 			
 	});// end function
 	
+	// 저장 버튼 누를 시 실행되는 함수
+	$("#saveProOr").click(function() {
+
+			// 상태가 수정인경우 수정 작업 실행
+	    	if(status === "update"){
+	     	
+	     	// 동적으로 생성된 셀렉트태그는 인식되지않으므로 셀렉트 태그의 값은 직접가져온다
+	     	var selectValue = $('#order_status').val();
+	     	console.log(selectValue);
+	    	// 데이터를 전송하기위한 폼 데이터 직렬화 및 셀렉트 태그 값을 직접 추가한다
+	    	var formData = $('#proOrderList').serialize() + '&' + $.param({ order_status: selectValue });
+	    	
+	    	// AJAX 제출전에 값이 입력되어있는지 정규식 검사를 수행한다
+			if(formTest(formData)){
+	    		// ajax 실행
+	        	$.ajax({
+	            	type: "POST",
+	            	url: "${pageContext.request.contextPath}/sell_ajax/proOrderUpdate",
+	            	data: formData,
+	            	// 통신성공시 콜백함수 response매개변수에 "true" or "false" 결과값이 입력된다
+	            	success: function(response) {
+	            		// 공백을 제거한다
+	            		const result = $.trim(response);
+	            	 
+	                 	if (result == "true") {
+	                	 	Swal.fire('발주 수정이 완료되었습니다.', '성공', 'success').then(result => {
+						 	 	// 사용자가 확인창을 누르면 실행
+	                		 	if(result.isConfirmed){
+						 			location.reload(); // 성공 시 새로고침한다						
+						 		}// end alert_if
+						 });// end alert
+	                 } else {
+	                	 Swal.fire('발주 수정에 문제가 발생했습니다.', '실패', 'error');
+	                 }
+	             },
+	             error: function () {
+	            	 Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+	             }
+	         });//endAJAX(물품 수정)
+			}// end 정규식검사
+			
+	      	// 상태가 추가인경우 추가 작업 실행
+	    	} else if(status === "save"){
+	    		 // 데이터를 전송하기위한 폼 데이터 직렬화
+	        	 var formData = $('#proOrderList').serialize();
+	    		 
+	    		 // AJAX 제출전에 값이 입력되어있는지 정규식 검사를 수행한다
+				 if(formTest(formData)){
+	        	 	// ajax 실행
+	             	$.ajax({
+	                 	type: "POST",
+	                 	url: "${pageContext.request.contextPath}/sell_ajax/proOrderInsert",
+	                 	data: formData,
+	                 	// 통신성공시 콜백함수 response매개변수에 "true" or "false" 결과값이 입력된다
+	                 	success: function(response) {
+	                	 	// 공백을 제거한다
+	                	 	const result = $.trim(response);
+	                	 
+	                     	if (result == "true") {
+	                    		 Swal.fire('발주 추가가 완료되었습니다.', '성공', 'success').then(result => {
+	    					 	 	// 사용자가 확인창을 누르면 실행
+	                    		 	if(result.isConfirmed){
+	    					 			location.reload(); // 성공 시 새로고침한다
+	    					 		}// end alert_if
+	    					 	});// end alert
+	                     	} else {
+	                    	 	Swal.fire('발주 추가에 문제가 발생했습니다.', '실패', 'error');
+	                     	}
+	                 	},
+	                 	error: function () {
+	                	 	Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+	                 	}
+	             	});// endAJAX(물품 추가)
+	    	 	}// end 정규식검사
+	    	 }// end else_if
+	});// end function
+	
 // 이벤트 관련 함수 시작지점
 	
 	// 완제품 코드를 선택하면 새창을 여는 이벤트 리스너
 	$(document).on("click", "input[name='prod_code']", function() {
-		window.open('${pageContext.request.contextPath }/product/rawListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+		window.open('${pageContext.request.contextPath }/product/productListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 	});// end function
 	
 	// 담당자를 선택하면 새창을 여는 이벤트 리스너
@@ -377,7 +483,7 @@ $(document).ready(function() {
 	
 	// 지점코드를 선택하면 새창을 여는 이벤트 리스너
 	$(document).on("click", "input[name='branch_code']", function() {
-		window.open('${pageContext.request.contextPath }/buy/buyListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+		window.open('${pageContext.request.contextPath }/sell/branchListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 	});// end function
 	
 	// 숫자만 입력되야하는 텍스트필드의 이벤트 리스너
