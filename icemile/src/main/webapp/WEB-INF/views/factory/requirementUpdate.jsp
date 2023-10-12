@@ -95,5 +95,78 @@ body {
         <script src="../resources/js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/datatables-simple-demo.js"></script>
+   	
+   	<script>
+   	$(document).ready(function(){
+   	 $('#insertRequirement').submit(function(event) {
+//    	        event.preventDefault(); // 기본 제출 동작을 막습니다.
+
+   	        // 유효성 검사
+   		if($('#prod_code').val()==""){
+   			Swal.fire('완제품을 선택해주세요.', '실패', 'error');
+   			return false;
+   		}
+   		if($('#raw_code').val()==""){
+   			Swal.fire('원재료를 선택해주세요.', '실패', 'error');
+   			return false;
+   		}
+   		if($('#req_amount').val()==""){
+   			Swal.fire('소요량을 입력해주세요.', '실패', 'error');
+   			return false;
+   		}
+   		if($('#req_insertDATE').val()==""){
+   			Swal.fire('등록일을 선택해주세요.', '실패', 'error');
+   			return false;
+   		}
+//    		if($('#req_upDATEDATE').val()==""){
+//    			Swal.fire('수정일을 선택해주세요.', '실패', 'error');
+//    		}
+//    		Swal.fire('등록되었습니다.', '성공', 'success');
+//    		this.submit();
+   		event.preventDefault();
+   		
+   	 	var formData = new FormData(this);
+            
+       	 $.ajax({
+       		    type: "POST",
+       		    url: "${pageContext.request.contextPath}/factoryCopy_ajax/insertRequirement",
+       		    data: formData,
+       		    contentType: false,
+       		    processData: false,
+       		    success: function(response) {
+       		        if (response === "true") {
+       		            Swal.fire('정보 입력이 완료되었습니다.', '성공', 'success').then(result => {
+       		                if (result.isConfirmed) {
+       		                    window.opener.location.reload();
+       		                    window.close();
+       		                }
+       		            });
+       		        } else {
+       		            Swal.fire('정보 입력에 실패했습니다.', '실패', 'error');
+       		        }
+       		    },
+       		    error: function() {
+       		        Swal.fire('서버 통신에 문제가 발생했습니다.', '실패', 'error');
+       		    }
+       		});
+       	
+       });
+   });//submit기능 제어 끝
+
+   function openUpdate() {
+   }
+
+   // 원자재 팝업 리스트 
+   $(document).on("click", "input[name='raw_code']", function() {
+   	window.open('${pageContext.request.contextPath }/product/rawListPopUp', '_blank', 'width=700px, height=400px, left=600px, top=300px');
+   });// end function
+
+   // 완제품 팝업 리스트
+   $(document).on("click", "input[name='prod_code']", function() {
+   	window.open('${pageContext.request.contextPath }/product/productListPopUp', '_blank', 'width=700px, height=400px, left=600px, top=300px');
+   });// end function
+   </script>
+   	
+   	   
     </body>
 </html>
