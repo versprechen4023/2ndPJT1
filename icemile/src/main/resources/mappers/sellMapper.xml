@@ -82,5 +82,11 @@
   	INSERT INTO orders(order_code, branch_code, prod_name, order_amount, order_date, out_plan_date, order_status, emp_num)
  		VALUES(#{order_code}, #{branch_code}, #{prod_name}, #{order_amount}, #{order_date}, #{out_plan_date}, #{order_status}, #{emp_num})
   </insert>
+  
+  <update id="proOrderUpdate">
+  	UPDATE orders
+ 		SET order_amount = #{order_amount}, order_date = #{order_date}, out_plan_date = #{out_plan_date}, order_status = #{order_status}
+ 			WHERE order_code = #{order_code}
+  </update>
 	
 </mapper>

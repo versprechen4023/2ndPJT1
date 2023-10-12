@@ -38,5 +38,8 @@ public interface SellService {
 	
 	// 수주 추가
 	public boolean proOrderInsert(ProOrderDTO proOrderDTO);
+	
+	// 수주 업데이트
+	public boolean proOrderUpdate(ProOrderDTO proOrderDTO);
 
 }

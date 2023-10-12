@@ -135,10 +135,13 @@ public class SellServiceImpl implements SellService{
 		return sellDAO.proOrderInsert(proOrderDTO);
 	}
 
-
+	@Override
 	public boolean proOrderUpdate(ProOrderDTO proOrderDTO) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		log.debug("수주 수정");
+		log.debug("값 잘 넘어오나"+proOrderDTO);
+		
+		return sellDAO.proOrderUpdate(proOrderDTO);
 	}
 
 
