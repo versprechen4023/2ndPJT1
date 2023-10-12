@@ -87,18 +87,19 @@ public class BuyController {
 	}
 	
 	@GetMapping("/buyListPopUp")
-	public String productList2PopUp(Model model) {
+	public String getBuyListPopUp(Model model) {
 		
-		log.debug("buy/buyListPopUp");
+		//거래처 조회
+		log.debug("buy/buyListPopUP.jsp");
 		
-		// 완재품 리스트를 가져오기위한 완재품 리스트 객체생성
+		// 거래처 리스트를 가져오기위한 거래처 리스트 객체생성
 		List<BuyDTO> buyList = new ArrayList<BuyDTO>();
-		buyList = buyService.getBuyListPopUp();
-				
+		buyList = buyService.getBuyList();
+		
 		// 모델에 멤버 DTO값 저장
 		model.addAttribute("buyList", buyList);
 		
-		return "buy/buyListPopUp";
+		return "/buy/buyListPopUp";
 	}
 	
 	

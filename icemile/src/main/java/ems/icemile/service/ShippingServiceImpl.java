@@ -241,7 +241,7 @@ public class ShippingServiceImpl implements ShippingService {
 		outmaterialInsertDTO.setOut_code(out_Code);
 
 		log.debug("출고 테스트 출력" + outmaterialInsertDTO.toString());
-
+		
 		return shippingDAO.mtInsert(outmaterialInsertDTO);
 	}
 

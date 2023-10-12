@@ -125,15 +125,28 @@ public class FactoryAjaxController {
 		
 		log.debug("작업 지시 서치 AJAX 호출");
 		
-		// 멤버리스트를 가져오기위한 멤버리스트 객체생성
+		// 작업 지시 리스트를 가져오기위한 작업 지시 리스트 객체생성
 		List<WorkOrderDTO> workOrderList = new ArrayList<WorkOrderDTO>();
-		//결과값에 따라 멤버리스트를 가져온다
+		//결과값에 따라 작업 지시 리스트를 가져온다
 		workOrderList = factoryCopy2Service.workOrderSearch(json);
 		
 		// 콜백 함수에 결과값 리턴
 		return workOrderList;
 	
 	}
+	
+	@PostMapping("/workOrderDone")
+	public ResponseEntity<String> workOrderDone(@RequestParam("work_code") String work_code) {
+	    try {
+	    	factoryCopy2Service.workOrderDone(work_code);
+	        return new ResponseEntity<>("true", HttpStatus.OK);
+	    } catch (Exception e) {
+	        log.error("Error during workOrderDone: {}", e.getMessage());
+	        return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
+	    }
+	}
+	
+	
 
 }// class FactoryAjaxController
 	

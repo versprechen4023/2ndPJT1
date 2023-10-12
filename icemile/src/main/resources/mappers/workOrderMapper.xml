@@ -78,9 +78,28 @@
   	<bind name="content" value="'%' + content + '%'"/>
   	SELECT *
   		FROM test_work_order
-  			WHERE ${category} LIKE #{content}
+  			<where> 
+  			AND ${category} LIKE #{content}
+  			<if test="workOrderBegin != null and workOrderBegin != '' and workOrderEnd != null and workOrderEnd != ''">
+            							AND work_order_date BETWEEN #{workOrderBegin} AND #{workOrderEnd}
+  			</if>
+  			<if test="workOrderBegin != null and workOrderBegin != '' and workOrderEnd == null and workOrderEnd == ''">
+        	AND work_order_date >= #{workOrderBegin}
+        	</if>
+        	<if test="workOrderDoneBegin != null and workOrderDoneBegin != '' and workOrderDoneEnd != null and workOrderDoneEnd != ''">
+            							AND done_date BETWEEN #{workOrderDoneBegin} AND #{workOrderDoneEnd}
+  			</if>
+  			<if test="workOrderDoneBegin != null and workOrderDoneBegin != '' and workOrderDoneEnd == null and workOrderDoneEnd == ''">
+        	AND done_date >= #{workOrderDoneBegin}
+        	</if>
+  			</where>
   </select>
 
+	<update id="workOrderDone" parameterType="String">
+    UPDATE test_work_order
+    SET done_date = NOW()
+    WHERE work_code = #{work_code}
+</update>
 	
 
 

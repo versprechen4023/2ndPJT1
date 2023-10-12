@@ -233,7 +233,7 @@ $(document).ready(function() {
 
 	      // 부모창으로 값을 전달한다
 	      // getElementById부모 창에서 해당 입력 필드를 찾고 값을 설정하기 위해 사용된다.
-	      opener.document.getElementById("branch").value = branch_code;
+	      opener.document.getElementById("branch_code").value = branch_code;
 	     
 	      // 창을 종료한다
 	      window.close();

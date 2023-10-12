@@ -12,7 +12,7 @@
 <!-- 	자바스크립트 또 지랄나서 위치바꿈 -->
 <script type="text/javascript">
 //조회를 눌렀을때 실행되는 원자재 검색관련 함수
-function productSearch() {
+function workOrderSearch() {
 		
 	   // 값 전달 하기위한 JSON 타입 변수선언
 	   var json = {
@@ -22,7 +22,7 @@ function productSearch() {
 	
 	   // 검색 결과값을 받아오기 위한 ajax 호출
  	   $.ajax({
- 			  url : '${pageContext.request.contextPath}/product_ajax/productSearch',
+ 			  url : '${pageContext.request.contextPath}/factory_ajax/workOrderSearch',
  			  // JSON타입의 변수를 스트링으로 변환한다
  			  data: JSON.stringify(json),
  			  // JSON타입의 변수를 전송한다
@@ -42,9 +42,10 @@ function productSearch() {
  				        var $tr = $('<tr>');
  				    		//tr 에 내용추가
  				        	$tr.append(
- 				        	"<td>"+data.product_code+"</td>",
- 				            "<td>"+data.product_name+"</td>",
- 				           	"<td>"+data.product_taste+"</td>"
+ 				        	"<td>"+data.work_code+"</td>",
+				         	"<td>"+data.line_name+"</td>",
+				         	"<td>"+data.prod_name+"</td>",
+				         	"<td>"+data.branch_name+"</td>"
  				        	);
  				        // 생성한 <tr> 요소를 tbody에 추가
  				        $('tbody').append($tr);
@@ -99,7 +100,7 @@ function productSearch() {
                 <main>
                 <!-- 내용들어가는곳 -->
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">품목관리</h1>
+                        <h1 class="mt-4">작업 지시 관리</h1>
                         <ol class="breadcrumb mb-4">
 <!--                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
@@ -114,32 +115,33 @@ function productSearch() {
                             <div class="card-body">
                             <input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
-  								<option value="prod_code">코드</option>
-  								<option value="prod_name">품명</option>
-  								<option value="prod_taste">종류</option>
-							</select>
+  								<option value="work_code">지시코드</option>
+  								<option value="line_name">라인명</option>
+  								<option value="prod_name">제품명</option>
+  								<option value="branch_name">지점명</option>
+  							</select>
 							<input type="text" name="content" size=20 placeholder="검색어를 입력하세요"
 								id="content">
-							<input type="button" name="search" value="조회" onclick="productSearch()">
+							<input type="button" name="search" value="조회" onclick="workOrderSearch()">
 </form>
                                 <table id="datatablesSimple">
                                 
                                     <thead>
                                     <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
                                         <tr>
-                                            <th>코드</th>
-                                            <th>품명</th>
-                                            <th>종류</th>
-                                            <th>가격</th>
+                                           <th>지시코드</th>
+                                            <th>라인명</th>
+                                            <th>주문량</th>
+                                            <th>작업 지시 완료 날짜</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="productDTO" items="${productListPopUp}">
+                                    <c:forEach var="workOrderDTO" items="${workOrderListPopUp}">
                                         <tr>
-                                            <td>${productDTO.prod_code}</td>
-                                            <td>${productDTO.prod_name}</td>
-                                            <td>${productDTO.prod_taste}</td>
-                                            <td>${productDTO.prod_price}</td>                                      
+                                            <td>${workOrderDTO.work_code}</td>
+                                            <td>${workOrderDTO.line_name}</td>
+                                            <td>${workOrderDTO.order_amount}</td>                                       
+                                            <td>${workOrderDTO.done_date}</td>                                       
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -174,17 +176,15 @@ $(document).ready(function() {
 		
 		  // 값을 전달하기 위한 변수선언
 		  // 이벤트가 발생되는 테이블의 첫번째(0)부터 4번째 까지 텍스트를 변수에 저장한다
-	      var prod_code = $(this).find("td:eq(0)").text();
-	      var prod_name = $(this).find("td:eq(1)").text();
-	      var prod_taste = $(this).find("td:eq(2)").text();
-	      var prod_price = $(this).find("td:eq(3)").text();
+	      var work_code = $(this).find("td:eq(0)").text();
+	      var line_name = $(this).find("td:eq(1)").text();
+	      var order_amount = $(this).find("td:eq(2)").text();
+	      var done_date = $(this).find("td:eq(2)").text();
 		  
 
 	      // 부모창으로 값을 전달한다
-	      opener.document.getElementById("prod_code").value = prod_code;
-	      opener.document.getElementById("prod_name").value = prod_name;
-	      opener.document.getElementById("prod_taste").value = prod_taste;
-	      opener.document.getElementById("prod_price").value = prod_price;
+	      opener.document.getElementById("work_code").value = work_code;
+	      opener.document.getElementById("done_date").value = done_date;
 	      
 	      // 부모창에서 가격값을 갱신하기위해 함수를 호출한다
 	      opener.openUpdate();
@@ -202,7 +202,7 @@ $(document).ready(function() {
 			// 폼 태그 제출을 막는다
 	 		event.preventDefault();
 			// 검색 함수를 실행한다
-	 		productSearch();
+	 		workOrderSearch();
 			// 검색입력창을 초기화한다
 	 		$('#content').val("");
 		}// end if

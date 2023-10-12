@@ -215,11 +215,11 @@ function memberSearch() {
 
 // 멤버 추가관련 함수
 function memberInsert(){
-	window.open('${pageContext.request.contextPath }/member/memberInsert', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/member/memberInsert', '_blank', 'width=590px, height=672px, left=600px, top=300px');
 } //end function
 
 function memberUpdate(emp_num){
-	window.open('${pageContext.request.contextPath }/member/memberUpdate?emp_num='+emp_num, '_blank', 'width=600px, height=770px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/member/memberUpdate?emp_num='+emp_num, '_blank', 'width=600px, height=672px, left=600px, top=300px');
 }
 // 멤버 삭제관련 함수
 function memberDelete(emp_num) {

@@ -37,4 +37,7 @@ public interface ProductService {
 	
 	// 팝업창에서 사용할 완제품 리스트 출력
 	public List<ProductDTO> getProductListPopUp();
+	
+	// 품목 삭제 시 연관된 데이터 처리
+    public boolean deleteRawStock(String prod_code);
 }
