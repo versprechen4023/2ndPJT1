@@ -42,6 +42,10 @@
                         <input type="text" name="workOrderBegin" id="workOrderBegin"> ~
                         <input type="text" name="workOrderEnd" id="workOrderEnd" disabled>
                         <br>
+                        완료 날짜
+                        <input type="text" name="workOrderDoneBegin" id="workOrderDoneBegin" > ~
+                        <input type="text" name="workOrderDoneEnd" id="workOrderDoneEnd"  disabled>
+                        <br>
 						<input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
   								<option value="work_code">지시코드</option>
@@ -147,6 +151,8 @@ function workOrderSearch() {
 	   var json = {
 		   		workOrderBegin: $('#workOrderBegin').val(),
 		   		workOrderEnd: $('#workOrderEnd').val(),
+		   		workOrderDoneBegin: $('#workOrderDoneBegin').val(),
+		   		workOrderDoneEnd: $('#workOrderDoneEnd').val(),
         			category: $('#category').val(),
         			content: $('#content').val()
        			  };
@@ -187,6 +193,7 @@ function workOrderSearch() {
  				            "<td>" +
  				          	"<input type='button' value='수정' onclick='workOrderUpdate(\"" + data.workOrder_code + "\")' id='updateworkOrder'>" +
  				            "<input type='button' value='삭제' onclick='workOrderDelete(\"" + data.workOrder_code + "\")' id='deleteworkOrder'>" +
+ 				            "<input type='button' value='완료' onclick='workOrderDone(\"" + data.workOrder_code + "\")' id='doneWorkOrder'>" +
  				            "</td>"
  				        	);
  				    	} else {
@@ -268,42 +275,40 @@ function workOrderDelete(work_code) {
 	
 }// end_of_function
 
+// 작업 지시 완료 버튼관련 함수
 function workOrderDone(work_code) {
-    // 현재 시간을 얻습니다.
-    var currentTime = new Date();
-    // 날짜 포맷을 원하는 형태로 변환합니다.
-    var formattedTime = currentTime.toISOString(); // 예를 들어 '2023-10-11T15:30:00.000Z' 형식
-
-    // 서버에 현재 시간을 전송하고 DB 업데이트를 수행합니다.
+    // 서버로 완료 요청 보내기
     $.ajax({
         url: '${pageContext.request.contextPath}/factory_ajax/workOrderDone',
-        data: { "work_code": work_code, "done_date": formattedTime },
+        data: { "work_code": work_code },
         type: 'POST',
         success: function (data) {
-            // DB 업데이트 성공 여부를 확인하고 작업을 처리할 수 있습니다.
             if (data === "true") {
-                // 성공 시, 화면에 완료 시간 표시 및 기타 동작 수행
-                // 여기에 완료 시간 표시 등을 구현하세요.
+                
+            	// 현재 날짜 얻기
                 var currentTime = new Date();
-                var formattedTime = currentTime.toLocaleString(); // 예시: "10/11/2023, 15:30:00"
+                // 날짜를 원하는 포맷으로 변경
+            	var formattedDate = currentTime.toLocaleDateString(); // 년월일 형식 (예: "10/11/2023")
                 
-                // DB 업데이트 성공 메시지 표시
-                Swal.fire('작업이 성공적으로 완료되었습니다.', '성공', 'success');
-                
-                // 완료 시간 표시
-                $("#doneWorkOrder_" + work_code).text(formattedTime);
+                // 완료 날짜 표시
+                $("#doneWorkOrder_" + work_code).text(formattedDate);
 
-                // 기타 동작 수행
-                // ...
+                // 성공 메시지 표시
+                Swal.fire('작업이 성공적으로 완료되었습니다.', '성공', 'success').then(function() {
+                    // 페이지 새로고침
+                    location.reload();
+                });
 
+                // 버튼 비활성화
+                $("#doneWorkOrder_" + work_code).prop("disabled", true);
             } else {
-                // DB 업데이트 실패 시, 오류 처리 로직을 추가하세요.
+                // DB 업데이트 실패 시
                 Swal.fire('DB 업데이트에 실패했습니다.', '실패', 'error');
             }
         }
-
     });
 }
+
 
 
 //지시/수정날짜 시작점
@@ -344,6 +349,46 @@ onSelect: function(selectedDate) {
 	
 }// end OnSelect
 }); // end 데이트피커
+
+//완료날짜 시작점
+$("#workOrderDoneBegin").datepicker({
+    dateFormat: 'yy-mm-dd',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+    dayNames: ['일','월','화','수','목','금','토'],
+    dayNamesShort: ['일','월','화','수','목','금','토'],
+    dayNamesMin: ['일','월','화','수','목','금','토'],
+    showMonthAfterYear: true,
+    yearSuffix: '년',
+    onSelect: function(selectedDate) {
+        // 지시/수정날짜 끝점(데이트피커)을 초기화하고 동적변경을 위해 데이트피커의 초기값을 변수에 담는다
+        var mySecondDatePicker = $("#workOrderDoneEnd").datepicker({
+            dateFormat: 'yy-mm-dd',
+            prevText: '이전 달',
+            nextText: '다음 달',
+            monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+            dayNames: ['일','월','화','수','목','금','토'],
+            dayNamesShort: ['일','월','화','수','목','금','토'],
+            dayNamesMin: ['일','월','화','수','목','금','토'],
+            showMonthAfterYear: true,
+            yearSuffix: '년',
+            minDate: selectedDate
+        });
+
+        // 입고예정일 끝점을 선택할 수 있게한다
+        $("#workOrderDoneEnd").removeAttr("disabled");
+        // 입고예정일 끝점을 초기화한다
+        $("#workOrderDoneEnd").val("");
+        // 동적으로 minDate 를 업데이트한다
+        mySecondDatePicker.datepicker("option", "minDate", selectedDate);
+    }
+});
+
+
+
 //엔터키 입력시 검색되게 이벤트 리스너 활성화
 document.addEventListener("keyup", function(event) {
     if (event.key === 'Enter') {

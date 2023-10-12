@@ -135,6 +135,17 @@ public class FactoryAjaxController {
 	
 	}
 	
+	@PostMapping("/workOrderDone")
+	public ResponseEntity<String> workOrderDone(@RequestParam("work_code") String work_code) {
+	    try {
+	    	factoryCopy2Service.workOrderDone(work_code);
+	        return new ResponseEntity<>("true", HttpStatus.OK);
+	    } catch (Exception e) {
+	        log.error("Error during workOrderDone: {}", e.getMessage());
+	        return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
+	    }
+	}
+	
 	
 
 }// class FactoryAjaxController
