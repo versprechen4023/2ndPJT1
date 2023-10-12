@@ -33,4 +33,7 @@ public interface BuyDAO {
 	
 	// 번호 중복 검사
 	boolean searchPhone(String buy_phone);
+	
+	// 구매처 팝업 리스트
+	public List<BuyDTO> getBuyListPopUp();
 }

@@ -16,22 +16,22 @@
   	</delete>
 	
 	<select id="getNewIn_code" resultType="java.lang.String">
-	  <bind name="buy_codeNum2" value="'%_' + buy_codeNum2 + '%'"/>
+	  <bind name="trBuy_codeNum" value="'%\\_' + trBuy_codeNum + '%'"/>
 		SELECT in_code
 		FROM in_material
-		WHERE in_code LIKE #{buy_codeNum2}
+		WHERE in_code LIKE #{trBuy_codeNum}
 		ORDER BY in_code DESC
 		LIMIT 1
 	</select>
 	
-	<select id="getBuy_code" resultType="java.lang.String">
-		SELECT buy_code
-		FROM in_material
-		LIMIT 1
-	</select>
+<!-- 	<select id="getBuy_code" resultType="java.lang.String"> -->
+<!-- 		SELECT buy_code -->
+<!-- 		FROM in_material -->
+<!-- 		LIMIT 1 -->
+<!-- 	</select> -->
 	
 	<insert id="inMaterialInsert">
-		INSERT INTO in_material
+		INSERT INTO in_material(in_code,in_wh_code,raw_order_code,emp_num,in_status )
 		VALUES(#{in_code}, #{in_wh_code}, #{raw_order_code}, #{emp_num}, #{in_status})
 	</insert>
 	

@@ -29,7 +29,10 @@ public interface BuyService {
 	public boolean searchPhone(String buy_phone); 
 
 	// 구매처 검색
-	public List<BuyDTO> buySearch(HashMap<String, Object> json); 
+	public List<BuyDTO> buySearch(HashMap<String, Object> json);
+	
+	// 구매처 팝업 리스트
+	public List<BuyDTO> getBuyListPopUp(); 
 
 	
 

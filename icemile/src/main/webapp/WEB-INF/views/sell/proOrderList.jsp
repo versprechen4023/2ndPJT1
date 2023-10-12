@@ -149,6 +149,118 @@
 //추가, 수정 을 구분하기위한 전역변수선언
 var status = "";
 
+//수주 검색 관련 함수
+function rawOrderSearch() {
+	   // 값을 전달 하기위한 JSON 타입 변수선언
+	   var json = {
+			   		proOrderBegin: $('#proOrderBegin').val(),
+			   		proOrderEnd: $('#proOrderEnd').val(),
+			   		proOrderOutBegin: $('#proOrderOutBegin').val(),
+			   		proOrderOutEnd: $('#proOrderOutEnd').val(),
+    				status: $('#status').val(),
+    				content: $('#content').val()
+   			  };
+
+	   // 검색 결과값을 받아오기 위한 ajax 호출
+	   $.ajax({
+			  url : '${pageContext.request.contextPath}/sell/proOrderSearch',
+			  // JSON타입의 변수를 스트링으로 변환한다
+			  data: JSON.stringify(json),
+			  // JSON타입의 변수를 전송한다
+	          contentType: 'application/json',
+			  type : 'POST',
+			  // 반환은 JSON 타입
+			  dataType: 'json',
+			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
+			  success:function(json){
+				  
+				    // tbody 내용을 초기화
+				    $('tbody').empty();
+					
+				    // json 배열에 값이 없는 경우 추가가 안되는걸 방지하기위한 tr태그 생성
+				    if(json.length === 0){
+				    	// tr 태그 생성
+				        var $tr = $('<tr>');
+				        $('tbody').append($tr);
+				    }
+				    
+				    // 배열 크기만큼 반복
+				    json.forEach(function (data) {
+				    	
+				    	// 상태표현을 위한변수 선언
+				    	var status = "";
+				    	if(data.raw_status == 1){
+				    		status = "발주중";
+				    	} else {
+				    		status = "발주확정";
+				    	}
+				    	
+				    	// tr 태그 생성
+				        var $tr = $('<tr>');
+				    		//tr 에 내용추가
+				        	$tr.append(
+				        	'<td><input type="checkbox" name="selectedProOrderId" value="' + data.order_code + '"></td>',
+				        	"<td>"+data.raw_order_code+"</td>",
+				            "<td>"+data.raw_code+"</td>",
+				           	"<td>"+data.raw_name+"</td>",
+				            "<td>"+data.raw_type+"</td>",
+				         	"<td>"+data.buy_code+"</td>",
+				         	"<td>"+data.buy_name+"</td>",
+				         	"<td>"+data.raw_order_amount+"</td>",
+				         	"<td>"+data.raw_price+"</td>",
+				         	"<td>"+data.raw_fullprice+"</td>",
+				         	"<td>"+data.raw_order_date+"</td>",
+				         	"<td>"+data.in_plan_date+"</td>",
+				         	"<td>"+status+"</td>",
+				         	'<td><a href="#" onclick="memberInfo(\'' + data.emp_num + '\')">' + data.emp_num + '</a></td>'
+				        	);
+				        // 생성한 <tr> 요소를 tbody에 추가
+				        $('tbody').append($tr);
+				    });
+
+					// 페이징 동적 처리
+				    // 태그 개수 구하기
+				    var trCount = $('tbody tr').length;
+				    // 페이징 처리를 위한 변수선언(태그 개수 계산)
+				    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
+				    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
+				   	var dataPageValues = [];
+				    	// 페이징 버튼의 밸류값을 추출 한다
+				  		$('.datatable-pagination-list-item a').each(function() {
+				      		var dataPageValue = $(this).data('page');
+				      		dataPageValues.push(dataPageValue);
+				  		});
+				    	
+				  	// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
+				  	dataPageValues = dataPageValues.filter(function(value) {
+					return value > parseInt(pageCount);
+					});
+				  	
+				  	// 중복을 삭제한다 indexOf로 첫번째 위치만을 출력한다 중복된다면 첫번째위치가 아닌 다른위치에 있을 것이므로
+				  	// 모두 false 처리하여 삭제한다
+				  	var myArray = dataPageValues.filter(function(value, index, self) {
+					return self.indexOf(value) === index;
+					});
+				  	
+				  	// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
+				  	var minValue = Math.min(myArray);
+				  	var maxValue = Math.max(myArray);
+				  	
+				  	// 글이 11개 이하라면(즉 페이징이 필요없는경우)
+				    if(trCount < 11){
+				    	// 페이징을 삭제
+				   	    $('.datatable-pagination-list').remove();
+				    } else {
+				    	// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
+				    	for(var i = minValue; i<=maxValue; i++){
+				    		$('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
+				    	}
+				    }
+				  	
+		      }// 콜백함수 종료지점
+  });// end_of_ajax
+} // end function
+
 //날짜 계산 함수
 function getDate() {
 	// 현재 날짜를 변수에 담는다

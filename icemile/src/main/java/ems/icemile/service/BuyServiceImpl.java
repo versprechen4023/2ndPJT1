@@ -100,6 +100,12 @@ public class BuyServiceImpl implements BuyService{
 		return buyDAO.searchPhone(buy_phone);
 	}
 	
+	@Override
+	public List<BuyDTO> getBuyListPopUp() {
+		log.debug("구매처 팝업리스트 서비스");
+		return buyDAO.getBuyListPopUp();
+	}
+	
 	
 	
 }
