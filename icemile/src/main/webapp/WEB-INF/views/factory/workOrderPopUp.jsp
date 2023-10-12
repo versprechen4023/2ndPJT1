@@ -179,12 +179,13 @@ $(document).ready(function() {
 	      var work_code = $(this).find("td:eq(0)").text();
 	      var line_name = $(this).find("td:eq(1)").text();
 	      var order_amount = $(this).find("td:eq(2)").text();
-	      var done_date = $(this).find("td:eq(2)").text();
+	      var done_date = $(this).find("td:eq(3)").text();
 		  
 
 	      // 부모창으로 값을 전달한다
 	      opener.document.getElementById("work_code").value = work_code;
 	      opener.document.getElementById("done_date").value = done_date;
+	      opener.document.getElementById("order_amount").value = order_amount;
 	      
 	      // 부모창에서 가격값을 갱신하기위해 함수를 호출한다
 	      opener.openUpdate();
