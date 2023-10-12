@@ -39,5 +39,5 @@ public interface ProductService {
 	public List<ProductDTO> getProductListPopUp();
 	
 	// 품목 삭제 시 연관된 데이터 처리
-    public boolean deleteRawStock(String prod_code);
+	public boolean deleteRawStock(List<String> rawStockDelete);
 }

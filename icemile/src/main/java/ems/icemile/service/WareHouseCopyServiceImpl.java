@@ -27,6 +27,16 @@ public class WareHouseCopyServiceImpl implements WareHouseCopyService {
 		return wareHouseDAO.getRawStockList();
 	}
 
+
+	// 원자재 실수량 수정
+	@Override
+	public void updateRawStock(StockDTO stockDTO) {
+		
+		log.debug("WareHouseService updateRawStock()");
+		
+		wareHouseDAO.updateRawStock(stockDTO);
+	}
+
 	
 	
 	

@@ -1,6 +1,7 @@
 package ems.icemile.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import ems.icemile.dto.ProductAllDTO;
 import ems.icemile.dto.ProductInsertDTO;
 import ems.icemile.dto.RawMaterialDTO;
+import ems.icemile.dto.StockDTO;
 import ems.icemile.service.ProductServiceImpl;
+import ems.icemile.service.WareHouseCopyService;
+import ems.icemile.service.WareHouseCopyServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -64,7 +68,16 @@ public class ProductAjaxController {
 		    codeAndTypeList.add(codeAndType);
 		}
 		
-		return Boolean.toString(productService.productDelete(codeAndTypeList));
+		boolean result = productService.productDelete(codeAndTypeList);
+		
+		if(result) {
+			List<String> rawStockDelete = Arrays.asList(selectedProId);
+			
+			return Boolean.toString(productService.deleteRawStock(rawStockDelete));
+		}
+		return "false";
+		
+		//return Boolean.toString(productService.productDelete(codeAndTypeList));
 	}
 	
 	@PostMapping("search")

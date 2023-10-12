@@ -45,6 +45,20 @@ public class WareHouseCopyController {
 		return "warehouse/rawStock";
 	}
 	
+	
+	// 가상주소: http://localhost:8080/FunWeb/warehouse/updateFacility
+	@PostMapping("/updateRawStock")
+	public String updateFacility(StockDTO StockDTO) {
+		// 원자재 실수량 수정
+		log.debug("FactoryController updateFacility()");
+		
+		// facilityDTO 담아서 factoryService에 updateFacility 메서드 생성
+		warehouseService.updateRawStock(StockDTO);
+		
+		// 주소 -> /factory/facility로 변경되면서 이동
+		return "redirect:/warehouse/rawStock";
+	}
+	
 
 	
 	

@@ -15,7 +15,8 @@ public interface WareHouseCopyDAO {
 	// 재고 코드 생성
 	int getNewStockCode();
 
-	// 원자재 재고 삭제
-	boolean deleteRawStock(String prod_code);
+	// 원자재 실수량 수정
+	void updateRawStock(StockDTO stockDTO);
+
 
 }

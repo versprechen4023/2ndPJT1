@@ -42,6 +42,6 @@ public interface ProductDAO {
 	public List<ProductDTO> getProductListPopUp();
 	
     // 품목 코드로 품목 삭제 및 Stock에서 품목 삭제
-    public boolean rawStockDelete(String prod_code);
+	public boolean deleteRawStock(List<String> rawStockDelete);
 	
 }
