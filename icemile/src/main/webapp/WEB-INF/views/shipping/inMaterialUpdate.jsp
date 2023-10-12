@@ -10,81 +10,55 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>아이스마일</title>
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-<link href="../resources/css/styles.css" rel="stylesheet" />
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-	
-	<style>
-body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh; /* 화면 높이 100%로 설정하여 수직 중앙 정렬 */
-	margin: 0; /* 페이지 바깥 여백 제거 */
-}
-#btn {
-	text-align: center; /* 가로 중앙 정렬 */
-	margin: 20px; /* 버튼 간격 설정 */
-	font-size: 16px; /* 버튼 텍스트 크기 설정 */
-	padding: 5px 20px; /* 버튼 안 여백 설정 */
-}
-</style>
+	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+ 		<link href="../resources/css/addTableVertical.css" rel="stylesheet" />
 </head>
 
-<body class="sb-nav-fixed">
-	<!-- 헤더 -->
-	<jsp:include page="../include/header.jsp"></jsp:include>
-	<!-- 헤더 -->
-	<div id="layoutSidenav">
-		<div id="layoutSidenav_content">
-<main>
-<h1>입고 수정</h1>
-
-<form action="${pageContext.request.contextPath}/shipping/updateInMaterial?in_code=${inMaterialDTO.in_code}" id="updateInMaterial" method="POST">
-
-<table border="1">
-<tr>
-<th>입고코드</th>
-<th>창고코드</th>
-<th>발주코드</th>
-<th>담당자</th>
-<th>입고현황</th>
-<!-- <th>수정일</th> -->
-<!-- <th>비고</th> -->
-</tr>
-
-
-<tr>
-<!-- 입고 코드 -->
-<td>${inMaterialDTO.in_code }
-<input type="hidden" name="in_code" value="${inMaterialDTO.in_code }" id="in_code"></td>
-<!-- 창고 코드 -->
-<td><input type="text" name="in_wh_code" value="${inMaterialDTO.in_wh_code }" id="in_wh_code" size="11"></td>
-<!-- 발주 코드 -->
-<td><input type="text" name="raw_order_code" value="${inMaterialDTO.raw_order_code }" id="raw_order_code" size="11"></td> 
-<!-- 입고 담당자 -->
-<td><input type="text" name="emp_num" value="${inMaterialDTO.emp_num }" id="emp_num" size="7"></td>
-<!-- 입고 현황 -->
-<td><select name="in_status" id="in_status">
-	<option >현황 선택</option>
-   	<option value="1">입고전</option>
-    <option value="2">입고중</option>
-    <option value="3">입고확정</option>
-		</select> 
-</td>
-</tr>
-
+<body>
+	<div id ="container">		
+	<form action="${pageContext.request.contextPath}/shipping/updateInMaterial?in_code=${inMaterialDTO.in_code}" id="updateInMaterial" method="POST">
+		<h1>입고 수정</h1>
+		
+		<table>
+		<tr>
+				<th>입고코드</th>
+				<th>창고코드</th>
+				<th>발주코드</th>
+				<th>담당자</th>
+				<th>입고현황</th>
+		</tr>
+		<tr>
+				<!-- 입고 코드 -->
+				<td>${inMaterialDTO.in_code }<input type="hidden" name="in_code" value="${inMaterialDTO.in_code }" id="in_code"></td>
+				<!-- 창고 코드 -->
+				<td><input type="text" name="in_wh_code" value="${inMaterialDTO.in_wh_code }" id="in_wh_code"></td>
+				<!-- 발주 코드 -->
+				<td><input type="text" name="raw_order_code" value="${inMaterialDTO.raw_order_code }" id="raw_order_code" ></td> 
+				<!-- 입고 담당자 -->
+				<td><input type="text" name="emp_num" value="${inMaterialDTO.emp_num }" id="emp_num"></td>
+				<!-- 입고 현황 -->
+				<td><select name="in_status" id="in_status">
+					<option >현황 선택</option>
+   					<option value="1">입고전</option>
+    				<option value="2">입고중</option>
+    				<option value="3">입고확정</option>
+						</select> 
+				</td>
+		</tr>
 </table>
-		<div id="btn">
-			<input type="submit" value="수정">
-			<input type="reset" value="취소">
+
+			<!-- 등록 버튼 -->
+			<div id="bottomContainer">
+				<input type="submit" id="btn" value="수정">
+			</div>
+			
+		</form>
 		</div>
-</form>
 	
-	</main>
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 -->  
+
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
        	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
