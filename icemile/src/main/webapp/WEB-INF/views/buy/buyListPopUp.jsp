@@ -12,7 +12,7 @@
 <!-- 	자바스크립트 또 지랄나서 위치바꿈 -->
 <script type="text/javascript">
 //조회를 눌렀을때 실행되는 원자재 검색관련 함수
-function rawOrderSearch() {
+function buySearch() {
 		
 	   // 값 전달 하기위한 JSON 타입 변수선언
 	   var json = {
@@ -22,7 +22,7 @@ function rawOrderSearch() {
 	
 	   // 검색 결과값을 받아오기 위한 ajax 호출
  	   $.ajax({
- 			  url : '${pageContext.request.contextPath}/buyOrder/rawOrderSearch',
+ 			  url : '${pageContext.request.contextPath}/buy_ajax/buySearch',
  			  // JSON타입의 변수를 스트링으로 변환한다
  			  data: JSON.stringify(json),
  			  // JSON타입의 변수를 전송한다
@@ -42,10 +42,9 @@ function rawOrderSearch() {
  				        var $tr = $('<tr>');
  				    		//tr 에 내용추가
  				        	$tr.append(
- 				        	"<td>"+data.raw_order_code+"</td>",
+ 				        	"<td>"+data.buy_code+"</td>",
  				            "<td>"+data.buy_name+"</td>",
- 				           	"<td>"+data.raw_name+"</td>",
- 				            "<td>"+data.raw_order_amount+"</td>"         
+ 				           	"<td>"+data.buy_ceo+"</td>"      
  				        	);
  				        // 생성한 <tr> 요소를 tbody에 추가
  				        $('tbody').append($tr);
@@ -100,7 +99,7 @@ function rawOrderSearch() {
                 <main>
                 <!-- 내용들어가는곳 -->
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">발주관리</h1>
+                        <h1 class="mt-4">매입처</h1>
                         <ol class="breadcrumb mb-4">
 <!--                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
@@ -115,32 +114,29 @@ function rawOrderSearch() {
                             <div class="card-body">
                             <input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
-  								<option value="raw_order_code">발주코드</option>
-  								<option value="buy_name">거래처명</option>
-  								<option value="raw_name">원재료명</option>
+  								<option value="buy_code">매입처 코드</option>
+  								<option value="buy_name">매입처명</option>
 							</select>
 							<input type="text" name="content" size=20 placeholder="검색어를 입력하세요"
 								id="content">
-							<input type="button" name="search" value="조회" onclick="rawOrderSearch()">
+							<input type="button" name="search" value="조회" onclick="buySearch()">
 </form>
                                 <table id="datatablesSimple">
                                 
                                     <thead>
                                     <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
                                         <tr>
-                                            <th>발주코드</th>
-                                            <th>거래처명</th>
-                                            <th>원재료명</th>
-                                            <th>발주량</th>
+                                            <th>매입처코드</th>
+                                            <th>매입처명</th>
+                                            <th>대표자</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="RowOrderListDTO" items="${rawOrderList}">
+                                    <c:forEach var="BuyDTO" items="${buyList}">
                                         <tr>
-                                            <td>${RowOrderListDTO.raw_order_code}</td>
-                                            <td>${RowOrderListDTO.buy_name}</td>
-                                            <td>${RowOrderListDTO.raw_name}</td>
-                                            <td>${RowOrderListDTO.raw_order_amount}</td>
+                                            <td>${BuyDTO.buy_code}</td>
+                                            <td>${BuyDTO.buy_name}</td>
+                                            <td>${BuyDTO.buy_ceo}</td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -175,12 +171,11 @@ $(document).ready(function() {
 		
 		  // 값을 전달하기 위한 변수선언
 		  // 이벤트가 발생되는 테이블의 첫번째(0)부터 4번째 까지 텍스트를 변수에 저장한다
-	      var raw_order_code = $(this).find("td:eq(0)").text();
+	      var buy_code = $(this).find("td:eq(0)").text();
 	      var buy_name = $(this).find("td:eq(1)").text();
-	      var raw_name = $(this).find("td:eq(2)").text();
-	      var raw_order_amount = $(this).find("td:eq(3)").text();
+	      var buy_ceo = $(this).find("td:eq(2)").text();
 	      // 부모창으로 값을 전달한다
-	      opener.document.getElementById("raw_order_code").value = raw_order_code;
+	      opener.document.getElementById("buy_code").value = buy_code;
 	 		
 	      
 	      // 부모창에서 가격값을 갱신하기위해 함수를 호출한다
@@ -199,7 +194,7 @@ $(document).ready(function() {
 			// 폼 태그 제출을 막는다
 	 		event.preventDefault();
 			// 검색 함수를 실행한다
-	 		rawOrderSearch();
+	 		buySearch();
 			// 검색입력창을 초기화한다
 	 		$('#content').val("");
 		}// end if

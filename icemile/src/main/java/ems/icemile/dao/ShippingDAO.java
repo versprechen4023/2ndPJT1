@@ -34,7 +34,7 @@ public interface ShippingDAO {
 	public List<InMaterialDTO> inMateSearch(HashMap<String, Object> json);
     
 	// 입고 getbuy_code
-	public String getBuy_code();
+//	public String getBuy_code();
 	
 	//출고 관리 리스트 가져오기 
 	List<outMaterialDTO> getoutMaterialList();
@@ -56,8 +56,5 @@ public interface ShippingDAO {
     
 	//출고 검색
 	List<outMaterialDTO> mtSearch(HashMap<String, Object> json);
-
-	
-
 
 }

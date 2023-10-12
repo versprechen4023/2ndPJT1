@@ -52,7 +52,7 @@ public class ShippingAjaxController {
     public ResponseEntity<String> inMaterialInsert(InMaterialDTO inMaterialDTO) {
     	try {
     		log.debug("{}",inMaterialDTO);
-//            shippingService.inMaterialInsert(inMaterialDTO);
+            shippingService.inMaterialInsert(inMaterialDTO);
             return new ResponseEntity<>("true", HttpStatus.OK); // 성공 시 "true" 반환
         } catch (Exception e) {
             log.error("Error during insertInMaterial: {}", e.getMessage());

@@ -117,11 +117,11 @@ public class BuyOrderContorller {
 		log.debug("rawOrderListPopUp");
 		
 		// 완재품 리스트를 가져오기위한 완재품 리스트 객체생성
-		List<RawOrderDTO> rawOrderListPopUp = new ArrayList<RawOrderDTO>();
-		rawOrderListPopUp = buyOrderService.getRawOrderListPopUp();
+		List<RawOrderDTO> rawOrderList = new ArrayList<RawOrderDTO>();
+		rawOrderList = buyOrderService.getRawOrderListPopUp();
 				
 		// 모델에 멤버 DTO값 저장
-		model.addAttribute("rawOrderListPopUp", rawOrderListPopUp);
+		model.addAttribute("rawOrderList", rawOrderList);
 		
 		return "buy/rawOrderListPopUp";
 	}
