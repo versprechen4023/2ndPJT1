@@ -73,7 +73,14 @@
 	</select>
 	<!-- 출고 검색 -->
 
-
+    <!--     modal_wh -->
+    <select id="searchModalwh" resultType="ems.icemile.dto.WareHouseDTO">
+        SELECT *
+		FROM warehouse
+		WHERE wh_code = #{wh_code}
+		limit 1
+    </select>
+    <!--     modal_wh -->
 
 </mapper>
   

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 
 import ems.icemile.dto.InMaterialDTO;
+import ems.icemile.dto.WareHouseDTO;
 import ems.icemile.dto.outMaterialDTO;
 import ems.icemile.dto.outMaterialInsertDTO;
 
@@ -145,5 +146,15 @@ public class ShippingDAOImpl implements ShippingDAO {
 
 		return sqlSession.selectList(namespace2 + "mtSearch", json);		
 	}
+    
+	//modal_wh_code
+	@Override	
+	public WareHouseDTO searchModalwh(String wh_code) {
+		log.debug("searchModalwh DAO 도달");
+
+		return sqlSession.selectOne(namespace + "searchModalwh", wh_code);
+
+	}
+	
 
 }

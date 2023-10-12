@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import ems.icemile.dto.outMaterialDTO;
+import ems.icemile.dto.WareHouseDTO;
+
 import ems.icemile.dto.outMaterialInsertDTO;
 
 
@@ -56,6 +58,9 @@ public interface ShippingDAO {
     
 	//출고 검색
 	List<outMaterialDTO> mtSearch(HashMap<String, Object> json);
+    
+    //modal_wh
+	WareHouseDTO searchModalwh(String wh_code);
 
 	
 

@@ -1,6 +1,8 @@
 package ems.icemile.service;
 
 import ems.icemile.dto.InMaterialDTO;
+import ems.icemile.dto.WareHouseDTO;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,5 +48,8 @@ public interface ShippingService {
 	
 	// 입고 검색
 	public List<InMaterialDTO> inMateSearch(HashMap<String, Object> json);
+    
+	// modal_wh_code
+	public WareHouseDTO searchModalwh(String wh_code);
 
 }

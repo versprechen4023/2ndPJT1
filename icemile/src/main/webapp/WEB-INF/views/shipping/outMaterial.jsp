@@ -4,6 +4,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style>
+        .modaldetail {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #000;
+            padding: 10px;
+            z-index: 1;
+        }
+    </style>
 <!-- 헤더 -->
 <jsp:include page="../include/header.jsp"></jsp:include>
 <!-- 헤더 -->
@@ -71,16 +81,19 @@
 											<th>출고현황</th>
 										</tr>
 									</thead>
+=
 
 									<tbody>
 										<c:forEach var="outMaterialDTO" items="${outMaterialList}">
 											<tr>
-												<td><input type="checkbox" name="selectedProId"
-													value="${outMaterialDTO.out_code}" class="eachCheckbox"></td>
+												<td>
+												<input type="checkbox" name="selectedProId"
+													value="${outMaterialDTO.out_code}" class="eachCheckbox">
+												</td>
 												<td>${outMaterialDTO.out_code}</td>
-												<td>${outMaterialDTO.out_wh_code}</td>
-												<td>${outMaterialDTO.order_code}</td>
-												<td>${outMaterialDTO.emp_num}</td>
+												<td><input type="button" onclick="openModal(this)" name="${outMaterialDTO.out_wh_code}" value="${outMaterialDTO.out_wh_code}"></td>
+												<td><input type="button" onclick="openModal(this)" name="${outMaterialDTO.order_code}" value="${outMaterialDTO.order_code}" ></td>
+												<td><input type="button" onclick="openModal(this)" name="${outMaterialDTO.emp_num}" value="${outMaterialDTO.emp_num}" ></td>
 												<td><c:choose>
 														<c:when test="${outMaterialDTO.out_status eq 1}">출고 전</c:when>
 														<c:when test="${outMaterialDTO.out_status eq 2}">출고 중</c:when>
@@ -95,7 +108,9 @@
 
 		</div>
 	</div>
-
+	
+	 
+	
 	<input type="button" value="엑셀파일다운" id="excelProd">
 
 	</div>
@@ -107,7 +122,114 @@
 	<!-- 푸터 -->
 	</div>
 	</div>
+	
+    <!-- 모달창 -->
+    <div id="myModal" class="modaldetail">
+        <span id="closeModalButton" style="cursor: pointer;">닫기</span>
+        <!-- <h2>out_codedetail()</h2> --> 
+        <table id="modaltable">
+        <tr>
+        <td><input type="text" id="mv1" value="" size="5" readonly></td>
+        <td><input type="text" id="mv2" value="test2" size="5" readonly></td>
+        <td><input type="text" id="mv3" value="test3" size="5" readonly></td>
+        <td><input type="text" id="mv4" value="test4" size="5" readonly></td>
+        </tr>
+        </table>
+    </div>
+    
+    <script>
+        
+        //modal창의 id 값 할당
+        const myModal = document.getElementById("myModal");
+        //modal닫기 id 값 할당
+        const closeModalButton = document.getElementById("closeModalButton");
+        //test1값의 id를 element 변수에 넣음
+        const element1 = document.getElementById("mv1");
+       const element2 = document.getElementById("mv2");
+       const element3 = document.getElementById("mv3");
+       const element4 = document.getElementById("mv4");
 
+        
+        //modal창에 열기 위한 이벤트 헨들러
+        function openModal(e) {
+        	//클릭한 요소의 name의 속성 값을 가져와서 clickedElementName변수에 저장한다
+        	//즉 이 부분은 클릭한 요소의 name속성을 추출하는 역할
+        	const clickedElementValue = e.getAttribute("name");
+            
+        	// 이 코드는 "myModal"이라는 모달 창을 화면에 표시하도록 설정합니다.
+        	// "block" 값은 CSS에서 요소를 보여준다는 의미입니다.
+        	myModal.style.display = "block";
+        	
+        	//"element"는 모달 창 내의 입력란을 나타내는 변수입니다.
+        	// 이 코드는 모달 창의 입력란에 "clickedElementName" 변수에 저장된 값을 표시합니다.
+        	// 이로써 클릭한 요소의 이름이 모달 창에 나타납니다
+//        	element.value = clickedElementValue;
+//         	element2.value = clickedElementValue;
+//         	element3.value = clickedElementValue;
+//         	element4.value = clickedElementValue;
+
+
+          	//modal_ajax 
+        	$.ajax({
+        		url : '${pageContext.request.contextPath}/Shipping_ajax/modalSearch',
+        	  // element의 값을 데이터로 보낸다
+        	  // javaScript 객체를 json 문자열로 변환하여 서버로 보낸다.
+        	  // 이부분은 서버로 전송하고자 하는 데이터의 구조와 내용을 정의합니다.
+        	  data: {wh_code:clickedElementValue},
+        	  
+        	  // "contentType"은 AJAX 요청에서 보내는 데이터의 형식을 지정하는 부분입니다.
+        	  // 이것은 클라이언트가 서버로 데이터를 보낼 때, 그 데이터가 어떤 형식으로 구성되어 있는지를 서버에 알리는 역할을 합니다.
+        	  // "application/json;"은 이 데이터가 JSON 형식임을 나타내며,
+        	  // 이것은 서버에게 데이터가 JSON으로 구성되어 있으며 이에 따라 파싱되어야 함을 알려줍니다.
+        	  
+        	  type : 'GET',
+        	  //이 부분은 서버로부터의 응답 데이터가 어떤 형식인지를 지정한다
+        	  dataType:'json',
+        	  
+        	  success: function (json) {
+                  $('#modaltable').empty();
+                  
+                  // 반복문을 사용하여 json 데이터를 처리
+                  json.forEach(function (data) {
+                      element1.value = data.wh_name;
+                      element2.value = data.prod_code;
+                      element3.value = data.raw_code;
+                      element4.value = data.emp_num;
+                  });
+              }
+          });
+        
+        	
+        	// "getBoundingClientRect()" 메서드를 사용하여 클릭한 요소의 화면 좌표 정보를 가져옵니다.
+        	// 이 정보는 모달 창의 위치를 설정하는 데 사용됩니다.
+            const rect = e.getBoundingClientRect();
+            
+        	// 클릭한 요소의 오른쪽 아래 모서리의 화면 좌표를 "x"와 "y" 변수에 저장합니다.
+        	// 이것은 모달 창을 클릭한 요소의 위치에 배치하는 데 사용됩니다.
+            var x = rect.right;
+            var y = rect.top;
+            
+            // 이 코드는 "myModal" 모달 창의 위치를 설정합니다.
+            // "style.left"와 "style.top"을 사용하여 "x"와 "y" 값에 따라 모달 창을 위치시킵니다.
+            // "px"는 픽셀 단위를 나타냅니다.
+            myModal.style.left = x + "px";
+            myModal.style.top = y + "px";
+        }
+       
+        
+        // 이 부분은 "closeModalButton" 버튼에 대한 클릭 이벤트를 감지하고,
+        // 클릭 이벤트가 발생했을 때 실행할 함수를 설정합니다.
+         closeModalButton.addEventListener("click", function (e) {
+        	// 이 코드는 클릭 이벤트가 발생한 요소(e.target)가 
+        	// "closeModalButton" 요소와 일치하는지 확인합니다.
+            if (e.target === closeModalButton) {
+                myModal.style.display = "none";
+            }
+        });
+       
+    </script>
+    
+    
 	<!-- 모달 alert를 위한 sweetalert 호출 -->
 	<link rel="stylesheet"
 		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
@@ -127,7 +249,8 @@
 	<script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
 	<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 
-	<script>	
+	<script>
+	
 //////////////////////////////////////////////추가, 수정 을 구분하기위한 전역변수선언/////////////////////////////////////////
 var status = "";
 

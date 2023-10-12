@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ems.icemile.dto.InMaterialDTO;
@@ -123,5 +124,16 @@ public class ShippingAjaxController {
 
 		// 콜백 함수에 결과값 리턴
 		return outMaterialList;
-	}	
+	}
+	
+	
+	@GetMapping("modalSearch")
+	public WareHouseDTO modalSearch(@RequestParam("wh_code") String wh_code) {
+		
+		log.debug("서치 modal 웨어하우스 AJAX 호출");
+
+		return shippingService.searchModalwh(wh_code);
+		
+	}
+	
 }
