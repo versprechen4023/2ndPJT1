@@ -10,77 +10,50 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>아이스마일</title>
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-<link href="../resources/css/styles.css" rel="stylesheet" />
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-	
-	<style>
- table {
-    width: 100%;
-    border-top: 1px solid #444444;
-    border-collapse: collapse;
-  }
-  th, td {
-    border-bottom: 1px solid #444444;
-    padding: 10px;
-        text-align: center;
-  }
-  
+	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+ 		<link href="../resources/css/addTableHorizontal.css" rel="stylesheet" />
+</head>	
 
-</style>
-</head>
 
-<body class="sb-nav-fixed">
-	<!-- 헤더 -->
-	<jsp:include page="../include/header.jsp"></jsp:include>
-	<!-- 헤더 -->
+<body>
+	<div id ="container">		
+	<form action="${pageContext.request.contextPath}/shipping/inMaterialInsert" id="inMaterialInsert" method="POST">
+		<h1>입고 추가</h1>
 
-	<div id="layoutSidenav">
+		<table>
+		<tr>
+				<!-- <th>입고코드</th> -->
+				<th>창고코드</th>
+				<th>발주코드</th>
+				<th>담당자</th>
+				<th>거래처코드</th>
+				<th>입고현황</th>
+		</tr>
+		<tr>
+				<!-- 입고 코드 -->
+				<!-- <td><input type="text" name="in_code" id="in_code" size="12"></td> -->
+				<td><input type="text" name="in_wh_code" id="in_wh_code" ></td>  <!-- 입고 창고 코드 -->
+				<td><input type="text" name="raw_order_code" id="raw_order_code"  ></td>  <!-- 발주 코드 -->
+				<td><input type="text" name="emp_num" id="emp_num" ></td>  <!-- 입고 담당자 -->
+				<td><input type="text" name="buy_code" id="buy_code"></td>
+				<td><input type="text" value="입고전" readonly></td>
+		</tr>
+		</table>
 
-		<div id="layoutSidenav_content">
-			<main>
-<h1>입고 등록</h1>
+			<!-- 등록 버튼 -->
+			<div id="bottomContainer">
+				<input type="submit" id="btn" value="추가">
+			</div>
 
-<form action="${pageContext.request.contextPath}/shipping/inMaterialInsert" id="inMaterialInsert" method="POST">
-<input type="submit" value="추가">
-<input type="reset" value="취소">
-
-<table border="1">
-<tr>
-<!-- <th>입고코드</th> -->
-<th>창고코드</th>
-<th>발주코드</th>
-<th>담당자</th>
-<th>거래처코드</th>
-<th>입고현황</th>
-<!-- <th>수정일</th> -->
-</tr>
-
-<tr>
-<!-- 입고 코드 -->
-<!-- <td><input type="text" name="in_code" id="in_code" size="12"></td> -->
-<!-- 입고 창고 코드 -->
-<td><input type="text" name="in_wh_code" id="in_wh_code" size="12"></td>
-<!-- 발주 코드 -->
-<td><input type="text" name="raw_order_code" id="raw_order_code"  size="12"></td>
-<!-- 입고 담당자 -->
-<td><input type="text" name="emp_num" id="emp_num" size="12"></td>
-<td><input type="text" name="buy_code" id="buy_code"></td>
-<td><input type="text" value="입고전" readonly></td>
-</tr>
-
-</table>
-</form>
-<input type="hidden" name="buy_name" id="buy_name">
-<!-- 내용들어가는곳 -->
-				
-			</main>
+		</form>                
+    	</div>
+            
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 -->  
-                
-            </div>
-        </div>
+
+<input type="hidden" name="buy_name" id="buy_name">
+
        	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
        	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
