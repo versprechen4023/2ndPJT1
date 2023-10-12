@@ -87,6 +87,15 @@ public class FactoryCopy2ServiceImpl implements FactoryCopy2Service {
 		return factoryCopy2DAO.workOrderSearch(json);
 	}
 
+	@Override
+	public void workOrderDone(String work_code) {
+		
+		log.debug("작업 지시 완료 서비스");
+		
+		factoryCopy2DAO.workOrderDone(work_code);
+		
+	}
+
 
 
 		
