@@ -184,8 +184,6 @@ $(document).ready(function() {
 	"wh_status": "가용상태",
 };
   
-  var prodCodeCount = 0; // prod_code 입력 횟수를 추적
-  var rawCodeCount = 0; // raw_code 입력 횟수를 추적
   
 // 반복문을 사용하여 각 항목을 검사한다
 // 반복문을 사용하여 formArray 배열에 있는 각 항목을 검사합니다. 
@@ -211,14 +209,6 @@ $(document).ready(function() {
 	  if ((key === "wh_note"|| key === "content" || key === "prod_code" || key === "raw_code") && value === ""){
 		  continue;
 	  }
-	  
-	    if (key === "prod_code" && value !== "") {
-	        prodCodeCount++;
-	    }
-
-	    if (key === "raw_code" && value !== "") {
-	        rawCodeCount++;
-	    }
 	  
 	  //이 부분의 코드는 폼 필드의 값이 비어있을 때 실행되며,사용자에게 오류 메세지를 표시하고'result'값을 'false'로 설정하는 역할을 합니다.
 	  if (value === "") {
@@ -263,12 +253,6 @@ $(document).ready(function() {
 	 } // end 중복값 검증
 	}// end for
 	
-	if ((prodCodeCount === 1 && rawCodeCount === 0) || (prodCodeCount === 0 && rawCodeCount === 1)) {
-	    // 하나만 입력된 경우는 유효
-	} else {
-	    Swal.fire("prod_code 또는 raw_code 중 하나만 입력하세요.", "", "info");
-	    result = false;
-	}
 	
 	// 결과값 반환
 	return result;
