@@ -28,6 +28,8 @@ public class ResultDTO {
 	// 불량 사유
 	private String faulty_reason;
 	//v 진행 사항
+	private int rs_status;
+	//v 진행 사항
 	private int rs_process;
 	// 비고
 	private String remark;

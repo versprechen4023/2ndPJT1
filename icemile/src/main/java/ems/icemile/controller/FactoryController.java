@@ -91,6 +91,24 @@ public class FactoryController {
 			return "factory/facilityPopUp";
 		}
 
+		// 가상주소: http://localhost:8080/home/factory/facility
+		@GetMapping("/facilityPopUp2")
+		public String FacilityPopup2(Model model) {
+			
+			// 설비 관리
+			log.debug("퍼실리티 팝업창");
+			
+			// 설비 관리 리스트 객체 생성
+			List<FacilityDTO> facilityList = new ArrayList<FacilityDTO>();
+			facilityList = factoryService.getFacilityList();
+			// 모델에 facilityList값 저장
+			model.addAttribute("facilityList", facilityList);
+			
+			
+			// 주소 변경 x
+			return "factory/facilityPopUp2";
+		}
+
 	
 	
 	

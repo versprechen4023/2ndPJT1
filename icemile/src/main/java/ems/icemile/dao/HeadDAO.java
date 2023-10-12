@@ -22,4 +22,7 @@ public interface HeadDAO {
 	// 실적 수정
 	public boolean resultUpdate(ResultDTO resultDTO);
 
+	// 실적 삭제
+	public boolean resultDelete(List<String> deleteRSList);
+
 }

@@ -60,12 +60,6 @@
                             <br>
                             
                             
-                            진행상태
-							<select id="rs_process">
-  								<option value="">전체</option>
-  								<option value="1">진행중</option>
-  								<option value="2">마감</option>
-							</select>
 							<input type="text" name="content" size=60 placeholder="실적코드를 입력하세요"
 								id="content">
 							<input type="button" name="search" value="조회" onclick="resultSearch()">
@@ -85,7 +79,6 @@
                                             <th>양품</th>
                                             <th>불량</th>
                                             <th>불량 사유</th>
-                                            <th>진행 현황</th>                                            
                                             <th>비고</th>
 
                                         </tr>
@@ -111,12 +104,6 @@
                                             <td>${ResultDTO.good_prod}</td>
                                             <td>${ResultDTO.faulty_prod}</td>
                                             <td>${ResultDTO.faulty_reason}</td>
-                                            <c:if test="${ResultDTO.rs_process eq 0}">
-                                            	<td>진행중</td>
-                                            </c:if>
-                                            <c:if test="${ResultDTO.rs_process eq 1}">
-                                            	<td>마감</td>
-                                            </c:if>
                                             <td>${ResultDTO.remark}</td>
                                         </tr>
                                        </c:forEach>
@@ -178,7 +165,7 @@ function resultSearch(){
 					
 		// 검색 결과값을 받아오기 위한 ajax 호출
 		$.ajax({
-				url : '${pageContext.request.contextPath}/head_Ajax/resultSearch',
+				url : '${pageContext.request.contextPath}/head_ajax/resultSearch',
 				// JSON타입의 변수를 스트링으로 변환한다
 			  	data: JSON.stringify(json),
 			 	// JSON타입의 변수를 전송한다
@@ -201,13 +188,13 @@ function resultSearch(){
 				    // 배열 크기만큼 반복
 				    json.forEach(function (data) {
 				    	
-				    	// 상태표현을 위한변수 선언
-				    	var status = "";
-				    	if(data.rs_process == 0){
-				    		status = "진행중";
-				    	} else {
-				    		status = "마감";
-				    	}
+// 				    	// 상태표현을 위한변수 선언
+// 				    	var status = "";
+// 				    	if(data.rs_process == 0){
+// 				    		status = "진행중";
+// 				    	} else {
+// 				    		status = "마감";
+// 				    	}
 				    	// tr 태그 생성
 				        var $tr = $('<tr>');
 				    	//tr 에 내용추가
@@ -222,7 +209,6 @@ function resultSearch(){
 			        	"<td>"+data.good_prod+"</td>",
 			        	"<td>"+data.faulty_prod+"</td>",
 			        	"<td>"+data.faulty_reason+"</td>",
-			        	"<td>"+data.rs_process+"</td>",
 			        	"<td>"+data.remark+"</td>"
 						);
 				    	// 생성한 <tr> 요소를 tbody에 추가
@@ -331,12 +317,7 @@ function getDate() {
 	    '<td><input type="text" id="good_prod" name="good_prod" placeholder="(자동으로 계산됨)" readonly></td>',
 	    '<td><input type="text" id="faulty_prod" name="faulty_prod" ></td>',
 	    '<td><input type="text" id="faulty_reason" name="faulty_reason" ></td>',
-	    '<td><select  id="rs_process" name="rs_process" required>' +
-	    ' <option value="0"> 진행중</option>' +
-	    ' <option value="1"> 마감</option>' +
-	    ' </select>' +
-	    '</td>',
-	    '<td><input type="text" id="remark" name="remark" ></td>'
+	    '<td><input type="text" id="remark" name="remark" value="없음"></td>'
 	  );
 
 	  // 생성한 <tr> 요소를 tbody에 추가
@@ -378,7 +359,6 @@ function getDate() {
 	            "good_prod",
 	            "faulty_prod",
 	            "faulty_reason",
-	            "rs_process",
 	            "remark"
 	        ];
 
@@ -393,7 +373,6 @@ function getDate() {
 	            "good_prod",
 	            "faulty_prod",
 	            "faulty_reason",
-	            "rs_process",
 	            "remark"
 	        ];
 
@@ -409,10 +388,10 @@ function getDate() {
 	            var cellOption = ""
 	            // 삼항연산자 6번째 행(발주량)및 10번째 행(입고예정일)을 제외하고는 비활성화로 변경할 수 없다
 	            // 단 셀렉트태그는 직접 부여되므로 마찬가지로 수정 할 수 있다
-	            if (index === 6 || index === 9) {
+	            if (index === 6 || index === 10) {
 	                cellOption = "";
 	            } else {
-	                cellOption = "disabled";
+	                cellOption = "abled";
 	            }
 
 	            // 반복문의 숫자에 따라 html 태그의 이름을 네임 이름으로 한다
@@ -421,28 +400,22 @@ function getDate() {
 	            var cellId = cellIds[index];
 
 	            // 반복문에 따라 이너 html 실행 모든 입력칸을 텍스트태그로 바꾼다 단 11행은 셀렉트태그
-	            if (index === 10) {
-	                select = '<td>' +
-	                    '<select id="' + cellId + '">' +
-	                    '<option value="1">진행중</option>' +
-	                    '<option value="2">마감</option>' +
-	                    '</select>' +
-	                    '</td>'
-	                $(this).html(select);
-	            } else {
+	            
 	                $(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' >');
-	            }
+	            
 	        }); // end_find(행 검색 반복문 종료지점)
 
 	        // 발주수정중에 발주추가, 수정, 삭제 버튼을 비활성화한다
 	        $("#rsAdd").attr('disabled', 'disabled');
 	        $("#rsupdate").attr('disabled', 'disabled');
-	        $("#rsdeleter").attr('disabled', 'disabled');
+	        $("#rsdelete").attr('disabled', 'disabled');
 
 	        // 발주수정중에 취소, 저장 버튼 입력이 가능하다
 	        $("#rscancel").removeAttr("disabled");
 	        $("#rssave").removeAttr("disabled");
 
+	        
+	        
 	    } // end if
 
 	    // 체크박스가 선택되어있지 않으면 에러가 발생한다
@@ -514,13 +487,13 @@ function getDate() {
 	    if (status === "update") {
 
 	        // 동적으로 생성된 셀렉트 태그는 인식되지 않으므로 셀렉트 태그의 값은 직접 가져온다
-	        var selectValue = $('#rs_process').val();
-
+	       
 	        // 데이터를 전송하기 위한 폼 데이터 직렬화 및 셀렉트 태그 값을 직접 추가한다
-	        var formData = $('#resultList').serialize() + '&rs_process=' + selectValue;
+	        var formData = $('#resultList').serialize();
+	        console.log(formData);
 
 	        // AJAX 제출 전에 값이 입력되어 있는지 정규식 검사를 수행한다
-	        if (formTest(formData)) {
+// 	        if (formTest(formData)) {
 	            // AJAX 실행
 	            $.ajax({
 	                type: "POST",
@@ -546,7 +519,7 @@ function getDate() {
 	                    Swal.fire('서버 통신에 문제가 발생했습니다.', '실패', 'error');
 	                }
 	            });
-	        } // end 정규식 검사
+// 	        } // end 정규식 검사
 
 	    }
 	    // 상태가 추가인 경우 추가 작업 실행
@@ -555,7 +528,7 @@ function getDate() {
 	        var formData = $('#resultList').serialize();
 
 	        // AJAX 제출 전에 값이 입력되어 있는지 정규식 검사를 수행한다
-	      //  if (formTest(formData)) {
+// 	       if (formTest(formData)) {
 	            // AJAX 실행
 	            $.ajax({
 	                type: "POST",
@@ -567,21 +540,21 @@ function getDate() {
 	                    const result = $.trim(response);
 
 	                    if (result == "true") {
-	                        Swal.fire('발주 추가가 완료되었습니다.', '성공', 'success').then(result => {
+	                        Swal.fire('실적 추가가 완료되었습니다.', '성공', 'success').then(result => {
 	                            // 사용자가 확인창을 누르면 실행
 	                            if (result.isConfirmed) {
 	                                location.reload(); // 성공 시 새로고침한다
 	                            }
 	                        });
 	                    } else {
-	                        Swal.fire('발주 추가에 문제가 발생했습니다.', '실패', 'error');
+	                        Swal.fire('실적 추가에 문제가 발생했습니다.', '실패', 'error');
 	                    }
 	                },
 	                error: function () {
 	                    Swal.fire('서버 통신에 문제가 발생했습니다.', '실패', 'error');
 	                }
 	            });
-	       // } // end 정규식 검사
+// 	       } // end 정규식 검사
 	    }
 	}); // end function
 
@@ -603,7 +576,7 @@ function getDate() {
 	    var formData = $('#resultList').serialize();
 
 	    // AJAX 제출 전에 값이 입력되어 있는지 정규식 검사를 수행한다
-	    if (formTest(formData)) {
+// 	    if (formTest(formData)) {
 	        // 문제가 없다면 AJAX 실행
 	        $.ajax({
 	            type: "POST",
@@ -629,7 +602,7 @@ function getDate() {
 	                Swal.fire('서버 통신에 문제가 발생했습니다.', '실패', 'error');
 	            }
 	        });
-	    } // end 정규식 검사
+// 	    } // end 정규식 검사
 	}); // end function
 
 	
@@ -645,12 +618,12 @@ function getDate() {
 	
 	// 라인 코드를 선택하면 새창을 여는 이벤트 리스너
 	$(document).on("click", "input[name='line_code']", function() {
-		window.open('${pageContext.request.contextPath }/factory/facilityPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+		window.open('${pageContext.request.contextPath }/factory/facilityPopUp2', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 	});// end function
 	
 	// 완제품 코드를 선택하면 새창을 여는 이벤트 리스너
 	$(document).on("click", "input[name='prod_code']", function() {
-		window.open('${pageContext.request.contextPath }/product/productListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+		window.open('${pageContext.request.contextPath }/product/productListPopUp2', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 	});// end function
 
 	// 숫자만 입력되야하는 텍스트필드의 이벤트 리스너
