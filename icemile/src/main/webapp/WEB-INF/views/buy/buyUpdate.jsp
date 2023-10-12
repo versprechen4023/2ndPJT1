@@ -7,23 +7,9 @@
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
 <link href="../resources/css/addTableVertical.css" rel="stylesheet" />	
-	<style>
-body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh; /* 화면 높이 100%로 설정하여 수직 중앙 정렬 */
-	margin: 0; /* 페이지 바깥 여백 제거 */
-}
-#btn {
-	text-align: center; /* 가로 중앙 정렬 */
-	margin: 10px; /* 버튼 간격 설정 */
-	font-size: 16px; /* 버튼 텍스트 크기 설정 */
-	padding: 5px 20px; /* 버튼 안 여백 설정 */
-}
-</style>
 </head>
-<body class="sb-nav-fixed">
+
+<body>
 				<!-- 내용들어가는곳 -->
 	<form name="registration" id="registration">
 		<h1>거래처 수정</h1>
@@ -95,18 +81,18 @@ body {
 <span id="msg"></span>
 
 <!-- 등록 버튼 -->
-<div id="btn">
+<div id="bottomContainer"> 
 	<input type="submit" id="btn" value="등록">
 </div>
-	
-<!-- 푸터 -->
-<jsp:include page="../include/footer.jsp"></jsp:include>
-<!-- 푸터 -->
 
 		<input type="hidden" id="buy_email" name="buy_email" value="">
 		<input type="hidden" id="buy_add" name="buy_add" value="">
 		<input type="hidden" name="buy_code" id="buy_code" value="${buyDTO.buy_code}">
 	</form>
+	
+<!-- 푸터 -->
+<jsp:include page="../include/footer.jsp"></jsp:include>
+<!-- 푸터 -->
 
 
 <!-- 카카오 우편번호 API호출 -->
