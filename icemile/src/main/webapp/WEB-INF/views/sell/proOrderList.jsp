@@ -89,7 +89,7 @@
                                     <tbody>
                                     <c:forEach var="proOrderListDTO" items="${proOrderList}">
                                         <tr>
-                                        	<td data-sortable="false"><input type="checkbox" name="selectedProOrderId"></td>
+                                        	<td data-sortable="false"><input type="checkbox" name="selectedProOrderId" value="${proOrderListDTO.order_code}"></td>
                                         	<td>${proOrderListDTO.order_code}</td>
                                             <td>${proOrderListDTO.emp_num}</td>
                                             <td>${proOrderListDTO.branch_code}</td>
@@ -417,14 +417,14 @@ $(document).ready(function() {
 	            		const result = $.trim(response);
 	            	 
 	                 	if (result == "true") {
-	                	 	Swal.fire('발주 수정이 완료되었습니다.', '성공', 'success').then(result => {
+	                	 	Swal.fire('수주 수정이 완료되었습니다.', '성공', 'success').then(result => {
 						 	 	// 사용자가 확인창을 누르면 실행
 	                		 	if(result.isConfirmed){
 						 			location.reload(); // 성공 시 새로고침한다						
 						 		}// end alert_if
 						 });// end alert
 	                 } else {
-	                	 Swal.fire('발주 수정에 문제가 발생했습니다.', '실패', 'error');
+	                	 Swal.fire('수주 수정에 문제가 발생했습니다.', '실패', 'error');
 	                 }
 	             },
 	             error: function () {
@@ -451,14 +451,14 @@ $(document).ready(function() {
 	                	 	const result = $.trim(response);
 	                	 
 	                     	if (result == "true") {
-	                    		 Swal.fire('발주 추가가 완료되었습니다.', '성공', 'success').then(result => {
+	                    		 Swal.fire('수주 추가가 완료되었습니다.', '성공', 'success').then(result => {
 	    					 	 	// 사용자가 확인창을 누르면 실행
 	                    		 	if(result.isConfirmed){
 	    					 			location.reload(); // 성공 시 새로고침한다
 	    					 		}// end alert_if
 	    					 	});// end alert
 	                     	} else {
-	                    	 	Swal.fire('발주 추가에 문제가 발생했습니다.', '실패', 'error');
+	                    	 	Swal.fire('수주 추가에 문제가 발생했습니다.', '실패', 'error');
 	                     	}
 	                 	},
 	                 	error: function () {
@@ -468,6 +468,55 @@ $(document).ready(function() {
 	    	 	}// end 정규식검사
 	    	 }// end else_if
 	});// end function
+	
+	// 삭제 버튼 누를 시 실행되는 함수
+	$("#deleteProOr").click(function() {
+		
+		// 체크박스가 체크된 여부를 확인하기위한 변수선언
+		var selectedCheckbox = $("input[name='selectedProOrderId']:checked");
+		
+		// 체크박스가 선택되어있지않다면 에러가 발생한다
+		if (selectedCheckbox.length === 0){
+			Swal.fire('삭제할 행을 선택해 주십시오.', '실패', 'error');
+			return false;
+		}
+		
+		// 체크박스가 선택되어있다면 함수실행
+			
+			 // 데이터를 전송하기위한 폼 데이터 직렬화
+	    	 var formData = $('#proOrderList').serialize();
+			 
+	    	 // AJAX 제출전에 값이 입력되어있는지 정규식 검사를 수행한다
+			 if(formTest(formData)){
+	    	 	// 문제없다면 ajax 실행
+	         	$.ajax({
+	             	type: "POST",
+	             	url: "${pageContext.request.contextPath}/sell_ajax/proOrderDelete",
+	             	data: formData,
+	             	// 통신성공시 콜백함수 response매개변수에 "true" or "false" 결과값이 입력된다
+	             	success: function(response) {
+	            	 	// 공백을 제거한다
+	            	 	const result = $.trim(response);
+	            	 
+	                 	if (result == "true") {
+	                	 	Swal.fire('수주 삭제가 완료되었습니다.', '성공', 'success').then(result => {
+	                			// 사용자가 확인창을 누르면 실행
+	                		 	if(result.isConfirmed){
+						 			location.reload(); // 성공 시 새로고침 한다
+						 		}
+								
+						 	});// end alert
+	                 	} else {
+	                	 	Swal.fire('수주 삭제에 문제가 발생했습니다.', '실패', 'error');
+	                 	}
+	             	},
+	             	error: function () {
+	            	 	Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+	             	}
+	        	});// endAJAX(물품 삭제)
+			 }// end 정규식검사
+			
+	});//end function
 	
 // 이벤트 관련 함수 시작지점
 	

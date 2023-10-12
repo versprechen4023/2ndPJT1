@@ -88,5 +88,13 @@
  		SET order_amount = #{order_amount}, order_date = #{order_date}, out_plan_date = #{out_plan_date}, order_status = #{order_status}
  			WHERE order_code = #{order_code}
   </update>
+  
+  <delete id="proOrderDelete" parameterType="java.util.List">
+	DELETE FROM orders
+		WHERE order_code IN 
+			 <foreach collection="list" item="order_code" open="(" separator="," close=")">
+			  	#{order_code}
+			 </foreach>
+ </delete>
 	
 </mapper>
