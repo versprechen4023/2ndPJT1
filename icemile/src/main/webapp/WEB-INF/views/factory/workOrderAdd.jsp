@@ -30,7 +30,7 @@
 						<th>주문량</th>
 						<th>생산공정</th>
 						<!-- <th>지시날짜</th> -->
-						<th>지점명</th>
+						<th>지점코드</th>
 		</tr>
 		<tr>
 						<!-- 일단 타입 텍스트로 다 작업. 추후에 불러올 때 수정 -->
@@ -43,7 +43,7 @@
 						<td><input type="text" name="order_amount" id="order_amount"></td>  <!-- 수주 코드 가져왔을시 자동으로 해당 지시량 등록 -->
 						<td><input type="text" name="line_process" id="line_process"></td>  <!-- 라인 코드 가져왔을시 자동으로 해당 라인 공정 등록 -->
 						<!-- <td><input type="text" name="work_order_date" id="work_odrder_date"></td>  -->
-						<td><input type="text" name="branch_name" id="branch_name"></td>  <!-- 수주 코드 가져왔을시 자동으로 해당 지점명 등록 -->
+						<td><input type="text" name="branch_code" id="branch_code"></td>  <!-- 수주 코드 가져왔을시 자동으로 해당 지점코드 등록 -->
 
 		</tr>
 	</table>
@@ -167,6 +167,12 @@ $(document).ready(function() {
 $(document).on("click", "input[name='line_code']", function() {
 	window.open('${pageContext.request.contextPath }/factory/facilityPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 });// end function
+
+//수주 코드를 선택하면 새창을 여는 이벤트 리스너
+$(document).on("click", "input[name='order_code']", function() {
+	window.open('${pageContext.request.contextPath }/sell/proOrderPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+});// end function
+
 
 </script>
 	<script

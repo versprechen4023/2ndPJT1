@@ -51,7 +51,7 @@
   								<option value="work_code">지시코드</option>
   								<option value="line_name">라인명</option>
   								<option value="prod_name">제품명</option>
-  								<option value="branch_name">지점명</option>
+  								<option value="branch_code">지점코드</option>
   
 							</select>
 							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
@@ -70,7 +70,7 @@
 										<th>주문량</th>
 										<th>생산공정</th>
 										<th>지시/수정날짜</th>
-										<th>지점명</th>
+										<th>지점코드</th>
 										<th>완료날짜</th>
 										<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
 										<th data-sortable="false">관리</th>
@@ -89,21 +89,18 @@
 											<td>${workOrderDTO.order_amount}</td>
 											<td>${workOrderDTO.line_process}</td>
 											<td>${workOrderDTO.work_order_date}</td>
-											<td>${workOrderDTO.branch_name}</td>
-											<td>${workOrderDTO.done_date}</td>
-						
-								
-										
-											<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
-											<td><input type="button" value="수정"
-												onclick="workOrderUpdate('${workOrderDTO.work_code}')" id="updateWorkOrder">
-												<input type="button" value="삭제"
-												onclick="workOrderDelete('${workOrderDTO.work_code}')" id="deleteWorkOrder">
-												<input type="button" value="완료"
-												onclick="workOrderDone('${workOrderDTO.work_code}')" id="doneWorkOrder">
-											</td>
-											</c:if>
-										</tr>
+											<td>${workOrderDTO.branch_code}</td>
+											<td>${workOrderDTO.done_date != null ? workOrderDTO.done_date : ""}</td>
+        							<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
+           								 <td>
+                							<input type="button" value="수정" onclick="workOrderUpdate('${workOrderDTO.work_code}')" id="updateWorkOrder">
+                							<input type="button" value="삭제" onclick="workOrderDelete('${workOrderDTO.work_code}')" id="deleteWorkOrder">
+                				   <c:if test="${workOrderDTO.done_date == null}">
+                   							 <input type="button" value="완료" onclick="workOrderDone('${workOrderDTO.work_code}')" id="doneWorkOrder">
+               						 </c:if>
+            							</td>
+        							</c:if>
+    									</tr>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -176,6 +173,10 @@ function workOrderSearch() {
  				        var $tr = $('<tr>');
  				    	//tr 에 내용추가
  				    	
+ 				    	// 완료일자가 비어있는 경우 완료 버튼을 표시
+			            var showDoneButton = data.done_date == null;
+
+ 				    	
  				    	// 권한이있으면 수정 삭제 버튼도 같이 출력
  				    	if(role.charAt(0) === '1'){
  				        	$tr.append(
@@ -188,12 +189,13 @@ function workOrderSearch() {
  				         	"<td>"+data.order_amount+"</td>",
  				         	"<td>"+data.line_process+"</td>",
  				         	"<td>"+data.work_order_date+"</td>",
- 				         	"<td>"+data.branch_name+"</td>",
- 				         	"<td>"+data.done_date+"</td>",
+ 				         	"<td>"+data.branch_code+"</td>",
+ 				            "<td>" + (data.done_date != null ? data.done_date : "") + "</td>",
  				            "<td>" +
  				          	"<input type='button' value='수정' onclick='workOrderUpdate(\"" + data.workOrder_code + "\")' id='updateworkOrder'>" +
  				            "<input type='button' value='삭제' onclick='workOrderDelete(\"" + data.workOrder_code + "\")' id='deleteworkOrder'>" +
- 				            "<input type='button' value='완료' onclick='workOrderDone(\"" + data.workOrder_code + "\")' id='doneWorkOrder'>" +
+ 				           	(showDoneButton ?
+ 				            "<input type='button' value='완료' onclick='workOrderDone(\"" + data.work_code + "\")' id='doneWorkOrder'>" : "") +                    
  				            "</td>"
  				        	);
  				    	} else {
@@ -207,7 +209,7 @@ function workOrderSearch() {
  		 				         	"<td>"+data.order_amount+"</td>",
  		 				         	"<td>"+data.line_process+"</td>",
  		 				         	"<td>"+data.work_order_date+"</td>",
- 		 				         	"<td>"+data.branch_name+"</td>",
+ 		 				         	"<td>"+data.branch_code+"</td>",
  		 				         	"<td>"+data.done_date+"</td>"
  		 				     );
  				    	}
@@ -284,15 +286,6 @@ function workOrderDone(work_code) {
         type: 'POST',
         success: function (data) {
             if (data === "true") {
-                
-            	// 현재 날짜 얻기
-                var currentTime = new Date();
-                // 날짜를 원하는 포맷으로 변경
-            	var formattedDate = currentTime.toLocaleDateString(); // 년월일 형식 (예: "10/11/2023")
-                
-                // 완료 날짜 표시
-                $("#doneWorkOrder_" + work_code).text(formattedDate);
-
                 // 성공 메시지 표시
                 Swal.fire('작업이 성공적으로 완료되었습니다.', '성공', 'success').then(function() {
                     // 페이지 새로고침
