@@ -12,9 +12,9 @@
   	</select>
   	
   	<insert id="resultInsert">
-	INSERT INTO result(result_code, work_code, line_code, prod_code, good_prod, faulty_prod, faulty_reason, remark, order_amount, re_process, done_date)
-		VALUES(CONCAT(‘RS’, LPAD(#{branch_code}, 4, '0')),#{result_code},
-			#{work_code},#{line_code},#{prod_code},#{good_prod},#{faulty_prod},#{faulty_reason}, #{remark}, #{order_amount}, #{re_process}, #{done_date})
+	INSERT INTO result(result_code, work_code, line_code, prod_code, good_prod, faulty_prod, faulty_reason, remark, order_amount, rs_process, done_date)
+		VALUES(CONCAT(‘RS’, LPAD(#{result_code}, 4, '0')),#{result_code},
+			#{work_code},#{line_code},#{prod_code},#{good_prod},#{faulty_prod},#{faulty_reason}, #{remark}, #{order_amount}, #{rs_process}, #{done_date})
 	</insert>
 
 	<select id="getResultList" resultType="ems.icemile.dto.ResultDTO">
@@ -41,5 +41,11 @@
         		</if>
         	</where>
   	</select>
+  	
+  	<update id="resultUpdate">
+ 	UPDATE result
+ 		SET faulty_prod = #{faulty_prod}, good_prod = #{good_prod}, faulty_reason = #{faulty_reason}, rs_process = #{rs_process}, remark = ${remark}
+ 			WHERE result_code = #{result_code}
+ </update>
 	
 </mapper>

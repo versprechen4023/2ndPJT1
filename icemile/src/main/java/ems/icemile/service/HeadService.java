@@ -16,4 +16,7 @@ public interface HeadService {
 	// 실적 추가
 	public boolean resultInsert(ResultDTO resultDTO);
 
+	// 실적 수정
+	public boolean resultUpdate(ResultDTO resultDTO);
+
 }
