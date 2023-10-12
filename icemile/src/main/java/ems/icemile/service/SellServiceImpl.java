@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import ems.icemile.dao.SellDAOImpl;
 import ems.icemile.dto.ProOrderDTO;
+import ems.icemile.dto.RowOrderListDTO;
 import ems.icemile.dto.SellDTO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -142,6 +143,21 @@ public class SellServiceImpl implements SellService{
 		log.debug("값 잘 넘어오나"+proOrderDTO);
 		
 		return sellDAO.proOrderUpdate(proOrderDTO);
+	}
+
+	
+	@Override
+	public boolean proOrderDelete(List<String> deleteProList) {
+		
+		log.debug("수주 삭제");
+		
+		return sellDAO.proOrderDelete(deleteProList);
+	}
+
+
+	public List<RowOrderListDTO> proOrderSearch(HashMap<String, Object> json) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

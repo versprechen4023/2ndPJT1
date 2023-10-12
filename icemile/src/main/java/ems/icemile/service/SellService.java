@@ -41,5 +41,8 @@ public interface SellService {
 	
 	// 수주 업데이트
 	public boolean proOrderUpdate(ProOrderDTO proOrderDTO);
+	
+	// 수주 삭제
+	public boolean proOrderDelete(List<String> deleteProList);
 
 }

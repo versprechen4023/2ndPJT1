@@ -177,8 +177,7 @@
 			
 			// 담당자
 			row += "<td class='empBox' id='empBox'>";
-			row += "<input type='text' name='emp_num' id='emp_num' placeholder='담당자 검색' readonly required class='#datatablesSimple tr'>";
-			row += "<input type='button' name='empSearch' id='empSearch' value='조회'>";
+			row += "<input type='text' id='emp_num' name='emp_num' readonly>";
 			row += "</td>";
 			
 			// 비고
@@ -197,12 +196,6 @@
 			
 			// 생성한 <tr> 요소를 tbody의 첫 행 위에 추가
 			$('tbody tr:nth-child(1)').before(row);
-			
-		    // 사원 검색 팝업 열기
-		    $("#empSearch").click(function() {
-		        var url = '${pageContext.request.contextPath}/member/memberListPopUp';
-		        openPopup(url);
-		    });
 			
 		  	// 품목추가중에 품목추가,수정,삭제 버튼을 비활성화한다
 		  	// disabled(비활성화) 속성 추가(attr) -> .attr('속성 이름', '속성 값')
@@ -337,6 +330,7 @@
 						        		Swal.fire('이미 존재하는 이름입니다 다른 이름을 입력하십시오', '', 'info');
 						        	// 상태가 add면 addPro로 넘어가서 input에 입력한 값이 데이터베이스로 넘어간다
 						        	}else if(status === "add"){
+						        	 
 										// form 태그의 액션을 변수 선언
 								        var formAction = $('#facilityList').attr("action");
 										
@@ -348,7 +342,7 @@
 								                emp_num: emp_num,
 								                line_note: line_note
 								            };
-
+								        
 								        $('#facilityList').attr("action", "/home/factory/addPro");
 								        $('#facilityList').attr("method", "POST");
 								        $('#facilityList').submit();
@@ -432,18 +426,6 @@
 					        '<option value="2" ' + (selectedValue === "2" ? "selected" : "") + '>2:대기중</option>' +
 					        '<option value="3" ' + (selectedValue === "3" ? "selected" : "") + '>3:고장</option>' +
 					        '</select>');
-					} else if(cellName === "emp_num"){
-						$(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' >');
-						$(this).append('<input type="button" name="empSearch" id="empSearch" value="조회">');	
-						// css 적용 안 됨
-						// document.getElementById("empBox").style.display = "flex !important";
-						// document.getElementById("emp_num").style.marginRight = "7px !important";
-						
-					    // 사원 검색 팝업 열기
-					    $("#empSearch").click(function() {
-					        var url = '${pageContext.request.contextPath}/member/memberListPopUp';
-					        openPopup(url);
-					    });
 					} else {
 					    $(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' >');			
 					}
@@ -498,8 +480,6 @@
 		 		// 데이터를 전송하기위한 폼 데이터 직렬화
     	 		var formData = $('#facilityList').serialize();
 		 		
-    	 		// AJAX 제출전에 값이 입력되어있는지 정규식 검사를 수행한다
-		 		if(formTest(formData)){
     	 			// 문제없다면 ajax 실행
          			$.ajax({
              			type: "POST",
@@ -526,7 +506,6 @@
             	 			Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
              			}
         			});// end AJAX(라인 삭제)
-				 }// end if(formTest(formData)) 정규식검사
 				}// end else
 		});//end delete function
 		
@@ -627,7 +606,10 @@
 			window.open('${pageContext.request.contextPath }/member/managerInfo?emp_num='+ emp_num+'', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 		}
 		
-		
+		// 담당자를 선택하면 새창을 여는 이벤트 리스너
+		$(document).on("click", "input[name='emp_num']", function() {
+			window.open('${pageContext.request.contextPath }/member/memberListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+		});// end function
 
         
         </script>

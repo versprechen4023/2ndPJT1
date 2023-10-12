@@ -64,4 +64,10 @@
   			WHERE buy_phone = #{buy_phone}
   				LIMIT 1
   </select>
+  
+  <select id="getBuyListPopUp" resultType="ems.icemile.dto.BuyDTO">
+  	SELECT buy_code, buy_name, buy_ceo
+  	FROM buy
+  </select>
+  
 </mapper>

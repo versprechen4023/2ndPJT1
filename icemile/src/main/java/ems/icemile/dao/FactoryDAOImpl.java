@@ -36,7 +36,7 @@ public class FactoryDAOImpl implements FactoryDAO {
 
 
 	@Override
-	public int getNewFacilityCode() {
+	public String getNewFacilityCode() {
 
 		return sqlSession.selectOne(namespace+"getNewFacilityCode");
 	}
@@ -76,7 +76,7 @@ public class FactoryDAOImpl implements FactoryDAO {
 		
 		String result = sqlSession.selectOne(namespace+"searchLineName", line_name);
 		
-		return result.isEmpty();
+		return (result == null) ? true : false;
 	}
 
 

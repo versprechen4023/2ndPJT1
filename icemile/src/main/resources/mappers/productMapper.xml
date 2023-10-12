@@ -81,6 +81,7 @@
     </foreach>
  </delete>
  
+ 
  <select id="productSearch" resultType="ems.icemile.dto.ProductAllDTO">
  	<bind name="content" value="'%' + content + '%'"/>
  	SELECT *
@@ -123,6 +124,14 @@
  	SELECT prod_code, prod_name, prod_taste, prod_price
  		FROM product
  </select> 
+ 
+ <delete id="deleteRawStock" parameterType="java.util.List">
+	DELETE FROM stock
+		WHERE raw_code IN 
+			 <foreach collection="list" item="raw_order_code" open="(" separator="," close=")">
+			  	#{raw_order_code}
+			 </foreach>
+ </delete>
 
  
 </mapper>

@@ -571,6 +571,7 @@ $(document).ready(function() {
 	     	
 	     	// 동적으로 생성된 셀렉트태그는 인식되지않으므로 셀렉트 태그의 값은 직접가져온다
 	     	var selectValue = $('#raw_status').val();
+	     	console.log(selectValue);
 	     	
 	    	// 데이터를 전송하기위한 폼 데이터 직렬화 및 셀렉트 태그 값을 직접 추가한다
 	    	var formData = $('#rawOrderList').serialize() + '&' + $.param({ raw_status: selectValue });

@@ -75,7 +75,7 @@
  
 
  <select id="getRawOrderListPopUp" resultType="ems.icemile.dto.RowOrderListDTO">
- 	SELECT *
+ 	SELECT raw_order_code,buy_name,raw_name,raw_order_amount
  	FROM raw_order
  </select>
  

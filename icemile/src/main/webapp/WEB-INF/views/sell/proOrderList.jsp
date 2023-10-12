@@ -89,7 +89,7 @@
                                     <tbody>
                                     <c:forEach var="proOrderListDTO" items="${proOrderList}">
                                         <tr>
-                                        	<td data-sortable="false"><input type="checkbox" name="selectedProOrderId"></td>
+                                        	<td data-sortable="false"><input type="checkbox" name="selectedProOrderId" value="${proOrderListDTO.order_code}"></td>
                                         	<td>${proOrderListDTO.order_code}</td>
                                             <td>${proOrderListDTO.emp_num}</td>
                                             <td>${proOrderListDTO.branch_code}</td>
@@ -148,6 +148,109 @@
 <script>
 //추가, 수정 을 구분하기위한 전역변수선언
 var status = "";
+
+// 수주 검색 관련 함수
+function proOrderSearch() {
+	   // 값을 전달 하기위한 JSON 타입 변수선언
+	   var json = {
+			   		proOrderBegin: $('#proOrderBegin').val(),
+			   		proOrderEnd: $('#proOrderEnd').val(),
+			   		proOrderOutBegin: $('#proOrderOutBegin').val(),
+			   		proOrderOutEnd: $('#proOrderOutEnd').val(),
+    				status: $('#status').val(),
+    				content: $('#content').val()
+   			  	  };
+
+	   // 검색 결과값을 받아오기 위한 ajax 호출
+	   $.ajax({
+			  url : '${pageContext.request.contextPath}/sell_ajax/proOrderSearch',
+			  // JSON타입의 변수를 스트링으로 변환한다
+			  data: JSON.stringify(json),
+			  // JSON타입의 변수를 전송한다
+	          contentType: 'application/json',
+			  type : 'POST',
+			  // 반환은 JSON 타입
+			  dataType: 'json',
+			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
+			  success:function(json){
+				  
+				    // tbody 내용을 초기화
+				    $('tbody').empty();
+					
+				    // json 배열에 값이 없는 경우 추가가 안되는걸 방지하기위한 tr태그 생성
+				    if(json.length === 0){
+				    	// tr 태그 생성
+				        var $tr = $('<tr>');
+				        $('tbody').append($tr);
+				    }
+				    
+				    // 배열 크기만큼 반복
+				    json.forEach(function (data) {
+				    	
+				    	// tr 태그 생성
+				        var $tr = $('<tr>');
+				    		//tr 에 내용추가
+				        	$tr.append(
+				        	'<td><input type="checkbox" name="selectedProOrderId" value="' + data.order_code + '"></td>',
+				        	"<td>"+data.order_code+"</td>",
+				            "<td>"+data.emp_num+"</td>",
+				           	"<td>"+data.branch_code+"</td>",
+				            "<td>"+data.prod_code+"</td>",
+				         	"<td>"+data.prod_name+"</td>",
+				         	"<td>"+data.prod_taste+"</td>",
+				         	"<td>"+data.prod_price+"</td>",
+				         	"<td>"+data.order_amount+"</td>",
+				         	"<td>"+data.order_price+"</td>",
+				         	"<td>"+data.order_date+"</td>",
+				         	"<td>"+data.out_plan_date+"</td>",
+				         	"<td>"+data.order_status+"</td>",
+				        	);
+				        // 생성한 <tr> 요소를 tbody에 추가
+				        $('tbody').append($tr);
+				    });
+
+					// 페이징 동적 처리
+				    // 태그 개수 구하기
+				    var trCount = $('tbody tr').length;
+				    // 페이징 처리를 위한 변수선언(태그 개수 계산)
+				    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
+				    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
+				   	var dataPageValues = [];
+				    	// 페이징 버튼의 밸류값을 추출 한다
+				  		$('.datatable-pagination-list-item a').each(function() {
+				      		var dataPageValue = $(this).data('page');
+				      		dataPageValues.push(dataPageValue);
+				  		});
+				    	
+				  	// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
+				  	dataPageValues = dataPageValues.filter(function(value) {
+					return value > parseInt(pageCount);
+					});
+				  	
+				  	// 중복을 삭제한다 indexOf로 첫번째 위치만을 출력한다 중복된다면 첫번째위치가 아닌 다른위치에 있을 것이므로
+				  	// 모두 false 처리하여 삭제한다
+				  	var myArray = dataPageValues.filter(function(value, index, self) {
+					return self.indexOf(value) === index;
+					});
+				  	
+				  	// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
+				  	var minValue = Math.min(myArray);
+				  	var maxValue = Math.max(myArray);
+				  	
+				  	// 글이 11개 이하라면(즉 페이징이 필요없는경우)
+				    if(trCount < 11){
+				    	// 페이징을 삭제
+				   	    $('.datatable-pagination-list').remove();
+				    } else {
+				    	// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
+				    	for(var i = minValue; i<=maxValue; i++){
+				    		$('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
+				    	}
+				    }
+				  	
+		      }// 콜백함수 종료지점
+  });// end_of_ajax
+} // end function
 
 //날짜 계산 함수
 function getDate() {
@@ -417,14 +520,14 @@ $(document).ready(function() {
 	            		const result = $.trim(response);
 	            	 
 	                 	if (result == "true") {
-	                	 	Swal.fire('발주 수정이 완료되었습니다.', '성공', 'success').then(result => {
+	                	 	Swal.fire('수주 수정이 완료되었습니다.', '성공', 'success').then(result => {
 						 	 	// 사용자가 확인창을 누르면 실행
 	                		 	if(result.isConfirmed){
 						 			location.reload(); // 성공 시 새로고침한다						
 						 		}// end alert_if
 						 });// end alert
 	                 } else {
-	                	 Swal.fire('발주 수정에 문제가 발생했습니다.', '실패', 'error');
+	                	 Swal.fire('수주 수정에 문제가 발생했습니다.', '실패', 'error');
 	                 }
 	             },
 	             error: function () {
@@ -451,14 +554,14 @@ $(document).ready(function() {
 	                	 	const result = $.trim(response);
 	                	 
 	                     	if (result == "true") {
-	                    		 Swal.fire('발주 추가가 완료되었습니다.', '성공', 'success').then(result => {
+	                    		 Swal.fire('수주 추가가 완료되었습니다.', '성공', 'success').then(result => {
 	    					 	 	// 사용자가 확인창을 누르면 실행
 	                    		 	if(result.isConfirmed){
 	    					 			location.reload(); // 성공 시 새로고침한다
 	    					 		}// end alert_if
 	    					 	});// end alert
 	                     	} else {
-	                    	 	Swal.fire('발주 추가에 문제가 발생했습니다.', '실패', 'error');
+	                    	 	Swal.fire('수주 추가에 문제가 발생했습니다.', '실패', 'error');
 	                     	}
 	                 	},
 	                 	error: function () {
@@ -468,6 +571,55 @@ $(document).ready(function() {
 	    	 	}// end 정규식검사
 	    	 }// end else_if
 	});// end function
+	
+	// 삭제 버튼 누를 시 실행되는 함수
+	$("#deleteProOr").click(function() {
+		
+		// 체크박스가 체크된 여부를 확인하기위한 변수선언
+		var selectedCheckbox = $("input[name='selectedProOrderId']:checked");
+		
+		// 체크박스가 선택되어있지않다면 에러가 발생한다
+		if (selectedCheckbox.length === 0){
+			Swal.fire('삭제할 행을 선택해 주십시오.', '실패', 'error');
+			return false;
+		}
+		
+		// 체크박스가 선택되어있다면 함수실행
+			
+			 // 데이터를 전송하기위한 폼 데이터 직렬화
+	    	 var formData = $('#proOrderList').serialize();
+			 
+	    	 // AJAX 제출전에 값이 입력되어있는지 정규식 검사를 수행한다
+			 if(formTest(formData)){
+	    	 	// 문제없다면 ajax 실행
+	         	$.ajax({
+	             	type: "POST",
+	             	url: "${pageContext.request.contextPath}/sell_ajax/proOrderDelete",
+	             	data: formData,
+	             	// 통신성공시 콜백함수 response매개변수에 "true" or "false" 결과값이 입력된다
+	             	success: function(response) {
+	            	 	// 공백을 제거한다
+	            	 	const result = $.trim(response);
+	            	 
+	                 	if (result == "true") {
+	                	 	Swal.fire('수주 삭제가 완료되었습니다.', '성공', 'success').then(result => {
+	                			// 사용자가 확인창을 누르면 실행
+	                		 	if(result.isConfirmed){
+						 			location.reload(); // 성공 시 새로고침 한다
+						 		}
+								
+						 	});// end alert
+	                 	} else {
+	                	 	Swal.fire('수주 삭제에 문제가 발생했습니다.', '실패', 'error');
+	                 	}
+	             	},
+	             	error: function () {
+	            	 	Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+	             	}
+	        	});// endAJAX(물품 삭제)
+			 }// end 정규식검사
+			
+	});//end function
 	
 // 이벤트 관련 함수 시작지점
 	

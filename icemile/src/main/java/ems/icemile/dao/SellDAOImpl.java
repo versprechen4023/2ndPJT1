@@ -98,8 +98,10 @@ public class SellDAOImpl implements SellDAO{
 		return sqlSession.update(namespace+"proOrderUpdate", proOrderDTO) > 0;
 	}
 	
+	@Override
+	public boolean proOrderDelete(List<String> deleteProList) {
+		return sqlSession.delete(namespace+"proOrderDelete", deleteProList) > 0;
+	}
 
-	
-	
 
 }
