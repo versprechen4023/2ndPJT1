@@ -37,18 +37,18 @@
 <input type="hidden" name="req_code" value="${requirementDTO.req_code }" id="req_code">
 </td>
 <!-- 완제품 코드 -->
-<td><input type="text" name="prod_code" id="prod_code" value="${requirementDTO.prod_code }" size="7"></td>
+<td><input type="text" name="prod_code" id="prod_code" value="${requirementDTO.prod_code }" ></td>
 <!-- 원자재 코드 -->
-<td><input type="text" name="raw_code" id="raw_code" value="${requirementDTO.raw_code }" size="7"></td> 
+<td><input type="text" name="raw_code" id="raw_code" value="${requirementDTO.raw_code }" ></td> 
 <!-- 소요량 -->
-<td><input type="text" name="req_amount" id="req_amount" value="${requirementDTO.req_amount }" size="7"> </td>
+<td><input type="text" name="req_amount" id="req_amount" value="${requirementDTO.req_amount }" > </td>
 <!-- 등록일 -->
-<td><input type="hidden" name="req_insertDATE" id="req_insertDATE" value="${requirementDTO.req_insertDATE }" size="7">
+<td><input type="hidden" name="req_insertDATE" id="req_insertDATE" value="${requirementDTO.req_insertDATE }">
 ${fn:substring(requirementDTO.req_insertDATE, 0, 10)}</td>
 <!-- 수정일 -->
-<td><input type="date" name="req_upDATEDATE" id="req_upDATEDATE" value="${requirementDTO.req_upDATEDATE }" size="7"></td>
+<td><input type="date" name="req_upDATEDATE" id="req_upDATEDATE" value="${requirementDTO.req_upDATEDATE }"></td>
 <!-- 비고 -->
-<td><input type="text" name="req_note" id="req_note" value="${requirementDTO.req_note }" size="7"></td>
+<td><input type="text" name="req_note" id="req_note" value="${requirementDTO.req_note }" ></td>
 </tr>
 </table>
 
@@ -71,7 +71,6 @@ ${fn:substring(requirementDTO.req_insertDATE, 0, 10)}</td>
 <input type="hidden" name="raw_type" id="raw_type" value="">
 <input type="hidden" name="raw_price" id="raw_price" value="">	
 
-			</main>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
        	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
