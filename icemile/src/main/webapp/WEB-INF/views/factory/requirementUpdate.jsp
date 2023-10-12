@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,21 +16,20 @@
 </head>
 
 <body>
-		<div id ="container">
+		<div id ="container">	
+		<form action="${pageContext.request.contextPath}/factory/updateRequirement?req_code=${requirementDTO.req_code}" id="updateRequirement" method="POST">
+<h1>소요량 수정</h1>
 
-<form action="${pageContext.request.contextPath}/factory/updateRequirement?req_code=${requirementDTO.req_code}" method="POST">
-
-<table border="1">
-<tr>
-<th>소요량 코드</th>
-<th>완제품 코드</th>
-<th>원자재 코드</th>
-<th>소요량</th>
-<th>등록일</th>
-<th>수정일</th>
-<th>비고</th>
-</tr>
-
+<table>
+			<tr>
+					<th>소요량 코드</th>
+					<th>완제품 코드</th>
+					<th>원자재 코드</th>
+					<th>소요량</th>
+					<th>등록일</th>
+					<th>수정일</th>
+					<th>비고</th>
+			</tr>
 
 <tr>
 <!-- 소요량 코드 -->
@@ -37,32 +37,39 @@
 <input type="hidden" name="req_code" value="${requirementDTO.req_code }" id="req_code">
 </td>
 <!-- 완제품 코드 -->
-<td><input type="text" name="prod_code" id="prod_code" value="${requirementDTO.prod_code }"></td>
+<td><input type="text" name="prod_code" id="prod_code" value="${requirementDTO.prod_code }" size="7"></td>
 <!-- 원자재 코드 -->
-<td><input type="text" name="raw_code" id="raw_code" value="${requirementDTO.raw_code }"></td> 
+<td><input type="text" name="raw_code" id="raw_code" value="${requirementDTO.raw_code }" size="7"></td> 
 <!-- 소요량 -->
-<td><input type="text" name="req_amount" id="req_amount" value="${requirementDTO.req_amount }"> </td>
+<td><input type="text" name="req_amount" id="req_amount" value="${requirementDTO.req_amount }" size="7"> </td>
 <!-- 등록일 -->
-<td><input type="date" name="req_insertDATE" id="req_insertDATE" value="${requirementDTO.req_insertDATE }"></td>
+<td><input type="hidden" name="req_insertDATE" id="req_insertDATE" value="${requirementDTO.req_insertDATE }" size="7">
+${fn:substring(requirementDTO.req_insertDATE, 0, 10)}</td>
 <!-- 수정일 -->
-<td><input type="date" name="req_upDATEDATE" id="req_upDATEDATE" value="${requirementDTO.req_upDATEDATE }" ></td>
+<td><input type="date" name="req_upDATEDATE" id="req_upDATEDATE" value="${requirementDTO.req_upDATEDATE }" size="7"></td>
 <!-- 비고 -->
-<td><input type="text" name="req_note" id="req_note" value="${requirementDTO.req_note }"></td>
+<td><input type="text" name="req_note" id="req_note" value="${requirementDTO.req_note }" size="7"></td>
 </tr>
-
 </table>
 
 		<!-- 등록 버튼 -->
-		<div id="btn">
+		<div id="bottomContainer">
 			<input type="submit" value="수정">
-			<input type="reset" value="취소">
 		</div>
-		
+
+</form>
+</div>		
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 --> 
 
-</form>
+<input type="hidden" name="prod_name" id="prod_name" value="">
+<input type="hidden" name="prod_taste" id="prod_taste" value="">
+<input type="hidden" name="prod_price" id="prod_price" value="">
+
+<input type="hidden" name="raw_name" id="raw_name" value="">
+<input type="hidden" name="raw_type" id="raw_type" value="">
+<input type="hidden" name="raw_price" id="raw_price" value="">	
 
 			</main>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
@@ -75,9 +82,8 @@
    	
    	<script>
    	$(document).ready(function(){
-   	 $('#insertRequirement').submit(function(event) {
+   	 $('#updateRequirement').submit(function(event) {
 //    	        event.preventDefault(); // 기본 제출 동작을 막습니다.
-
    	        // 유효성 검사
    		if($('#prod_code').val()==""){
    			Swal.fire('완제품을 선택해주세요.', '실패', 'error');
@@ -91,13 +97,13 @@
    			Swal.fire('소요량을 입력해주세요.', '실패', 'error');
    			return false;
    		}
-   		if($('#req_insertDATE').val()==""){
-   			Swal.fire('등록일을 선택해주세요.', '실패', 'error');
-   			return false;
-   		}
-//    		if($('#req_upDATEDATE').val()==""){
-//    			Swal.fire('수정일을 선택해주세요.', '실패', 'error');
+//    		if($('#req_insertDATE').val()==""){
+//    			Swal.fire('등록일을 선택해주세요.', '실패', 'error');
+//    			return false;
 //    		}
+   		if($('#req_upDATEDATE').val()==""){
+   			Swal.fire('수정일을 선택해주세요.', '실패', 'error');
+   		}
 //    		Swal.fire('등록되었습니다.', '성공', 'success');
 //    		this.submit();
    		event.preventDefault();
@@ -106,13 +112,13 @@
             
        	 $.ajax({
        		    type: "POST",
-       		    url: "${pageContext.request.contextPath}/factoryCopy_ajax/insertRequirement",
+       		    url: "${pageContext.request.contextPath}/factoryCopy_ajax/updateRequirement",
        		    data: formData,
        		    contentType: false,
        		    processData: false,
        		    success: function(response) {
        		        if (response === "true") {
-       		            Swal.fire('정보 입력이 완료되었습니다.', '성공', 'success').then(result => {
+       		            Swal.fire('정보 변경이 완료되었습니다.', '성공', 'success').then(result => {
        		                if (result.isConfirmed) {
        		                    window.opener.location.reload();
        		                    window.close();
