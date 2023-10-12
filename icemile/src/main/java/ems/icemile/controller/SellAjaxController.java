@@ -1,6 +1,7 @@
 package ems.icemile.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -97,6 +98,17 @@ public class SellAjaxController {
 		log.debug("proOrderInsert ajax 실행");
 				
 		return sellService.proOrderInsert(proOrderDTO);
+	}
+	
+	@PostMapping("proOrderDelete")
+	public boolean proOrderDelete(@RequestParam("selectedProOrderId") String[] selectedProOrderId) {
+		
+		log.debug("proOrderDelete ajax 실행");
+		
+		// 마이바티스에서 반복처리를 위해 배열을 리스트 타입으로 변경
+		List<String> deleteProList = Arrays.asList(selectedProOrderId);
+				
+		return sellService.proOrderDelete(deleteProList);
 	}
 
 }

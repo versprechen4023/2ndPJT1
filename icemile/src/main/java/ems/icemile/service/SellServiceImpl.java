@@ -144,6 +144,15 @@ public class SellServiceImpl implements SellService{
 		return sellDAO.proOrderUpdate(proOrderDTO);
 	}
 
+	
+	@Override
+	public boolean proOrderDelete(List<String> deleteProList) {
+		
+		log.debug("수주 삭제");
+		
+		return sellDAO.proOrderDelete(deleteProList);
+	}
+
 
 
 	
