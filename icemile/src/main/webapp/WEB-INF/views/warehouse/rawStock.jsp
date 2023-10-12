@@ -28,7 +28,7 @@
 		<jsp:include page="../include/sidebar.jsp"></jsp:include>
 		<!-- 사이드바 -->
             <div id="layoutSidenav_content">
-<form id="facilityList">
+<form id="rawStock">
                 <main>
                 <!-- 내용 들어가는 곳 -->
                     <div class="container-fluid px-4">
@@ -125,100 +125,77 @@
 		}
 		
 		
-		// 수정
+		// 수정 버튼 클릭 이벤트 핸들러
 		$("#update").click(function(){
 
-		// 상태를 업데이트로 변경한다
-		// 이 함수의 목적이 수정(update)인 것을 나타내기 위함
-		status = "update";
+		    // 상태를 업데이트로 변경
+		    status = "update";
 
-		// 체크박스가 체크된 여부를 확인하기위한 변수선언
-		var selectedCheckbox = $("input[name='selectedLineCo']:checked");
+		    // 체크된 체크박스 가져오기
+		    var selectedCheckbox = $("input[name='selected']:checked");
 
-		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
-		if (selectedCheckbox.length === 1) {
-	
-			// 텍스트태그를 추가할 tr태그를 선택한다
-			var row = selectedCheckbox.closest("tr");
-	
-			// input type의 name 값 지정
-			var cellNames = [
-				"line_code", 
-				"line_name", 
-				"line_phone", 
-				"line_process",
-				"line_status",
-				"emp_num",
-				"line_note"
-			];
-	
-			// input type의 id 값 지정
-			var cellIds = [
-				"line_code", 
-				"line_name", 
-				"line_phone", 
-				"line_process",
-				"line_status",
-				"emp_num",
-				"line_note"
-			];
-	
-	
-			// 각 셀을 수정 가능한 텍스트 입력 필드로 변경(단 첫번째의 체크박스가 있는 셀은 제외한다)
-			row.find("td:not(:first-child)").each(function(index) {
+		    // 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+		    if (selectedCheckbox.length === 1) {
+		        
+		        // 텍스트태그를 추가할 tr태그를 선택
+		        var row = selectedCheckbox.closest("tr");
+
+		        // stock_amount 행의 HTML 수정
+		        var stockAmountCell = row.find("td:nth-child(6)"); // stock_amount 행 선택
+		        var stockAmountValue = stockAmountCell.text().trim(); // 현재 값 가져오기
+		        stockAmountCell.html('<input type="text" name="stock_amount" value="' + stockAmountValue + '">');
+
+		        // 품목수정중에 품목추가,수정,삭제 버튼 비활성화
+		        $("#update").attr('disabled','disabled');
+
+		        // 품목수정중에 취소, 저장 버튼 입력 가능
+		        $("#cancel").removeAttr("disabled");
+		        $("#save").removeAttr("disabled");
+
+		    } else if (selectedCheckbox.length === 0){
+		        Swal.fire('수정할 행을 선택해 주십시오.', '실패', 'error');
+		    } else {
+		        Swal.fire('수정할 행은 한개만 선택 가능합니다.', '실패', 'error');
+		    }
+		});
 		
-				// 기존 텍스트 값을 변수에 저장한다
-				var cellValue = $(this).text();
-				// 삼항연산자 0번째 행(코드)와 1번째행(이름)는 리드온리로 변경할 수 없다
-				var cellOption = index === 0 || index === 1 ? "readonly" : "";
-				// 반복문의 숫자에 따라 html 태그의 이름을 네임 이름으로 한다
-				var cellName = cellNames[index];
-				// 반복문의 숫자에 따라 html 태그의 이름을 아이디 이름으로 한다
-				var cellId = cellIds[index];
 		
-				if (cellName === "line_process") {
-				    // 선택 옵션 값 가져오기
-				    var selectedValue = $(this).find("select").val();
-				    $(this).html('<select name="' + cellName + '" id="' + cellId + '" ' + cellOption + '>' + 
-				        '<option value="1" ' + (selectedValue === "1" ? "selected" : "") + '>1차 공정</option>' +
-				        '<option value="2" ' + (selectedValue === "2" ? "selected" : "") + '>2차 공정</option>' +
-				        '<option value="3" ' + (selectedValue === "3" ? "selected" : "") + '>3차 공정</option>' +
-				        '</select>');
-				} else if (cellName === "line_status") {
-				    var selectedValue = $(this).find("select").val();
-				    $(this).html('<select name="' + cellName + '" id="' + cellId + '" ' + cellOption + '>' + 
-				        '<option value="1" ' + (selectedValue === "1" ? "selected" : "") + '>1:가동중</option>' +
-				        '<option value="2" ' + (selectedValue === "2" ? "selected" : "") + '>2:대기중</option>' +
-				        '<option value="3" ' + (selectedValue === "3" ? "selected" : "") + '>3:고장</option>' +
-				        '</select>');
-				} else {
-				    $(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' >');			
-				}
+		// 저장
+		$('#save').click(function () {
 
-			});// end_find(행 검색 반복문 종료지점)
-			
-			// "담당자" 열에 있는 입력란 옆에 "조회" 버튼을 추가
-	        //row.find("#empBox").append('<input type="button" name="empSearch" id="empSearch" value="조회">');
+		    // input에 값이 입력되면 저장, input의 값이 변경되면 수정에 의한 저장
+		    if(status === "update"){
+		        // form 태그의 액션을 변수 선언
+		        var formAction = $('#rawStock').attr("action");
+		        
+		        // 수정된 stock_amount 값을 가져옴
+		        var stockAmount = $('#rawStock input[name="stock_amount"]').val();
 
-			// 품목수정중에 품목추가,수정,삭제 버튼을 비활성화한다
-  			$("#add").attr('disabled','disabled');
-  			$("#update").attr('disabled','disabled');
-			$("#delete").attr('disabled','disabled');
-	
-			// 품목수정중에 취소, 저장 버튼입력이 가능하다
-			$("#cancel").removeAttr("disabled");
-			$("#save").removeAttr("disabled");
-	
-		} // end if
+		        // 데이터를 담을 객체를 생성
+		        var postData = {
+		            stock_amount: stockAmount
+		        };
+		        
+		        $('#rawStock').attr("action", "/home/warehouse/rawStock");
+		        $('#rawStock').attr("method", "POST");
+		        $('#rawStock').submit();
+		        
+		        
+		        // 수정이 완료되었음을 알리는 알림창 띄우기
+		        Swal.fire({
+		            title: "<div style='color:#495057;font-size:20px;font-weight:lighter'>" + "수정이 완료되었습니다" + "</div>",
+		            icon: 'success',
+		            width: '300px',
+		        });
+		    } 
+		});
+		
 
-		// 체크박스가 선택되어있지않으면 에러가 발생한다
-		else if (selectedCheckbox.length === 0){
-			Swal.fire('수정할 행을 선택해 주십시오.', '실패', 'error');
-		// 여러개가 체크되어있으면 에러가 발생한다
-		} else {
-			Swal.fire('수정할 행은 한개만 선택 가능합니다.', '실패', 'error');
-		} // end else
-	}); // end update function
+
+
+
+
+
 		
 		
         </script>

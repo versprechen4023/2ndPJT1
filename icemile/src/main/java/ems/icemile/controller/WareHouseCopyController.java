@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ems.icemile.dto.FacilityDTO;
 import ems.icemile.dto.StockDTO;
 import ems.icemile.service.WareHouseCopyService;
 import lombok.extern.slf4j.Slf4j;
@@ -46,13 +45,13 @@ public class WareHouseCopyController {
 	}
 	
 	
-	// 가상주소: http://localhost:8080/FunWeb/warehouse/updateFacility
+	// 가상주소: http://localhost:8080/FunWeb/warehouse/updateRawStock
 	@PostMapping("/updateRawStock")
-	public String updateFacility(StockDTO StockDTO) {
+	public String updateRawStock(StockDTO StockDTO) {
 		// 원자재 실수량 수정
-		log.debug("FactoryController updateFacility()");
+		log.debug("updateRawStock");
 		
-		// facilityDTO 담아서 factoryService에 updateFacility 메서드 생성
+		// StockDTO 담아서 warehouseService에 updateRawStock 메서드 생성
 		warehouseService.updateRawStock(StockDTO);
 		
 		// 주소 -> /factory/facility로 변경되면서 이동
