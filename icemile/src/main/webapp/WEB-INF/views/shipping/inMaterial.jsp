@@ -91,7 +91,7 @@
 <%-- <td>${inMaterialDTO.in_status}</td> <!-- 입고현황 --> --%>
 <%-- <td>${inMaterialDTO.updatedate }</td> --%>
 <td>
-<input type="button" value="수정" onclick="location.href='${pageContext.request.contextPath}/shipping/inMaterialUpdate?in_code=${inMaterialDTO.in_code}'">
+<input type="button" value="수정" onclick="inMaterialUpdate('${inMaterialDTO.in_code}')">
 <input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/shipping/deleteInMaterial?in_code=${inMaterialDTO.in_code }')">
 </td>
 </tr>
@@ -190,9 +190,10 @@ function confirmDelete(deleteUrl) {
 
 //수정 페이지 팝업
 function inMaterialUpdate(in_code){      
-//	alert(req_code);
+//	alert(in_code);
 	window.open('${pageContext.request.contextPath }/shipping/inMaterialUpdate?in_code='+in_code+'', '_blank', 'width=600px, height=667px, left=600px, top=300px');
-} 
+} //end function
+
 </script>
     </body>
 </html>

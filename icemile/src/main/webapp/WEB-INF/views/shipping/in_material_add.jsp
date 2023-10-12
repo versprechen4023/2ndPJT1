@@ -71,6 +71,7 @@
 
 </table>
 </form>
+<input type="hidden" name="buy_name" id="buy_name">
 <!-- 내용들어가는곳 -->
 				
 			</main>
