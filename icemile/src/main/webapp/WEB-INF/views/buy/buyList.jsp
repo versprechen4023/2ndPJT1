@@ -243,7 +243,7 @@ function buyInsert(){
 } //end function
 
 function buyUpdate(buy_code){
-	window.open('${pageContext.request.contextPath }/buy/buyUpdate?buy_code='+buy_code, '_blank', 'width=570px, height=666px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/buy/buyUpdate?buy_code='+buy_code, '_blank', 'width=570px, height=641px, left=600px, top=300px');
 }
 // 멤버 삭제관련 함수
 function buyDelete(buy_code) {

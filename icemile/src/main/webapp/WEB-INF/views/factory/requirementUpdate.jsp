@@ -12,75 +12,45 @@
 <title>아이스마일</title>
 	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
  		<link href="../resources/css/addTableHorizontal.css" rel="stylesheet" />
-	
-	<style>
-body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh; /* 화면 높이 100%로 설정하여 수직 중앙 정렬 */
-	margin: 0; /* 페이지 바깥 여백 제거 */
-}
-#btn {
-	text-align: center; /* 가로 중앙 정렬 */
-	margin: 20px; /* 버튼 간격 설정 */
-	font-size: 16px; /* 버튼 텍스트 크기 설정 */
-	padding: 5px 20px; /* 버튼 안 여백 설정 */
-}
-</style>
 </head>
 
-<body class="sb-nav-fixed">
+<body>
+		<div id ="container">	
+		<form action="${pageContext.request.contextPath}/factory/updateRequirement?req_code=${requirementDTO.req_code}" method="POST">
+			<h1>소요량 수정</h1>
 
-			<main>
-<h1>소요량 수정</h1>
+			<table>
+			<tr>
+					<th>소요량 코드</th>
+					<th>완제품 코드</th>
+					<th>원자재 코드</th>
+					<th>소요량</th>
+					<th>등록일</th>
+					<th>수정일</th>
+					<th>비고</th>
+			</tr>
+			<tr>
+					<td><input type="text" name="req_code" id="req_code" value="${requirementDTO.req_code }"></td> <!-- 소요량 코드 -->
+					<td><input type="text" name="prod_code"></td>  <!-- 완제품 코드 -->
+					<td><input type="text" name="raw_code" ></td>  <!-- 원자재 코드 -->
+					<td><input type="text" name="req_amount"></td>  <!-- 소요량 -->
+					<td><input type="date" name="req_insertDATE"></td>  <!-- 등록일 -->
+					<td><input type="date" name="req_upDATEDATE" ></td>  <!-- 수정일 -->
+					<td><input type="text" name="req_note"></td>  <!-- 비고 -->
+			</tr>
+			</table>
 
-<form action="${pageContext.request.contextPath}/factory/updateRequirement?req_code=${requirementDTO.req_code}" method="POST">
-
-
-<table>
-<tr>
-<th>소요량 코드</th>
-<th>완제품 코드</th>
-<th>원자재 코드</th>
-<th>소요량</th>
-<th>등록일</th>
-<th>수정일</th>
-<th>비고</th>
-</tr>
-
-
-<tr>
-<!-- 소요량 코드 -->
-<td><input type="text" name="req_code" id="req_code" value="${requirementDTO.req_code }"></td>
-<!-- 완제품 코드 -->
-<td><input type="text" name="prod_code"></td>
-<!-- 원자재 코드 -->
-<td><input type="text" name="raw_code" ></td> 
-<!-- 소요량 -->
-<td><input type="text" name="req_amount"></td>
-<!-- 등록일 -->
-<td><input type="date" name="req_insertDATE"></td>
-<!-- 수정일 -->
-<td><input type="date" name="req_upDATEDATE" ></td>
-<!-- 비고 -->
-<td><input type="text" name="req_note"></td>
-</tr>
-
-</table>
-
-		<!-- 등록 버튼 -->
-		<div id="btn">
-			<input type="submit" id="btn" value="수정">
+			<!-- 등록 버튼 -->
+			<div id="bottomContainer">
+				<input type="submit" id="btn" value="수정">
+			</div>
+			
+		</form>
 		</div>
 		
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 --> 
-
-</form>
-
-			</main>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>

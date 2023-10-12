@@ -194,7 +194,7 @@ function memberUpdate(emp_num){
 	window.open('${pageContext.request.contextPath }/member/empUpdate?emp_num='+emp_num, '_blank', 'width=590px, height=673px, left=600px, top=300px');
 }
 function memberPassword(emp_num){
-	window.open('${pageContext.request.contextPath }/member/passwordUpdate', '_blank', 'width=326px, height=416px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/member/passwordUpdate', '_blank', 'width=330px, height=306px, left=600px, top=300px');
 }
 </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

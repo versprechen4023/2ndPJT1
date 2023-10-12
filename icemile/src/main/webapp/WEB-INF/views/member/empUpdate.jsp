@@ -4,9 +4,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<!-- 헤드 -->
-<head>
   <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -15,18 +12,14 @@
         <title>아이스마일</title>
 	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
  		<link href="../resources/css/addTableVertical.css" rel="stylesheet" />
-
 </head>
 
-
 <body>
-
 				<!-- 내용들어가는곳 -->
 	<form action="#" id="signup" name="signup" method="POST" enctype="multipart/form-data">
 		<h1>사원 정보 수정</h1>
 
 <table>
-
 <tr><td  class="tdbold">사진</td><td>
 		 <img src="" alt="미리보기" id="preview" style="max-width: 100px; max-height: 100px; display: none;">
 		  <input type="file" id="file" name="file"></td></tr>
@@ -97,6 +90,7 @@
 			<c:if test="${memberDTO.position != '5' && memberDTO.position != '0'}">disabled</c:if>>물류
 		</label></td></tr>
 </table>
+
 		<span id="msg"></span>
 
 		<div id="bottomContainer"> 

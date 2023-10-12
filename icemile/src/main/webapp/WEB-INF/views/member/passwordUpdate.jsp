@@ -4,116 +4,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 헤드 -->
-<jsp:include page="../include/head.jsp"></jsp:include>
-<!-- 헤드 -->
-	<style>
-@font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-}
-*{
-    font-family: 'Pretendard-Regular';
-}
-body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh; /* 화면 높이 100%로 설정하여 수직 중앙 정렬 */
-	margin: 0; /* 페이지 바깥 여백 제거 */
-}
-h1 {
-	text-align: center; /* 가로 중앙 정렬 */
-    font-weight: 300;
-    line-height: 3.2;
-    margin-top: 0;
-    margin: auto;
-    text-align: center; 
-    font-weight: bold;
-    height: 110px;
-}
-#btn {
-	text-align: center; /* 가로 중앙 정렬 */
-	margin: 10px; /* 버튼 간격 설정 */
-	font-size: 16px; /* 버튼 텍스트 크기 설정 */
-	padding: 5px 20px; /* 버튼 안 여백 설정 */
-}
-
-  th{
-    border-bottom: 1px solid #444444;
-    border-color: #DDE2E6;
-    padding: 10px;
-    text-align: left;
-    font-size: 14px;
-    width: 150px; 
-    text-align: center; 
-  }
-td {
-    border-bottom: 1px solid #444444;
-    border-color: #DDE2E6;
-    padding: 10px;
-    text-align: left;
-    font-size: 14px;
-  }
-   
-table {
-/* box-shadow: 3px 3px 3px 3px gray; */
-    border: 1px solid #444444;
-    border-color: #DDE2E6;
-	    border-collapse: collapse;
-    margin-top: 30px;
-    margin-bottom: 20px;
-}
-</style>
+  <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>아이스마일</title>
+	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+ 		<link href="../resources/css/addTableVertical.css" rel="stylesheet" />
 </head>
-<body class="sb-nav-fixed">
+
+<body>
 	 			<!-- 내용들어가는곳 -->
 	<form action="#" id="signup" name="signup" method="POST">
-<!-- 		<h1> -->
-<!-- 			<b>비밀번호 변경</b> -->
-<!-- 		</h1> -->
-
 		<h1>비밀번호 변경</h1>
-<table border="1">
-<%-- <colgroup> --%>
-<%-- <col style="background-color: #E0EBFF;"> --%>
-<%-- <col> --%>
-<%-- </colgroup>  --%>
+		
+<table>
+<tr><td  class="tdbold">현재 비밀번호</td><td>
+	  <input type="password" name="emp_pw" id="emp_pw">
+	  </td></tr>
 
-		<!-- 현재비밀번호 -->
-		<tr>
-		<th>현재 비밀번호</th>
-		<td><input type="password" name="emp_pw" id="emp_pw"></td>
-		</tr>
+<tr><td  class="tdbold">변경할 비밀번호</td><td>
+	  <input type="password" name="emp_newPw1" id="emp_newPw1">
+	  </td></tr>
 
-		<!-- 변경할 비밀번호 -->
-		<tr>
-		<th>변경할 비밀번호</th>
-		<td><input type="password" name="emp_newPw1" id="emp_newPw1"></td>
-		</tr>
-
-		<!-- 현재비밀번호 -->
-				<tr>
-		<th>변경할 비밀번호 재확인</th>
-		<td><input type="password" name="emp_newPw2" id="emp_newPw2"></td>
-		</tr>
+<tr><td  class="tdbold">변경할 비밀번호 재확인</td><td>
+	  <input type="password" name="emp_newPw2" id="emp_newPw2">
+	  </td></tr>
+</table>    
 
 		<span id="passmsg"></span>
-
-</table>    
+		
 		<!-- 등록 버튼 -->
-		<div id="btn">
+		<div id="bottomContainer"> 
 			<input type="submit" id="btn" value="등록">
 		</div>
 
+	</form>
+	
 <!-- 푸터 --> 
 <jsp:include page="../include/footer.jsp"></jsp:include> 
 <!-- 푸터 -->   
-	</form>
-	
-
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
