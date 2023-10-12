@@ -41,4 +41,7 @@ public interface ProductDAO {
 	// 팝업창에서 사용할 완제품 리스트 출력
 	public List<ProductDTO> getProductListPopUp();
 	
+    // 품목 코드로 품목 삭제 및 Stock에서 품목 삭제
+    public boolean rawStockDelete(String prod_code);
+	
 }

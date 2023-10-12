@@ -86,7 +86,7 @@
                                             <td>${facilityDTO.line_phone}</td>
                                             <td>${facilityDTO.line_process}</td>
                                             <td>${facilityDTO.line_status}</td>
-                                            <td><a href="#" class="emp-num-link" data-emp-num="${facilityDTO.emp_num}">${facilityDTO.emp_num}</a></td>
+                                            <td><a href="#" onclick="memberInfo('${facilityDTO.emp_num}')">${facilityDTO.emp_num}</a></td>
                                             <td>${facilityDTO.line_note}</td>
                                             <!-- <td><input type="button" value="수정"
 												onclick="facilityUpdate()" id="updatefac">
@@ -541,6 +541,7 @@
 		        			content: $('#content').val()
 		       			  };
 			
+			   
 			   // 검색 결과값을 받아오기 위한 ajax 호출
 		 	   $.ajax({
 		 			  url : '${pageContext.request.contextPath}/factory_ajax/facilitySearch',
@@ -569,55 +570,62 @@
 		 				           	"<td>"+data.line_phone+"</td>",
 		 				            "<td>"+data.line_process+"</td>",
 		 				         	"<td>"+data.line_status+"</td>",
-		 				         	"<td>"+data.emp_num+"</td>",
+		 				         	'<td><a href="#" onclick="memberInfo(\'' + data.emp_num + '\')">' + data.emp_num + '</a></td>',
 		 				         	"<td>"+data.line_note+"</td>"
 		 				        	);
 		 				        // 생성한 <tr> 요소를 tbody에 추가
 		 				        $('tbody').append($tr);
 		 				    });
-		 		      }// 콜백함수 종료지점
+		 				    
+		 		      
+							// 페이징 동적 처리
+						    // 태그 개수 구하기
+						    var trCount = $('tbody tr').length;
+						    // 페이징 처리를 위한 변수선언(태그 개수 계산)
+						    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
+						    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
+						   	var dataPageValues = [];
+						    	// 페이징 버튼의 밸류값을 추출 한다
+						  		$('.datatable-pagination-list-item a').each(function() {
+						      		var dataPageValue = $(this).data('page');
+						      		dataPageValues.push(dataPageValue);
+						  		});
+						    	
+						  	// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
+						  	dataPageValues = dataPageValues.filter(function(value) {
+							return value > parseInt(pageCount);
+							});
+						  	
+						  	// 중복을 삭제한다 indexOf로 첫번째 위치만을 출력한다 중복된다면 첫번째위치가 아닌 다른위치에 있을 것이므로
+						  	// 모두 false 처리하여 삭제한다
+						  	var myArray = dataPageValues.filter(function(value, index, self) {
+							return self.indexOf(value) === index;
+							});
+						  	
+						  	// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
+						  	var minValue = Math.min(myArray);
+						  	var maxValue = Math.max(myArray);
+						  	
+						  	// 글이 11개 이하라면(즉 페이징이 필요없는경우)
+						    if(trCount < 11){
+						    	// 페이징을 삭제
+						   	    $('.datatable-pagination-list').remove();
+						    } else {
+						    	// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
+						    	for(var i = minValue; i<=maxValue; i++){
+						    		$('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
+						    	}
+						    }
+		 			  
+		 			  
+		 			  }// 콜백함수 종료지점
 		      });// end_of_ajax
 		}// end function
 		
 		
-		$(document).ready(function() {
-		    $(".emp-num-link").click(function(event) {
-		        event.preventDefault();
-		        var empNum = $(this).data("emp-num"); // 클릭한 링크의 emp_num 값을 가져옵니다.
-
-		        // 팝업 창 크기 및 위치 설정
-		        var width = 400;
-		        var height = 400;
-		        var left = (screen.width - width) / 2;
-		        var top = (screen.height - height) / 2;
-
-		        // 팝업 창 열기
-		        var url = '${pageContext.request.contextPath}/member/memberInfo?emp_num=' + empNum; // 팝업에 필요한 데이터를 URL에 포함
-		        var popupWindow = window.open(url, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
-
-		        // 팝업 창 포커스
-		        popupWindow.focus();
-		    });
-		});
-		
-		
-		// 팝업 창을 열어주는 함수
-		function openPopup(url) {
-		    var width = 500;
-		    var height = 500;
-		    var left = (screen.width - width) / 2;
-		    var top = (screen.height - height) / 2;
-		    var popupWindow = window.open(url, '_blank', "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
-		    popupWindow.focus();
+		function memberInfo(emp_num) {
+			window.open('${pageContext.request.contextPath }/member/managerInfo?emp_num='+ emp_num+'', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 		}
-
-
-
-		//팝업 창에서 선택된 emp_num 값을 받아서 표시하는 함수
-		function receiveSelectedEmpNum(empNum) {
-		    document.getElementById('emp_num').value = empNum;
-		}
-		
 		
 		
 

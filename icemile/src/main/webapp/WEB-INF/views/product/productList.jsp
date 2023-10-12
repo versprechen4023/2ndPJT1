@@ -279,6 +279,8 @@ function formTest(formData) {
 			  	type: "GET",
 		        url: "${pageContext.request.contextPath}/product_ajax/searchProName",
 		        data: {"prod_name": value},
+		     	// 조건문 발동을 위해 비동기로 처리
+		        async: false,
 		        success: function(response) {
 		        	// 공백을 제거한다
             		const resultAjax = $.trim(response);

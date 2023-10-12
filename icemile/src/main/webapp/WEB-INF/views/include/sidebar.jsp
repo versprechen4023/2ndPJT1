@@ -85,7 +85,7 @@
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
                                             <a class="nav-link" href="${pageContext.request.contextPath}/warehouse/productStock">완제품 재고</a>
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/sell/orders">수주</a>
+                                            <a class="nav-link" href="${pageContext.request.contextPath}/sell/proOrderList">수주</a>
                                             <a class="nav-link" href="${pageContext.request.contextPath}/shipping/outMaterial">출고</a>
                                             <a class="nav-link" href="${pageContext.request.contextPath}/sell/branchList">지점관리</a>
                                         </nav>

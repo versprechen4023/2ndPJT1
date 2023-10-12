@@ -78,7 +78,15 @@
   	<bind name="content" value="'%' + content + '%'"/>
   	SELECT *
   		FROM test_work_order
-  			WHERE ${category} LIKE #{content}
+  			<where> 
+  			AND ${category} LIKE #{content}
+  			<if test="workOrderBegin != null and workOrderBegin != '' and workOrderEnd != null and workOrderEnd != ''">
+            							AND work_order_date BETWEEN #{workOrderBegin} AND #{workOrderEnd}
+  			</if>
+  			<if test="workOrderBegin != null and workOrderBegin != ''">
+        	AND work_order_date >= #{workOrderBegin}
+        	</if>
+  			</where>
   </select>
 
 	

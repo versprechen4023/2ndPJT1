@@ -18,7 +18,7 @@ public class RequirementDTO {
 	// 소요량 등록일
 	private String req_insertDATE;
 	// 소요량
-	private String req_amount;
+	private int req_amount;
 	// 소요량 수정일
 	private String req_upDATEDATE;
 	// 소요량 비고

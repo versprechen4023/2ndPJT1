@@ -460,8 +460,16 @@ $(document).ready(function() {
 				
 				// 기존 텍스트 값을 변수에 저장한다
 				var cellValue = $(this).text();
-				// 삼항연산자 6번째 행(주문량)과 10번째행(종류)을 제외하고는 리드온리로 변경할 수 없다
-				var cellOption = index === 6 || index === 10 ? "" : "readonly";
+				// 셀에 옵션을 주기 위해 변수를 선언한다
+				var cellOption = ""
+				// 삼항연산자 6번째 행(발주량)및 10번쨰 행(입고예정일)을 제외하고는 비활성화로 변경할 수 없다
+				// 단 셀렉트태그는 직접 부여되므로 마찬가지로 수정 할 수 있다
+				if(index === 6 || index === 10){
+					cellOption = "";
+				} else {
+					cellOption = "disabled";
+				}
+				
 				// 반복문의 숫자에 따라 html 태그의 이름을 네임 이름으로 한다
 				var cellName = cellNames[index];
 				// 반복문의 숫자에 따라 html 태그의 이름을 아이디 이름으로 한다

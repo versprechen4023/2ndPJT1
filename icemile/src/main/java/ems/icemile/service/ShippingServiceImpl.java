@@ -40,9 +40,53 @@ public class ShippingServiceImpl implements ShippingService {
 
 	// 입고 등록
 	@Override
-	public void inMaterialInsert(InMaterialDTO inMaterialDTO) {
+	public boolean inMaterialInsert(InMaterialDTO inMaterialDTO) {
 		log.debug("ShippingService inMaterialInsert");
-		shippingDAO.inMaterialInsert(inMaterialDTO);
+		inMaterialDTO.setIn_status(1);
+		
+		// 코드 자동 부여 
+		// buy_code(거래처코드) 들고오기
+		String buy_code=inMaterialDTO.getBuy_code();
+		log.debug("buy값은 {} ",buy_code);
+		
+		
+//		inMaterialDTO.setBuy_codeNum2(buy_codeNum2);
+//		
+//		log.debug("inMaterialDTO "+inMaterialDTO);
+//		
+//		String getNum=shippingDAO.getNewIn_code(inMaterialDTO);
+//		
+//		int codeNum = 0;
+//		if(getNum==null) {
+//			codeNum = 1;
+//		}else {
+//			codeNum = Integer.parseInt(getNum.replaceAll("[^0-9]", ""))+1;
+//			String[] parts = getNum.split("_");
+//			String lastPart = parts[parts.length-1];
+//			codeNum=Integer.parseInt(lastPart);
+//			codeNum++;
+//		}
+//		
+//		String numStr = String.format("%04d", codeNum);
+//		
+//		// 현재 날짜 가져오기
+//		LocalDate currentDate = LocalDate.now();
+//		
+//		// 원하는 날짜 포맷 정의
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+//		
+//		// 날짜를 문자열로
+//		String formattedDate = currentDate.format(formatter);
+//		
+//		// 문자열을 숫자로
+//		int dateNum = Integer.parseInt(formattedDate);
+//		
+//		String in_code = "IN"+dateNum+"_"+inMaterialDTO.getBuy_codeNum2()+"_"+numStr;
+//		inMaterialDTO.setIn_code(in_code);
+//		log.debug("{}값은: ",in_code);
+//		
+//		return shippingDAO.inMaterialInsert(inMaterialDTO);
+		return false;
 	} // inMaterialInsert
 
 	// 입고 수정 페이지 in_code 값 받아서
@@ -58,7 +102,15 @@ public class ShippingServiceImpl implements ShippingService {
 		log.debug("ShippingService updateInMaterial");
 		shippingDAO.updateInMaterial(inMaterialDTO);
 	}
+	
+	// 입고 검색
+	@Override
+	public List<InMaterialDTO> inMateSearch(HashMap<String, Object> json) {
+		log.debug("ShippingService inMateSearch");
+		return shippingDAO.inMateSearch(json);
+	}
 
+	
 	//////////////////////////////////////////// 출고
 	//////////////////////////////////////////// ////////////////////////////////////////////////////////////
 

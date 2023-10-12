@@ -19,7 +19,7 @@
 		<h1>지점 수정</h1>
 <table>
 
-<tr><td class="tdbold">이름</td><td><input type="text" name="branch_name" id="branch_name" value="${sellDTO.branch_name }"></td></tr>
+<tr><td class="tdbold">지점명</td><td><input type="text" name="branch_name" id="branch_name" value="${sellDTO.branch_name }">점</td></tr>
 <tr><td class="tdbold">사업자등록번호</td><td><input type="text" name="branch_reg" id="branch_reg" value="${sellDTO.branch_reg }" ></td></tr>
 <tr><td class="tdbold">대표자</td><td><input type="text" name="branch_ceo" id="branch_ceo" value="${sellDTO.branch_ceo }" ></td></tr>
 <tr><td class="tdbold">지점 연락처</td><td><input type="text" name="branch_phone" id="branch_phone" value="${sellDTO.branch_phone }"></td></tr>

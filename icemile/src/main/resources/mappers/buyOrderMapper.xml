@@ -20,9 +20,9 @@
  	SELECT o.raw_order_code, r.raw_code, r.raw_name, r.raw_type,
 	    	b.buy_code, b.buy_name, o.raw_order_amount, r.raw_price,
         	o.raw_order_date, o.in_plan_date, o.raw_status, o.emp_num
-				FROM raw_order o LEFT OUTER JOIN raw_material r
+				FROM raw_order o JOIN raw_material r
 					ON (o.raw_name = r.raw_name)
-						LEFT OUTER JOIN buy b
+						JOIN buy b
 							ON (o.buy_name = b.buy_name)
 								ORDER BY o.raw_order_code DESC
  </select>
@@ -60,16 +60,24 @@
 									<if test="rawOrderBegin != null and rawOrderBegin != '' and rawOrderEnd != null and rawOrderEnd != ''">
             							AND o.raw_order_date BETWEEN #{rawOrderBegin} AND #{rawOrderEnd}
         							</if>
-        							<if test="rawOrderBegin != null and rawOrderBegin != ''">
+        							<if test="rawOrderBegin != null and rawOrderBegin != '' and rawOrderEnd == null and rawOrderEnd == ''">
             							AND o.raw_order_date >= #{rawOrderBegin}
         							</if>
         							<if test="rawOrderInBegin != null and rawOrderInBegin != '' and rawOrderInEnd != null and rawOrderInEnd != ''">
             							AND o.in_plan_date BETWEEN #{rawOrderInBegin} AND #{rawOrderInEnd}
         							</if>
-        							<if test="rawOrderInBegin != null and rawOrderInBegin != ''">
+        							<if test="rawOrderInBegin != null and rawOrderInBegin != '' and rawOrderInEnd == null and rawOrderInEnd == ''">
             							AND o.in_plan_date >= #{rawOrderInBegin}
         							</if>
 								</where>
 										ORDER BY o.raw_order_code DESC
  </select>
+ 
+
+ <select id="getRawOrderListPopUp" resultType="ems.icemile.dto.RowOrderListDTO">
+ 	SELECT *
+ 	FROM raw_order
+ </select>
+ 
+ 
 </mapper>

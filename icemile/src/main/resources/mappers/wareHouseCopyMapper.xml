@@ -5,10 +5,33 @@
  <mapper namespace="mes.icemile.mappers.wareHouseCopyMapper">
   
   
+  	<!-- 원자재 재고 리스트 -->
   	<select id="getRawStockList" resultType="ems.icemile.dto.StockDTO">
-  		SELECT *
-  		FROM stock
+		SELECT s.stock_code, r.raw_name, r.raw_code, r.raw_type, r.raw_amount AS 'stock_status', 
+       		   r.wh_code, s.stock_date
+		FROM raw_material r LEFT JOIN stock s 
+		ON r.raw_code = s.raw_code	
   	</select>
+  	
+  	
+  	<!-- 원자재 재고 삽입 -->
+	<insert id="insertRawStock" parameterType="ems.icemile.dto.StockDTO">
+   	 	INSERT INTO stock(stock_code, raw_code, stock_date, stock_status, wh_code)
+    	VALUES (CONCAT('ST', LPAD(#{stock_code}, 4, '0')), #{raw_code}, #{stock_date}, #{stock_status}, #{wh_code})
+	</insert>
+    
+    
+    <!-- 재고 코드 부여 -->
+    <select id="getNewStockCode" resultType="int">
+		SELECT count(*) + 1
+		FROM stock
+	</select>
+	
+	
+	<!-- 재고 삭제 -->
+	<delete id="deleteRawStock" parameterType="String">
+    	DELETE FROM stock WHERE raw_code = #{prod_code}
+	</delete>
 
   
  </mapper>

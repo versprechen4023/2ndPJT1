@@ -19,7 +19,7 @@
 	<form action="${pageContext.request.contextPath }/factory/workOrderAddPro" id="registration" name="registration" method="POST" enctype="multipart/form-data">
 		<h1>작업 지시 추가</h1>
 
-		<table border="1">
+		<table>
 		<tr>
 						<!-- <th>지시코드</th> -->
 						<th>작업지시자</th>
@@ -162,6 +162,12 @@ $(document).ready(function() {
     	
     });//submit기능 제어 끝
 });
+
+//라인 코드를 선택하면 새창을 여는 이벤트 리스너
+$(document).on("click", "input[name='line_code']", function() {
+	window.open('${pageContext.request.contextPath }/factory/facilityPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+});// end function
+
 </script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
