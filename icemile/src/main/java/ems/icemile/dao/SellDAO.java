@@ -44,5 +44,8 @@ public interface SellDAO {
 	
 	// 수주 고유 번호 얻기
 	public String getNewProOrderCode(ProOrderDTO proOrderDTO);
+	
+	// 수주 업데이트
+	public boolean proOrderUpdate(ProOrderDTO proOrderDTO);
 
 }

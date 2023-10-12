@@ -29,6 +29,9 @@ public interface FactoryCopy2DAO {
 
 	// 작업 지시 검색
 	public List<WorkOrderDTO> workOrderSearch(HashMap<String, Object> json);
+
+	// 작업 지시 완료
+	public void workOrderDone(String work_code);
 	
 
 }

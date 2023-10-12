@@ -67,8 +67,15 @@ public class FactoryCopy2DAOImpl implements FactoryCopy2DAO {
 
 	@Override
 	public List<WorkOrderDTO> workOrderSearch(HashMap<String, Object> json) {
-		log.debug("작업 지시 서치 DAO 도달");
+		log.debug("작업 지시 서치 DAO");
 		return sqlSession.selectList(namespace+".workOrderSearch", json);
+	}
+
+	@Override
+	public void workOrderDone(String work_code) {
+		log.debug("작업 지시 완료 DAO");
+		sqlSession.update(namespace+".workOrderDone", work_code);
+		
 	}
 
 }

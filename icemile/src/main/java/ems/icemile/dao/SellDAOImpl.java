@@ -93,6 +93,11 @@ public class SellDAOImpl implements SellDAO{
 		return sqlSession.selectOne(namespace+"getNewProOrderCode", proOrderDTO);
 	}
 	
+	@Override
+	public boolean proOrderUpdate(ProOrderDTO proOrderDTO) {
+		return sqlSession.update(namespace+"proOrderUpdate", proOrderDTO) > 0;
+	}
+	
 
 	
 	
