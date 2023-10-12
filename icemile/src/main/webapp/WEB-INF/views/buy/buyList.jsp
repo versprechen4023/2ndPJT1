@@ -120,13 +120,14 @@
 	
 <script type="text/javascript">
 $(document).ready(function() {
-    $(".emp-num-link").click(function(event) {
+	
+	$(document).on("click", ".emp-num-link", function(event) {
         event.preventDefault();
         var empNum = $(this).data("emp-num"); // 클릭한 링크의 emp_num 값을 가져옵니다.
 
         // 팝업 창 크기 및 위치 설정
-        var width = 400;
-        var height = 400;
+        var width = 590;
+        var height = 705;
         var left = (screen.width - width) / 2;
         var top = (screen.height - height) / 2;
 
@@ -163,7 +164,6 @@ $(document).ready(function() {
 	    });
     });
 });
-
 
 // 멤버 검색관련 함수
 function buySearch() {
@@ -204,7 +204,7 @@ function buySearch() {
  				         	"<td>"+data.buy_reg+"</td>",
  				         	"<td>"+data.buy_ceo+"</td>",
  				         	"<td>"+data.buy_emp+"</td>",
- 				         	"<td>"+data.emp_num+"</td>",
+				         	'<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>',    				            
  				         	"<td>"+data.buy_type+"</td>",
  				         	"<td>"+data.buy_phone+"</td>",
  				         	"<td>"+data.buy_post+"</td>",
@@ -222,7 +222,7 @@ function buySearch() {
  		 				         	"<td>"+data.buy_reg+"</td>",
  		 				         	"<td>"+data.buy_ceo+"</td>",
  		 				         	"<td>"+data.buy_emp+"</td>",
- 		 				         	"<td>"+data.emp_num+"</td>",
+ 	    				         	'<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>',    				            
  		 				         	"<td>"+data.buy_type+"</td>",
  		 				         	"<td>"+data.buy_phone+"</td>",
  		 				         	"<td>"+data.buy_post+"</td>",

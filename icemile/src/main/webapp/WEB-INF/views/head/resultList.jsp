@@ -69,7 +69,7 @@
                                     <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
                                         <tr>
                                         	                                        	
-                                        	<th data-sortable="false"><input type="checkbox" name="selectedAllRSList"></th>
+                                        	<th data-sortable="false"><input type="checkbox" id="selectedAllRSId" name="selectedAllRSId"></th>
                                             <th>실적 코드</th>
                                             <th>작업 지시 코드</th>
                                             <th>작업 지시 완료 날짜</th>
@@ -100,9 +100,9 @@
 											</c:choose>
                                             <td>${ResultDTO.line_code}</td>
                                             <td>${ResultDTO.prod_code}</td>
-                                            <td>${ResultDTO.order_amount}</td>
-                                            <td>${ResultDTO.good_prod}</td>
-                                            <td>${ResultDTO.faulty_prod}</td>
+                                            <td>${ResultDTO.order_amount}EA</td>
+                                            <td>${ResultDTO.good_prod}EA</td>
+                                            <td>${ResultDTO.faulty_prod}EA</td>
                                             <td>${ResultDTO.faulty_reason}</td>
                                             <td>${ResultDTO.remark}</td>
                                         </tr>
@@ -272,7 +272,7 @@ function resultSearch(){
 	} // end function
  */
 	// thead의 체크박스를 클릭했을때 전체체크가되게끔 이벤트를 발생시킨다
-	$('input[name="selectedAllRSList"]').click(function() {
+	$('input[name="selectedRSList"]').click(function() {
 	    // 모든 selectedProId 체크박스의 상태를 selectedAllRawOrderId와 동일하게 설정한다
 	    // $this로 AllProId의 상태를 가져온다
 	    $('input[name="selectedRSList"]').prop('checked', $(this).prop('checked'));
@@ -672,12 +672,15 @@ function getDate() {
 		
 	});
 	
+	$(document).ready(function() {
 	// thead의 체크박스를 클릭했을때 전체체크가되게끔 이벤트를 발생시킨다
-	$('input[name="selectedAllRSList"]').click(function() {
-	    // 모든 selectedProId 체크박스의 상태를 selectedAllRawOrderId와 동일하게 설정한다
-	    // $this로 AllProId의 상태를 가져온다
-	    $('input[name="selectedRSList"]').prop('checked', $(this).prop('checked'));
-	});// end function
+	$('#selectedAllRSId').click(function() {
+    // 모든 selectedRSList 체크박스의 상태를 selectedAllRSId와 동일하게 설정한다
+    $('input[name="selectedRSList"]').prop('checked', $(this).prop('checked'));
+	});
+	});
+	
+
 
 	//엑셀 버튼 누를 시 실행되는 함수
 	$("#excelRS").click(function(){
