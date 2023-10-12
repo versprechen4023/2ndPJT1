@@ -8,7 +8,7 @@
   	<!-- 원자재 재고 리스트 -->
   	<select id="getRawStockList" resultType="ems.icemile.dto.StockDTO">
 		SELECT s.stock_code, r.raw_name, r.raw_code, r.raw_type, r.raw_amount AS 'stock_status', 
-       		   r.wh_code, s.stock_date
+       		   s.stock_amount, r.wh_code, s.stock_date
 		FROM raw_material r LEFT JOIN stock s 
 		ON r.raw_code = s.raw_code	
   	</select>
@@ -28,7 +28,7 @@
 	</select>
 	
 	
-	<update id="updateRawStock">
+	<update id="updateRawStock" parameterType="ems.icemile.dto.StockDTO">
 		UPDATE stock
 		SET stock_amount = #{stock_amount}
 		WHERE stock_code = #{stock_code}
