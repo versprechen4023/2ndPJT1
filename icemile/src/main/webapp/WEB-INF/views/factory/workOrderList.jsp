@@ -81,7 +81,7 @@
 									<c:forEach var="workOrderDTO" items="${workOrderList}">
 										<tr>
 											<td>${workOrderDTO.work_code}</td>
-											<td>${workOrderDTO.emp_num}</td>
+											<td><a href="#" class="emp-num-link" data-emp-num="${workOrderDTO.emp_num}">${workOrderDTO.emp_num}</a></td>
 											<td>${workOrderDTO.line_code}</td>
 											<td>${workOrderDTO.line_name}</td>
 											<td>${workOrderDTO.order_code}</td>
@@ -181,7 +181,7 @@ function workOrderSearch() {
  				    	if(role.charAt(0) === '1'){
  				        	$tr.append(
  				            "<td>"+data.work_code+"</td>",
- 				           	"<td>"+data.emp_num+"</td>",
+ 				            '<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>',   
  				         	"<td>"+data.line_code+"</td>",
  				         	"<td>"+data.line_name+"</td>",
  				         	"<td>"+data.order_code+"</td>",
@@ -201,7 +201,7 @@ function workOrderSearch() {
  				    	} else {
  				    		 $tr.append(
  				    	            "<td>"+data.work_code+"</td>",
- 		 				           	"<td>"+data.emp_num+"</td>",
+ 				    	           '<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>',   
  		 				         	"<td>"+data.line_code+"</td>",
  		 				         	"<td>"+data.line_name+"</td>",
  		 				         	"<td>"+data.order_code+"</td>",
@@ -380,7 +380,26 @@ $("#workOrderDoneBegin").datepicker({
     }
 });
 
+$(document).ready(function() {
+	
+	$(document).on("click", ".emp-num-link", function(event) {
+        event.preventDefault();
+        var empNum = $(this).data("emp-num"); // 클릭한 링크의 emp_num 값을 가져옵니다.
 
+        // 팝업 창 크기 및 위치 설정
+        var width = 590;
+        var height = 705;
+        var left = (screen.width - width) / 2;
+        var top = (screen.height - height) / 2;
+
+        // 팝업 창 열기
+        var url = '${pageContext.request.contextPath}/member/managerInfo?emp_num=' + empNum; // 팝업에 필요한 데이터를 URL에 포함
+        var popupWindow = window.open(url, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
+
+        // 팝업 창 포커스
+        popupWindow.focus();
+    });
+});
 
 //엔터키 입력시 검색되게 이벤트 리스너 활성화
 document.addEventListener("keyup", function(event) {
