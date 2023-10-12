@@ -42,6 +42,10 @@
                         <input type="text" name="workOrderBegin" id="workOrderBegin"> ~
                         <input type="text" name="workOrderEnd" id="workOrderEnd" disabled>
                         <br>
+                        완료 날짜
+                        <input type="text" name="workOrderDoneBegin" id="workOrderDoneBegin" > ~
+                        <input type="text" name="workOrderDoneEnd" id="workOrderDoneEnd"  disabled>
+                        <br>
 						<input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
   								<option value="work_code">지시코드</option>
@@ -67,6 +71,7 @@
 										<th>생산공정</th>
 										<th>지시/수정날짜</th>
 										<th>지점명</th>
+										<th>완료날짜</th>
 										<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
 										<th data-sortable="false">관리</th>
 										</c:if>
@@ -85,6 +90,7 @@
 											<td>${workOrderDTO.line_process}</td>
 											<td>${workOrderDTO.work_order_date}</td>
 											<td>${workOrderDTO.branch_name}</td>
+											<td>${workOrderDTO.done_date}</td>
 						
 								
 										
@@ -93,6 +99,8 @@
 												onclick="workOrderUpdate('${workOrderDTO.work_code}')" id="updateWorkOrder">
 												<input type="button" value="삭제"
 												onclick="workOrderDelete('${workOrderDTO.work_code}')" id="deleteWorkOrder">
+												<input type="button" value="완료"
+												onclick="workOrderDone('${workOrderDTO.work_code}')" id="doneWorkOrder">
 											</td>
 											</c:if>
 										</tr>
@@ -143,6 +151,8 @@ function workOrderSearch() {
 	   var json = {
 		   		workOrderBegin: $('#workOrderBegin').val(),
 		   		workOrderEnd: $('#workOrderEnd').val(),
+		   		workOrderDoneBegin: $('#workOrderDoneBegin').val(),
+		   		workOrderDoneEnd: $('#workOrderDoneEnd').val(),
         			category: $('#category').val(),
         			content: $('#content').val()
        			  };
@@ -179,9 +189,11 @@ function workOrderSearch() {
  				         	"<td>"+data.line_process+"</td>",
  				         	"<td>"+data.work_order_date+"</td>",
  				         	"<td>"+data.branch_name+"</td>",
+ 				         	"<td>"+data.done_date+"</td>",
  				            "<td>" +
  				          	"<input type='button' value='수정' onclick='workOrderUpdate(\"" + data.workOrder_code + "\")' id='updateworkOrder'>" +
  				            "<input type='button' value='삭제' onclick='workOrderDelete(\"" + data.workOrder_code + "\")' id='deleteworkOrder'>" +
+ 				            "<input type='button' value='완료' onclick='workOrderDone(\"" + data.workOrder_code + "\")' id='doneWorkOrder'>" +
  				            "</td>"
  				        	);
  				    	} else {
@@ -195,7 +207,8 @@ function workOrderSearch() {
  		 				         	"<td>"+data.order_amount+"</td>",
  		 				         	"<td>"+data.line_process+"</td>",
  		 				         	"<td>"+data.work_order_date+"</td>",
- 		 				         	"<td>"+data.branch_name+"</td>"
+ 		 				         	"<td>"+data.branch_name+"</td>",
+ 		 				         	"<td>"+data.done_date+"</td>"
  		 				     );
  				    	}
  				        // 생성한 <tr> 요소를 tbody에 추가
@@ -262,6 +275,42 @@ function workOrderDelete(work_code) {
 	
 }// end_of_function
 
+// 작업 지시 완료 버튼관련 함수
+function workOrderDone(work_code) {
+    // 서버로 완료 요청 보내기
+    $.ajax({
+        url: '${pageContext.request.contextPath}/factory_ajax/workOrderDone',
+        data: { "work_code": work_code },
+        type: 'POST',
+        success: function (data) {
+            if (data === "true") {
+                
+            	// 현재 날짜 얻기
+                var currentTime = new Date();
+                // 날짜를 원하는 포맷으로 변경
+            	var formattedDate = currentTime.toLocaleDateString(); // 년월일 형식 (예: "10/11/2023")
+                
+                // 완료 날짜 표시
+                $("#doneWorkOrder_" + work_code).text(formattedDate);
+
+                // 성공 메시지 표시
+                Swal.fire('작업이 성공적으로 완료되었습니다.', '성공', 'success').then(function() {
+                    // 페이지 새로고침
+                    location.reload();
+                });
+
+                // 버튼 비활성화
+                $("#doneWorkOrder_" + work_code).prop("disabled", true);
+            } else {
+                // DB 업데이트 실패 시
+                Swal.fire('DB 업데이트에 실패했습니다.', '실패', 'error');
+            }
+        }
+    });
+}
+
+
+
 //지시/수정날짜 시작점
 $("#workOrderBegin").datepicker({
 dateFormat: 'yy-mm-dd',
@@ -301,6 +350,42 @@ onSelect: function(selectedDate) {
 }// end OnSelect
 }); // end 데이트피커
 
+//완료날짜 시작점
+$("#workOrderDoneBegin").datepicker({
+    dateFormat: 'yy-mm-dd',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+    dayNames: ['일','월','화','수','목','금','토'],
+    dayNamesShort: ['일','월','화','수','목','금','토'],
+    dayNamesMin: ['일','월','화','수','목','금','토'],
+    showMonthAfterYear: true,
+    yearSuffix: '년',
+    onSelect: function(selectedDate) {
+        // 지시/수정날짜 끝점(데이트피커)을 초기화하고 동적변경을 위해 데이트피커의 초기값을 변수에 담는다
+        var mySecondDatePicker = $("#workOrderDoneEnd").datepicker({
+            dateFormat: 'yy-mm-dd',
+            prevText: '이전 달',
+            nextText: '다음 달',
+            monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+            dayNames: ['일','월','화','수','목','금','토'],
+            dayNamesShort: ['일','월','화','수','목','금','토'],
+            dayNamesMin: ['일','월','화','수','목','금','토'],
+            showMonthAfterYear: true,
+            yearSuffix: '년',
+            minDate: selectedDate
+        });
+
+        // 입고예정일 끝점을 선택할 수 있게한다
+        $("#workOrderDoneEnd").removeAttr("disabled");
+        // 입고예정일 끝점을 초기화한다
+        $("#workOrderDoneEnd").val("");
+        // 동적으로 minDate 를 업데이트한다
+        mySecondDatePicker.datepicker("option", "minDate", selectedDate);
+    }
+});
 
 
 
@@ -310,9 +395,6 @@ document.addEventListener("keyup", function(event) {
     	workOrderSearch();
     }// end if
 });// end function
-
-
-
 </script>
 </body>
 </html>

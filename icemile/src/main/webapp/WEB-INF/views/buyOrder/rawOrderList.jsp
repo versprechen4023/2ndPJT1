@@ -466,6 +466,8 @@ $(document).ready(function() {
 				// 단 셀렉트태그는 직접 부여되므로 마찬가지로 수정 할 수 있다
 				if(index === 6 || index === 10){
 					cellOption = "";
+				} else if(index === 0){
+					cellOption = "readonly";
 				} else {
 					cellOption = "disabled";
 				}

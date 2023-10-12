@@ -48,4 +48,10 @@ public class HeadDAOImpl implements HeadDAO{
 			return sqlSession.insert(namespace+"resultInsert",resultDTO) > 0;
 
 		}
+
+		@Override
+		public boolean resultUpdate(ResultDTO resultDTO) {
+			log.debug("DAO| 실적 수정");			
+			return sqlSession.update(namespace+"resultUpdate",resultDTO) > 0;
+		}
 }

@@ -2,7 +2,9 @@ package ems.icemile.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import ems.icemile.dto.ProOrderDTO;
 import ems.icemile.dto.SellDTO;
 
 public interface SellService {
@@ -30,5 +32,14 @@ public interface SellService {
 
 	// 지점 번호 중복 검사
 	boolean searchPhone(String branch_phone);
+	
+	// 수주 리스트 가져오기
+	public List<HashMap<String, Object>> proOrderList();
+	
+	// 수주 추가
+	public boolean proOrderInsert(ProOrderDTO proOrderDTO);
+	
+	// 수주 업데이트
+	public boolean proOrderUpdate(ProOrderDTO proOrderDTO);
 
 }

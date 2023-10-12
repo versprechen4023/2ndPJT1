@@ -84,6 +84,22 @@ public class FactoryCopy2Controller {
 		
 	}
 	
+	@GetMapping("workOrderPopUp")
+    public String workOrderPopUp(Model model) {
+        // 작업지시조회
+        log.debug("workOrderList");
+
+        // 작업지시 리스트를 가져오기위한 리스트 객체생성
+        List<WorkOrderDTO> workOrderList = new ArrayList<WorkOrderDTO>();
+        workOrderList = factoryCopy2Service.workOrderList();
+
+        // 모델에 멤버 DTO값 저장
+        model.addAttribute("workOrderList", workOrderList);
+
+        return "/factory/workOrderPopUp";
+
+    }
+	
 	
 	
 	}// 

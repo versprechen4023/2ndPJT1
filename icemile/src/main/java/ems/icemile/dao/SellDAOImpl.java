@@ -2,12 +2,14 @@ package ems.icemile.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import ems.icemile.dto.ProOrderDTO;
 import ems.icemile.dto.SellDTO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -74,6 +76,26 @@ public class SellDAOImpl implements SellDAO{
 		log.debug("DAO| 지점 번호 중복 검사");
 		String result = sqlSession.selectOne(namespace+"searchPhone", branch_phone);
 		return (result == null) ? false : true;
+	}
+	
+	@Override
+	public List<HashMap<String, Object>> proOrderList() {
+		return sqlSession.selectList(namespace+"proOrderList");
+	}
+	
+	@Override
+	public boolean proOrderInsert(ProOrderDTO proOrderDTO) {
+		return sqlSession.insert(namespace+"proOrderInsert", proOrderDTO) > 0;
+	}
+	
+	@Override
+	public String getNewProOrderCode(ProOrderDTO proOrderDTO) {
+		return sqlSession.selectOne(namespace+"getNewProOrderCode", proOrderDTO);
+	}
+	
+	@Override
+	public boolean proOrderUpdate(ProOrderDTO proOrderDTO) {
+		return sqlSession.update(namespace+"proOrderUpdate", proOrderDTO) > 0;
 	}
 	
 
