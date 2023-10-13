@@ -29,6 +29,8 @@ public class MemberAjaxController {
 	@Inject // 멤버 서비스 의존성 주입
 	private MemberServiceImpl memberService;
 	
+	// 관리자 권한제어를 위한 어노테이션 선언
+	@ems.icemile.annotation.Department
 	@PostMapping("delete")
 	public String memberDelete(@RequestParam("emp_num") String emp_num) {
 		
@@ -37,6 +39,7 @@ public class MemberAjaxController {
 		// 콜백 함수에 결과값 리턴
 		return Boolean.toString(memberService.memberDelete(emp_num));
 	}
+	
 	
 	@PostMapping("search")
 	public List<MemberDTO> memberSearch(@RequestBody HashMap<String, Object> json) {
@@ -52,6 +55,8 @@ public class MemberAjaxController {
 		return memberList;
 	}
 	
+	// 관리자 권한제어를 위한 어노테이션 선언
+	@ems.icemile.annotation.Department
 	@PostMapping("/insert")
 	public String memberInsert(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file, HttpSession session) throws Exception {
 		
@@ -155,6 +160,8 @@ public class MemberAjaxController {
 		return Boolean.toString(memberService.searchPhone(phone_num));
 	}
 	
+	// 관리자 권한제어를 위한 어노테이션 선언
+	@ems.icemile.annotation.Department
 	@PostMapping("reset")
 	public String memberReset(@RequestParam("emp_num") String emp_num) {
 		

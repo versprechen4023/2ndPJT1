@@ -1,9 +1,7 @@
 package ems.icemile.controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -14,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ems.icemile.dto.MemberDTO;
@@ -62,23 +58,22 @@ public class MemberController {
 		
 	}//end_of_loginPro
 	
+	// 관리자 권한제어를 위한 어노테이션 선언
+	@ems.icemile.annotation.Department
 	@GetMapping("/memberInsert")
 	public String memberInsert(HttpSession session) {
-		
-		// 세션 검증
-		if(session.getAttribute("emp_num")==null){
-			return "redirect:/member/login";
-		};
 		
 		log.debug("사용자 추가 페이지");
 		
 		return "member/memberInsert";
 	}
 	
+	// 관리자 권한제어를 위한 어노테이션 선언
+	@ems.icemile.annotation.Department
 	@GetMapping("/memberUpdate")
 	public String memberUpdate(@RequestParam("emp_num") String emp_num, Model model) {
 		
-		log.debug("사용자 수정 페이지");
+		log.debug("관리자의 사용자 수정 페이지");
 		
 		// 사원 정보를 얻기위한 메서드 호출
 		MemberDTO memberDTO = memberService.getMemberInfo(emp_num);
