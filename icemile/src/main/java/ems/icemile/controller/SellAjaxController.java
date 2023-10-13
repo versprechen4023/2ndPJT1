@@ -115,7 +115,7 @@ public class SellAjaxController {
 	}
 	
 	@PostMapping("/proOrderSearch")
-	public List<RowOrderListDTO> proOrderSearch(@RequestBody HashMap<String, Object> json) {
+	public List<HashMap<String, Object>> proOrderSearch(@RequestBody HashMap<String, Object> json) {
 		
 		log.debug("발주 검색");
 		
@@ -129,30 +129,35 @@ public class SellAjaxController {
         }
 		
 		// 수주리스트를 가져오기위한 품목리스트 객체생성
-		List<RowOrderListDTO> proOrderList = new ArrayList<RowOrderListDTO>();
+		List<HashMap<String, Object>> proOrderList = new ArrayList<HashMap<String, Object>>();
 		proOrderList = sellService.proOrderSearch(json);
 //				
-//		// 가격 및 상태처리
-//		for(RowOrderListDTO a : proOrderList) {
-//			// 배열에서 주문량을 가져온다
-//			int order_amount = (int)a.get("order_amount");
-//			// 배열에서 단가(완제품가격) 을 가져온다
-//			int prod_price = (int)a.get("prod_price");
-//			// 계산을 수행한다
-//			int result = (int)((order_amount * prod_price) * 1.2);
-//			// 계산된 값을 수주금액에 넣는다
-//			a.put("order_price", result);
-//					
-//			// 상태처리 번호를 가져온다
-//			int order_status = (int)a.get("order_status");
-//			// 번호를 상태(문자)로 반환한다
-//			String text_order_status = ProOrderStatus.fromNumber(order_status).getName();
-//			// 반환한 문자를 상태로 갱신한다
-//			a.put("order_status", text_order_status);
-//		}
+		// 가격 및 상태처리 및 날짜처리
+		for(HashMap<String,Object> a : proOrderList) {
+			// 배열에서 주문량을 가져온다
+			int order_amount = (int)a.get("order_amount");
+			// 배열에서 단가(완제품가격) 을 가져온다
+			int prod_price = (int)a.get("prod_price");
+			// 계산을 수행한다
+			int result = (int)((order_amount * prod_price) * 1.2);
+			// 계산된 값을 수주금액에 넣는다
+			a.put("order_price", result);
+					
+			// 상태처리 번호를 가져온다
+			int order_status = (int)a.get("order_status");
+			// 번호를 상태(문자)로 반환한다
+			String text_order_status = ProOrderStatus.fromNumber(order_status).getName();
+			// 반환한 문자를 상태로 갱신한다
+			a.put("order_status", text_order_status);
+			
+			// Date타입의 데이터를 String으로 변환한다
+			Object myDate = a.get("order_date");
+			Object myPlanDate = a.get("out_plan_date");
+			a.put("order_date", myDate.toString());
+			a.put("out_plan_date", myPlanDate.toString());
+		}
 		
-//		return proOrderList;
-		return null;
+		return proOrderList;
 	}
 
 }

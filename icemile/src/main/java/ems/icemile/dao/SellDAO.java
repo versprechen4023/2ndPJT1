@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import ems.icemile.dto.ProOrderDTO;
+import ems.icemile.dto.RowOrderListDTO;
 import ems.icemile.dto.SellDTO;
 
 public interface SellDAO {
@@ -50,5 +51,8 @@ public interface SellDAO {
 	
 	// 수주 삭제
 	public boolean proOrderDelete(List<String> deleteProList);
+	
+	// 수주 검색
+	public List<HashMap<String, Object>> proOrderSearch(HashMap<String, Object> json);
 
 }

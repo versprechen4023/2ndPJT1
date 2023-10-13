@@ -154,10 +154,12 @@ public class SellServiceImpl implements SellService{
 		return sellDAO.proOrderDelete(deleteProList);
 	}
 
-
-	public List<RowOrderListDTO> proOrderSearch(HashMap<String, Object> json) {
-		// TODO Auto-generated method stub
-		return null;
+	@Override
+	public List<HashMap<String, Object>> proOrderSearch(HashMap<String, Object> json) {
+		
+		log.debug("수주 검색");
+		
+		return sellDAO.proOrderSearch(json);
 	}
 
 

@@ -375,7 +375,7 @@ $(document).ready(function() {
 	  		'<td><input type="text" id="raw_order_amount" name="raw_order_amount" value ="0"></td>',
 	  		'<td><input type="text" id="raw_price" name="raw_price" readonly></td>',
 	  		'<td><input type="text" id="raw_fullprice" name="raw_fullprice" placeholder="(자동으로 계산됨)" readonly></td>',
-	  		'<td><input type="text" id="raw_order_date" name="raw_order_date" value="'+getDate()+'"></td>',
+	  		'<td><input type="text" id="raw_order_date" name="raw_order_date" value="'+getDate()+'" readonly></td>',
 	  		'<td><input type="text" id="in_plan_date" name="in_plan_date" readonly></td>',
 	  		'<td><input type="text" id="raw_status_name" name="raw_status_name" value="발주전" readonly></td>',
 	  		'<td><input type="text" id="emp_num" name="emp_num" readonly></td>',
