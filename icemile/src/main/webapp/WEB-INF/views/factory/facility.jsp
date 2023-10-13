@@ -85,7 +85,7 @@
                                             <td>${facilityDTO.line_name}</td>
                                             <td>${facilityDTO.line_phone}</td>
                                             <td>${facilityDTO.line_process}</td>
-                                            <td>${facilityDTO.line_status}</td>
+                                            <td class="facility-status">${facilityDTO.line_status}</td>
                                             <td><a href="#" onclick="memberInfo('${facilityDTO.emp_num}')">${facilityDTO.emp_num}</a></td>
                                             <td>${facilityDTO.line_note}</td>
                                             <!-- <td><input type="button" value="수정"
@@ -634,7 +634,28 @@
 			}// end if
 		});// end function
 
-        
+		document.addEventListener('DOMContentLoaded', function() {
+		    var statusElements = document.querySelectorAll('.facility-status');
+
+		    statusElements.forEach(function(element) {
+		        var statusValue = element.textContent;
+
+		        switch (statusValue) {
+		            case '1':
+		                element.textContent = '가동중';
+		                break;
+		            case '2':
+		                element.textContent = '대기중';
+		                break;
+		            case '3':
+		                element.textContent = '고장';
+		                break;
+		            default:
+		                element.textContent = '알 수 없음';
+		        }
+		    });
+		});
+		
         </script>
         
         
