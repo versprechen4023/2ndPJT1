@@ -19,7 +19,7 @@
 	<form action="${pageContext.request.contextPath}/shipping/updateInMaterial?in_code=${inMaterialDTO.in_code}" id="updateInMaterial" method="POST">
 		<h1>입고 수정</h1>
 		
-		<table>
+		<table border="1">
 		<tr>
 				<th>입고코드</th>
 				<th>창고코드</th>

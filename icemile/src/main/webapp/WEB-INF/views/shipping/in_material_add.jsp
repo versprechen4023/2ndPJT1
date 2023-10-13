@@ -20,7 +20,7 @@
 	<form action="${pageContext.request.contextPath}/shipping/inMaterialInsert" id="inMaterialInsert" method="POST">
 		<h1>입고 추가</h1>
 
-		<table>
+		<table border="1">
 		<tr>
 				<!-- <th>입고코드</th> -->
 				<th>창고코드</th>
