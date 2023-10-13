@@ -130,53 +130,8 @@
 
 	<!-- 모달창 -->
 	<div id="myModal" class="modaldetail">
-		<span id="closeModalButton" style="cursor: pointer;">닫기</span>
-		<table id="modaltable">
-
-			<c:choose>
-				<c:when test="${clickedElementValue.startsWith('WH')}">
-					<tr>
-						<th>창고 위치</th>
-						<th>완제품</th>
-						<th>원제료</th>
-						<th>창고 담당자</th>
-					</tr>
-					<tr>
-						<td><input type="text" id="mv1" value="" size="5" readonly></td>
-						<td><input type="text" id="mv2" value="" size="5" readonly></td>
-						<td><input type="text" id="mv3" value="" size="5" readonly></td>
-						<td><input type="text" id="mv4" value="" size="5" readonly></td>
-					</tr>
-				</c:when>
-				<c:when test="${clickedElementValue.startsWith('IM')}">
-					<tr>
-						<th>이름</th>
-						<th>부서</th>
-						<th>전화번호</th>
-						<th>핫라인</th>
-						<td><input type="text" id="mv1" value="" size="5" readonly></td>
-						<td><input type="text" id="mv2" value="" size="5" readonly></td>
-						<td><input type="text" id="mv3" value="" size="5" readonly></td>
-						<td><input type="text" id="mv4" value="" size="5" readonly></td>
-					</tr>
-				</c:when>
-				<c:otherwise>
-					<tr>
-						<th>라인</th>
-						<th>제품 이름</th>
-						<th>양</th>
-						<th>지점</th>
-						<td><input type="text" id="mv1" value="" size="5" readonly></td>
-						<td><input type="text" id="mv2" value="" size="5" readonly></td>
-						<td><input type="text" id="mv3" value="" size="5" readonly></td>
-						<td><input type="text" id="mv4" value="" size="5" readonly></td>
-					</tr>
-				</c:otherwise>
-			</c:choose>
-		</table>
 	</div>
 	<!-- 모달창 -->
-
 
 
 	<!-- 모달창 script -->
@@ -184,20 +139,18 @@
         
         //modal창의 id 값 할당
         const myModal = document.getElementById("myModal");
-        
-        //modal닫기 id 값 할당
-        const closeModalButton = document.getElementById("closeModalButton");
-        
+         
         // mv1Element, mv2Element, mv3Element, mv4Element를 상수로 정의하여 각각의 input의 id값을 가져올수 있다.
         // 이제 이러한 상수를 사용하여 JSON 데이터를 각 input 요소의 value로 설정할 수 있습니다.
         const mv1Element = document.getElementById("mv1");
         const mv2Element = document.getElementById("mv2");
         const mv3Element = document.getElementById("mv3");
         const mv4Element = document.getElementById("mv4");
-
+       
         
         //modal창에 열기 위한 이벤트 헨들러
         function openModal(e) {
+        	  
         	//클릭한 요소의 name의 속성 값을 가져와서 clickedElementName변수에 저장한다
         	//즉 이 부분은 클릭한 요소의 name속성을 추출하는 역할
         	// "getBoundingClientRect()" 메서드를 사용하여 클릭한 요소의 화면 좌표 정보를 가져옵니다.
@@ -217,8 +170,21 @@
             myModal.style.top = y + "px";
             myModal.style.display = "block";
             
+            // modalContent를 초기화 (이전 내용 지우기)
+            myModal.innerHTML = "";
+            //다기버튼과 초기화 버튼은 유지
+            myModal.innerHTML = `<span id="closeModalButton" style="cursor: pointer;">닫기</span><br>`;
+            //기존닫기
+            myModal.innerHTML = `<span id="closeModalButton" style="cursor: pointer;">닫기</span><br>`;
+
             
             if(clickedElementValue.startsWith("WH")){
+            	
+            	addInput("창고 위치:", "mv1Element");
+                addInput("창고 완제품:", "mv2Element");
+                addInput("창고 원제료:", "mv3Element");
+                addInput("창고 창고담당자:", "mv4Element");
+            	
             	
             	//modal_ajax 
             	$.ajax({
@@ -232,11 +198,13 @@
             	  
             	  success: function (json) {
                       if (json && typeof json === 'object') {
-                    
-                          mv1Element.value = json.wh_name;
-                          mv2Element.value = json.prod_code;
-                          mv3Element.value = json.raw_code;
-                          mv4Element.value = json.emp_num;
+                    	  
+                    	// 값 할당
+                          document.getElementById("mv1Element").value = json.wh_name;
+                          document.getElementById("mv2Element").value = json.prod_code;
+                          document.getElementById("mv3Element").value = json.raw_code;
+                          document.getElementById("mv4Element").value = json.emp_num;
+                          
                     	} else {
                     	    // JSON 데이터가 없거나 빈 경우에 대한 처리를 추가
                     	    console.error("JSON 데이터가 비어 있거나 유효하지 않습니다. json: " + JSON.stringify(json));
@@ -245,28 +213,33 @@
                   }
               });
             	
-                mv1Element.value = "";
-                mv2Element.value = "";
-                mv3Element.value = "";
-                mv4Element.value = "";
-            
-           
-            
-            // 이 부분은 "closeModalButton" 버튼에 대한 클릭 이벤트를 감지하고,
-            // 클릭 이벤트가 발생했을 때 실행할 함수를 설정합니다.
-             closeModalButton.addEventListener("click", function (e) {
-            	// 이 코드는 클릭 이벤트가 발생한 요소(e.target)가 
-            	// "closeModalButton" 요소와 일치하는지 확인합니다.
-                if (e.target === closeModalButton) {
-                    myModal.style.display = "none";
-                  
-                }
-            });
-      		  
-          	  
+            	const newCloseModalButton = document.createElement("span");
+            	newCloseModalButton.id = "newCloseModalButton"; // ID를 다르게 설정
+            	newCloseModalButton.style.cursor = "pointer";
+            	newCloseModalButton.textContent = "닫기";
+            	myModal.appendChild(newCloseModalButton);
+
+            	newCloseModalButton.addEventListener("click", function (e) {
+            	    if (e.target === newCloseModalButton) {
+            	        myModal.style.display = "none";
+            	    }
+            	});
+            	
+            	closeModalButton.addEventListener("click", function (e) {
+            	    if (e.target === closeModalButton) {
+            	        myModal.style.display = "none";
+            	    }
+            	});
+
+              
       	  }else if(clickedElementValue.startsWith("IM")){
       		  
-      		//modal_ajax 
+      		    addInput("이름:", "mv1Element");
+                addInput("부서:", "mv2Element");
+                addInput("전화 번호:", "mv3Element");
+                addInput("내선 번호:", "mv4Element");
+      		  
+      		    //modal_ajax 
             	$.ajax({
             	  url : '${pageContext.request.contextPath}/Shipping_ajax/modalEpSearch',
             	  
@@ -279,10 +252,12 @@
             	  success: function (json) {
                       if (json && typeof json === 'object') {
                     	  
-                          mv1Element.value = json.emp_name;
-                          mv2Element.value = json.dept_name;
-                          mv3Element.value = json.phone_num;
-                          mv4Element.value = json.hotline;
+                        	// 값 할당
+                          document.getElementById("mv1Element").value = json.emp_name;
+                          document.getElementById("mv2Element").value = json.dept_name;
+                          document.getElementById("mv3Element").value = json.phone_num;
+                          document.getElementById("mv4Element").value = json.hotline;
+                          
                     	} else {
                     	    // JSON 데이터가 없거나 빈 경우에 대한 처리를 추가
                     	    console.error("JSON 데이터가 비어 있거나 유효하지 않습니다. json: " + JSON.stringify(json));
@@ -291,24 +266,13 @@
                   }
               });
         		
-                mv1Element.value = "";
-                mv2Element.value = "";
-                mv3Element.value = "";
-                mv4Element.value = "";
-            
-            // 이 부분은 "closeModalButton" 버튼에 대한 클릭 이벤트를 감지하고,
-            // 클릭 이벤트가 발생했을 때 실행할 함수를 설정합니다.
-             closeModalButton.addEventListener("click", function (e) {
-            	// 이 코드는 클릭 이벤트가 발생한 요소(e.target)가 
-            	// "closeModalButton" 요소와 일치하는지 확인합니다.
-                if (e.target === closeModalButton) {
-                    myModal.style.display = "none";
-                  
-                }
-            });
-      		
- 
+               
       	  }else{
+      		 
+      		addInput("이름:", "mv1Element");
+            addInput("부서:", "mv2Element");
+            addInput("전화 번호:", "mv3Element");
+            addInput("내선 번호:", "mv4Element");
       		  
       		//modal_ajax 
           	$.ajax({
@@ -322,11 +286,13 @@
           	  
           	  success: function (json) {
                     if (json && typeof json === 'object') {
-                  	  
-                        mv1Element.value = json.line_name;
-                        mv2Element.value = json.prod_name;
-                        mv3Element.value = json.order_amount;
-                        mv4Element.value = json.branch_name;
+                    	
+                    	// 값 할당
+                        document.getElementById("mv1Element").value = json.line_name;
+                        document.getElementById("mv2Element").value = json.prod_name;
+                        document.getElementById("mv3Element").value = json.order_amount;
+                        document.getElementById("mv4Element").value = json.branch_name;
+                    	
                   	} else {
                   	    // JSON 데이터가 없거나 빈 경우에 대한 처리를 추가
                   	    console.error("JSON 데이터가 비어 있거나 유효하지 않습니다. json: " + JSON.stringify(json));
@@ -335,26 +301,27 @@
                 }
             });
       		
-              mv1Element.value = "";
-              mv2Element.value = "";
-              mv3Element.value = "";
-              mv4Element.value = "";
-          
-          // 이 부분은 "closeModalButton" 버튼에 대한 클릭 이벤트를 감지하고,
-          // 클릭 이벤트가 발생했을 때 실행할 함수를 설정합니다.
-           closeModalButton.addEventListener("click", function (e) {
-          	// 이 코드는 클릭 이벤트가 발생한 요소(e.target)가 
-          	// "closeModalButton" 요소와 일치하는지 확인합니다.
-              if (e.target === closeModalButton) {
-                  myModal.style.display = "none";
-                
-              }
-          });
-      		
-      		      		  
       	  }
+         
+        }//ajax
+            
+            //input시 동적으로 생성하기 위한 함수
+            function addInput(label, id, value) {
+                const div = document.createElement("div");
+                const input = document.createElement("input");
+                input.type = "text";
+                input.id = id;
+                input.value = value; // 값을 설정
+                input.size = 8;
+                input.readOnly = true;
+                div.appendChild(document.createTextNode(label));
+                div.appendChild(input);
+                myModal.appendChild(div);
+            }
           	
-        }
+            
+           
+               
     </script>
 	<!-- 모달창 script -->
 
