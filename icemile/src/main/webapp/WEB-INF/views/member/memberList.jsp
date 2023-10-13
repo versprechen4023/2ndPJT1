@@ -117,6 +117,9 @@ function memberSearch() {
 		// 원래 매개변수로 전달할려했으나 처음에 언디파인드가 뜨는 문제가 있음 따라서 변수선언
  		var role = '${sessionScope.emp_role}';
  		
+ 		if($('#content').val() == ''){
+ 			return false;
+ 		}
 	   // 값 전달 하기위한 JSON 타입 변수선언
 	   var json = {
         			category: $('#category').val(),
@@ -154,7 +157,7 @@ function memberSearch() {
  				            "<td>" +
  				          	"<input type='button' value='수정' onclick='memberUpdate(\"" + data.emp_num + "\")' id='updateEmp'>" +
  				            "<input type='button' value='삭제' onclick='memberDelete(\"" + data.emp_num + "\")' id='deleteEmp'>" +
- 				           "<input type='button' value='삭제' onclick='memberReset(\"" + data.emp_num + "\")' id='resetEmp'>" +
+ 				            "<input type='button' value='비밀번호 초기화' onclick='memberReset(\"" + data.emp_num + "\")' id='resetEmp'>" +
  				            "</td>"
  				        	);
  				    	} else {
@@ -174,6 +177,7 @@ function memberSearch() {
  				    // 페이징 동적 처리
  				    // 태그 개수 구하기
  				    var trCount = $('tbody tr').length;
+ 				    console.log(trCount);
  				    // 페이징 처리를 위한 변수선언(태그 개수 계산)
  				    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
  				    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
@@ -307,11 +311,18 @@ function memberReset(emp_num) {
 	  });// end_of_function(alert 콜백함수 종료지점)
 }// end_of_function
 
-//엔터키 입력시 검색되게 이벤트 리스너 활성화
-document.addEventListener("keyup", function(event) {
-    if (event.key === 'Enter') {
-    	memberSearch();
-    }// end if
+//폼제출을 막고 엔터키로 조회가 가능하게 하는 함수
+// 텍스트타입 제출을 막음
+$('input[type="text"]').keydown(function() {
+	// 엔터키 이벤트 발생을 확인한다
+	if (event.keyCode === 13) {
+		// 폼 태그 제출을 막는다
+ 		event.preventDefault();
+		// 검색 함수를 실행한다
+ 		memberSearch();
+		// 검색입력창을 초기화한다
+ 		$('#content').val("");
+	}// end if
 });// end function
 </script>
 </body>
