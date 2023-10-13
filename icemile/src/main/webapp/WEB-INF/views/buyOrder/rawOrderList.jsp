@@ -37,7 +37,8 @@
 						</c:if>
 						</div>
                         <div class="card mb-4">
-                            <div class="card-header">
+                            <div class="card-header"> 
+                             <div id ="cardHeaderContainer">
                              발주일자
                             <input type="text" name="rawOrderBegin" class="rawOrderDateInput" id="rawOrderBegin" readonly> ~
                             <input type="text" name="rawOrderEnd" class="rawOrderDateInput" id="rawOrderEnd" readonly disabled>
@@ -46,7 +47,7 @@
                             입고예정일
                             <input type="text" name="rawOrderInBegin" class="rawOrderDateInput" id="rawOrderInBegin" readonly> ~
                             <input type="text" name="rawOrderInEnd" class="rawOrderDateInput" id="rawOrderInEnd" readonly disabled>
-               
+               				<br>
                             
                             발주상태
 							<select id="status">
@@ -54,11 +55,12 @@
   								<option value="1">발주중</option>
   								<option value="2">발주확정</option>
 							</select>
-							<input type="text" name="content" size=60 placeholder="자재명을 입력하세요"
+							<input type="text" name="content" size=35 placeholder="자재명을 입력하세요"
 								id="content">
 							<input type="button" name="search" value="조회" onclick="rawOrderSearch()">
 							<input type="button" name="allList" value="전체목록" onclick="location.reload();">
                                 
+                            </div>
                             </div>
                             <div class="card-body">
                             
