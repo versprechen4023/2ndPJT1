@@ -15,7 +15,7 @@
 </head>
 <body>
 				<!-- 내용들어가는곳 -->
-	<form action="${pageContext.request.contextPath }/buy/buyInsertPro" id="registration" name="registration" method="POST" enctype="multipart/form-data">
+	<form id="registration" name="registration">
 		<h1>거래처 등록</h1>
 
 <table>
@@ -89,7 +89,7 @@
 
 <div id="bottomContainer"> 
 <!-- 등록 버튼 -->
-	<input type="submit" id="btn" value="등록">
+	<input type="button" id="btn" value="등록">
 </div>
 		<input type="hidden" id="buy_email" name="buy_email" value="">
 		<input type="hidden" id="buy_add" name="buy_add" value="">
@@ -99,13 +99,18 @@
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 -->
 
+<!-- J쿼리등을 사용하기위한 호출 -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <!-- 카카오 우편번호 API호출 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <!-- sweetalert2 API 호출 -->
-<link rel="stylesheet"
-		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
-	<script
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+<script
 src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 
 <!-- 담당자 검색기능 -->
@@ -373,7 +378,7 @@ $(document).ready(function() {
     		}
     		if(isCanUsePhone()){
     			$('#msg').text("이미 등록된 전화번호 입니다.");
-    			$('#branch_phone').focus();
+    			$('#buy_phone').focus();
     			return false;
     		}
     		
@@ -384,7 +389,7 @@ $(document).ready(function() {
     		// 폼 데이터 객체생성
         	 var formData = new FormData(document.getElementById('registration'));
               
-             $.ajax({
+        	 $.ajax({
                  type: "POST",
                  url: "${pageContext.request.contextPath}/buy_ajax/insert",
                  data: formData,

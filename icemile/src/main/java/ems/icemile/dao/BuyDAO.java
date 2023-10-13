@@ -11,7 +11,7 @@ public interface BuyDAO {
 	public List<BuyDTO> getBuyList();
 	
 	// 구매처 추가
-	public void buyInsert(BuyDTO buyDTO);
+	public boolean buyInsert(BuyDTO buyDTO);
 	
 	// 구매처 코드 얻기
 	public String getBuyCode();
