@@ -93,7 +93,9 @@
 											<td>${workOrderDTO.done_date != null ? workOrderDTO.done_date : ""}</td>
         							<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
            								 <td>
+           								 <c:if test="${empty workOrderDTO.done_date}">
                 							<input type="button" value="수정" onclick="workOrderUpdate('${workOrderDTO.work_code}')" id="updateWorkOrder">
+                						</c:if>
                 							<input type="button" value="삭제" onclick="workOrderDelete('${workOrderDTO.work_code}')" id="deleteWorkOrder">
                 				   <c:if test="${workOrderDTO.done_date == null}">
                    							 <input type="button" value="완료" onclick="workOrderDone('${workOrderDTO.work_code}')" id="doneWorkOrder">
@@ -192,7 +194,8 @@ function workOrderSearch() {
  				         	"<td>"+data.branch_code+"</td>",
  				            "<td>" + (data.done_date != null ? data.done_date : "") + "</td>",
  				            "<td>" +
- 				          	"<input type='button' value='수정' onclick='workOrderUpdate(\"" + data.workOrder_code + "\")' id='updateworkOrder'>" +
+ 				            (showDoneButton ?
+ 				          	"<input type='button' value='수정' onclick='workOrderUpdate(\"" + data.workOrder_code + "\")' id='updateworkOrder'>" : "") +
  				            "<input type='button' value='삭제' onclick='workOrderDelete(\"" + data.workOrder_code + "\")' id='deleteworkOrder'>" +
  				           	(showDoneButton ?
  				            "<input type='button' value='완료' onclick='workOrderDone(\"" + data.work_code + "\")' id='doneWorkOrder'>" : "") +                    
@@ -294,6 +297,7 @@ function workOrderDone(work_code) {
 
                 // 버튼 비활성화
                 $("#doneWorkOrder_" + work_code).prop("disabled", true);
+                
             } else {
                 // DB 업데이트 실패 시
                 Swal.fire('DB 업데이트에 실패했습니다.', '실패', 'error');
