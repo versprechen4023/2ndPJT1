@@ -29,29 +29,27 @@ public class BuyServiceImpl implements BuyService{
 	}
 
 	@Override
-	public void buyInsert(BuyDTO buyDTO) {
+	public boolean buyInsert(BuyDTO buyDTO) {
 		
 		log.debug("BuyService buyIntsert()");
 		
 		String getCode = buyDAO.getBuyCode();
 		
-		int codeNum = 0;
+		int buy_code = 0;
 		
 		// DB에 데이터가 없다면 초기값 1 이 되고
 		if (getCode == null) {
-			codeNum = 1;
+			buy_code = 1;
 		
 		// 그것이 아니면 +1을 한다.
 		}else {
-			codeNum = Integer.parseInt(getCode.replaceAll("[^0-9]", ""))+1;
+			buy_code = Integer.parseInt(getCode.replaceAll("[^0-9]", ""))+1;
 		}
 		
 		// 구매처 코드 부여
-		buyDTO.setBuy_code(Integer.toString(codeNum));
+		buyDTO.setBuy_code(Integer.toString(buy_code));
 		
-//		buyDTO.setBuy_code(Integer.toString(buyDAO.getBuyCode()));
-//		
-		buyDAO.buyInsert(buyDTO);
+		return buyDAO.buyInsert(buyDTO);
 		
 	}
 

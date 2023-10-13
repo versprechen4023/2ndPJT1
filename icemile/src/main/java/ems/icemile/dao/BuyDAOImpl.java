@@ -34,10 +34,10 @@ public class BuyDAOImpl implements BuyDAO {
 	}
 
 	@Override
-	public void buyInsert(BuyDTO buyDTO) {
-		log.debug("BuyService buyInsert()");
+	public boolean buyInsert(BuyDTO buyDTO) {
+		log.debug("BuyService buyInsert() 거래처 추가 되라");
 		
-		sqlSession.insert(namespace+".buyInsert", buyDTO);
+		return sqlSession.insert(namespace+".buyInsert", buyDTO) > 0;
 	}
 
 	@Override
