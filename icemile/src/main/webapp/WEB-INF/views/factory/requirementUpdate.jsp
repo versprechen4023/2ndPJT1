@@ -100,9 +100,9 @@ ${fn:substring(requirementDTO.req_insertDATE, 0, 10)}</td>
 //    			Swal.fire('등록일을 선택해주세요.', '실패', 'error');
 //    			return false;
 //    		}
-   		if($('#req_upDATEDATE').val()==""){
-   			Swal.fire('수정일을 선택해주세요.', '실패', 'error');
-   		}
+//    		if($('#req_upDATEDATE').val()==""){
+//    			Swal.fire('수정일을 선택해주세요.', '실패', 'error');
+//    		}
 //    		Swal.fire('등록되었습니다.', '성공', 'success');
 //    		this.submit();
    		event.preventDefault();
