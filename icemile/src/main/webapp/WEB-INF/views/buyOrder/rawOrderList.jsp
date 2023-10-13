@@ -9,6 +9,7 @@
 <!-- 헤더 -->
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
+  <link href="../resources/css/rawOrderList.css" rel="stylesheet" />
 <!-- 헤드 -->
     </head>
 <body class="sb-nav-fixed">
@@ -28,31 +29,24 @@
                         </ol>
                         <div class="bnt">
                         <c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
-							<input type="button" value="발주추가" id="rawOrderAdd">
-							<input type="button" value="수정" id="updateRawOr">
-							<input type="button" value="삭제" id="deleteRawOr">
-							<input type="button" value="취소" id="cancelRawOr" disabled>
-							<input type="button" value="저장" id="saveRawOr" disabled>
+							<input type="button" class="tableBtn"  value="발주추가" id="rawOrderAdd">
+							<input type="button" class="tableBtn" value="수정" id="updateRawOr">
+							<input type="button" class="tableBtn" value="삭제" id="deleteRawOr">
+							<input type="button" class="tableBtn" value="취소" id="cancelRawOr" disabled>
+							<input type="button" class="tableBtn" value="저장" id="saveRawOr" disabled>
 						</c:if>
 						</div>
                         <div class="card mb-4">
-<!--                             <div class="card-header"> -->
-<!--                                 <i class="fas fa-table me-1"></i> -->
-<!--                                 DataTable Example -->
-<!--                             </div> -->
-                            <div class="card-body">
-                            <input type="button" name="allList" value="전체목록" onclick="location.reload();">
-                            <br>
-                            
-                            발주일자
-                            <input type="text" name="rawOrderBegin" id="rawOrderBegin" readonly> ~
-                            <input type="text" name="rawOrderEnd" id="rawOrderEnd" readonly disabled>
-                            <br>
+                            <div class="card-header">
+                             발주일자
+                            <input type="text" name="rawOrderBegin" class="rawOrderDateInput" id="rawOrderBegin" readonly> ~
+                            <input type="text" name="rawOrderEnd" class="rawOrderDateInput" id="rawOrderEnd" readonly disabled>
+                       
                             
                             입고예정일
-                            <input type="text" name="rawOrderInBegin" id="rawOrderInBegin" readonly> ~
-                            <input type="text" name="rawOrderInEnd" id="rawOrderInEnd" readonly disabled>
-                            <br>
+                            <input type="text" name="rawOrderInBegin" class="rawOrderDateInput" id="rawOrderInBegin" readonly> ~
+                            <input type="text" name="rawOrderInEnd" class="rawOrderDateInput" id="rawOrderInEnd" readonly disabled>
+               
                             
                             발주상태
 							<select id="status">
@@ -63,7 +57,12 @@
 							<input type="text" name="content" size=60 placeholder="자재명을 입력하세요"
 								id="content">
 							<input type="button" name="search" value="조회" onclick="rawOrderSearch()">
-                                <table id="datatablesSimple">
+							<input type="button" name="allList" value="전체목록" onclick="location.reload();">
+                                
+                            </div>
+                            <div class="card-body">
+                            
+                         	<table id="datatablesSimple">
                                 
                                     <thead>
                                     <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
