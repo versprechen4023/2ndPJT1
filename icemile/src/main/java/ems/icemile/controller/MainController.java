@@ -39,6 +39,15 @@ public class MainController {
 		log.debug("form");
 		
 		return "main/form";
-	}	
+	}
+	///////////////////////////////////////////kbh 실험///////////////////////////////////////////
+	@GetMapping("/kbhindex")
+	public String kbhindex() {
+		
+		log.debug("kbhindex");
+		
+		return "main/kbhindex";
+	}
+
 }
 

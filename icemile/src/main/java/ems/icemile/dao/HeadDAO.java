@@ -1,5 +1,22 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
+import java.util.List;
+
+import ems.icemile.dto.ResultDTO;
+
 public interface HeadDAO {
+
+	// 생산 실적 테이블 가져오기
+	public List<ResultDTO> getResultList();
+
+	// 실적검색
+	public List<ResultDTO> resultSearch(HashMap<String, Object> json);
+
+	// 실적 코드 부여
+	public String getNewRSCode();
+
+	// 실적 추가
+	public boolean resultInsert(ResultDTO resultDTO);
 
 }

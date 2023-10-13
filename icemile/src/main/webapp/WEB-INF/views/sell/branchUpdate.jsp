@@ -4,96 +4,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 헤드 -->
-<jsp:include page="../include/head.jsp"></jsp:include>
-<!-- 헤드 -->
-	<style>
-body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh; /* 화면 높이 100%로 설정하여 수직 중앙 정렬 */
-	margin: 0; /* 페이지 바깥 여백 제거 */
-}
-h1 {
-	text-align: center; /* 가로 중앙 정렬 */
-}
-#btn {
-	text-align: center; /* 가로 중앙 정렬 */
-	margin: 10px; /* 버튼 간격 설정 */
-	font-size: 16px; /* 버튼 텍스트 크기 설정 */
-	padding: 10px 20px; /* 버튼 안 여백 설정 */
-}
-</style>
+  <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>아이스마일</title>
+	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+ 		<link href="../resources/css/addTableVertical.css" rel="stylesheet" />
 </head>
-<body class="sb-nav-fixed">
+<body>
 				<!-- 내용들어가는곳 -->
 	<form id="branchUpdate" name="branchUpdate" >
-		<h1>
-			<b>지점수정</b>
-		</h1>
+		<h1>지점 수정</h1>
+<table>
 
+<tr><td class="tdbold">지점명</td><td><input type="text" name="branch_name" id="branch_name" value="${sellDTO.branch_name }">점</td></tr>
+<tr><td class="tdbold">사업자등록번호</td><td><input type="text" name="branch_reg" id="branch_reg" value="${sellDTO.branch_reg }" ></td></tr>
+<tr><td class="tdbold">대표자</td><td><input type="text" name="branch_ceo" id="branch_ceo" value="${sellDTO.branch_ceo }" ></td></tr>
+<tr><td class="tdbold">지점 연락처</td><td><input type="text" name="branch_phone" id="branch_phone" value="${sellDTO.branch_phone }"></td></tr>
+<tr><td class="tdbold">가맹 담당자</td><td><input type="text" name="emp_num" id="emp_num" value="${sellDTO.emp_num} " readonly>
+									   <input type="button" name="search" id="search" value="조회"></td></tr>
+<tr><td class="tdbold">주소검색</td><td><input type="text" name="branch_post" id="branch_post" placeholder="우편번호" value="${sellDTO.branch_post }">
+							     <button type="button" id="call_api" onclick="call_Post_API()">우편번호 찾기</button></td></tr>
+<tr><td class="tdbold">주소</td><td>
+                          <input type="text" name="addr1" id="addr1" placeholder="기본주소"> 
+                          <input type="text" name="addr2" id="addr2" placeholder="동명"></td></tr>
+<tr><td class="tdbold">상세주소</td><td><input type="text" name="addr3" id="addr3" placeholder="상세주소"></td></tr>
+<tr><td class="tdbold">이메일</td><td><input type="text" name="email_id" id="email_id"> @ 
+									<input type="text" name="email_dns" id="email_dns" value="naver.com">
+									<select name="email_sel" id="email_sel" onchange="updateEmailDns()">
+										<option value="">직접 입력</option>
+										<option value="hanmail.net">HANMAIL</option>
+										<option value="gmail.com">GOOGLE</option>
+										<option value="daum.net">DAUM</option>
+										<option value="yahoo.com">YAHOO</option>			
+									</select></td></tr>
 
-		<!-- 이름 -->
-		<label for="branch_name_label"><b>지점명:</b></label>
-		<input type="text" name="branch_name" id="branch_name" value="${sellDTO.branch_name }">
-		<br>
-		
-		<!-- 사업자 등록 번호 -->
-		<label for="branch_num_label"><b>사업자 등록 번호:</b></label>
-		<input type="text" name="branch_reg" id="branch_reg" value="${sellDTO.branch_reg }" >
-		<br>
+</table>	
 
-		<!-- 대표자 -->
-		<label for="branch_ceo_label"><b>대표자:</b></label>
-		<input type="text" name="branch_ceo" id="branch_ceo" value="${sellDTO.branch_ceo }" >
-		<br>
-
-		
-		
-		<!-- 지점 연락처 -->
-		<label for="branch_phone_label"><b>지점 연락처:</b></label> 
-		<input type="text" name="branch_phone" id="branch_phone" value="${sellDTO.branch_phone }">
-		<br>
-
-
-		<!-- 가맹담당자 => 본사 직원 -->
-		<!-- 부서 영업팀 => 팝업창 => 리스트 출력 => 선택 => 선택 -->
-
-		<br>
-		<label for="branch_phone_label"><b>가맹 담당자</b></label> 
-		<input type="text" name="emp_num" id="emp_num" value="${sellDTO.emp_num} " readonly>
-		<input type="button" name="search" id="search" value="조회"><br>
-		<br>
-		
-
-		<!-- 주소 -->
-		<label for="postalCode_label"><b>주소검색</b></label> 
-		<input type="text" name="branch_post" id="branch_post" placeholder="우편번호" value="${sellDTO.branch_post }">
-		<button type="button" id="call_api" onclick="call_Post_API()">우편번호 찾기</button>
-		<br> 
-		<label for="addr1_label"><b>주소</b></label> 
-		<input type="text" name="addr1" id="addr1" placeholder="기본주소"> 
-		<label for="addr2_label"></label> 
-		<input type="text" name="addr2" id="addr2" placeholder="동명">
-		<br>
-		<label for="addr3_label"><b>상세주소</b></label> 
-		<input type="text" name="addr3" id="addr3" placeholder="상세주소"> 
-		<br>
-
-		<!-- 지점 이메일 -->
-		<label for="email_id_label"><b>이메일</b></label> 
-		<input type="text" name="email_id" id="email_id"> @ 
-		<input type="text" name="email_dns" id="email_dns" value="naver.com"> 
-		<select name="email_sel" id="email_sel" onchange="updateEmailDns()">
-			<option value="">직접 입력</option>
-			<option value="hanmail.net">HANMAIL</option>
-			<option value="gmail.com">GOOGLE</option>
-			<option value="daum.net">DAUM</option>
-			<option value="yahoo.com">YAHOO</option>
-			
-		</select>
-		<br>
 
 		<span id="msg"></span>
 		<div id="bottomContainer"> 
@@ -104,6 +53,11 @@ h1 {
 		<input type="hidden" id="branch_email" name="branch_email" value="">
 		<input type="hidden" id=branch_add name="branch_add" value="">
 	</form>
+	
+<!-- 푸터 -->
+<jsp:include page="../include/footer.jsp"></jsp:include>
+<!-- 푸터 -->	
+	
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- 카카오 우편번호 API호출 -->

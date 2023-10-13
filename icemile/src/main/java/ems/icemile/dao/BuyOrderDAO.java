@@ -64,4 +64,9 @@ public class BuyOrderDAO {
 		return sqlSession.selectList(namespace+"rawOrderSearch", json);
 	}
 
+	public List<RawOrderDTO> getRawOrderListPopUp() {
+		log.debug("getRawOrderListPopUp DAO 도달");
+		return sqlSession.selectList(namespace+"getRawOrderListPopUp");
+	}
+
 }

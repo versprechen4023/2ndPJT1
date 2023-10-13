@@ -32,6 +32,17 @@ public class FactoryCopyAjaxController {
             return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
         }
     }
+    
+    @PostMapping("/updateRequirement")
+    public ResponseEntity<String> updateRequirement(RequirementDTO requirementDTO) {
+        try {
+            factoryCopyService.updateRequirement(requirementDTO);
+            return new ResponseEntity<>("true", HttpStatus.OK); // 성공 시 "true" 반환
+        } catch (Exception e) {
+            log.error("Error during insertRequirement: {}", e.getMessage());
+            return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
+        }
+    }
 	
     
 }// class FactoryCopyAjaxController

@@ -85,5 +85,21 @@ public class BuyController {
 		
 	}
 	
+	@GetMapping("/buyListPopUp")
+	public String getBuyListPopUp(Model model) {
+		
+		//거래처 조회
+		log.debug("buy/buyListPopUP.jsp");
+		
+		// 거래처 리스트를 가져오기위한 거래처 리스트 객체생성
+		List<BuyDTO> buyList = new ArrayList<BuyDTO>();
+		buyList = buyService.getBuyList();
+		
+		// 모델에 멤버 DTO값 저장
+		model.addAttribute("buyList", buyList);
+		
+		return "/buy/buyListPopUp";
+	}
+	
 	
 }

@@ -78,4 +78,9 @@ public class BuyOrderService {
 		return buyOrderDAO.rawOrderSearch(json);
 	}
 
+	public List<RawOrderDTO> getRawOrderListPopUp() {
+		log.debug("getRawOrderListPopUp 서비스");
+		return buyOrderDAO.getRawOrderListPopUp();
+	}
+
 }

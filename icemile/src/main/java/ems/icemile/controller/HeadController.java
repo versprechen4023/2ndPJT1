@@ -29,11 +29,15 @@ public class HeadController {
 		// 생산 실적리스트 객체생성
 		List<ResultDTO> resultList = new ArrayList<ResultDTO>();
 		resultList = headService.getResultList();
+		for(ResultDTO a : resultList) {
+			log.debug("{} 값은  " ,a );
+		}
 		
 		// 모델에 DTO값 저장
 		model.addAttribute("resultList", resultList);
 		
 		return "head/resultList";
 	}
+	
 	
 }// class

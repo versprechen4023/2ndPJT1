@@ -69,6 +69,13 @@ public class SellController {
 
 		return "redirect:/sell/branchList";
 	}
+	
+	@GetMapping("/proOrderList")
+	public String branchUpdatePro(Model model) {
+		log.debug("컨트롤러| 수주 페이지");
+
+		return "sell/proOrderList";
+	}
 
 	////////////////////////////////////// branchListPopUp//////////////////////////////////////////////////
 	@GetMapping("branchListPopUp")

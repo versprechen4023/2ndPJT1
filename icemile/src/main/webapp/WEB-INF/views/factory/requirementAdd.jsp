@@ -10,44 +10,35 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>아이스마일</title>
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-<link href="../resources/css/styles.css" rel="stylesheet" />
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+ 		<link href="../resources/css/addTableHorizontal.css" rel="stylesheet" />
 	
 	<style>
- table {
-    width: 100%;
-    border-top: 1px solid #444444;
-    border-collapse: collapse;
-  }
-  th, td {
-    border-bottom: 1px solid #444444;
-    padding: 10px;
-        text-align: center;
-  }
-  
-
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh; /* 화면 높이 100%로 설정하여 수직 중앙 정렬 */
+	margin: 0; /* 페이지 바깥 여백 제거 */
+}
+#btn {
+	text-align: center; /* 가로 중앙 정렬 */
+	margin: 20px; /* 버튼 간격 설정 */
+	font-size: 16px; /* 버튼 텍스트 크기 설정 */
+	padding: 5px 20px; /* 버튼 안 여백 설정 */
+}
 </style>
 </head>
 
 <body class="sb-nav-fixed">
-	<!-- 헤더 -->
-	<jsp:include page="../include/header.jsp"></jsp:include>
-	<!-- 헤더 -->
 
-	<div id="layoutSidenav">
-		<!-- 사이드바 -->
-		<jsp:include page="../include/sidebar.jsp"></jsp:include>
-		<!-- 사이드바 -->
-		<div id="layoutSidenav_content">
 			<main>
-<h1>소요량 등록</h1>
+<h1>소요량 추가</h1>
 
 <form action="${pageContext.request.contextPath}/factory/insertRequirement" id="insertRequirement" method="POST">
-<input type="submit" value="추가" id="btn1">
-<input type="reset" value="취소">
 
-<table border="1">
+
+<table>
 <tr>
 
 <!-- <th>소요량 코드</th> 소요량 코드는 자동추가를 하기때문에 필요없을 듯.. -->
@@ -61,23 +52,30 @@
 
 
 <tr>
-<!-- 소요량 코드 -->
-<!-- <td><input type="text" value="" name="req_code" size="11"></td> -->
 <!-- 완제품 코드 -->
-<td><input type="text" name="prod_code" id="prod_code" size="11"></td>
+<td><input type="text" name="prod_code" id="prod_code" ></td>
 <!-- 원자재 코드 -->
-<td><input type="text" name="raw_code" id="raw_code" size="11"></td> 
+<td><input type="text" name="raw_code" id="raw_code"></td> 
 <!-- 소요량 -->
-<td><input type="text" name="req_amount" id="req_amount" size="3"></td>
+<td><input type="text" name="req_amount" id="req_amount"></td>
 <!-- 등록일 -->
-<td><input type="date" name="req_insertDATE" id="req_insertDATE" size="12"></td>
+<td><input type="date" name="req_insertDATE" id="req_insertDATE" ></td>
 <!-- 수정일 -->
-<td><input type="date" name="req_upDATEDATE" id="req_upDATEDATE" size="12"></td>
+<td><input type="date" name="req_upDATEDATE" id="req_upDATEDATE"></td>
 <!-- 비고 -->
-<td><input type="text" name="req_note" id="req_note" size="6"></td>
+<td><input type="text" name="req_note" id="req_note" ></td>
 </tr>
 
 </table>
+
+		<!-- 등록 버튼 -->
+		<div id="btn">
+			<input type="submit" id="btn" value="추가">
+		</div>
+
+<!-- 푸터 -->
+<jsp:include page="../include/footer.jsp"></jsp:include>
+<!-- 푸터 -->  
 </form>
 <input type="hidden" name="prod_name" id="prod_name" value="">
 <input type="hidden" name="prod_taste" id="prod_taste" value="">
@@ -88,12 +86,8 @@
 <!-- 내용들어가는곳 -->
 				
 			</main>
-<!-- 푸터 -->
-<jsp:include page="../include/footer.jsp"></jsp:include>
-<!-- 푸터 -->  
-                
-            </div>
-        </div>
+
+               
        	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
        	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -111,19 +105,19 @@ $(document).ready(function(){
 	        // 유효성 검사
 		if($('#prod_code').val()==""){
 			Swal.fire('완제품을 선택해주세요.', '실패', 'error');
-			return;
+			return false;
 		}
 		if($('#raw_code').val()==""){
 			Swal.fire('원재료를 선택해주세요.', '실패', 'error');
-			return;
+			return false;
 		}
 		if($('#req_amount').val()==""){
 			Swal.fire('소요량을 입력해주세요.', '실패', 'error');
-			return;
+			return false;
 		}
 		if($('#req_insertDATE').val()==""){
 			Swal.fire('등록일을 선택해주세요.', '실패', 'error');
-			return;
+			return false;
 		}
 // 		if($('#req_upDATEDATE').val()==""){
 // 			Swal.fire('수정일을 선택해주세요.', '실패', 'error');
@@ -165,12 +159,12 @@ function openUpdate() {
 
 // 원자재 팝업 리스트 
 $(document).on("click", "input[name='raw_code']", function() {
-	window.open('${pageContext.request.contextPath }/product/rawListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/product/rawListPopUp', '_blank', 'width=700px, height=400px, left=600px, top=300px');
 });// end function
 
 // 완제품 팝업 리스트
 $(document).on("click", "input[name='prod_code']", function() {
-	window.open('${pageContext.request.contextPath }/product/productListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/product/productListPopUp', '_blank', 'width=700px, height=400px, left=600px, top=300px');
 });// end function
 </script>
     </body>

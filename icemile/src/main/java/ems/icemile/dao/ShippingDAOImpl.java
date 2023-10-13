@@ -12,6 +12,9 @@ import org.springframework.stereotype.Repository;
 
 
 import ems.icemile.dto.InMaterialDTO;
+import ems.icemile.dto.MemberDTO;
+import ems.icemile.dto.WareHouseDTO;
+import ems.icemile.dto.WorkOrderDTO;
 import ems.icemile.dto.outMaterialDTO;
 import ems.icemile.dto.outMaterialInsertDTO;
 
@@ -41,11 +44,22 @@ public class ShippingDAOImpl implements ShippingDAO {
 		sqlSession.delete(namespace+"deleteInMaterial", inMaterialDTO);
 	}// deleteInMaterial
 	
+	// 입고코드 자동등록
+	@Override
+	public String getNewIn_code(InMaterialDTO inMaterialDTO) {
+		return sqlSession.selectOne(namespace+"getNewIn_code");
+	}
+	
+	@Override
+	public String getBuy_code() {
+		return sqlSession.selectOne(namespace+"getBuy_code");
+	}
+	
 	// 입고 등록
 	@Override
-	public void inMaterialInsert(InMaterialDTO inMaterialDTO) {
+	public boolean inMaterialInsert(InMaterialDTO inMaterialDTO) {
 		log.debug("ShippingDAO inMaterialInsert");
-		sqlSession.insert(namespace+"inMaterialInsert", inMaterialDTO);
+		return sqlSession.insert(namespace+"inMaterialInsert", inMaterialDTO) >0;
 	}// inMaterialInsert
 	
 	// in_code 값 받아서
@@ -60,6 +74,13 @@ public class ShippingDAOImpl implements ShippingDAO {
 	public void updateInMaterial(InMaterialDTO inMaterialDTO) {
 		log.debug("ShippingDAO updateInMaterial");
 		sqlSession.update(namespace+"updateInMaterial", inMaterialDTO);
+	}
+	
+	// 입고 검색
+	@Override
+	public List<InMaterialDTO> inMateSearch(HashMap<String, Object> json) {
+		log.debug("ShippingDAO inMateSearch");
+		return sqlSession.selectList(namespace+"inMateSearch", json);
 	}
 
 ////////////////////////////////////////////출고 ////////////////////////////////////////////////////////////
@@ -127,5 +148,33 @@ public class ShippingDAOImpl implements ShippingDAO {
 
 		return sqlSession.selectList(namespace2 + "mtSearch", json);		
 	}
+    
+	//modal
+	@Override	
+	public WareHouseDTO searchModalwh(String wh_code) {
+		log.debug("searchModalwh DAO 도달");
+
+		return sqlSession.selectOne(namespace2 + "searchModalwh", wh_code);
+
+	}
+    
+	//OSmodal
+    @Override
+	public WorkOrderDTO searchOSModal(String order_code) {
+    	log.debug("searchOSModal DAO 도달");
+
+		return sqlSession.selectOne(namespace2 + "searchOSModal", order_code );
+    	
+	}
+    
+    //EPmodal
+    @Override
+	public MemberDTO searchEPModal(String emp_num) {
+    	log.debug("searchOSModal DAO 도달");
+
+		return sqlSession.selectOne(namespace2 + "searchEPModal", emp_num );
+    	
+	}
+	
 
 }

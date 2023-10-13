@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ems.icemile.dto.ProductDTO;
 import ems.icemile.dto.RawOrderDTO;
 import ems.icemile.dto.RowOrderListDTO;
 import ems.icemile.service.BuyOrderService;
@@ -109,4 +110,20 @@ public class BuyOrderContorller {
 		
 		return rawOrderList;
 	}
+	
+	@GetMapping("/rawOrderListPopUp")
+	public String rawOrderListPopUp(Model model) {
+		
+		log.debug("rawOrderListPopUp");
+		
+		// 완재품 리스트를 가져오기위한 완재품 리스트 객체생성
+		List<RawOrderDTO> rawOrderListPopUp = new ArrayList<RawOrderDTO>();
+		rawOrderListPopUp = buyOrderService.getRawOrderListPopUp();
+				
+		// 모델에 멤버 DTO값 저장
+		model.addAttribute("rawOrderListPopUp", rawOrderListPopUp);
+		
+		return "buy/rawOrderListPopUp";
+	}
+	
 }

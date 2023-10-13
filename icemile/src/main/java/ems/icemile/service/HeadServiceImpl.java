@@ -29,5 +29,26 @@ public class HeadServiceImpl implements HeadService{
 		log.debug("서비스 | 실적 검색 기능");
 		return headDAO.resultSearch(json);
 	}
+
+	@Override
+	public boolean resultInsert(ResultDTO resultDTO) {
+		log.debug("서비스 | 실적 추가 기능");
+		
+		String getNum = headDAO.getNewRSCode();
+		
+		int result_code = 0;
+		// DB에 데이터가없다면 초기값(1)이되고
+		if(getNum == null) {
+			result_code = 1;
+		// 아니라면 +1을 더한다
+		} else {
+			result_code = Integer.parseInt(getNum.replaceAll("[^0-9]", ""))+1;
+		}
+		
+		//고유 번호 부여
+		resultDTO.setResult_code(Integer.toString(result_code));
+				
+		return headDAO.resultInsert(resultDTO);
+	}
 	
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>     
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,22 +9,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Tables - SB Admin</title>
+        <title>아이스마일</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="../resources/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     
     <style type="text/css">
-@font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-}
-*{
-    font-family: 'Pretendard-Regular';
-}
-
 body{
 	margin: 0px;
 /* 	overflow-X: hidden; */
@@ -126,7 +117,17 @@ font-weight: bold;
 
 <tr>
 <th>사진</th>
-<td><img src="../resources/assets/img/photo.jpg" width="25%" height="100%"></td>
+<td>
+<!-- profilepic 없는 경우 디폴트이미지파일 보여지게 -->
+<c:choose>
+    <c:when test="${not empty memberDTO.profilepic}">
+        <img src="${memberDTO.profilepic}" alt="사원프로필사진" width="100px" height="100px">
+    </c:when>
+    <c:otherwise>
+        <img src="../resources/assets/img/icemile.png" width="100px" height="100px">
+    </c:otherwise>
+</c:choose>
+</td>
 </tr>
 
 <tr>
@@ -190,10 +191,10 @@ font-weight: bold;
         </div>
 <script type="text/javascript">
 function memberUpdate(emp_num){
-	window.open('${pageContext.request.contextPath }/member/empUpdate?emp_num='+emp_num, '_blank', 'width=590px, height=770px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/member/empUpdate?emp_num='+emp_num, '_blank', 'width=590px, height=673px, left=600px, top=300px');
 }
 function memberPassword(emp_num){
-	window.open('${pageContext.request.contextPath }/member/passwordUpdate', '_blank', 'width=600px, height=600px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/member/passwordUpdate', '_blank', 'width=326px, height=416px, left=600px, top=300px');
 }
 </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
