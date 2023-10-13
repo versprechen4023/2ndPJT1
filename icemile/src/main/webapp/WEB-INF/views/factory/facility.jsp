@@ -39,7 +39,7 @@
                         </ol>
                         <div class="bnt">
                         <!-- 아이디 session 들고 와서 admin일 때만 추가~저장 버튼 보이게 -->
-                        <c:if test="${sessionScope.emp_num eq 'admin'}">
+                        <c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
                         <input type="button" class ="tableBtn" id="add" value="추가">
                         <input type="button" class ="tableBtn" id="update" value="수정">
                         <input type="button" class ="tableBtn" id="delete" value="삭제">
@@ -310,7 +310,11 @@
 				
 				            $('#facilityList').attr("action", "/home/factory/updateFacility");
 					        $('#facilityList').attr("method", "POST");
-					        $('#facilityList').submit();
+					        Swal.fire('수정 완료되었습니다.', '성공', 'success').then(result => {
+					            if (result.isConfirmed) {
+					                $('#facilityList').submit();
+					            }
+					        });
 				}else{
 			        
 			     // 중복값 검사수행
@@ -345,7 +349,11 @@
 								        
 								        $('#facilityList').attr("action", "/home/factory/addPro");
 								        $('#facilityList').attr("method", "POST");
-								        $('#facilityList').submit();
+								        Swal.fire('등록 완료되었습니다.', '성공', 'success').then(result => {
+								            if (result.isConfirmed) {
+								                $('#facilityList').submit();
+								            }
+								        });
 						        	} 
 						        }//success 콜백함수 종료지점
 						  });// ajax
@@ -609,6 +617,21 @@
 		// 담당자를 선택하면 새창을 여는 이벤트 리스너
 		$(document).on("click", "input[name='emp_num']", function() {
 			window.open('${pageContext.request.contextPath }/member/memberListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+		});// end function
+		
+		
+		// 폼제출을 막고 엔터키로 조회가 가능하게 하는 함수
+		// 텍스트타입 제출을 막음
+		$('input[type="text"]').keydown(function() {
+			// 엔터키 이벤트 발생을 확인한다
+			if (event.keyCode === 13) {
+				// 폼 태그 제출을 막는다
+		 		event.preventDefault();
+				// 검색 함수를 실행한다
+		 		facilitySearch();
+				// 검색입력창을 초기화한다
+		 		$('#content').val("");
+			}// end if
 		});// end function
 
         

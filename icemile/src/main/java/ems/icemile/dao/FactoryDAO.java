@@ -26,6 +26,7 @@ public interface FactoryDAO {
 	// 설비(라인) 이름 중복검사
 	public boolean searchLineName(String line_name);
 
+	// 설비(라인) 검색
 	public List<FacilityDTO> facilitySearch(HashMap<String, Object> json);
 
 	
