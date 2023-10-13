@@ -44,12 +44,14 @@ public class FactoryServiceImpl implements FactoryService {
 			codeNum = 1;
 		// 아니라면 +1을 더한다
 		} else {
-			String code = getCode.replaceAll("[^0-9]", "");
-			codeNum = Integer.parseInt(code) + 1;
+			codeNum = Integer.parseInt(getCode.replaceAll("[^0-9]", ""))+1;
 		}
 		
-	    // facilityDTO에 line_code 설정
-	    facilityDTO.setLine_code("LI" + String.format("%04d", codeNum));
+		// 숫자를 4자리 문자열로 포맷팅하고, 앞에 0을 채우기
+		String numStr = String.format("%04d", codeNum);
+
+	    // 고유 번호 저장
+	    facilityDTO.setLine_code(facilityDTO.getLine_code() + numStr);
 		
 		factoryDAO.insertFacility(facilityDTO);
 	}// insertFacility()
