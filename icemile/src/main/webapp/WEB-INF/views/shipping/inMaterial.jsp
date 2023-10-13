@@ -185,13 +185,13 @@ function confirmDelete(deleteUrl) {
 
 // 등록 페이지 팝업
  function in_material_add(){        
-	window.open('${pageContext.request.contextPath }/shipping/in_material_add', '_blank', 'width=600px, height=667px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/shipping/in_material_add', '_blank', 'width=910px, height=290px, left=600px, top=300px');
 } //end function
 
 //수정 페이지 팝업
 function inMaterialUpdate(in_code){      
 //	alert(in_code);
-	window.open('${pageContext.request.contextPath }/shipping/inMaterialUpdate?in_code='+in_code+'', '_blank', 'width=600px, height=667px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/shipping/inMaterialUpdate?in_code='+in_code+'', '_blank', 'width=780px, height=266px, left=600px, top=300px');
 } //end function
 
 </script>
