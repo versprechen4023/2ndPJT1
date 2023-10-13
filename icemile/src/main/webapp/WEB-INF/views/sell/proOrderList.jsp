@@ -62,7 +62,7 @@
   								<option value="3">생산완료</option>
   								<option value="4">납품완료</option>
 							</select>
-							<input type="text" name="content" size=60 placeholder="담당자 혹은 지점코드를 입력하십시오"
+							<input type="text" name="content" size=60 placeholder="지점코드를 입력하십시오"
 								id="content">
 							<input type="button" name="search" value="조회" onclick="proOrderSearch()">
                                 <table id="datatablesSimple">
@@ -91,7 +91,7 @@
                                         <tr>
                                         	<td data-sortable="false"><input type="checkbox" name="selectedProOrderId" value="${proOrderListDTO.order_code}"></td>
                                         	<td>${proOrderListDTO.order_code}</td>
-                                            <td>${proOrderListDTO.emp_num}</td>
+                                            <td><a href="#" onclick="memberInfo('${proOrderListDTO.emp_num}')">${proOrderListDTO.emp_num}</a></td>
                                             <td>${proOrderListDTO.branch_code}</td>
                                             <td>${proOrderListDTO.prod_code}</td>
                                             <td>${proOrderListDTO.prod_name}</td>
@@ -193,7 +193,7 @@ function proOrderSearch() {
 				        	$tr.append(
 				        	'<td><input type="checkbox" name="selectedProOrderId" value="' + data.order_code + '"></td>',
 				        	"<td>"+data.order_code+"</td>",
-				            "<td>"+data.emp_num+"</td>",
+				        	'<td><a href="#" onclick="memberInfo(\'' + data.emp_num + '\')">' + data.emp_num + '</a></td>',
 				           	"<td>"+data.branch_code+"</td>",
 				            "<td>"+data.prod_code+"</td>",
 				         	"<td>"+data.prod_name+"</td>",
@@ -282,12 +282,65 @@ function openUpdate() {
 	$("#order_price").val(result);
 } // end function
 
+function memberInfo(emp_num) {
+	window.open('${pageContext.request.contextPath }/member/managerInfo?emp_num='+ emp_num+'', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+}
+
 //함수 시작지점
 $(document).ready(function() {
 	// 정규식 제어함수
 	function formTest(formData){
-		return true;
-	}
+		// 결과값 반환을 위한 변수선언
+		var result = true;
+		
+		// &을 기준으로 끊고 배열 변수를 선언한다 이후 배열에 따라 반복문을 시행한다
+		// 기준 데이터는 아래와같다 "content=&type=&prod_name="...
+		var formArray = formData.split("&");
+
+	    // 사용자에게 알려주기위해 영문 키값을 한글로 매핑한다
+	    // 매핑을 위한 JSON 변수선언
+	    var koreanNames = {
+	    	"emp_num": "담당자",
+	    	"branch_code": "지점코드",
+	    	"prod_code": "완제품코드",
+	    	"order_amount": "주문량",
+	    	"order_date": "수주일자",
+	    	"out_plan_date": "납품예정일"
+		};
+		// 반복문을 사용하여 각 항목을 검사한다
+		for (var i = 0; i < formArray.length; i++) {
+		  
+		  // 키값의 기준점은 = 이된다
+		  var keyValue = formArray[i].split("=");
+		  // 키변수에 키값을 담는다
+		  var key = decodeURIComponent(keyValue[0]);
+		  console.log(key);
+		  // 밸류 변수에 키의 리터럴 값을 담는다
+		  var value = decodeURIComponent(keyValue[1]);
+		  console.log(value);
+		  // 제외할 값을 담을 변수선언
+		  var isOk = (key === "proOrderBegin" || key === "proOrderEnd" || key === "proOrderOutBegin" 
+				      || key === "proOrderOutEnd" || key === "content" || key === "status"
+				      || key === "order_code")
+		  // 제외할 값은 반복문을 무시하고 진행한다
+		  if (isOk && value === ""){
+			  continue;
+		  }
+		  
+		  if (value === "" || value == 0) {
+		    // 값이 비어 있는 경우 결과값은 false가 된다
+		    Swal.fire(koreanNames[key]+' 값을 입력해주십시오.', '', 'info');
+		    result = false;
+		    break; // 비어있는 필드를 발견하면 반복문을 종료하고 false를 반환한다
+		  }
+
+		}// end for
+		
+		// 결과값 반환
+		return result;
+		
+	}// end function
+	// 정규식 제어함수 끝
 	
 	// 추가, 삭제, 수정등 기능 구현 함수 시작지점
 	
@@ -750,7 +803,7 @@ $(document).ready(function() {
 			// 폼 태그 제출을 막는다
 	 		event.preventDefault();
 			// 검색 함수를 실행한다
-// 	 		rawOrderSearch();
+	 		proOrderSearch();
 			// 검색입력창을 초기화한다
 	 		$('#content').val("");
 		}// end if

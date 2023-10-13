@@ -3,7 +3,7 @@ package ems.icemile.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-//원재자 종류를 담당하는 이넘 클래스
+//원자재 종류를 담당하는 이넘 클래스
 @Getter
 @AllArgsConstructor
 public enum RawMaterial {

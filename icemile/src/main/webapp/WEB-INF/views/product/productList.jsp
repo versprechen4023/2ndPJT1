@@ -678,8 +678,11 @@ $('tbody').on('change', 'select[name="type"]', function() {
     		// 셀렉트 값에 담을 배열 변수 선언
        		var options = [
        			{ value: "", text: "완제품을 선택해주십시오" },
-          		{ value: "1", text: "완제품1" },
-          		{ value: "2", text: "완제품2" },
+          		{ value: "1", text: "바나나아이스크림" },
+          		{ value: "2", text: "딸기아이스크림" },
+          		{ value: "3", text: "포도아이스크림" },
+          		{ value: "4", text: "사과아이스크림" },
+          		
         	];
         
         	// 옵션을 배열에서 반복하여 추가

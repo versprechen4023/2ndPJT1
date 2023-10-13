@@ -95,6 +95,36 @@
 			 <foreach collection="list" item="order_code" open="(" separator="," close=")">
 			  	#{order_code}
 			 </foreach>
- </delete>
+  </delete>
+  
+  <select id="proOrderSearch" resultType="map">
+  	SELECT o.order_code, o.emp_num, o.branch_code, p.prod_code, 
+  		   o.prod_name, p.prod_taste, p.prod_price, o.order_amount,
+  		   o.order_date, o.out_plan_date, o.order_status
+				FROM orders o JOIN product p
+					ON (o.prod_name = p.prod_name)
+						<where>
+							<if test="status != null and status != ''">
+								AND o.order_status = #{status}
+							</if>
+							<if test="content != null and content != ''">
+							<bind name="content" value="'%' + content + '%'"/>
+								AND o.branch_code LIKE #{content}
+							</if>
+							<if test="proOrderBegin != null and proOrderBegin != '' and proOrderEnd != null and proOrderEnd != ''">
+            					AND o.order_date BETWEEN #{proOrderBegin} AND #{proOrderEnd}
+        					</if>
+        					<if test="proOrderBegin != null and proOrderBegin != '' and (proOrderEnd == null or proOrderEnd == '')">
+    							AND o.order_date >= #{proOrderBegin}
+							</if>
+        					<if test="proOrderOutBegin != null and proOrderOutBegin != '' and proOrderOutEnd != null and proOrderOutEnd != ''">
+            					AND o.out_plan_date BETWEEN #{proOrderOutBegin} AND #{proOrderOutEnd}
+        					</if>
+        					<if test="proOrderOutBegin != null and proOrderOutBegin != '' and (proOrderOutEnd == null and proOrderOutEnd == '')">
+            					AND o.out_plan_date >= #{proOrderOutBegin}
+        					</if>
+						</where>
+							ORDER BY o.order_code DESC
+  </select>
 	
 </mapper>
