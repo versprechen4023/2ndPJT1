@@ -2,13 +2,15 @@ package ems.icemile.dao;
 
 
 import ems.icemile.dto.InMaterialDTO;
+import ems.icemile.dto.MemberDTO;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import ems.icemile.dto.outMaterialDTO;
 import ems.icemile.dto.WareHouseDTO;
-
+import ems.icemile.dto.WorkOrderDTO;
 import ems.icemile.dto.outMaterialInsertDTO;
 
 
@@ -61,6 +63,12 @@ public interface ShippingDAO {
     
     //modal_wh
 	WareHouseDTO searchModalwh(String wh_code);
+    
+	//OSmodal
+	WorkOrderDTO searchOSModal(String order_code);
+    
+	//EPmodal
+	MemberDTO searchEPModal(String emp_num);
 
 	
 
