@@ -31,8 +31,8 @@
 <!-- 	</select> -->
 	
 	<insert id="inMaterialInsert">
-		INSERT INTO in_material(in_code,in_wh_code,raw_order_code,emp_num,in_status )
-		VALUES(#{in_code}, #{in_wh_code}, #{raw_order_code}, #{emp_num}, #{in_status})
+		INSERT INTO in_material(in_code,in_wh_code,raw_order_code,emp_num,in_status, buy_code )
+		VALUES(#{in_code}, #{in_wh_code}, #{raw_order_code}, #{emp_num}, #{in_status}, #{buy_code})
 	</insert>
 	
 	<select id="getInMaterial" resultType="ems.icemile.dto.InMaterialDTO">

@@ -28,12 +28,19 @@
 <!--   		#{req_insertDATE}, #{req_amount}, #{req_upDATEDATE}, #{req_note}) -->
 <!--   </insert> -->
 
+<!-- <insert id="insertRequirement"> -->
+<!--     INSERT INTO requirement(req_code, prod_code, raw_code, req_insertDATE, req_amount -->
+<!--     <if test="req_upDATEDATE != null and req_upDATEDATE != ''">, req_upDATEDATE</if> -->
+<!--     , req_note) -->
+<!--     VALUES(CONCAT('RE', LPAD(#{req_code}, 4, '0')), #{prod_code}, #{raw_code}, #{req_insertDATE}, #{req_amount} -->
+<!--     <if test="req_upDATEDATE != null and req_upDATEDATE != ''">, #{req_upDATEDATE}</if> -->
+<!--     , #{req_note}) -->
+<!-- </insert> -->
+
+<!-- 등록일과 수정일은 오늘 날짜,시간으로 자동등록 -->
 <insert id="insertRequirement">
-    INSERT INTO requirement(req_code, prod_code, raw_code, req_insertDATE, req_amount
-    <if test="req_upDATEDATE != null and req_upDATEDATE != ''">, req_upDATEDATE</if>
-    , req_note)
-    VALUES(CONCAT('RE', LPAD(#{req_code}, 4, '0')), #{prod_code}, #{raw_code}, #{req_insertDATE}, #{req_amount}
-    <if test="req_upDATEDATE != null and req_upDATEDATE != ''">, #{req_upDATEDATE}</if>
+    INSERT INTO requirement(req_code, prod_code, raw_code, req_amount, req_note)
+    VALUES(CONCAT('RE', LPAD(#{req_code}, 4, '0')), #{prod_code}, #{raw_code}, #{req_amount}
     , #{req_note})
 </insert>
 
@@ -46,7 +53,6 @@
 	<update id="updateRequirement">
      UPDATE requirement
      SET prod_code = #{prod_code}, raw_code = #{raw_code}, req_amount = #{req_amount},
-         req_insertDATE = #{req_insertDATE}, req_upDATEDATE = #{req_upDATEDATE},
          req_note = #{req_note}
      WHERE req_code = #{req_code}
 	</update>

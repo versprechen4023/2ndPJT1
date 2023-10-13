@@ -88,10 +88,10 @@ $(document).ready(function(){
 			Swal.fire('소요량을 입력해주세요.', '실패', 'error');
 			return false;
 		}
-		if($('#req_insertDATE').val()==""){
-			Swal.fire('등록일을 선택해주세요.', '실패', 'error');
-			return false;
-		}
+// 		if($('#req_insertDATE').val()==""){
+// 			Swal.fire('등록일을 선택해주세요.', '실패', 'error');
+// 			return false;
+// 		}
 // 		if($('#req_upDATEDATE').val()==""){
 // 			Swal.fire('수정일을 선택해주세요.', '실패', 'error');
 // 		}
