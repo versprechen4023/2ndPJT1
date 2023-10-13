@@ -182,7 +182,7 @@ function confirmDelete(deleteUrl) {
 // 수정 페이지 팝업
  function requirementUpdate(req_code){      
 // 	alert(req_code);
-	window.open('${pageContext.request.contextPath }/factory/requirementUpdate?req_code='+req_code+'', '_blank', 'width=1149px, height=295px, left=400px, top=300px');
+	window.open('${pageContext.request.contextPath }/factory/requirementUpdate?req_code='+req_code+'', '_blank', 'width=1049px, height=286px, left=400px, top=300px');
 } 
 	
 </script>
