@@ -75,9 +75,9 @@
                                             <th>작업 지시 완료 날짜</th>
                                             <th>라인 코드</th>
                                             <th>완제품 코드</th>
-                                            <th>지시 수량</th>
-                                            <th>양품</th>
-                                            <th>불량</th>
+                                            <th>지시 수량 (EA)</th>
+                                            <th>양품 (EA)</th>
+                                            <th>불량 (EA)</th>
                                             <th>불량 사유</th>
                                             <th>비고</th>
 
@@ -100,9 +100,9 @@
 											</c:choose>
                                             <td>${ResultDTO.line_code}</td>
                                             <td>${ResultDTO.prod_code}</td>
-                                            <td>${ResultDTO.order_amount}EA</td>
-                                            <td>${ResultDTO.good_prod}EA</td>
-                                            <td>${ResultDTO.faulty_prod}EA</td>
+                                            <td>${ResultDTO.order_amount}</td>
+                                            <td>${ResultDTO.good_prod}</td>
+                                            <td>${ResultDTO.faulty_prod}</td>
                                             <td>${ResultDTO.faulty_reason}</td>
                                             <td>${ResultDTO.remark}</td>
                                         </tr>
@@ -313,7 +313,7 @@ function getDate() {
 	    '<td><input type="text" id="done_date" name="done_date" readonly></td>',
 	    '<td><input type="text" id="line_code" name="line_code" readonly></td>',
 	    '<td><input type="text" id="prod_code" name="prod_code" readonly></td>',
-	    '<td><input type="text" id="order_amount" name="order_amount" ></td>',
+	    '<td><input type="text" id="order_amount" name="order_amount" readonly></td>',
 	    '<td><input type="text" id="good_prod" name="good_prod" placeholder="(자동으로 계산됨)" readonly></td>',
 	    '<td><input type="text" id="faulty_prod" name="faulty_prod" ></td>',
 	    '<td><input type="text" id="faulty_reason" name="faulty_reason" ></td>',
