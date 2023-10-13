@@ -73,7 +73,32 @@
 	</select>
 	<!-- 출고 검색 -->
 
-
+    <!--     modal_wh -->
+    <select id="searchModalwh" resultType="ems.icemile.dto.WareHouseDTO">
+        SELECT *
+		FROM warehouse
+		WHERE wh_code = #{wh_code}
+		limit 1
+    </select>
+    <!--     modal_wh -->
+    
+     <!--     modal_OS -->
+    <select id="searchOSModal" resultType="ems.icemile.dto.WorkOrderDTO">
+        SELECT *
+		FROM orders
+		WHERE order_code = #{order_code}
+		limit 1
+    </select>
+    <!--     modal_OS -->
+    
+    <!--     modal_EP -->
+    <select id="searchEPModal" resultType="ems.icemile.dto.MemberDTO">
+        SELECT *
+		FROM emp
+		WHERE emp_num = #{emp_num}
+		limit 1
+    </select>
+    <!--     modal_EP -->
 
 </mapper>
   

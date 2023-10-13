@@ -4,6 +4,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style>
+.modaldetail {
+	display: none;
+	position: absolute;
+	background-color: #fff;
+	border: 1px solid #000;
+	padding: 10px;
+	z-index: 1;
+}
+</style>
 <!-- 헤더 -->
 <jsp:include page="../include/header.jsp"></jsp:include>
 <!-- 헤더 -->
@@ -71,16 +81,24 @@
 											<th>출고현황</th>
 										</tr>
 									</thead>
+									=
 
 									<tbody>
 										<c:forEach var="outMaterialDTO" items="${outMaterialList}">
 											<tr>
 												<td><input type="checkbox" name="selectedProId"
-													value="${outMaterialDTO.out_code}" class="eachCheckbox"></td>
+													value="${outMaterialDTO.out_code}" class="eachCheckbox">
+												</td>
 												<td>${outMaterialDTO.out_code}</td>
-												<td>${outMaterialDTO.out_wh_code}</td>
-												<td>${outMaterialDTO.order_code}</td>
-												<td>${outMaterialDTO.emp_num}</td>
+												<td><input type="button" onclick="openModal(this)"
+													name="${outMaterialDTO.out_wh_code}"
+													value="${outMaterialDTO.out_wh_code}"></td>
+												<td><input type="button" onclick="openModal(this)"
+													name="${outMaterialDTO.order_code}"
+													value="${outMaterialDTO.order_code}"></td>
+												<td><input type="button" onclick="openModal(this)"
+													name="${outMaterialDTO.emp_num}"
+													value="${outMaterialDTO.emp_num}"></td>
 												<td><c:choose>
 														<c:when test="${outMaterialDTO.out_status eq 1}">출고 전</c:when>
 														<c:when test="${outMaterialDTO.out_status eq 2}">출고 중</c:when>
@@ -96,6 +114,8 @@
 		</div>
 	</div>
 
+
+
 	<input type="button" value="엑셀파일다운" id="excelProd">
 
 	</div>
@@ -107,6 +127,236 @@
 	<!-- 푸터 -->
 	</div>
 	</div>
+
+	<!-- 모달창 -->
+	<div id="myModal" class="modaldetail">
+		<span id="closeModalButton" style="cursor: pointer;">닫기</span>
+		<table id="modaltable">
+
+			<c:choose>
+				<c:when test="${clickedElementValue.startsWith('WH')}">
+					<tr>
+						<th>창고 위치</th>
+						<th>완제품</th>
+						<th>원제료</th>
+						<th>창고 담당자</th>
+					</tr>
+					<tr>
+						<td><input type="text" id="mv1" value="" size="5" readonly></td>
+						<td><input type="text" id="mv2" value="" size="5" readonly></td>
+						<td><input type="text" id="mv3" value="" size="5" readonly></td>
+						<td><input type="text" id="mv4" value="" size="5" readonly></td>
+					</tr>
+				</c:when>
+				<c:when test="${clickedElementValue.startsWith('IM')}">
+					<tr>
+						<th>이름</th>
+						<th>부서</th>
+						<th>전화번호</th>
+						<th>핫라인</th>
+						<td><input type="text" id="mv1" value="" size="5" readonly></td>
+						<td><input type="text" id="mv2" value="" size="5" readonly></td>
+						<td><input type="text" id="mv3" value="" size="5" readonly></td>
+						<td><input type="text" id="mv4" value="" size="5" readonly></td>
+					</tr>
+				</c:when>
+				<c:otherwise>
+					<tr>
+						<th>라인</th>
+						<th>제품 이름</th>
+						<th>양</th>
+						<th>지점</th>
+						<td><input type="text" id="mv1" value="" size="5" readonly></td>
+						<td><input type="text" id="mv2" value="" size="5" readonly></td>
+						<td><input type="text" id="mv3" value="" size="5" readonly></td>
+						<td><input type="text" id="mv4" value="" size="5" readonly></td>
+					</tr>
+				</c:otherwise>
+			</c:choose>
+		</table>
+	</div>
+	<!-- 모달창 -->
+
+
+
+	<!-- 모달창 script -->
+	<script>
+        
+        //modal창의 id 값 할당
+        const myModal = document.getElementById("myModal");
+        
+        //modal닫기 id 값 할당
+        const closeModalButton = document.getElementById("closeModalButton");
+        
+        // mv1Element, mv2Element, mv3Element, mv4Element를 상수로 정의하여 각각의 input의 id값을 가져올수 있다.
+        // 이제 이러한 상수를 사용하여 JSON 데이터를 각 input 요소의 value로 설정할 수 있습니다.
+        const mv1Element = document.getElementById("mv1");
+        const mv2Element = document.getElementById("mv2");
+        const mv3Element = document.getElementById("mv3");
+        const mv4Element = document.getElementById("mv4");
+
+        
+        //modal창에 열기 위한 이벤트 헨들러
+        function openModal(e) {
+        	//클릭한 요소의 name의 속성 값을 가져와서 clickedElementName변수에 저장한다
+        	//즉 이 부분은 클릭한 요소의 name속성을 추출하는 역할
+        	// "getBoundingClientRect()" 메서드를 사용하여 클릭한 요소의 화면 좌표 정보를 가져옵니다.
+        	// 이 정보는 모달 창의 위치를 설정하는 데 사용됩니다.           
+            const clickedElementValue = e.getAttribute("name");
+        	
+        	//클릭한 요소의 좌표정보 
+            const rect = e.getBoundingClientRect();
+            
+        	// 클릭한 요소의 오른쪽 아래 모서리의 화면 좌표를 "x"와 "y" 변수에 저장합니다.
+        	// 이것은 모달 창을 클릭한 요소의 위치에 배치하는 데 사용됩니다.
+            var x = rect.right;
+            var y = rect.top;
+            
+            //클릭후에 모달창을 생성하는 위치를 조정
+            myModal.style.left = x + "px";
+            myModal.style.top = y + "px";
+            myModal.style.display = "block";
+            
+            
+            if(clickedElementValue.startsWith("WH")){
+            	
+            	//modal_ajax 
+            	$.ajax({
+            	  url : '${pageContext.request.contextPath}/Shipping_ajax/modalSearch',
+            	  
+            	  data: {wh_code:clickedElementValue},
+            	  
+            	  type : 'GET',
+            	  
+            	  dataType:'json',
+            	  
+            	  success: function (json) {
+                      if (json && typeof json === 'object') {
+                    
+                          mv1Element.value = json.wh_name;
+                          mv2Element.value = json.prod_code;
+                          mv3Element.value = json.raw_code;
+                          mv4Element.value = json.emp_num;
+                    	} else {
+                    	    // JSON 데이터가 없거나 빈 경우에 대한 처리를 추가
+                    	    console.error("JSON 데이터가 비어 있거나 유효하지 않습니다. json: " + JSON.stringify(json));
+                    	}
+
+                  }
+              });
+            	
+                mv1Element.value = "";
+                mv2Element.value = "";
+                mv3Element.value = "";
+                mv4Element.value = "";
+            
+           
+            
+            // 이 부분은 "closeModalButton" 버튼에 대한 클릭 이벤트를 감지하고,
+            // 클릭 이벤트가 발생했을 때 실행할 함수를 설정합니다.
+             closeModalButton.addEventListener("click", function (e) {
+            	// 이 코드는 클릭 이벤트가 발생한 요소(e.target)가 
+            	// "closeModalButton" 요소와 일치하는지 확인합니다.
+                if (e.target === closeModalButton) {
+                    myModal.style.display = "none";
+                  
+                }
+            });
+      		  
+          	  
+      	  }else if(clickedElementValue.startsWith("IM")){
+      		  
+      		//modal_ajax 
+            	$.ajax({
+            	  url : '${pageContext.request.contextPath}/Shipping_ajax/modalEpSearch',
+            	  
+            	  data: {emp_num : clickedElementValue},
+            	  
+            	  type : 'GET',
+            	  
+            	  dataType:'json',
+            	  
+            	  success: function (json) {
+                      if (json && typeof json === 'object') {
+                    	  
+                          mv1Element.value = json.emp_name;
+                          mv2Element.value = json.dept_name;
+                          mv3Element.value = json.phone_num;
+                          mv4Element.value = json.hotline;
+                    	} else {
+                    	    // JSON 데이터가 없거나 빈 경우에 대한 처리를 추가
+                    	    console.error("JSON 데이터가 비어 있거나 유효하지 않습니다. json: " + JSON.stringify(json));
+                    	}
+
+                  }
+              });
+        		
+                mv1Element.value = "";
+                mv2Element.value = "";
+                mv3Element.value = "";
+                mv4Element.value = "";
+            
+            // 이 부분은 "closeModalButton" 버튼에 대한 클릭 이벤트를 감지하고,
+            // 클릭 이벤트가 발생했을 때 실행할 함수를 설정합니다.
+             closeModalButton.addEventListener("click", function (e) {
+            	// 이 코드는 클릭 이벤트가 발생한 요소(e.target)가 
+            	// "closeModalButton" 요소와 일치하는지 확인합니다.
+                if (e.target === closeModalButton) {
+                    myModal.style.display = "none";
+                  
+                }
+            });
+      		
+ 
+      	  }else{
+      		  
+      		//modal_ajax 
+          	$.ajax({
+          	  url : '${pageContext.request.contextPath}/Shipping_ajax/modalOsSearch',
+          	  
+          	  data: {emp_num : clickedElementValue},
+          	  
+          	  type : 'GET',
+          	  
+          	  dataType:'json',
+          	  
+          	  success: function (json) {
+                    if (json && typeof json === 'object') {
+                  	  
+                        mv1Element.value = json.line_name;
+                        mv2Element.value = json.prod_name;
+                        mv3Element.value = json.order_amount;
+                        mv4Element.value = json.branch_name;
+                  	} else {
+                  	    // JSON 데이터가 없거나 빈 경우에 대한 처리를 추가
+                  	    console.error("JSON 데이터가 비어 있거나 유효하지 않습니다. json: " + JSON.stringify(json));
+                  	}
+
+                }
+            });
+      		
+              mv1Element.value = "";
+              mv2Element.value = "";
+              mv3Element.value = "";
+              mv4Element.value = "";
+          
+          // 이 부분은 "closeModalButton" 버튼에 대한 클릭 이벤트를 감지하고,
+          // 클릭 이벤트가 발생했을 때 실행할 함수를 설정합니다.
+           closeModalButton.addEventListener("click", function (e) {
+          	// 이 코드는 클릭 이벤트가 발생한 요소(e.target)가 
+          	// "closeModalButton" 요소와 일치하는지 확인합니다.
+              if (e.target === closeModalButton) {
+                  myModal.style.display = "none";
+                
+              }
+          });
+      		
+      		      		  
+      	  }
+          	
+        }
+    </script>
+	<!-- 모달창 script -->
 
 	<!-- 모달 alert를 위한 sweetalert 호출 -->
 	<link rel="stylesheet"
@@ -127,7 +377,8 @@
 	<script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
 	<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 
-	<script>	
+	<script>
+	
 //////////////////////////////////////////////추가, 수정 을 구분하기위한 전역변수선언/////////////////////////////////////////
 var status = "";
 

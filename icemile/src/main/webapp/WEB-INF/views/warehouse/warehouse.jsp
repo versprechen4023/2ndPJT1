@@ -182,11 +182,11 @@ $(document).ready(function() {
 	"raw_code": "원자재 코드",
 	"emp_num": "창고 담당자",
 	"wh_status": "가용상태",
+	"prod_name":"설마이건가?",
+	"prod_taste": "설마 이거라고?"
 };
   
-  var prodCodeCount = 0; // prod_code 입력 횟수를 추적
-  var rawCodeCount = 0; // raw_code 입력 횟수를 추적
-  
+
 // 반복문을 사용하여 각 항목을 검사한다
 // 반복문을 사용하여 formArray 배열에 있는 각 항목을 검사합니다. 
 // 이 배열은 formData를 & 문자로 분할한 결과를 저장하고 있습니다.
@@ -208,18 +208,10 @@ $(document).ready(function() {
 	  
 	  // 비고와 검색칸은 비어있어도 상관없음
 	  // 검사에서 제외사항
-	  if ((key === "wh_note"|| key === "content" || key === "prod_code" || key === "raw_code") && value === ""){
+	  if ((key === "wh_note"|| key === "content" || key === "prod_code" || key === "prod_name" || key === "prod_taste" || key === "raw_code" || key === "raw_name" || key === "raw_type" || key === "raw_price" ) && value === ""){
 		  continue;
 	  }
-	  
-	    if (key === "prod_code" && value !== "") {
-	        prodCodeCount++;
-	    }
-
-	    if (key === "raw_code" && value !== "") {
-	        rawCodeCount++;
-	    }
-	  
+	   
 	  //이 부분의 코드는 폼 필드의 값이 비어있을 때 실행되며,사용자에게 오류 메세지를 표시하고'result'값을 'false'로 설정하는 역할을 합니다.
 	  if (value === "") {
 	    // 값이 비어 있는 경우 결과값은 false가 된다
@@ -263,12 +255,6 @@ $(document).ready(function() {
 	 } // end 중복값 검증
 	}// end for
 	
-	if ((prodCodeCount === 1 && rawCodeCount === 0) || (prodCodeCount === 0 && rawCodeCount === 1)) {
-	    // 하나만 입력된 경우는 유효
-	} else {
-	    Swal.fire("prod_code 또는 raw_code 중 하나만 입력하세요.", "", "info");
-	    result = false;
-	}
 	
 	// 결과값 반환
 	return result;
@@ -867,8 +853,10 @@ $('input[name="selectedAllProId"]').click(function() {
     $('input[name="selectedProId"]').prop('checked', $(this).prop('checked'));
 });// end function
 
-/////////////////////////type을 누르면 wh_type이 자동으로 바뀌는것/////////////////////
- 
+
+/////////////////////////////////////type을 누르면 wh_type이 자동으로 바뀌는것////////////////////////////////////////////////////
+/////////////////////////////////////type을 누르면 prod_code와 raw_code의 disalbe로 자동으로 바뀌는것 //////////////////////////////////////////
+
  // 이 코드는 jQuery를 사용하여 "type" 선택 상자(#type)의 변경 이벤트(change)를 감지하고,
  // 선택된 값에 따라 "wh_type" 선택 상자(#wh_type)의 값을 설정하는 이벤트 핸들러를 등록하는 부분입니다. 이 코드를 하나씩 설명해보겠습니다:
 
@@ -895,8 +883,20 @@ $('input[name="selectedAllProId"]').click(function() {
     } else if (selectedType === "P") {
       $("#wh_type").val("P");
     }
+    
+    if (selectedType === "R") {
+        $("#wh_type").val("R");
+        // "prod_code" 비활성화, "raw_code" 활성화
+        $("#prod_code").prop("disabled", true);
+        $("#raw_code").prop("disabled", false);
+    } else if (selectedType === "P") {
+        $("#wh_type").val("P");
+        // "raw_code" 비활성화, "prod_code" 활성화
+        $("#raw_code").prop("disabled", true);
+        $("#prod_code").prop("disabled", false);
+    }
+    
   });
- 
  
 ////////////////////////////////전화번호 유효성 검사/////////////////////////////////
 
