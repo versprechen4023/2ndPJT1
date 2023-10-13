@@ -9,6 +9,7 @@
 <!-- 헤더 -->
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
+  <link href="../resources/css/rawOrderList.css" rel="stylesheet" />
 <!-- 헤드 -->
     </head>
 <body class="sb-nav-fixed">
@@ -28,31 +29,25 @@
                         </ol>
                         <div class="bnt">
                         <c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
-							<input type="button" value="발주추가" id="rawOrderAdd">
-							<input type="button" value="수정" id="updateRawOr">
-							<input type="button" value="삭제" id="deleteRawOr">
-							<input type="button" value="취소" id="cancelRawOr" disabled>
-							<input type="button" value="저장" id="saveRawOr" disabled>
+							<input type="button" class="tableBtn"  value="발주추가" id="rawOrderAdd">
+							<input type="button" class="tableBtn" value="수정" id="updateRawOr">
+							<input type="button" class="tableBtn" value="삭제" id="deleteRawOr">
+							<input type="button" class="tableBtn" value="취소" id="cancelRawOr" disabled>
+							<input type="button" class="tableBtn" value="저장" id="saveRawOr" disabled>
 						</c:if>
 						</div>
                         <div class="card mb-4">
-<!--                             <div class="card-header"> -->
-<!--                                 <i class="fas fa-table me-1"></i> -->
-<!--                                 DataTable Example -->
-<!--                             </div> -->
-                            <div class="card-body">
-                            <input type="button" name="allList" value="전체목록" onclick="location.reload();">
-                            <br>
-                            
-                            발주일자
-                            <input type="text" name="rawOrderBegin" id="rawOrderBegin" readonly> ~
-                            <input type="text" name="rawOrderEnd" id="rawOrderEnd" readonly disabled>
-                            <br>
+                            <div class="card-header"> 
+                             <div id ="cardHeaderContainer">
+                             발주일자
+                            <input type="text" name="rawOrderBegin" class="rawOrderDateInput" id="rawOrderBegin" readonly> ~
+                            <input type="text" name="rawOrderEnd" class="rawOrderDateInput" id="rawOrderEnd" readonly disabled>
+                       
                             
                             입고예정일
-                            <input type="text" name="rawOrderInBegin" id="rawOrderInBegin" readonly> ~
-                            <input type="text" name="rawOrderInEnd" id="rawOrderInEnd" readonly disabled>
-                            <br>
+                            <input type="text" name="rawOrderInBegin" class="rawOrderDateInput" id="rawOrderInBegin" readonly> ~
+                            <input type="text" name="rawOrderInEnd" class="rawOrderDateInput" id="rawOrderInEnd" readonly disabled>
+               				<br>
                             
                             발주상태
 							<select id="status">
@@ -60,10 +55,16 @@
   								<option value="1">발주중</option>
   								<option value="2">발주확정</option>
 							</select>
-							<input type="text" name="content" size=60 placeholder="자재명을 입력하세요"
+							<input type="text" name="content" size=35 placeholder="자재명을 입력하세요"
 								id="content">
 							<input type="button" name="search" value="조회" onclick="rawOrderSearch()">
-                                <table id="datatablesSimple">
+							<input type="button" name="allList" value="전체목록" onclick="location.reload();">
+                                
+                            </div>
+                            </div>
+                            <div class="card-body">
+                            
+                         	<table id="datatablesSimple">
                                 
                                     <thead>
                                     <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
@@ -375,7 +376,7 @@ $(document).ready(function() {
 	  		'<td><input type="text" id="raw_order_amount" name="raw_order_amount" value ="0"></td>',
 	  		'<td><input type="text" id="raw_price" name="raw_price" readonly></td>',
 	  		'<td><input type="text" id="raw_fullprice" name="raw_fullprice" placeholder="(자동으로 계산됨)" readonly></td>',
-	  		'<td><input type="text" id="raw_order_date" name="raw_order_date" value="'+getDate()+'"></td>',
+	  		'<td><input type="text" id="raw_order_date" name="raw_order_date" value="'+getDate()+'" readonly></td>',
 	  		'<td><input type="text" id="in_plan_date" name="in_plan_date" readonly></td>',
 	  		'<td><input type="text" id="raw_status_name" name="raw_status_name" value="발주전" readonly></td>',
 	  		'<td><input type="text" id="emp_num" name="emp_num" readonly></td>',
@@ -466,6 +467,8 @@ $(document).ready(function() {
 				// 단 셀렉트태그는 직접 부여되므로 마찬가지로 수정 할 수 있다
 				if(index === 6 || index === 10){
 					cellOption = "";
+				} else if(index === 0){
+					cellOption = "readonly";
 				} else {
 					cellOption = "disabled";
 				}
@@ -569,6 +572,7 @@ $(document).ready(function() {
 	     	
 	     	// 동적으로 생성된 셀렉트태그는 인식되지않으므로 셀렉트 태그의 값은 직접가져온다
 	     	var selectValue = $('#raw_status').val();
+	     	console.log(selectValue);
 	     	
 	    	// 데이터를 전송하기위한 폼 데이터 직렬화 및 셀렉트 태그 값을 직접 추가한다
 	    	var formData = $('#rawOrderList').serialize() + '&' + $.param({ raw_status: selectValue });

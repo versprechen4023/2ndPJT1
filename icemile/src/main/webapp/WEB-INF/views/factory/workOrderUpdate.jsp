@@ -18,7 +18,7 @@
 	<form action="${pageContext.request.contextPath }/factory/workOrderUpdatePro" id="registration" name="registration" method="POST" enctype="multipart/form-data">
 		<h1>작업 지시 수정</h1>
 
-		<table>
+		<table border="1">
 		<tr>
 						<!-- <th>지시코드</th> -->
 						<th>작업지시자</th>

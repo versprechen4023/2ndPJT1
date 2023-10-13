@@ -52,44 +52,48 @@ public class ShippingServiceImpl implements ShippingService {
 		String buy_code=inMaterialDTO.getBuy_code();
 		log.debug("buy값은 {} ",buy_code);
 		
+		String buy_codeNum = buy_code.replaceAll("[^0-9]", "");
+		String trBuy_codeNum = buy_codeNum.replaceFirst("^0+(?!$)", "");
 		
-//		inMaterialDTO.setBuy_codeNum2(buy_codeNum2);
-//		
-//		log.debug("inMaterialDTO "+inMaterialDTO);
-//		
-//		String getNum=shippingDAO.getNewIn_code(inMaterialDTO);
-//		
-//		int codeNum = 0;
-//		if(getNum==null) {
-//			codeNum = 1;
-//		}else {
+		inMaterialDTO.setTrBuy_codeNum(trBuy_codeNum);
+		
+		log.debug("trBuy_codeNum : "+inMaterialDTO);
+		
+		String getNum=shippingDAO.getNewIn_code(inMaterialDTO);
+		
+		log.debug(getNum);
+		
+		int codeNum = 0;
+		if(getNum==null) {
+			codeNum = 1;
+		}else {
+			log.debug("실행됨");
 //			codeNum = Integer.parseInt(getNum.replaceAll("[^0-9]", ""))+1;
-//			String[] parts = getNum.split("_");
-//			String lastPart = parts[parts.length-1];
-//			codeNum=Integer.parseInt(lastPart);
-//			codeNum++;
-//		}
-//		
-//		String numStr = String.format("%04d", codeNum);
-//		
-//		// 현재 날짜 가져오기
-//		LocalDate currentDate = LocalDate.now();
-//		
-//		// 원하는 날짜 포맷 정의
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
-//		
-//		// 날짜를 문자열로
-//		String formattedDate = currentDate.format(formatter);
-//		
-//		// 문자열을 숫자로
-//		int dateNum = Integer.parseInt(formattedDate);
-//		
-//		String in_code = "IN"+dateNum+"_"+inMaterialDTO.getBuy_codeNum2()+"_"+numStr;
-//		inMaterialDTO.setIn_code(in_code);
-//		log.debug("{}값은: ",in_code);
-//		
-//		return shippingDAO.inMaterialInsert(inMaterialDTO);
-		return false;
+			String[] parts = getNum.split("_");
+			String lastPart = parts[parts.length-1];
+			codeNum=Integer.parseInt(lastPart);
+			codeNum++;
+		}
+		
+		String numStr = String.format("%04d", codeNum);
+		
+		// 현재 날짜 가져오기
+		LocalDate currentDate = LocalDate.now();
+		
+		// 원하는 날짜 포맷 정의
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+		
+		// 날짜를 문자열로
+		String formattedDate = currentDate.format(formatter);
+		
+		// 문자열을 숫자로
+		int dateNum = Integer.parseInt(formattedDate);
+		
+		String in_code = "IN"+dateNum+"_"+inMaterialDTO.getTrBuy_codeNum()+"_"+numStr;
+		inMaterialDTO.setIn_code(in_code);
+		log.debug("{}값은: ",in_code);
+		
+		return shippingDAO.inMaterialInsert(inMaterialDTO);
 	} // inMaterialInsert
 
 	// 입고 수정 페이지 in_code 값 받아서

@@ -84,6 +84,12 @@ public class BuyDAOImpl implements BuyDAO {
 		return (result == null) ? false : true;
 	}
 	
+	@Override
+	public List<BuyDTO> getBuyListPopUp() {
+		log.debug("구매처 팝업 리스트 DAO 도달");
+		return sqlSession.selectList(namespace+".getBuyListPopUp");
+	}
+	
 	}
 
 

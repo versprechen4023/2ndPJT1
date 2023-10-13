@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ems.icemile.dto.MemberDTO;
 import ems.icemile.dto.WorkOrderDTO;
 import ems.icemile.service.FactoryCopy2ServiceImpl;
+import ems.icemile.service.MemberServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -25,6 +27,9 @@ public class FactoryCopy2Controller {
 	// 워크오더 서비스 의존성 주입
 	@Inject
 	private FactoryCopy2ServiceImpl factoryCopy2Service;
+	
+	@Inject // 멤버 서비스 의존성 주입
+	private MemberServiceImpl memberService;
 	
 	@GetMapping("/workOrderList")
 	public String workOrderList(Model model) {
@@ -81,6 +86,54 @@ public class FactoryCopy2Controller {
 		factoryCopy2Service.workOrderUpdate(workOrderDTO);
 		
 		return "redirect:/factory/workOrderList";
+		
+	}
+	
+	@GetMapping("workOrderPopUp")
+    public String workOrderPopUp(Model model) {
+        // 작업지시조회
+        log.debug("workOrderList");
+
+        // 작업지시 리스트를 가져오기위한 리스트 객체생성
+        List<WorkOrderDTO> workOrderList = new ArrayList<WorkOrderDTO>();
+        workOrderList = factoryCopy2Service.workOrderList();
+
+        // 모델에 멤버 DTO값 저장
+        model.addAttribute("workOrderList", workOrderList);
+
+        return "/factory/workOrderPopUp";
+
+    }
+	
+	@GetMapping("/memberListPopUp")
+	public String getMemberListPopUp(Model model) {
+		
+		//사원 조회
+		log.debug("memberList");
+		
+		// 멤버리스트를 가져오기위한 멤버리스트 객체생성
+		List<MemberDTO> memberList = new ArrayList<MemberDTO>();
+		memberList = memberService.getMemberList();
+		
+		// 모델에 멤버 DTO값 저장
+		model.addAttribute("memberList", memberList);
+		
+		return "/member/memberListPopUp";
+	}
+
+	
+	@GetMapping("/managerInfo")
+	public String managerInfo(@RequestParam("emp_num") String emp_num, Model model) {
+		log.debug("컨트롤러| 지점 목록 페이지");
+		
+		// 디비에서 등록된 지점 정보 가져오기
+		MemberDTO memberDTO  = memberService.getManagerInfo(emp_num);
+		
+		// model에 가져온 데이터 담아서 branch.jsp 이동
+		model.addAttribute("memberDTO",memberDTO);
+		
+		// 페이지 이동
+		return "member/managerInfo";
 		
 	}
 	

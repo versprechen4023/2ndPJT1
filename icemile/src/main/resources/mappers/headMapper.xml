@@ -12,9 +12,9 @@
   	</select>
   	
   	<insert id="resultInsert">
-	INSERT INTO result(result_code, work_code, line_code, prod_code, good_prod, faulty_prod, faulty_reason, remark, order_amount, re_process, done_date)
-		VALUES(CONCAT(‘RS’, LPAD(#{branch_code}, 4, '0')),#{result_code},
-			#{work_code},#{line_code},#{prod_code},#{good_prod},#{faulty_prod},#{faulty_reason}, #{remark}, #{order_amount}, #{re_process}, #{done_date})
+	INSERT INTO result(result_code, work_code, done_date, line_code, prod_code, order_amount, good_prod, faulty_prod, faulty_reason, remark)
+		VALUES(CONCAT('RS', LPAD(#{result_code}, 4, '0')), #{work_code}, #{done_date}, #{line_code}, #{prod_code}, #{order_amount}, #{good_prod}, #{faulty_prod}, #{faulty_reason}, #{remark});
+	
 	</insert>
 
 	<select id="getResultList" resultType="ems.icemile.dto.ResultDTO">
@@ -27,19 +27,31 @@
   	SELECT *
   		FROM result
 			<where>
-				<if test="rs_process != null and rs_process != ''">
-					AND rs_process = #{rs_process}
-				</if>
 				<if test="content != null and content != ''">
-					AND raw_name LIKE #{content}
+					AND result_code LIKE #{content}
 				</if>
 				<if test="done_dateBegin != null and done_dateBegin != '' and done_dateEnd != null and done_dateEnd != ''">
-            		AND done_date BETWEEN #{done_dateBegin} AND #{rawOrderEnd}
+            		AND done_date BETWEEN #{done_dateBegin} AND #{done_dateEnd}
         		</if>
         		<if test="done_dateBegin != null and done_dateBegin != ''">
             		AND done_date >= #{done_dateBegin}
         		</if>
         	</where>
   	</select>
+  	
+  	<update id="resultUpdate">
+ 		UPDATE result
+  			SET work_code = #{work_code}, done_date = #{done_date}, line_code = #{line_code}, prod_code = #{prod_code}, good_prod = #{good_prod}, faulty_prod = #{faulty_prod}, faulty_reason = #{faulty_reason}, remark = #{remark}
+  				WHERE result_code = #{result_code}
+	</update>
+	
+	<delete id="resultDelete" parameterType="java.util.List">
+		DELETE FROM result
+			WHERE result_code IN
+				<foreach collection="list" item="result_code" open="(" separator="," close=")">
+					#{result_code}
+				</foreach>
+	</delete>
+
 	
 </mapper>

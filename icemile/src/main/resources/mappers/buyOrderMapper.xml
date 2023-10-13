@@ -42,7 +42,6 @@
  </update>
  
  <select id="rawOrderSearch" resultType="ems.icemile.dto.RowOrderListDTO">
- <bind name="content" value="'%' + content + '%'"/>
   	SELECT o.raw_order_code, r.raw_code, r.raw_name, r.raw_type,
 	    	b.buy_code, b.buy_name, o.raw_order_amount, r.raw_price,
         	o.raw_order_date, o.in_plan_date, o.raw_status, o.emp_num
@@ -55,18 +54,19 @@
 										AND o.raw_status = #{status}
 									</if>
 									<if test="content != null and content != ''">
+									<bind name="content" value="'%' + content + '%'"/>
 										AND r.raw_name LIKE #{content}
 									</if>
 									<if test="rawOrderBegin != null and rawOrderBegin != '' and rawOrderEnd != null and rawOrderEnd != ''">
             							AND o.raw_order_date BETWEEN #{rawOrderBegin} AND #{rawOrderEnd}
         							</if>
-        							<if test="rawOrderBegin != null and rawOrderBegin != '' and rawOrderEnd == null and rawOrderEnd == ''">
+        							<if test="rawOrderBegin != null and rawOrderBegin != '' and (rawOrderEnd == null and rawOrderEnd == '')">
             							AND o.raw_order_date >= #{rawOrderBegin}
         							</if>
         							<if test="rawOrderInBegin != null and rawOrderInBegin != '' and rawOrderInEnd != null and rawOrderInEnd != ''">
             							AND o.in_plan_date BETWEEN #{rawOrderInBegin} AND #{rawOrderInEnd}
         							</if>
-        							<if test="rawOrderInBegin != null and rawOrderInBegin != '' and rawOrderInEnd == null and rawOrderInEnd == ''">
+        							<if test="rawOrderInBegin != null and rawOrderInBegin != '' and (rawOrderInEnd == null and rawOrderInEnd == '')">
             							AND o.in_plan_date >= #{rawOrderInBegin}
         							</if>
 								</where>
@@ -75,7 +75,7 @@
  
 
  <select id="getRawOrderListPopUp" resultType="ems.icemile.dto.RowOrderListDTO">
- 	SELECT *
+ 	SELECT raw_order_code,buy_name,raw_name,raw_order_amount
  	FROM raw_order
  </select>
  

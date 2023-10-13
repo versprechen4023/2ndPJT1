@@ -47,8 +47,21 @@ public class HeadServiceImpl implements HeadService{
 		
 		//고유 번호 부여
 		resultDTO.setResult_code(Integer.toString(result_code));
+		
 				
 		return headDAO.resultInsert(resultDTO);
+	}
+
+	@Override
+	public boolean resultUpdate(ResultDTO resultDTO) {
+		log.debug("서비스 | 실적 수정 기능");
+		return headDAO.resultUpdate(resultDTO);
+	}
+
+	@Override
+	public boolean resultDelete(List<String> deleteRSList) {
+		log.debug("서비스 | 실적 삭제 기능");
+		return headDAO.resultDelete(deleteRSList);
 	}
 	
 }

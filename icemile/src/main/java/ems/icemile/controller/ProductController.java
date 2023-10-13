@@ -68,6 +68,20 @@ public class ProductController {
 		
 		return "product/productListPopUp";
 	}
+	@GetMapping("/productListPopUp2")
+	public String productList2PopUp2(Model model) {
+		
+		log.debug("product/productListPopUp.jsp");
+		
+		// 완재품 리스트를 가져오기위한 완재품 리스트 객체생성
+		List<ProductDTO> productListPopUp = new ArrayList<ProductDTO>();
+		productListPopUp = productService.getProductListPopUp();
+		
+		// 모델에 멤버 DTO값 저장
+		model.addAttribute("productListPopUp", productListPopUp);
+		
+		return "product/productListPopUp2";
+	}
 	
 	@GetMapping("/productAdd")
 	public String productAdd(Model model) {

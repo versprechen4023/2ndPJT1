@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,21 +51,32 @@ public class ShippingAjaxController {
 
 		// 콜백 함수에 결과값 리턴
 		return inMaterialList;
-	} // inMateSearch
-
-	@PostMapping("/inMaterialInsert")
-	public ResponseEntity<String> inMaterialInsert(InMaterialDTO inMaterialDTO) {
-		try {
-			log.debug("{}", inMaterialDTO);
-//            shippingService.inMaterialInsert(inMaterialDTO);
-			return new ResponseEntity<>("true", HttpStatus.OK); // 성공 시 "true" 반환
-		} catch (Exception e) {
-			log.error("Error during insertInMaterial: {}", e.getMessage());
-			return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
-		}
-	}
-
-	////////////////////////////////////////////// 출고/////////////////////////////////////////////
+	} //inMateSearch
+	
+    @PostMapping("/inMaterialInsert")
+    public ResponseEntity<String> inMaterialInsert(InMaterialDTO inMaterialDTO) {
+    	try {
+    		log.debug("{}",inMaterialDTO);
+            shippingService.inMaterialInsert(inMaterialDTO);
+            return new ResponseEntity<>("true", HttpStatus.OK); // 성공 시 "true" 반환
+        } catch (Exception e) {
+            log.error("Error during insertInMaterial: {}", e.getMessage());
+            return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
+        }
+    }
+    
+    @PostMapping("/updateInMaterial")
+    public ResponseEntity<String> updateInMaterial(InMaterialDTO inMaterialDTO) {
+        try {
+        	shippingService.updateInMaterial(inMaterialDTO);
+            return new ResponseEntity<>("true", HttpStatus.OK); // 성공 시 "true" 반환
+        } catch (Exception e) {
+            log.error("Error during insertRequirement: {}", e.getMessage());
+            return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
+        }
+    }
+	//////////////////////////////////////////////출고/////////////////////////////////////////////
+    
 	@GetMapping("searchOutCode")
 	// 이 부분은 Spring Framework에서 사용되는 어노테이션입니다.
 	// Ajax 요청에서 "wh_code"이라는 파라미터를 받아서 이 메서드의 out_code 매개변수에 할당합니다.

@@ -47,13 +47,13 @@ public class ShippingDAOImpl implements ShippingDAO {
 	// 입고코드 자동등록
 	@Override
 	public String getNewIn_code(InMaterialDTO inMaterialDTO) {
-		return sqlSession.selectOne(namespace+"getNewIn_code");
+		return sqlSession.selectOne(namespace+"getNewIn_code", inMaterialDTO);
 	}
 	
-	@Override
-	public String getBuy_code() {
-		return sqlSession.selectOne(namespace+"getBuy_code");
-	}
+//	@Override
+//	public String getBuy_code() {
+//		return sqlSession.selectOne(namespace+"getBuy_code");
+//	}
 	
 	// 입고 등록
 	@Override

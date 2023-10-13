@@ -12,81 +12,54 @@
 <title>아이스마일</title>
 	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
  		<link href="../resources/css/addTableHorizontal.css" rel="stylesheet" />
-	
-	<style>
-body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh; /* 화면 높이 100%로 설정하여 수직 중앙 정렬 */
-	margin: 0; /* 페이지 바깥 여백 제거 */
-}
-#btn {
-	text-align: center; /* 가로 중앙 정렬 */
-	margin: 20px; /* 버튼 간격 설정 */
-	font-size: 16px; /* 버튼 텍스트 크기 설정 */
-	padding: 5px 20px; /* 버튼 안 여백 설정 */
-}
-</style>
 </head>
 
-<body class="sb-nav-fixed">
+<body>
+	<div id ="container">			
+	<form action="${pageContext.request.contextPath}/factory/insertRequirement" id="insertRequirement" method="POST">
+		<h1>소요량 추가</h1>
 
-			<main>
-<h1>소요량 추가</h1>
+		<table >
+		<tr>
 
-<form action="${pageContext.request.contextPath}/factory/insertRequirement" id="insertRequirement" method="POST">
+				<!-- <th>소요량 코드</th> 소요량 코드는 자동추가를 하기때문에 필요없을 듯.. -->
+				<th>완제품 코드</th>
+				<th>원자재 코드</th>
+				<th>소요량</th>
+				<th>등록일</th>
+				<th>수정일</th>
+				<th>비고</th>
+		</tr>
+		<tr>
+				<td><input type="text" name="prod_code" id="prod_code" ></td>  <!-- 완제품 코드 -->
+				<td><input type="text" name="raw_code" id="raw_code"></td>  <!-- 원자재 코드 -->
+				<td><input type="text" name="req_amount" id="req_amount"></td>  <!-- 소요량 -->
+				<td><input type="date" name="req_insertDATE" id="req_insertDATE" ></td> <!-- 등록일 -->
+				<td><input type="date" name="req_upDATEDATE" id="req_upDATEDATE"></td>  <!-- 수정일 -->
+				<td><input type="text" name="req_note" id="req_note" ></td>  <!-- 비고 -->
+		</tr>
+		</table>
 
-
-<table>
-<tr>
-
-<!-- <th>소요량 코드</th> 소요량 코드는 자동추가를 하기때문에 필요없을 듯.. -->
-<th>완제품 코드</th>
-<th>원자재 코드</th>
-<th>소요량</th>
-<th>등록일</th>
-<th>수정일</th>
-<th>비고</th>
-</tr>
-
-
-<tr>
-<!-- 완제품 코드 -->
-<td><input type="text" name="prod_code" id="prod_code" ></td>
-<!-- 원자재 코드 -->
-<td><input type="text" name="raw_code" id="raw_code"></td> 
-<!-- 소요량 -->
-<td><input type="text" name="req_amount" id="req_amount"></td>
-<!-- 등록일 -->
-<td><input type="date" name="req_insertDATE" id="req_insertDATE" ></td>
-<!-- 수정일 -->
-<td><input type="date" name="req_upDATEDATE" id="req_upDATEDATE"></td>
-<!-- 비고 -->
-<td><input type="text" name="req_note" id="req_note" ></td>
-</tr>
-
-</table>
-
-		<!-- 등록 버튼 -->
-		<div id="btn">
-			<input type="submit" id="btn" value="추가">
-		</div>
-
+			<!-- 등록 버튼 -->
+			<div id="bottomContainer">
+				<input type="submit" id="btn" value="추가">
+			</div>
+			
+		</form>
+		</div>	
+		
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 -->  
-</form>
+
 <input type="hidden" name="prod_name" id="prod_name" value="">
 <input type="hidden" name="prod_taste" id="prod_taste" value="">
+<input type="hidden" name="prod_price" id="prod_price" value="">
 
 <input type="hidden" name="raw_name" id="raw_name" value="">
 <input type="hidden" name="raw_type" id="raw_type" value="">
 <input type="hidden" name="raw_price" id="raw_price" value="">				
 <!-- 내용들어가는곳 -->
-				
-			</main>
-
                
        	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
        	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
@@ -115,10 +88,10 @@ $(document).ready(function(){
 			Swal.fire('소요량을 입력해주세요.', '실패', 'error');
 			return false;
 		}
-		if($('#req_insertDATE').val()==""){
-			Swal.fire('등록일을 선택해주세요.', '실패', 'error');
-			return false;
-		}
+// 		if($('#req_insertDATE').val()==""){
+// 			Swal.fire('등록일을 선택해주세요.', '실패', 'error');
+// 			return false;
+// 		}
 // 		if($('#req_upDATEDATE').val()==""){
 // 			Swal.fire('수정일을 선택해주세요.', '실패', 'error');
 // 		}

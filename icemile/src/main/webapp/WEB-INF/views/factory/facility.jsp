@@ -39,7 +39,7 @@
                         </ol>
                         <div class="bnt">
                         <!-- 아이디 session 들고 와서 admin일 때만 추가~저장 버튼 보이게 -->
-                        <c:if test="${sessionScope.emp_num eq 'admin'}">
+                        <c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
                         <input type="button" class ="tableBtn" id="add" value="추가">
                         <input type="button" class ="tableBtn" id="update" value="수정">
                         <input type="button" class ="tableBtn" id="delete" value="삭제">
@@ -85,7 +85,7 @@
                                             <td>${facilityDTO.line_name}</td>
                                             <td>${facilityDTO.line_phone}</td>
                                             <td>${facilityDTO.line_process}</td>
-                                            <td>${facilityDTO.line_status}</td>
+                                            <td class="facility-status">${facilityDTO.line_status}</td>
                                             <td><a href="#" onclick="memberInfo('${facilityDTO.emp_num}')">${facilityDTO.emp_num}</a></td>
                                             <td>${facilityDTO.line_note}</td>
                                             <!-- <td><input type="button" value="수정"
@@ -177,8 +177,7 @@
 			
 			// 담당자
 			row += "<td class='empBox' id='empBox'>";
-			row += "<input type='text' name='emp_num' id='emp_num' placeholder='담당자 검색' readonly required class='#datatablesSimple tr'>";
-			row += "<input type='button' name='empSearch' id='empSearch' value='조회'>";
+			row += "<input type='text' id='emp_num' name='emp_num' readonly>";
 			row += "</td>";
 			
 			// 비고
@@ -197,12 +196,6 @@
 			
 			// 생성한 <tr> 요소를 tbody의 첫 행 위에 추가
 			$('tbody tr:nth-child(1)').before(row);
-			
-		    // 사원 검색 팝업 열기
-		    $("#empSearch").click(function() {
-		        var url = '${pageContext.request.contextPath}/member/memberListPopUp';
-		        openPopup(url);
-		    });
 			
 		  	// 품목추가중에 품목추가,수정,삭제 버튼을 비활성화한다
 		  	// disabled(비활성화) 속성 추가(attr) -> .attr('속성 이름', '속성 값')
@@ -317,7 +310,11 @@
 				
 				            $('#facilityList').attr("action", "/home/factory/updateFacility");
 					        $('#facilityList').attr("method", "POST");
-					        $('#facilityList').submit();
+					        Swal.fire('수정 완료되었습니다.', '성공', 'success').then(result => {
+					            if (result.isConfirmed) {
+					                $('#facilityList').submit();
+					            }
+					        });
 				}else{
 			        
 			     // 중복값 검사수행
@@ -337,6 +334,7 @@
 						        		Swal.fire('이미 존재하는 이름입니다 다른 이름을 입력하십시오', '', 'info');
 						        	// 상태가 add면 addPro로 넘어가서 input에 입력한 값이 데이터베이스로 넘어간다
 						        	}else if(status === "add"){
+						        	 
 										// form 태그의 액션을 변수 선언
 								        var formAction = $('#facilityList').attr("action");
 										
@@ -348,10 +346,14 @@
 								                emp_num: emp_num,
 								                line_note: line_note
 								            };
-
+								        
 								        $('#facilityList').attr("action", "/home/factory/addPro");
 								        $('#facilityList').attr("method", "POST");
-								        $('#facilityList').submit();
+								        Swal.fire('등록 완료되었습니다.', '성공', 'success').then(result => {
+								            if (result.isConfirmed) {
+								                $('#facilityList').submit();
+								            }
+								        });
 						        	} 
 						        }//success 콜백함수 종료지점
 						  });// ajax
@@ -432,18 +434,6 @@
 					        '<option value="2" ' + (selectedValue === "2" ? "selected" : "") + '>2:대기중</option>' +
 					        '<option value="3" ' + (selectedValue === "3" ? "selected" : "") + '>3:고장</option>' +
 					        '</select>');
-					} else if(cellName === "emp_num"){
-						$(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' >');
-						$(this).append('<input type="button" name="empSearch" id="empSearch" value="조회">');	
-						// css 적용 안 됨
-						// document.getElementById("empBox").style.display = "flex !important";
-						// document.getElementById("emp_num").style.marginRight = "7px !important";
-						
-					    // 사원 검색 팝업 열기
-					    $("#empSearch").click(function() {
-					        var url = '${pageContext.request.contextPath}/member/memberListPopUp';
-					        openPopup(url);
-					    });
 					} else {
 					    $(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' >');			
 					}
@@ -498,8 +488,6 @@
 		 		// 데이터를 전송하기위한 폼 데이터 직렬화
     	 		var formData = $('#facilityList').serialize();
 		 		
-    	 		// AJAX 제출전에 값이 입력되어있는지 정규식 검사를 수행한다
-		 		if(formTest(formData)){
     	 			// 문제없다면 ajax 실행
          			$.ajax({
              			type: "POST",
@@ -526,7 +514,6 @@
             	 			Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
              			}
         			});// end AJAX(라인 삭제)
-				 }// end if(formTest(formData)) 정규식검사
 				}// end else
 		});//end delete function
 		
@@ -627,9 +614,48 @@
 			window.open('${pageContext.request.contextPath }/member/managerInfo?emp_num='+ emp_num+'', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 		}
 		
+		// 담당자를 선택하면 새창을 여는 이벤트 리스너
+		$(document).on("click", "input[name='emp_num']", function() {
+			window.open('${pageContext.request.contextPath }/member/memberListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+		});// end function
 		
+		
+		// 폼제출을 막고 엔터키로 조회가 가능하게 하는 함수
+		// 텍스트타입 제출을 막음
+		$('input[type="text"]').keydown(function() {
+			// 엔터키 이벤트 발생을 확인한다
+			if (event.keyCode === 13) {
+				// 폼 태그 제출을 막는다
+		 		event.preventDefault();
+				// 검색 함수를 실행한다
+		 		facilitySearch();
+				// 검색입력창을 초기화한다
+		 		$('#content').val("");
+			}// end if
+		});// end function
 
-        
+		document.addEventListener('DOMContentLoaded', function() {
+		    var statusElements = document.querySelectorAll('.facility-status');
+
+		    statusElements.forEach(function(element) {
+		        var statusValue = element.textContent;
+
+		        switch (statusValue) {
+		            case '1':
+		                element.textContent = '가동중';
+		                break;
+		            case '2':
+		                element.textContent = '대기중';
+		                break;
+		            case '3':
+		                element.textContent = '고장';
+		                break;
+		            default:
+		                element.textContent = '알 수 없음';
+		        }
+		    });
+		});
+		
         </script>
         
         

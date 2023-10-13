@@ -22,12 +22,7 @@ public class HomeController {
 		
 		log.debug("start icemile");
 		
-		// 세션검증
-		if(session.getAttribute("emp_num") != null) {
-			return "redirect:/main/index";
-		} else {
-			return "redirect:/member/login";
-		} 
+		return "redirect:/main/index";
 	}
 	
 }

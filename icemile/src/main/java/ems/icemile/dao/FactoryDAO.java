@@ -15,7 +15,7 @@ public interface FactoryDAO {
 	public void insertFacility(FacilityDTO facilityDTO);
 
 	// 설비(라인) 코드 고유 번호 부여
-	public int getNewFacilityCode();
+	public String getNewFacilityCode();
 
 	// 설비(라인) 수정
 	public void updateFacility(FacilityDTO facilityDTO);
@@ -26,6 +26,7 @@ public interface FactoryDAO {
 	// 설비(라인) 이름 중복검사
 	public boolean searchLineName(String line_name);
 
+	// 설비(라인) 검색
 	public List<FacilityDTO> facilitySearch(HashMap<String, Object> json);
 
 	

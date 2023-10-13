@@ -2,12 +2,15 @@ package ems.icemile.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
 import ems.icemile.dao.SellDAOImpl;
+import ems.icemile.dto.ProOrderDTO;
+import ems.icemile.dto.RowOrderListDTO;
 import ems.icemile.dto.SellDTO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -87,6 +90,76 @@ public class SellServiceImpl implements SellService{
 	public boolean searchPhone(String branch_phone) {
 		log.debug("서비스 | 지점 번호 중복 검사");
 		return sellDAO.searchPhone(branch_phone);
+	}
+
+	
+	@Override
+	public List<HashMap<String, Object>> proOrderList() {
+		log.debug("서비스 | 수주 리스트");
+		return sellDAO.proOrderList();
+	}
+
+	@Override
+	public boolean proOrderInsert(ProOrderDTO proOrderDTO) {
+		log.debug("서비스 | 수주 추가");
+				
+		// 고유 번호를 위한 지점 번호 얻기
+		String getBranchCode = proOrderDTO.getBranch_code();
+		
+		int myCode = Integer.parseInt(getBranchCode.replaceAll("[^0-9]", ""));
+				
+		// 고유번호를 위한 날짜 재조정
+		String myDate = proOrderDTO.getOrder_date().substring(2).replace("-", "");
+		
+		// 날짜를 넘겨주기 위해 DTO에 저장
+		proOrderDTO.setMyDate(myDate);
+		// 고유 번호를 위한 순서번호 얻기
+		String getCode = sellDAO.getNewProOrderCode(proOrderDTO);
+						
+		int codeNum = 0;
+						
+		// DB에 데이터가없다면 초기값(1)이되고
+		if(getCode == null) {
+			codeNum = 1;
+		// 아니라면 +1을 더한다
+		} else {
+			codeNum = Integer.parseInt(getCode.replaceAll(".+_", ""))+1;
+		}
+						
+		// 고유번호를 설정
+		proOrderDTO.setOrder_code("OS"+myDate+"BR"+myCode+"_"+codeNum);
+		log.debug("코드값 확인 {}", proOrderDTO.getOrder_code());
+				
+		// 상태를 발주중으로 설정
+		proOrderDTO.setOrder_status(1);
+				
+		return sellDAO.proOrderInsert(proOrderDTO);
+	}
+
+	@Override
+	public boolean proOrderUpdate(ProOrderDTO proOrderDTO) {
+		
+		log.debug("수주 수정");
+		log.debug("값 잘 넘어오나"+proOrderDTO);
+		
+		return sellDAO.proOrderUpdate(proOrderDTO);
+	}
+
+	
+	@Override
+	public boolean proOrderDelete(List<String> deleteProList) {
+		
+		log.debug("수주 삭제");
+		
+		return sellDAO.proOrderDelete(deleteProList);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> proOrderSearch(HashMap<String, Object> json) {
+		
+		log.debug("수주 검색");
+		
+		return sellDAO.proOrderSearch(json);
 	}
 
 

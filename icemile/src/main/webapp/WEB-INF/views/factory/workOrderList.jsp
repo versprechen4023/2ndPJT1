@@ -42,12 +42,16 @@
                         <input type="text" name="workOrderBegin" id="workOrderBegin"> ~
                         <input type="text" name="workOrderEnd" id="workOrderEnd" disabled>
                         <br>
+                        완료 날짜
+                        <input type="text" name="workOrderDoneBegin" id="workOrderDoneBegin" > ~
+                        <input type="text" name="workOrderDoneEnd" id="workOrderDoneEnd"  disabled>
+                        <br>
 						<input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
   								<option value="work_code">지시코드</option>
   								<option value="line_name">라인명</option>
   								<option value="prod_name">제품명</option>
-  								<option value="branch_name">지점명</option>
+  								<option value="branch_code">지점코드</option>
   
 							</select>
 							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
@@ -66,7 +70,8 @@
 										<th>주문량</th>
 										<th>생산공정</th>
 										<th>지시/수정날짜</th>
-										<th>지점명</th>
+										<th>지점코드</th>
+										<th>완료날짜</th>
 										<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
 										<th data-sortable="false">관리</th>
 										</c:if>
@@ -76,7 +81,7 @@
 									<c:forEach var="workOrderDTO" items="${workOrderList}">
 										<tr>
 											<td>${workOrderDTO.work_code}</td>
-											<td>${workOrderDTO.emp_num}</td>
+											<td><a href="#" class="emp-num-link" data-emp-num="${workOrderDTO.emp_num}">${workOrderDTO.emp_num}</a></td>
 											<td>${workOrderDTO.line_code}</td>
 											<td>${workOrderDTO.line_name}</td>
 											<td>${workOrderDTO.order_code}</td>
@@ -84,18 +89,18 @@
 											<td>${workOrderDTO.order_amount}</td>
 											<td>${workOrderDTO.line_process}</td>
 											<td>${workOrderDTO.work_order_date}</td>
-											<td>${workOrderDTO.branch_name}</td>
-						
-								
-										
-											<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
-											<td><input type="button" value="수정"
-												onclick="workOrderUpdate('${workOrderDTO.work_code}')" id="updateWorkOrder">
-												<input type="button" value="삭제"
-												onclick="workOrderDelete('${workOrderDTO.work_code}')" id="deleteWorkOrder">
-											</td>
-											</c:if>
-										</tr>
+											<td>${workOrderDTO.branch_code}</td>
+											<td>${workOrderDTO.done_date != null ? workOrderDTO.done_date : ""}</td>
+        							<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
+           								 <td>
+                							<input type="button" value="수정" onclick="workOrderUpdate('${workOrderDTO.work_code}')" id="updateWorkOrder">
+                							<input type="button" value="삭제" onclick="workOrderDelete('${workOrderDTO.work_code}')" id="deleteWorkOrder">
+                				   <c:if test="${workOrderDTO.done_date == null}">
+                   							 <input type="button" value="완료" onclick="workOrderDone('${workOrderDTO.work_code}')" id="doneWorkOrder">
+               						 </c:if>
+            							</td>
+        							</c:if>
+    									</tr>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -143,6 +148,8 @@ function workOrderSearch() {
 	   var json = {
 		   		workOrderBegin: $('#workOrderBegin').val(),
 		   		workOrderEnd: $('#workOrderEnd').val(),
+		   		workOrderDoneBegin: $('#workOrderDoneBegin').val(),
+		   		workOrderDoneEnd: $('#workOrderDoneEnd').val(),
         			category: $('#category').val(),
         			content: $('#content').val()
        			  };
@@ -166,11 +173,15 @@ function workOrderSearch() {
  				        var $tr = $('<tr>');
  				    	//tr 에 내용추가
  				    	
+ 				    	// 완료일자가 비어있는 경우 완료 버튼을 표시
+			            var showDoneButton = data.done_date == null;
+
+ 				    	
  				    	// 권한이있으면 수정 삭제 버튼도 같이 출력
  				    	if(role.charAt(0) === '1'){
  				        	$tr.append(
  				            "<td>"+data.work_code+"</td>",
- 				           	"<td>"+data.emp_num+"</td>",
+ 				            '<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>',   
  				         	"<td>"+data.line_code+"</td>",
  				         	"<td>"+data.line_name+"</td>",
  				         	"<td>"+data.order_code+"</td>",
@@ -178,16 +189,19 @@ function workOrderSearch() {
  				         	"<td>"+data.order_amount+"</td>",
  				         	"<td>"+data.line_process+"</td>",
  				         	"<td>"+data.work_order_date+"</td>",
- 				         	"<td>"+data.branch_name+"</td>",
+ 				         	"<td>"+data.branch_code+"</td>",
+ 				            "<td>" + (data.done_date != null ? data.done_date : "") + "</td>",
  				            "<td>" +
  				          	"<input type='button' value='수정' onclick='workOrderUpdate(\"" + data.workOrder_code + "\")' id='updateworkOrder'>" +
  				            "<input type='button' value='삭제' onclick='workOrderDelete(\"" + data.workOrder_code + "\")' id='deleteworkOrder'>" +
+ 				           	(showDoneButton ?
+ 				            "<input type='button' value='완료' onclick='workOrderDone(\"" + data.work_code + "\")' id='doneWorkOrder'>" : "") +                    
  				            "</td>"
  				        	);
  				    	} else {
  				    		 $tr.append(
  				    	            "<td>"+data.work_code+"</td>",
- 		 				           	"<td>"+data.emp_num+"</td>",
+ 				    	           '<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>',   
  		 				         	"<td>"+data.line_code+"</td>",
  		 				         	"<td>"+data.line_name+"</td>",
  		 				         	"<td>"+data.order_code+"</td>",
@@ -195,7 +209,8 @@ function workOrderSearch() {
  		 				         	"<td>"+data.order_amount+"</td>",
  		 				         	"<td>"+data.line_process+"</td>",
  		 				         	"<td>"+data.work_order_date+"</td>",
- 		 				         	"<td>"+data.branch_name+"</td>"
+ 		 				         	"<td>"+data.branch_code+"</td>",
+ 		 				         	"<td>"+data.done_date+"</td>"
  		 				     );
  				    	}
  				        // 생성한 <tr> 요소를 tbody에 추가
@@ -262,6 +277,33 @@ function workOrderDelete(work_code) {
 	
 }// end_of_function
 
+// 작업 지시 완료 버튼관련 함수
+function workOrderDone(work_code) {
+    // 서버로 완료 요청 보내기
+    $.ajax({
+        url: '${pageContext.request.contextPath}/factory_ajax/workOrderDone',
+        data: { "work_code": work_code },
+        type: 'POST',
+        success: function (data) {
+            if (data === "true") {
+                // 성공 메시지 표시
+                Swal.fire('작업이 성공적으로 완료되었습니다.', '성공', 'success').then(function() {
+                    // 페이지 새로고침
+                    location.reload();
+                });
+
+                // 버튼 비활성화
+                $("#doneWorkOrder_" + work_code).prop("disabled", true);
+            } else {
+                // DB 업데이트 실패 시
+                Swal.fire('DB 업데이트에 실패했습니다.', '실패', 'error');
+            }
+        }
+    });
+}
+
+
+
 //지시/수정날짜 시작점
 $("#workOrderBegin").datepicker({
 dateFormat: 'yy-mm-dd',
@@ -301,8 +343,63 @@ onSelect: function(selectedDate) {
 }// end OnSelect
 }); // end 데이트피커
 
+//완료날짜 시작점
+$("#workOrderDoneBegin").datepicker({
+    dateFormat: 'yy-mm-dd',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+    dayNames: ['일','월','화','수','목','금','토'],
+    dayNamesShort: ['일','월','화','수','목','금','토'],
+    dayNamesMin: ['일','월','화','수','목','금','토'],
+    showMonthAfterYear: true,
+    yearSuffix: '년',
+    onSelect: function(selectedDate) {
+        // 지시/수정날짜 끝점(데이트피커)을 초기화하고 동적변경을 위해 데이트피커의 초기값을 변수에 담는다
+        var mySecondDatePicker = $("#workOrderDoneEnd").datepicker({
+            dateFormat: 'yy-mm-dd',
+            prevText: '이전 달',
+            nextText: '다음 달',
+            monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+            dayNames: ['일','월','화','수','목','금','토'],
+            dayNamesShort: ['일','월','화','수','목','금','토'],
+            dayNamesMin: ['일','월','화','수','목','금','토'],
+            showMonthAfterYear: true,
+            yearSuffix: '년',
+            minDate: selectedDate
+        });
 
+        // 입고예정일 끝점을 선택할 수 있게한다
+        $("#workOrderDoneEnd").removeAttr("disabled");
+        // 입고예정일 끝점을 초기화한다
+        $("#workOrderDoneEnd").val("");
+        // 동적으로 minDate 를 업데이트한다
+        mySecondDatePicker.datepicker("option", "minDate", selectedDate);
+    }
+});
 
+$(document).ready(function() {
+	
+	$(document).on("click", ".emp-num-link", function(event) {
+        event.preventDefault();
+        var empNum = $(this).data("emp-num"); // 클릭한 링크의 emp_num 값을 가져옵니다.
+
+        // 팝업 창 크기 및 위치 설정
+        var width = 590;
+        var height = 705;
+        var left = (screen.width - width) / 2;
+        var top = (screen.height - height) / 2;
+
+        // 팝업 창 열기
+        var url = '${pageContext.request.contextPath}/member/managerInfo?emp_num=' + empNum; // 팝업에 필요한 데이터를 URL에 포함
+        var popupWindow = window.open(url, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
+
+        // 팝업 창 포커스
+        popupWindow.focus();
+    });
+});
 
 //엔터키 입력시 검색되게 이벤트 리스너 활성화
 document.addEventListener("keyup", function(event) {
@@ -310,9 +407,6 @@ document.addEventListener("keyup", function(event) {
     	workOrderSearch();
     }// end if
 });// end function
-
-
-
 </script>
 </body>
 </html>

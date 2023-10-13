@@ -2,12 +2,14 @@ package ems.icemile.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import ems.icemile.dto.ProOrderDTO;
 import ems.icemile.dto.SellDTO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -76,8 +78,41 @@ public class SellDAOImpl implements SellDAO{
 		return (result == null) ? false : true;
 	}
 	
+	@Override
+	public List<HashMap<String, Object>> proOrderList() {
+		log.debug("DAO| 수주 리스트");
+		return sqlSession.selectList(namespace+"proOrderList");
+	}
+	
+	@Override
+	public boolean proOrderInsert(ProOrderDTO proOrderDTO) {
+		log.debug("DAO| 수주 등록");
+		return sqlSession.insert(namespace+"proOrderInsert", proOrderDTO) > 0;
+	}
+	
+	@Override
+	public String getNewProOrderCode(ProOrderDTO proOrderDTO) {
+		log.debug("DAO| 수주 고유 번호 얻기");
+		return sqlSession.selectOne(namespace+"getNewProOrderCode", proOrderDTO);
+	}
+	
+	@Override
+	public boolean proOrderUpdate(ProOrderDTO proOrderDTO) {
+		log.debug("DAO| 수주 수정");
+		return sqlSession.update(namespace+"proOrderUpdate", proOrderDTO) > 0;
+	}
+	
+	@Override
+	public boolean proOrderDelete(List<String> deleteProList) {
+		log.debug("DAO| 수주 삭제");
+		return sqlSession.delete(namespace+"proOrderDelete", deleteProList) > 0;
+	}
+	
+	@Override
+	public List<HashMap<String, Object>> proOrderSearch(HashMap<String, Object> json) {
+		log.debug("DAO| 수주 검색");
+		return sqlSession.selectList(namespace+"proOrderSearch", json);
+	}
 
-	
-	
 
 }

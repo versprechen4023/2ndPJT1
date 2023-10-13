@@ -16,7 +16,7 @@
     o.order_amount,
     f.line_process,
     wo.work_order_date,
-    b.branch_name
+    b.branch_code
 	FROM work_order wo
 	INNER JOIN facility f ON wo.line_code = f.line_code
 	INNER JOIN orders o ON wo.order_code = o.order_code
@@ -39,19 +39,19 @@
 
 	<!-- <insert id="workOrderAdd"> 후에 test테이블 변경
   	INSERT INTO test_work_order(work_code, emp_num, line_code, line_name, order_code, prod_name, 
-  					order_amount, line_process, work_order_date, branch_name)
+  					order_amount, line_process, work_order_date, branch_code)
   	VALUES(CONCAT('WO', LPAD(#{work_code}, 4, '0')),#{emp_num}, #{line_code}, 
   			#{line_name}, #{order_code}, #{prod_name}, #{order_amount},#{line_process},
-  			#{work_order_date}, #{branch_name})
+  			#{work_order_date}, #{branch_code})
  	 </insert> -->
 	
 	<insert id="workOrderAdd">
     <!-- work_order_date 컬럼을 명시적으로 지정하지 않고 현재 시간 사용 / 후에 test테이블 변경. 변경시에 insert 구문 변경-->
     INSERT INTO test_work_order(work_code, emp_num, line_code, line_name, order_code, prod_name, 
-        order_amount, line_process, work_order_date, branch_name)
+        order_amount, line_process, work_order_date, branch_code)
     VALUES(CONCAT('WO', LPAD(#{work_code}, 4, '0')), #{emp_num}, #{line_code}, 
         #{line_name}, #{order_code}, #{prod_name}, #{order_amount}, #{line_process},
-        NOW(), #{branch_name})
+        NOW(), #{branch_code})
 	</insert>
 	
 	<select id="getWorkOrderInfo" resultType="ems.icemile.dto.WorkOrderDTO">
@@ -65,7 +65,7 @@
   	SET emp_num = #{emp_num}, line_code = #{line_code}, line_name = #{line_name},
   					order_code = #{order_code}, prod_name = #{prod_name}, 
   					order_amount = #{order_amount}, line_process = #{line_process}, 
-  					work_order_date = NOW(), branch_name = #{branch_name} 
+  					work_order_date = NOW(), branch_code = #{branch_code} 
    	WHERE work_code = #{work_code}
   </update>
   
@@ -80,15 +80,26 @@
   		FROM test_work_order
   			<where> 
   			AND ${category} LIKE #{content}
-  			<if test="workOrderBegin != null and workOrderBegin != '' and workOrderEnd != null and workOrderEnd != ''">
+  								<if test="workOrderBegin != null and workOrderBegin != '' and workOrderEnd != null and workOrderEnd != ''">
             							AND work_order_date BETWEEN #{workOrderBegin} AND #{workOrderEnd}
-  			</if>
-  			<if test="workOrderBegin != null and workOrderBegin != ''">
-        	AND work_order_date >= #{workOrderBegin}
-        	</if>
+        							</if>
+        							<if test="workOrderBegin != null and workOrderBegin != '' and workOrderEnd == null and workOrderEnd == ''">
+            							AND work_order_date >= #{workOrderBegin}
+        							</if>
+        							<if test="workOrderDoneBegin != null and workOrderDoneBegin != '' and workOrderDoneEnd != null and workOrderDoneEnd != ''">
+            							AND done_date BETWEEN #{workOrderDoneBegin} AND #{workOrderDoneEnd}
+        							</if>
+        							<if test="workOrderDoneBegin != null and workOrderDoneBegin != '' and workOrderDoneEnd == null and workOrderDoneEnd == ''">
+            							AND done_date >= #{workOrderDoneBegin}
+        							</if>
   			</where>
   </select>
 
+	<update id="workOrderDone" parameterType="String">
+    UPDATE test_work_order
+    SET done_date = NOW()
+    WHERE work_code = #{work_code}
+</update>
 	
 
 

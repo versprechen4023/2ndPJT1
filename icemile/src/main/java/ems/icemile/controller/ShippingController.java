@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import ems.icemile.dto.InMaterialDTO;
-import ems.icemile.dto.RequirementDTO;
-import ems.icemile.service.ShippingService;
-import ems.icemile.dto.WareHouseDTO;
+
 import ems.icemile.dto.outMaterialDTO;
 import ems.icemile.service.ShippingServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +29,9 @@ public class ShippingController {
 	
 	// 입고 리스트
 	@GetMapping("/inMaterial")
-	public String requirementList(Model model) {
+	public String inMaterialList(Model model) {
 
-		log.debug("ShippingController requirement");
+		log.debug("ShippingController inMaterialList");
 		
 		List<InMaterialDTO> inMaterialList = new ArrayList<InMaterialDTO>();
 		inMaterialList = shippingService.getInMaterialList();
@@ -42,6 +40,7 @@ public class ShippingController {
 		
 		return "/shipping/inMaterial";
 	}// requirementList()
+	
 	
 	// 입고 목록 삭제
 	@GetMapping("/deleteInMaterial")

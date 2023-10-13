@@ -35,7 +35,21 @@ public class FactoryServiceImpl implements FactoryService {
 		log.debug("FactoryService insertFacility()");
 		
 		// 라인 코드 고유 번호 부여
-		facilityDTO.setLine_code(Integer.toString(factoryDAO.getNewFacilityCode()));
+		String getCode = factoryDAO.getNewFacilityCode();
+		
+		int codeNum = 0;
+		
+		// DB에 데이터가없다면 초기값(1)이되고
+		if(getCode == null) {
+			codeNum = 1;
+		// 아니라면 +1을 더한다
+		} else {
+			String code = getCode.replaceAll("[^0-9]", "");
+			codeNum = Integer.parseInt(code) + 1;
+		}
+		
+	    // facilityDTO에 line_code 설정
+	    facilityDTO.setLine_code("LI" + String.format("%04d", codeNum));
 		
 		factoryDAO.insertFacility(facilityDTO);
 	}// insertFacility()

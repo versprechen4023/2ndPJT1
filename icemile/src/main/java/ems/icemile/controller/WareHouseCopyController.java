@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ems.icemile.dto.FacilityDTO;
 import ems.icemile.dto.StockDTO;
 import ems.icemile.service.WareHouseCopyService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +28,7 @@ public class WareHouseCopyController {
 	
 	// 가상주소: http://localhost:8080/home/warehouse/rawStock
 	@GetMapping("/rawStock")
-	public String facility(Model model) {
+	public String rawStock(Model model) {
 		
 		// 원자재 재고 리스트
 		log.debug("rawStock");
@@ -43,6 +42,53 @@ public class WareHouseCopyController {
 		
 		// 주소 변경 x
 		return "warehouse/rawStock";
+	}
+	
+	
+	// 가상주소: http://localhost:8080/FunWeb/warehouse/updateRawStock
+	@PostMapping("/updateRawStock")
+	public String updateRawStock(StockDTO StockDTO) {
+		// 원자재 실수량 수정
+		log.debug("updateRawStock");
+		
+		// StockDTO 담아서 warehouseService에 updateRawStock 메서드 생성
+		warehouseService.updateRawStock(StockDTO);
+		
+		// 주소 -> /factory/facility로 변경되면서 이동
+		return "redirect:/warehouse/rawStock";
+	}
+	
+	
+	// 가상주소: http://localhost:8080/home/warehouse/productStock
+	@GetMapping("/productStock")
+	public String productStock(Model model) {
+		
+		// 원자재 재고 리스트
+		log.debug("productStock");
+		
+		// 설비 관리 리스트 객체 생성
+		List<StockDTO> productStock = warehouseService.getProdStockList();
+		
+		// 모델에 productStock값 저장
+		model.addAttribute("productStock", productStock);
+		
+		
+		// 주소 변경 x
+		return "warehouse/prodStock";
+	}
+	
+	
+	// 가상주소: http://localhost:8080/FunWeb/warehouse/updateProdStock
+	@PostMapping("/updateProdStock")
+	public String updateProdStock(StockDTO StockDTO) {
+		// 완제품 실수량 수정
+		log.debug("updateProdStock");
+		
+		// StockDTO 담아서 warehouseService에 updateProdStock 메서드 생성
+		warehouseService.updateProdStock(StockDTO);
+		
+		// 주소 -> /factory/facility로 변경되면서 이동
+		return "redirect:/warehouse/productStock";
 	}
 	
 
