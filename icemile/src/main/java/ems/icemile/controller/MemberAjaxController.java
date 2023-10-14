@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import ems.icemile.annotation.Departments;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.service.MemberServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,7 @@ public class MemberAjaxController {
 	private MemberServiceImpl memberService;
 	
 	// 관리자 권한제어를 위한 어노테이션 선언
-	@ems.icemile.annotation.Department
+	@Departments
 	@PostMapping("delete")
 	public String memberDelete(@RequestParam("emp_num") String emp_num) {
 		
@@ -38,7 +39,7 @@ public class MemberAjaxController {
 		
 		// 콜백 함수에 결과값 리턴
 		return Boolean.toString(memberService.memberDelete(emp_num));
-	}
+	} // end memberIDelete
 	
 	
 	@PostMapping("search")
@@ -53,10 +54,10 @@ public class MemberAjaxController {
 		
 		// 콜백 함수에 결과값 리턴
 		return memberList;
-	}
+	} // end memberSearch
 	
 	// 관리자 권한제어를 위한 어노테이션 선언
-	@ems.icemile.annotation.Department
+	@Departments
 	@PostMapping("/insert")
 	public String memberInsert(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file, HttpSession session) throws Exception {
 		
@@ -88,7 +89,7 @@ public class MemberAjaxController {
 		}
 		
 		return Boolean.toString(memberService.memberInsert(memberDTO));
-	}
+	} // end memberInsert
 	
 	@PostMapping("/update")
 	public String memberUpdate(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file, HttpSession session) throws Exception {
@@ -121,7 +122,7 @@ public class MemberAjaxController {
 		}
 		
 		return Boolean.toString(memberService.memberUpdate(memberDTO));
-	}
+	} // end memberUpdate
 	
 	@PostMapping("updatePassword")
 	public String updatePassword(MemberDTO memberDTO, @RequestParam("emp_newPw1") String new_password, HttpSession session) {
@@ -142,7 +143,7 @@ public class MemberAjaxController {
 			return "false";
 		}
 		
-	}
+	} // end updatePassword
 	
 	@GetMapping("searchEmail")
 	public String searchEmail(@RequestParam("email") String email) {
@@ -150,7 +151,7 @@ public class MemberAjaxController {
 		log.debug("{} 값 확인", email);
 		
 		return Boolean.toString(memberService.searchEmail(email));
-	}
+	} // end searchEmail
 	
 	@GetMapping("searchPhone")
 	public String searchPhone(@RequestParam("phone_num") String phone_num) {
@@ -158,16 +159,16 @@ public class MemberAjaxController {
 		log.debug("{} 값 확인", phone_num);
 		
 		return Boolean.toString(memberService.searchPhone(phone_num));
-	}
+	} // end searchPhone
 	
 	// 관리자 권한제어를 위한 어노테이션 선언
-	@ems.icemile.annotation.Department
+	@Departments
 	@PostMapping("reset")
 	public String memberReset(@RequestParam("emp_num") String emp_num) {
-		
+		// 사용자의 비밀번호를 생일로 초기화하는 메서드
 		log.debug("멤버 리셋 AJAX 호출");
 		
 		// 콜백 함수에 결과값 리턴
 		return Boolean.toString(memberService.memberReset(emp_num));
-	}
+	} // end memberReset
 }

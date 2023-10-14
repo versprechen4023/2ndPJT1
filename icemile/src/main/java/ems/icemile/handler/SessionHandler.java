@@ -20,10 +20,10 @@ public class SessionHandler {
 	
 	// ProceedingJoinPoint를 사용하기위한 before+after Around어노테이션 선언
 	// 세션 검증의 대상은 모든 Controller 파일이된다
-	// 단 로그인을 관리하는 멤버 컨트롤러의 login 메서드와 loginPro 메서드는 제외한다
+	// 단 UnUseAOP 어노테이션이 명시된 메서드는 제외한다
+	// execution 으로 대상이 될 포인트컷을 명시한다
 	@Around("execution(* ems.icemile.controller..*Controller.*(..)) " +
-            "&& !execution(* ems.icemile.controller.MemberController.login(..)) " +
-            "&& !execution(* ems.icemile.controller.MemberController.loginPro(..))")
+            "&& !@annotation(ems.icemile.annotation.UnUseAOP)")
 	
 	// ProceedingJoinPoint 를 통해 메서드를 제어한다
 	public Object loginCheck(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -38,5 +38,5 @@ public class SessionHandler {
 	    
 	    // 로그인되어 있는 경우 기존의 메서드를 그대로 실행한다
 	    return joinPoint.proceed();
-	}
-}
+	} // end loginCheck
+}// end SessionHandler

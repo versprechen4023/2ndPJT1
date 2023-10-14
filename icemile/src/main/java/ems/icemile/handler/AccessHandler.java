@@ -16,11 +16,13 @@ import lombok.extern.slf4j.Slf4j;
 @Aspect // AOP 클래스 정의 어노테이션 선언
 @Component // 스프링 빈 정의를 위한 컴포넌트 어노테이션 선언
 
+// 권한 처리를 위한 AOP AccessHandler
 public class AccessHandler {
 
 		// ProceedingJoinPoint를 사용하기위한 before+after Around어노테이션 선언
 		// 세션 검증의 대상은 Department 어노테이션이 명시된 메서드가된다
-		@Around("@annotation(ems.icemile.annotation.Department)")
+		// 포인트 컷 사용으로 어노테이션을 명시한다
+		@Around("@annotation(ems.icemile.annotation.Departments)")
 		// 인사관련 권한 제어
 		// ProceedingJoinPoint 를 통해 메서드를 제어한다
 		public Object DepartmentCheck(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -40,6 +42,7 @@ public class AccessHandler {
 		
 		// ProceedingJoinPoint를 사용하기위한 before+after Around어노테이션 선언
 		// 세션 검증의 대상은 Business 어노테이션이 명시된 메서드가된다
+		// 포인트 컷 사용으로 어노테이션을 명시한다
 		@Around("@annotation(ems.icemile.annotation.Business)")
 		// 영업관련 권한 제어
 		// ProceedingJoinPoint 를 통해 메서드를 제어한다
@@ -49,7 +52,7 @@ public class AccessHandler {
 			// 권한을 가져온다
 			String role = (String)session.getAttribute("emp_role");
 			// 두번째 권한(영업)이 없으면 예외를 던진다
-			if (role.substring(0, 1).equals("1")) {
+			if (role.substring(1, 2).equals("0")) {
 				log.debug("영업 권한 없음");
 				throw new NoPermissionException("영업 권한이 없습니다");
 			}
@@ -60,6 +63,7 @@ public class AccessHandler {
 		
 		// ProceedingJoinPoint를 사용하기위한 before+after Around어노테이션 선언
 		// 세션 검증의 대상은 Production 어노테이션이 명시된 메서드가된다
+		// 포인트 컷 사용으로 어노테이션을 명시한다
 		@Around("@annotation(ems.icemile.annotation.Production)")
 		// 생산관련 권한 제어
 		// ProceedingJoinPoint 를 통해 메서드를 제어한다
@@ -69,7 +73,7 @@ public class AccessHandler {
 			// 권한을 가져온다
 			String role = (String)session.getAttribute("emp_role");
 			// 세번째 권한(생산)이 없으면 예외를 던진다
-			if (role.substring(0, 1).equals("2")) {
+			if (role.substring(2, 3).equals("0")) {
 				log.debug("생산 권한 없음");
 				throw new NoPermissionException("생산 권한이 없습니다");
 			}
@@ -80,6 +84,7 @@ public class AccessHandler {
 		
 		// ProceedingJoinPoint를 사용하기위한 before+after Around어노테이션 선언
 		// 세션 검증의 대상은 Logistics 어노테이션이 명시된 메서드가된다
+		// 포인트 컷 사용으로 어노테이션을 명시한다
 		@Around("@annotation(ems.icemile.annotation.Logistics)")
 		// 물류 권한 제어
 		// ProceedingJoinPoint 를 통해 메서드를 제어한다
@@ -89,7 +94,7 @@ public class AccessHandler {
 			// 권한을 가져온다
 			String role = (String)session.getAttribute("emp_role");
 			// 네번째 권한(물류)이 없으면 예외를 던진다
-			if (role.substring(0, 1).equals("3")) {
+			if (role.substring(3, 4).equals("0")) {
 				log.debug("물류 권한 없음");
 				throw new NoPermissionException("물류 권한이 없습니다");
 			}

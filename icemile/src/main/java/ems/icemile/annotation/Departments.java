@@ -8,6 +8,6 @@ import java.lang.annotation.Target;
 // 인사 권한 어노테이션
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Department {
+public @interface Departments {
 
 }
