@@ -13,7 +13,12 @@
 	
 	<select id="getNewFacilityCode" resultType="java.lang.String">
 		SELECT line_code
-  		FROM facility
+		FROM facility
+		<choose>
+		<when test='line_code=="PR" or line_code=="IN" or line_code=="PA"'>
+		</when>
+		</choose>
+		where line_name = #{line_name}
   		ORDER BY line_code desc
   		LIMIT 1
 	</select>

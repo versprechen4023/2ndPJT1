@@ -96,7 +96,7 @@ public class ProductServiceImpl implements ProductService {
         stockDTO.setStock_date(getCurrentDate()); // 현재 날짜 및 시분초 호출
         stockDTO.setRaw_code(productInsertDTO.getProd_code()); // Product의 prod_code를 Stock의 raw_code로 복사
         // raw_code 및 prod_code의 맨앞 문자만 추출 후 매퍼에서 조건문으로 줌
-        // type_type의 글자가 p일 시 prod_code에 입력됨
+        // 만약 type_type의 글자가 p일 시 prod_code에 입력됨
         stockDTO.setType_type(stockDTO.getRaw_code().substring(0, 1)); 
         stockDTO.setProd_code(productInsertDTO.getProd_code()); // Product의 prod_code를 Stock의 prod_code로 복사
         stockDTO.setStock_status(productInsertDTO.getProd_amount()); // Product의 raw_amount를 Stock의 raw_amount로 복사
