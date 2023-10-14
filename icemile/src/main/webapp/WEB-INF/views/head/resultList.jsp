@@ -320,7 +320,7 @@ function getDate() {
 	    '<td><input type="text" id="done_date" name="done_date" readonly></td>',
 	    '<td><input type="text" id="line_code" name="line_code" readonly></td>',
 	    '<td><input type="text" id="prod_name" name="prod_name" readonly></td>',
-	    '<td><input type="text" id="order_amount" name="order_amount" ></td>',
+	    '<td><input type="text" id="order_amount" name="order_amount" readonly></td>',
 	    '<td><input type="text" id="good_prod" name="good_prod" placeholder="(자동으로 계산됨)" readonly></td>',
 	    '<td><input type="text" id="faulty_prod" name="faulty_prod" placeholder="불량품 개수 입력"></td>',
 	    '<td><input type="text" id="faulty_reason" name="faulty_reason" placeholder="불량 사유 입력" ></td>',
@@ -661,20 +661,26 @@ function getDate() {
 		// 수주량을 가져온다
 		var order_amount = parseInt($("#order_amount").val());
 		console.log(order_amount);
-		// 단가를 가져온다
+		
+		// 불량 값을 입력한다
 		var faulty_prod = parseInt($(this).val());
 		console.log(faulty_prod);
 
-		// 수주량과 단가를 계산한다
+		// 수주량과 불량을 계산한다
 		var result = order_amount - faulty_prod;
 		console.log(result);
 
+		// result가 음수인 경우 0으로 설정
+		if (faulty_prod > order_amount){
+			result = '불량은 지시 수량보다 클 수 없습니다.';
+		}
 		// 밸류값을 최종가격으로 변경한다
 		if (isNaN(result) || result == 0) {
 		    $("#good_prod").val("");
 		} else {
 		    $("#good_prod").val(result);
 		}
+
 
 		
 	});
