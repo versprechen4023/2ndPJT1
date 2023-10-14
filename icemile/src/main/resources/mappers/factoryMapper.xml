@@ -12,15 +12,16 @@
 	
 	
 	<select id="getNewFacilityCode" resultType="java.lang.String">
-		SELECT line_code
-		FROM facility
-		<choose>
-		<when test='line_code=="PR" or line_code=="IN" or line_code=="PA"'>
-		</when>
-		</choose>
-		where line_name = #{line_name}
-  		ORDER BY line_code desc
-  		LIMIT 1
+    	SELECT line_code
+    	FROM facility
+    	WHERE line_name = #{line_name}
+    	<choose>
+        	<when test='line_code=="PR" or line_code=="IN" or line_code=="PA"'>
+           	 	ORDER BY line_code desc
+           	 	LIMIT 1
+      		</when>
+   		</choose>
+    
 	</select>
 	
 	

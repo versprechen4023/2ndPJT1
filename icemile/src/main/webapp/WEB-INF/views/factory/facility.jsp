@@ -299,6 +299,7 @@
       		
 				// $(# )안에 있는 값 반환(.val()이 그 역할)해서 
 				// 선언한 var 변수에 할당
+				var line_code = $('#line_code').val();
 				var line_name = $('#line_name').val();
 				var line_phone = $('#line_phone').val();
 				var line_process = $('#line_process').val();
@@ -307,7 +308,7 @@
 				var line_note = $('#line_note').val();
 				
 				// 아래 입력해 준 컬럼에 입력 안 되어 있으면 입력하라는 하단 알림창 뜬다
-				if(line_name == "" || line_phone == "" || line_process == "" ||
+				if(line_code == "" || line_name == "" || line_phone == "" || line_process == "" ||
 						line_status == "" || emp_num == ""){
 					
 					// <link>의 sweetalert2.min.js.css 및 

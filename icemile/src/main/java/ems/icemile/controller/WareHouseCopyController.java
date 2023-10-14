@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ems.icemile.annotation.Logistics;
 import ems.icemile.dto.StockDTO;
 import ems.icemile.service.WareHouseCopyService;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +47,8 @@ public class WareHouseCopyController {
 	
 	
 	// 가상주소: http://localhost:8080/FunWeb/warehouse/updateRawStock
+	// 권한제어를 위한 물류 어노테이션 선언
+	@Logistics
 	@PostMapping("/updateRawStock")
 	public String updateRawStock(StockDTO StockDTO) {
 		// 원자재 실수량 수정
@@ -79,6 +82,8 @@ public class WareHouseCopyController {
 	
 	
 	// 가상주소: http://localhost:8080/FunWeb/warehouse/updateProdStock
+	// 권한제어를 위한 물류 어노테이션 선언
+	@Logistics
 	@PostMapping("/updateProdStock")
 	public String updateProdStock(StockDTO StockDTO) {
 		// 완제품 실수량 수정

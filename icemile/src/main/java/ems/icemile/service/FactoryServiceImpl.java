@@ -35,7 +35,7 @@ public class FactoryServiceImpl implements FactoryService {
 		log.debug("FactoryService insertFacility()");
 		
 		// 라인 코드 고유 번호 부여
-		String getCode = factoryDAO.getNewFacilityCode();
+		String getCode = factoryDAO.getNewFacilityCode(facilityDTO);
 		
 		int codeNum = 0;
 		
@@ -44,14 +44,14 @@ public class FactoryServiceImpl implements FactoryService {
 			codeNum = 1;
 		// 아니라면 +1을 더한다
 		} else {
-			codeNum = Integer.parseInt(getCode.replaceAll("[^0-9]", ""))+1;
+			codeNum = Integer.parseInt(getCode.replaceAll("[^0-9]", "")) + 1;
 		}
-		
+				
 		// 숫자를 4자리 문자열로 포맷팅하고, 앞에 0을 채우기
 		String numStr = String.format("%04d", codeNum);
 
-	    // 고유 번호 저장
-	    facilityDTO.setLine_code(facilityDTO.getLine_code() + numStr);
+		// 고유 번호 저장
+		facilityDTO.setLine_code(facilityDTO.getLine_code() + numStr);
 		
 		factoryDAO.insertFacility(facilityDTO);
 	}// insertFacility()
