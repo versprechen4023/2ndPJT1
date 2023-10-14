@@ -39,7 +39,7 @@
                         </ol>
                         <div class="bnt">
                         <!-- 아이디 session 들고 와서 admin일 때만 추가~저장 버튼 보이게 -->
-                        <c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
+                        <c:if test="${sessionScope.emp_role.charAt(2).toString() eq '1' }">
                         <input type="button" class ="tableBtn" id="add" value="추가">
                         <input type="button" class ="tableBtn" id="update" value="수정">
                         <input type="button" class ="tableBtn" id="delete" value="삭제">
