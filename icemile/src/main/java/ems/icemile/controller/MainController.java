@@ -28,7 +28,7 @@ public class MainController {
 	
 	// AOP 제외대상 어노테이션 선언
 	@UnUseAOP
-	// 권한 에러 메시지 페이지
+	// 401 권한 에러 메시지 페이지
 	@GetMapping("/noPermission")
 	public String noPermission() {
 		
@@ -39,13 +39,24 @@ public class MainController {
 	
 	// AOP 제외대상 어노테이션 선언
 	@UnUseAOP
-	// 에러 메시지 페이지
+	// 500 에러 메시지 페이지
 	@GetMapping("/error")
 	public String error() {
 			
 		log.debug("main/500.jsp");
 			
 		return "main/500";
+	}
+	
+	// AOP 제외대상 어노테이션 선언
+	@UnUseAOP
+	// 404 에러 메시지 페이지
+	@GetMapping("/notFound")
+	public String notFound() {
+				
+		log.debug("main/404.jsp");
+				
+		return "main/404";
 	}
 
 	@GetMapping("/tables")
