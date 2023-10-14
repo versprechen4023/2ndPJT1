@@ -44,7 +44,7 @@
 		<filter-name>encoding</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-<!-- 한글처리 선언 필터 -->
+<!-- 한글처리 선언 필터 end -->
 
 <!-- xss 공격 필터 처리 선언 -->
 <filter>
@@ -72,6 +72,12 @@
     <session-config>
     	<session-timeout>120</session-timeout>
 	</session-config>
-<!-- 세션 유효 시간 설정 -->
-	
+<!-- 세션 유효 시간 설정 end -->
+
+<!-- PageNotFound 예외에 대한 설정 -->
+<error-page>
+    <error-code>404</error-code>
+    <location>/main/notFound</location> <!-- 페이지 없을때 이동할 에러 페이지 경로 명시 -->
+</error-page>
+<!-- PageNotFound 예외에 대한 설정 end -->
 </web-app>
