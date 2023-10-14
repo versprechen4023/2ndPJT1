@@ -36,9 +36,9 @@
                         
                        <div>
                         <div class="bnt">
-<%--                         <c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }"> --%>
+                        <c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
                        <input type="button" value="지점 등록" onclick="branchReg()"></div>
-<%--                         </c:if> --%>
+                        </c:if>
                         <div class="card mb-4">
                             <div class="card-header">
                             <!-- 지점 검색 기능 -->
@@ -216,8 +216,8 @@ $(document).ready(function() {
     				         	"<td>"+data.branch_add+"</td>",
     				         	"<td>"+data.branch_email+"</td>",
     				         	'<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>',    				            
-    				         	"<input type='button' value='수정' onclick='branchUpdate(\"" + data.branch_code + "\")' id='branchUpdate1'>" +
-    				            "<input type='button' value='삭제' onclick='branchDelete(\"" + data.branch_code + "\")' id='branchDelete1'>" +
+    				         	'<input type="button" value="수정" onclick="branchUpdate(\'' + data.branch_code + '\')" id="branchUpdate1">' +
+    				            '<input type="button" value="삭제" onclick="branchDelete(\'' + data.branch_code + '\')" id="branchDelete1">' +
     				            "</td>"
 
     				        	);
