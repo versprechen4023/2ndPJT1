@@ -30,11 +30,7 @@
 						</c:if>
 					</div>
 					<div class="card mb-4">
-						<!--                             <div class="card-header"> -->
-						<!--                                 <i class="fas fa-table me-1"></i> -->
-						<!--                                 DataTable Example -->
-						<!--                             </div> -->
-						<div class="card-body">
+						                            <div class="card-header">
 						<input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
   								<option value="buy_code">코드</option>
@@ -46,6 +42,9 @@
 							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
 								id="content">
 							<input type="button" name="search" value="조회" onclick="buySearch()">
+						                            </div>
+						<div class="card-body">
+
 							<table id="datatablesSimple">
 								<thead>
 									<!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
