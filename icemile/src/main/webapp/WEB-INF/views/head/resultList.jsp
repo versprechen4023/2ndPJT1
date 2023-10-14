@@ -36,7 +36,7 @@
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
                         </ol>
                         <div class="bnt">
-                        <c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
+                        <c:if test="${sessionScope.emp_role.charAt(2).toString() eq '1' }">
 							<input type="button" value="추가" id="rsAdd">
 							<input type="button" value="수정" id="rsupdate">
 							<input type="button" value="삭제" id="rsdelete">
@@ -74,7 +74,7 @@
                                             <th>작업 지시 코드</th>
                                             <th>작업 지시 완료 날짜</th>
                                             <th>라인 코드</th>
-                                            <th>완제품 코드</th>
+                                            <th>제품명</th>
                                             <th>지시 수량 (EA)</th>
                                             <th>양품 (EA)</th>
                                             <th>불량 (EA)</th>
@@ -99,12 +99,19 @@
     											</c:otherwise>
 											</c:choose>
                                             <td>${ResultDTO.line_code}</td>
-                                            <td>${ResultDTO.prod_code}</td>
+                                            <td>${ResultDTO.prod_name}</td>
                                             <td>${ResultDTO.order_amount}</td>
                                             <td>${ResultDTO.good_prod}</td>
                                             <td>${ResultDTO.faulty_prod}</td>
                                             <td>${ResultDTO.faulty_reason}</td>
-                                            <td>${ResultDTO.remark}</td>
+                                            <c:choose>
+   												<c:when test="${empty ResultDTO.remark}">
+        											<td>-</td>
+    											</c:when>
+    											<c:otherwise>
+        											<td>${ResultDTO.remark}</td>
+    											</c:otherwise>
+											</c:choose>
                                         </tr>
                                        </c:forEach>
                                     </tbody>
@@ -204,7 +211,7 @@ function resultSearch(){
 			        	"<td>"+data.work_code+"</td>",
 			        	"<td>"+data.done_date+"</td>",
 			        	"<td>"+data.line_code+"</td>",
-			        	"<td>"+data.prod_code+"</td>",
+			        	"<td>"+data.prod_name+"</td>",
 			        	"<td>"+data.order_amount+"</td>",
 			        	"<td>"+data.good_prod+"</td>",
 			        	"<td>"+data.faulty_prod+"</td>",
@@ -312,7 +319,7 @@ function getDate() {
 	    '<td><input type="text" id="work_code" name="work_code" placeholder="작업 지시 코드 선택" readonly></td>',
 	    '<td><input type="text" id="done_date" name="done_date" readonly></td>',
 	    '<td><input type="text" id="line_code" name="line_code" readonly></td>',
-	    '<td><input type="text" id="prod_code" name="prod_code" placeholder="완제품 코드 선택" readonly></td>',
+	    '<td><input type="text" id="prod_name" name="prod_name" readonly></td>',
 	    '<td><input type="text" id="order_amount" name="order_amount" ></td>',
 	    '<td><input type="text" id="good_prod" name="good_prod" placeholder="(자동으로 계산됨)" readonly></td>',
 	    '<td><input type="text" id="faulty_prod" name="faulty_prod" placeholder="불량품 개수 입력"></td>',
@@ -354,7 +361,7 @@ function getDate() {
 	            "work_code",
 	            "done_date",
 	            "line_code",
-	            "prod_code",
+	            "prod_name",
 	            "order_amount",
 	            "good_prod",
 	            "faulty_prod",
@@ -368,7 +375,7 @@ function getDate() {
 	            "work_code",
 	            "done_date",
 	            "line_code",
-	            "prod_code",
+	            "prod_name",
 	            "order_amount",
 	            "good_prod",
 	            "faulty_prod",
@@ -621,10 +628,10 @@ function getDate() {
 //		window.open('${pageContext.request.contextPath }/factory/facilityPopUp2', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 //	});// end function
 	
-	// 완제품 코드를 선택하면 새창을 여는 이벤트 리스너
-	$(document).on("click", "input[name='prod_code']", function() {
-		window.open('${pageContext.request.contextPath }/product/productListPopUp2', '_blank', 'width=590px, height=770px, left=600px, top=300px');
-	});// end function
+// 	// 완제품 코드를 선택하면 새창을 여는 이벤트 리스너
+// 	$(document).on("click", "input[name='prod_code']", function() {
+// 		window.open('${pageContext.request.contextPath }/product/productListPopUp2', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+// 	});// end function
 
 	// 숫자만 입력되야하는 텍스트필드의 이벤트 리스너
 	// 인풋 이벤트 대상이 되는 선택자 리스너 변수선언

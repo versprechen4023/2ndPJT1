@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 @RequestMapping("/buyOrder/*")
-public class BuyOrderContorller {
+public class BuyOrderController {
 	
 	@Inject // 멤버 서비스 의존성 주입
 	private BuyOrderService buyOrderService;
