@@ -40,8 +40,6 @@ public class SellController {
 		return "sell/branchReg";
 	}
 
-	// AOP 제외대상 어노테이션 선언
-	@UnUseAOP
 	@GetMapping("/branchList")
 	public String branch(Model model) {
 		log.debug("컨트롤러| 지점 목록 페이지");
