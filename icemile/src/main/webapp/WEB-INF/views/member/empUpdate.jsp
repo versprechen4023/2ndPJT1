@@ -28,24 +28,9 @@
 
 <tr><td class="tdbold">생년월일</td><td><input type="text" name="birthdate" id="birthdate" value="${memberDTO.birthdate }" readonly></td></tr>
 
-<tr><td class="tdbold">부서 선택</td><td><select name="dept_name" id="dept_name">
-			<option value="">부서를 선택하십시오</option>
-			<option value="0">관리자</option>
-   			<option value="1">인사팀</option>
-    		<option value="2">영업팀</option>
-    		<option value="3">생산팀</option>
-    		<option value="4">물류팀</option>
-		</select></td></tr>
+<tr><td class="tdbold">부서</td><td><input type="text" name="dept_name" id="dept_name" value="${memberDTO.dept_name}" readonly> </td></tr>
 
-<tr><td class="tdbold">직급 선택</td><td><select name="position" id="position">
-			<option value="">직급을 선택하십시오</option>
-			<option value="0">관리자</option>
-    		<option value="1">사원</option>
-    		<option value="2">대리</option>
-    		<option value="3">과장</option>
-    		<option value="4">차장</option>
-    		<option value="5">부장</option>
-		</select></td></tr>
+<tr><td class="tdbold">직급</td><td><input type="text" name="position" id="position" value="${memberDTO.position }" readonly></td></tr>
 		
 <tr><td class="tdbold">전화번호</td><td><input type="text" name="phone_num" id="phone_num" value="${memberDTO.phone_num }"></td></tr>
 		
@@ -72,35 +57,34 @@
 <tr><td class="tdbold">권한설정</td><td><label for="dept1">
 			<input type="checkbox" id="dept1" name="role" value="1000" 
 			<c:if test="${memberDTO.emp_role.charAt(0).toString() eq '1' }">checked</c:if>
-			<c:if test="${memberDTO.position != '5' && memberDTO.position != '0'}">disabled</c:if>>인사
+			disabled>인사
 		</label>
 		<label for="dept2">
 			<input type="checkbox" id="dept2" name="role" value="100" 
 			<c:if test="${memberDTO.emp_role.charAt(1).toString() eq '1' }">checked</c:if>
-			<c:if test="${memberDTO.position != '5' && memberDTO.position != '0'}">disabled</c:if>>영업
+			disabled>영업
 		</label>
 		<label for="dept3">
 			<input type="checkbox" id="dept3" name="role" value="10" 
 			<c:if test="${memberDTO.emp_role.charAt(2).toString() eq '1' }">checked</c:if>
-			<c:if test="${memberDTO.position != '5' && memberDTO.position != '0'}">disabled</c:if>>생산
+			disabled>생산
 		</label>
 		<label for="dept4">
 			<input type="checkbox" id="dept4" name="role" value="1" 
 			<c:if test="${memberDTO.emp_role.charAt(3).toString() eq '1' }">checked</c:if>
-			<c:if test="${memberDTO.position != '5' && memberDTO.position != '0'}">disabled</c:if>>물류
+			disabled>물류
 		</label></td></tr>
 </table>
 
 		<span id="msg"></span>
 
 		<div id="bottomContainer"> 
-		<!-- 등록 버튼 -->
-			<input type="submit" id="btn" value="등록">			
+		<!-- 수정 버튼 -->
+			<input type="button" id="btn" value="수정">		
 		</div>
 		
 
 		<input type="hidden" id="emp_num" name="emp_num" value="${memberDTO.emp_num }">
-		<input type="hidden" id="emp_role" name="emp_role" value="">
 		<input type="hidden" id="email" name="email" value="">
 		<input type="hidden" id="address" name="address" value="">
 	</form>
@@ -131,18 +115,11 @@ src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"><
 
 <script>
 //전역변수 선언
-var selectedDept = '${memberDTO.dept_name}';
 var currentDate = new Date();
-var position = '${memberDTO.position}';
 var email = '${memberDTO.email}';
 var address = '${memberDTO.address}';
-var emp_role = '${memberDTO.emp_role}';
 
 // 기존값 필드설정 관련
-
-// 직급, 부서 기존값에 따라 필드에 설정
-document.getElementById("dept_name").value = selectedDept;
-document.getElementById("position").value = position;
 
 // 기존 이메일 처리
 
@@ -238,54 +215,9 @@ function updateEmailDns() {
 
 // J쿼리 함수 시작지점
 $(document).ready(function() {
-	
-	// 부서 선택이 변경되었을 때
-    $('#dept_name').on('change', function () {
-        selectedDept = $(this).val();
-        
-     	// 권한 초기화
-        $('[name="role"]').prop('checked', false);
-     
-     	// 해당 부서에 대한 권한 체크박스 checked로 변경
-        // 관리자일경우에는 전체체크 및 직급 관리자 자동 설정
-        if(selectedDept == '0'){
-        	$('[name="role"]').prop('checked', true);
-        	
-        	// 선택자 지정후 변수에 담기
-        	var positionSelect = document.getElementById("position").value = 0;
-        	// 관리자 선택
-        	positionSelect.value = "0";
-        } else {
-       		$('#dept' + selectedDept).prop('checked', true);
-        }
-    });
-
-    // 직급 선택이 변경되었을 때
-    $('#position').on('change', function () {
-        var selectedPosition = $(this).val();
-        
-        if (selectedPosition === '5') {
-        	// 선택된 직급이 부장일 경우 모든 체크박스를 선택 할 수 있다
-        	$('[name="role"]').prop('disabled', false);
-        } else {
-        	$('[name="role"]').prop('disabled', true);
-            $('[name="role"]').prop('checked', false);
-            $('#dept' + selectedDept).prop('checked', true);
-        }
-    });
     
-    // 서브밋 될때 실행
-    $('form').on('submit', function () {
-        // 체크된 체크박스들의 값을 합산할 변수 초기화
-        var sum = 0;
-        
-        // 체크된 체크박스들을 순회하며 값을 합산
-        $('[name="role"]:checked').each(function () {
-            sum += parseInt($(this).val());
-        });
-        
-        // 합산된 값을 emp_role 입력 필드에 설정
-        $('#emp_role').val(sum);
+	// 서브밋 될때 실행
+    function mergeData() {
         
         // 이메일 값 합산 설정
         // 입력이메일을 가져오기위한 변수선언
@@ -303,7 +235,7 @@ $(document).ready(function() {
         
         // 주소값을 합쳐서 address 필드에 저장
         $("#address").val(addr1 + "" + addr2 + " " + addr3);
-    });
+    }
     
     // 이미지 파일 관리
     $("#file").change(function () {
@@ -318,42 +250,93 @@ $(document).ready(function() {
         }
     });
     
+ 	// 중복검사 관련함수
+    function isCanUseEmail() {
+    	
+    	// 검증할 이메일을 가져온다
+    	var myEmail = $("#email").val();
+    	
+    	// 결과값 반환을 위한 변수선언
+    	var myBoolean = true;
+    	
+    	// 기존 이메일과 일치하다면 그대로 실행
+    	if(myEmail == email){
+    		return false;
+    	}
+    	
+    	$.ajax({
+		  	type: "GET",
+	        url: "${pageContext.request.contextPath}/member_ajax/searchEmail",
+	        data: {"email": myEmail},
+	        // 조건문 발동을 위해 비동기로 처리
+	        async: false,
+	        success: function(response) {
+	        	// 공백을 제거한다
+        		const result = $.trim(response);
+        		// 이미 값이 존재한다면 true 를 반환한다
+	        	if(result == "true"){
+	        		myBoolean = true;
+	        	} else {
+	        		myBoolean = false;
+	        	}
+	        	
+	        },//success 콜백함수 종료지점
+	        error: function () {
+	        	myBoolean = true;
+	        }
+	  	});// end ajax
+	  	
+    	return myBoolean;
+	} // end function
+	
+	function isCanUsePhone() {
+    	
+		// 검증할 전화번호를 가져온다
+    	var myPhone = $("#phone_num").val();
+		// 결과값 반환을 위한 변수선언
+    	var myBoolean = true;
+		
+		// 기존전화번호를 가져온다
+		var phone = '${memberDTO.phone_num}';
+    	// 기존 전화번호와 일치하다면 그대로 실행
+    	if(myPhone == phone){
+    		return false;
+    	}
+    	
+    	$.ajax({
+		  	type: "GET",
+	        url: "${pageContext.request.contextPath}/member_ajax/searchPhone",
+	        data: {"phone_num": myPhone},
+	        // 조건문 발동을 위해 비동기로 처리
+	        async: false,
+	        success: function(response) {
+	        	// 공백을 제거한다
+        		const result= $.trim(response);
+	        	// 이미 값이 존재한다면 true 를 반환한다
+	        	if(result == "true"){
+	        		myBoolean = true;
+	        	} else {
+	        		myBoolean = false;
+	        	}
+	        	
+	        },//success 콜백함수 종료지점
+	        error: function () {
+	        	myboolean = true;
+            }
+	  	});// end ajax
+	  	
+		return myBoolean;
+	} // end function
+    
   	//서브밋 제어
-    $('#signup').submit(function(event) {
+    $('#btn').click(function() {
     	
-    	if($('#emp_name').val() == ""){
-    		$('#msg').text("이름을 입력하십시오."); 
-    		$('#emp_name').focus();
-    		return false;
-    	}
-    	
-    	if($('#birthdate').val() == ""){
-    		$('#msg').text("생일을 입력하십시오.");
-    		$('#birthdate').focus();
-    		return false;
-    	}
-    	
-    	if($('#dept_name').val() == ""){
-    		$('#msg').text("부서를 선택하십시오.");  
-    		$('#dept_name').focus();
-    		return false;
-    	}
-    	
-    	if($('#position').val() == ""){
-    		$('#msg').text("직급을 선택하십시오.");
-    		$('#position').focus();
-    		return false;
-    	}
+    	// 데이터 병합실행
+   	 	mergeData();
     	
     	if($('#phone_num').val() == ""){
     		$('#msg').text("전화번호를 입력해주세요.");
     		$('#phone_num').focus();
-    		return false;
-    	}
-    	
-    	if($('#hotline').val() == ""){
-    		$('#msg').text("내선번호를 입력하십시오.");
-    		$('#hotline').focus();
     		return false;
     	}
     	
@@ -367,21 +350,39 @@ $(document).ready(function() {
     		return false;
     	}
     	
-    	if($('#hire_date').val() == ""){
-    		$('#msg').text("입사일을 입력하십시오.");
-    		$('#hire_date').focus();
+    	// 정규식 검사
+    	// 검사를 위한 변수선언
+		var regEmail = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		var regPhone = /^[0-9]{9,11}$/;
+		
+		if (!regEmail.test($('#email_dns').val())) {
+			$('#msg').text("유효한 이메일 주소를 입력해주세요.");
+			$('#email_dns').focus();
     		return false;
-    	}
-    	
-    	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
-    	 event.preventDefault(); // 기본 폼 제출 동작을 막음
+		}
+		
+		if (!regPhone.test($('#phone_num').val())) {
+			$('#msg').text("- 없이 올바른 전화번호를 입력해주십시오.");
+			$('#phone_num').focus();
+    		return false;
+		}
+		
+		if(isCanUseEmail()){
+			$('#msg').text("이미 등록된 이메일입니다.");
+			return false;
+		}
+		if(isCanUsePhone()){
+			$('#msg').text("이미 등록된 전화번호 입니다.");
+			$('#phone_num').focus();
+			return false;
+		}
     		
     	 // 폼 데이터 객체생성
-    	 var formData = new FormData(this);
+    	 var formData = new FormData(document.getElementById('signup'));
          
          $.ajax({
              type: "POST",
-             url: "${pageContext.request.contextPath}/member_ajax/update",
+             url: "${pageContext.request.contextPath}/member_ajax/userUpdate",
              data: formData,
              contentType: false, // 멀티파트를 처리하기위해 객체를 직렬화하지 않고 직접 AJAX 통신할 수 있도록 설정
              processData: false, 

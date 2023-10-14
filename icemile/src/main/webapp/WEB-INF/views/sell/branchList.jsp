@@ -40,12 +40,7 @@
                        <input type="button" value="지점 등록" onclick="branchReg()"></div>
                         </c:if>
                         <div class="card mb-4">
-<!--                             <div class="card-header"> -->
-<!--                                 <i class="fas fa-table me-1"></i> -->
-<!--                                 DataTable Example -->
-<!--                             </div> -->
-                            <div class="card-body">
-                            
+                            <div class="card-header">
                             <!-- 지점 검색 기능 -->
 							<select id="category">
   								<option value="branch_code">지점코드</option>
@@ -56,6 +51,9 @@
 								id="content">
 							<input type="button" name="search" value="조회" onclick="branchSearch()">
                             <!-- 지점 검색 기능 -->
+                            </div>
+                            <div class="card-body">
+                            
                             
                                 <table id="datatablesSimple">
                                 
