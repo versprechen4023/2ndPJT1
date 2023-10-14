@@ -37,11 +37,7 @@
 <input type="button" value="추가" onclick="in_material_add()">
 </div>
 <div class="card mb-4">
-<!--                             <div class="card-header"> -->
-<!--                                 <i class="fas fa-table me-1"></i> -->
-<!--                                 DataTable Example -->
-<!--                             </div> -->
-<div class="card-body">
+                            <div class="card-header">
 <select id="category" name="category">
 	<option value="in_code">입고 코드</option>
   	<option value="in_wh_code">창고 코드</option>
@@ -49,6 +45,9 @@
 </select>
 <input type="text" name="content" size="60" placeholder="검색어를 입력하세요" id="content">
 <input type="button" name="inMateSearch" value="검색" onclick="inMateSearch()">
+                            </div>
+<div class="card-body">
+
 <table id="datatablesSimple">
                                 
 <thead>

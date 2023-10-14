@@ -56,17 +56,18 @@
 						</div>
 
 						<div class="card mb-4">
+								<div class="card-header">
+											<input type="button" name="allList" value="전체목록" onclick="location.reload();"> 
+											<select id="category">
+													<option value="out_code">출고 지점</option>
+													<option value="out_wh_code">창고코드</option>
+													<option value="order_code">수주코드</option>
+													<option value="out_status">담당자</option>
+											</select> 
+											<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content"> 
+											<input type="button" name="search" id="inputmtSearch" value="조회">
+								</div>
 							<div class="card-body">
-
-								<input type="button" name="allList" value="전체목록"
-									onclick="location.reload();"> <select id="category">
-									<option value="out_code">출고 지점</option>
-									<option value="out_wh_code">창고코드</option>
-									<option value="order_code">수주코드</option>
-									<option value="out_status">담당자</option>
-								</select> <input type="text" name="content" size=60
-									placeholder="검색어를 입력하세요" id="content"> <input
-									type="button" name="search" id="inputmtSearch" value="조회">
 
 								<table id="datatablesSimple">
 									<thead>
@@ -81,7 +82,7 @@
 											<th>출고현황</th>
 										</tr>
 									</thead>
-									=
+
 
 									<tbody>
 										<c:forEach var="outMaterialDTO" items="${outMaterialList}">

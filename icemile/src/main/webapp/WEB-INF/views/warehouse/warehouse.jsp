@@ -44,21 +44,22 @@
 						</div>
 
 						<div class="card mb-4">
+								<div class="card-header">
+									<!--location.reload() 함수를 호출하여 현재 웹 페이지를 다시 로드하도록 지정합니다. -->
+									<input type="button" name="allList" value="전체목록" onclick="location.reload();"> 
+											<select id="category">
+													<option value="wh_code">코드</option>
+													<option value="wh_name">이름</option>
+													<option value="wh_type">종류</option>
+													<option value="wh_location">위치</option>
+													<option value="wh_status">가용상태</option>
+													<option value="emp_num">담당자</option>
+											</select> 
+									<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content"> 
+									<input type="button" name="search" id="inputwhSearch" value="조회">
+								</div>
+						
 							<div class="card-body">
-								<!--location.reload() 함수를 호출하여 현재 웹 페이지를 다시 로드하도록 지정합니다. -->
-								<input type="button" name="allList" value="전체목록"
-									onclick="location.reload();"> <select id="category">
-									<option value="wh_code">코드</option>
-									<option value="wh_name">이름</option>
-									<option value="wh_type">종류</option>
-									<option value="wh_location">위치</option>
-									<option value="wh_status">가용상태</option>
-									<option value="emp_num">담당자</option>
-								</select> <input type="text" name="content" size=60
-									placeholder="검색어를 입력하세요" id="content"> <input
-									type="button" name="search" id="inputwhSearch" value="조회">
-
-
 								<table id="datatablesSimple">
 									<thead>
 										<tr>

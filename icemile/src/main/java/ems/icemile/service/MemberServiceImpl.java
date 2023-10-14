@@ -177,4 +177,11 @@ public class MemberServiceImpl implements MemberService {
 		
 		return memberDAO.memberReset(memberDTO);
 	}
+
+	public boolean userUpdate(MemberDTO memberDTO) {
+		
+		log.debug("userUpdate 서비스");
+		
+		return memberDAO.userUpdate(memberDTO);
+	}
 }

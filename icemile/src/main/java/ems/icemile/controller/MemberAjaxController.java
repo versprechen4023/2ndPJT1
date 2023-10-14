@@ -91,6 +91,8 @@ public class MemberAjaxController {
 		return Boolean.toString(memberService.memberInsert(memberDTO));
 	} // end memberInsert
 	
+	// 관리자 권한제어를 위한 어노테이션 선언
+	@Departments
 	@PostMapping("/update")
 	public String memberUpdate(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file, HttpSession session) throws Exception {
 		
@@ -122,6 +124,39 @@ public class MemberAjaxController {
 		}
 		
 		return Boolean.toString(memberService.memberUpdate(memberDTO));
+	} // end memberUpdate
+	
+	@PostMapping("/userUpdate")
+	public String userUpdate(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file, HttpSession session) throws Exception {
+		
+		log.debug("값 잘 넘어오나 "+memberDTO.toString());
+		
+		// 프로필 사진 업로드 처리
+		// 파일이 있다면 업로드 처리 시작
+		if(file.getSize() > 0 ) {
+	        
+			// 업로드 경로 지정
+			String uploadDir = "/resources/upload"; 
+			String saveDir = session.getServletContext().getRealPath(uploadDir);
+			
+			log.debug("실제 파일 업로드 주소 : "+saveDir);
+			
+			// 폴더가 없다면 생성
+			File uploadFolder = new File(saveDir);
+	        if (!uploadFolder.exists()) {
+	            uploadFolder.mkdirs();
+	        }
+			
+			// 사진 이름 얻어오기 중복되지않기 위해 랜덤값 부여 나중에 _전으로 잘라서 표기하면됨
+			String photo = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+			// 멤버 DTO에 등록
+			memberDTO.setProfilepic(photo);
+			
+			// 파일 저장 실행
+			file.transferTo(new File(saveDir + File.separator + photo));
+		}
+		
+		return Boolean.toString(memberService.userUpdate(memberDTO));
 	} // end memberUpdate
 	
 	@PostMapping("updatePassword")
