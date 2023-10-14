@@ -215,7 +215,8 @@ $(document).ready(function() {
     				         	"<td>"+data.branch_post+"</td>",
     				         	"<td>"+data.branch_add+"</td>",
     				         	"<td>"+data.branch_email+"</td>",
-    				         	'<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>',    				            
+    				         	'<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>',
+    				         	"<td>" +
     				         	'<input type="button" value="수정" onclick="branchUpdate(\'' + data.branch_code + '\')" id="branchUpdate1">' +
     				            '<input type="button" value="삭제" onclick="branchDelete(\'' + data.branch_code + '\')" id="branchDelete1">' +
     				            "</td>"
