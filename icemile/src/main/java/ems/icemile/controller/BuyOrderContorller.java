@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ems.icemile.annotation.Business;
 import ems.icemile.dto.ProductDTO;
 import ems.icemile.dto.RawOrderDTO;
 import ems.icemile.dto.RowOrderListDTO;
@@ -52,6 +53,8 @@ public class BuyOrderContorller {
 		return "buyOrder/rawOrderList";
 	}
 	
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@PostMapping("/rawOrderUpdate")
 	@ResponseBody
 	public boolean rawOrderUpdate(RawOrderDTO rawOrderDTO) {
@@ -62,6 +65,8 @@ public class BuyOrderContorller {
 		return buyOrderService.rawOrderUpdate(rawOrderDTO);
 	}
 	
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@PostMapping("/rawOrderInsert")
 	@ResponseBody
 	public boolean rawOrderInsert(RawOrderDTO rawOrderDTO) {
@@ -72,6 +77,8 @@ public class BuyOrderContorller {
 		return buyOrderService.rawOrderInsert(rawOrderDTO);
 	}
 	
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@PostMapping("/rawOrderDelete")
 	@ResponseBody
 	public boolean rawOrderDelete(@RequestParam("selectedRawOrderId") String[] selectedRawOrderId) {

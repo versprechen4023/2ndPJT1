@@ -3,15 +3,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 헤드 -->
-<jsp:include page="../include/head.jsp"></jsp:include>
-<!-- 헤드 -->
-<link href="../resources/css/addTableVertical.css" rel="stylesheet" />	
+  <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>아이스마일</title>
+	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+ 		<link href="../resources/css/addTableVertical.css" rel="stylesheet" />
 </head>
 
 <body>
 				<!-- 내용들어가는곳 -->
-	<form name="registration" id="registration">
+	<form id="buyListUpdate" name="buyListUpdate">
 		<h1>거래처 수정</h1>
 
 <table>
@@ -79,10 +83,9 @@
 </table>
 
 <span id="msg"></span>
-
-<!-- 등록 버튼 -->
 <div id="bottomContainer"> 
-	<input type="submit" id="btn" value="등록">
+<!-- 등록 버튼 -->
+	<input type="button" id="btn" value="수정">
 </div>
 
 		<input type="hidden" id="buy_email" name="buy_email" value="">
@@ -339,33 +342,33 @@ $(document).ready(function() {
    	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
    		
    	// 데이터를 전송하기위한 폼 데이터 직렬화
-    	var formData = $('#registration').serialize();
+    	var formData = $('#buyListUpdate').serialize();
          
-         $.ajax({
-             type: "POST",
-             url: "${pageContext.request.contextPath}/buy_ajax/update",
-             data: formData,
-             success: function (response) {
-            	 
-            	 const result = $.trim(response);
-            	 
-                 if (result == "true") {
-                	 Swal.fire('정보 입력이 완료되었습니다.', '성공', 'success').then(result => {
+    	$.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/buy_ajax/update",
+            data: formData,
+            success: function (response) {
+           	 
+           	 const result = $.trim(response);
+           	 
+                if (result == "true") {
+               	 Swal.fire('정보 수정이 완료되었습니다.', '성공', 'success').then(result => {
 					 	if(result.isConfirmed)
 						// 완료 창을 닫으면 부모창 새로고침
 						window.opener.location.reload();
 						window.close(); // 성공 시 창 닫기
 					 });
-                 } else {
-                	 Swal.fire('정보 입력에 실패했습니다.', '실패', 'error');
-                 }
-             },
-             error: function () {
-            	 Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
-             }
-         });
-    	
-    });//submit기능 제어 끝
+                } else {
+               	 Swal.fire('수정에 실패했습니다.', '실패', 'error');
+                }
+            },
+            error: function () {
+           	 Swal.fire('서버통신에 문제가 발생했습니다.', '실패', 'error');
+            }
+        });
+   	
+   });//submit기능 제어 끝
 });
 </script>
 	<script

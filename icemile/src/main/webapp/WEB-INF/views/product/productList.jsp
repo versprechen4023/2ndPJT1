@@ -36,12 +36,8 @@
 						</c:if>
                         </div>
                         <div class="card mb-4">
-<!--                             <div class="card-header"> -->
-<!--                                 <i class="fas fa-table me-1"></i> -->
-<!--                                 DataTable Example -->
-<!--                             </div> -->
-                            <div class="card-body">
-                            <input type="button" name="allList" value="전체목록" onclick="location.reload();">
+                            <div class="card-header">
+                           <input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
   								<option value="prod_code">코드</option>
   								<option value="prod_name">품명</option>
@@ -50,6 +46,9 @@
 							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
 								id="content">
 							<input type="button" name="search" value="조회" onclick="productSearch()">
+                            </div>
+                            <div class="card-body">
+ 
                                 <table id="datatablesSimple">
                                 
                                     <thead>

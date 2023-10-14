@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ems.icemile.annotation.UnUseAOP;
 import ems.icemile.service.MainServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +24,28 @@ public class MainController {
 		log.debug("index");
 		
 		return "main/index";
+	}
+	
+	// AOP 제외대상 어노테이션 선언
+	@UnUseAOP
+	// 권한 에러 메시지 페이지
+	@GetMapping("/noPermission")
+	public String noPermission() {
+		
+		log.debug("main/401.jsp");
+		
+		return "main/401";
+	}
+	
+	// AOP 제외대상 어노테이션 선언
+	@UnUseAOP
+	// 에러 메시지 페이지
+	@GetMapping("/error")
+	public String error() {
+			
+		log.debug("main/500.jsp");
+			
+		return "main/500";
 	}
 
 	@GetMapping("/tables")

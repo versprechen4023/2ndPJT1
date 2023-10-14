@@ -29,13 +29,11 @@
 						<input type="button" value="사원등록" onclick="memberInsert()">
 						</c:if>
 					</div>
+					
 					<div class="card mb-4">
-						<!--                             <div class="card-header"> -->
-						<!--                                 <i class="fas fa-table me-1"></i> -->
-						<!--                                 DataTable Example -->
-						<!--                             </div> -->
-						<div class="card-body">
-						<input type="button" name="allList" value="전체목록" onclick="location.reload();">
+					
+						<div class="card-header">
+							<input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
   								<option value="emp_name">이름</option>
   								<option value="position">직급</option>
@@ -43,9 +41,11 @@
   								<option value="dept_name">부서</option>
   								<option value="email">이메일</option>
 							</select>
-							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
-								id="content">
+							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content">
 							<input type="button" name="search" value="조회" onclick="memberSearch()">
+						</div>
+						
+						<div class="card-body">
 							<table id="datatablesSimple">
 								<thead>
 									<!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
@@ -61,6 +61,7 @@
 										</c:if>
 									</tr>
 								</thead>
+								
 								<tbody id="tbody">
 									<c:forEach var="memberDTO" items="${memberList}">
 										<tr>
@@ -82,6 +83,7 @@
 										</tr>
 									</c:forEach>
 								</tbody>
+								
 							</table>
 						</div>
 					</div>

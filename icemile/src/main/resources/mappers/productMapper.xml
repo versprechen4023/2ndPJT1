@@ -131,6 +131,11 @@
 			 <foreach collection="list" item="raw_order_code" open="(" separator="," close=")">
 			  	#{raw_order_code}
 			 </foreach>
+		OR prod_code IN
+		   	 <foreach collection="list" item="work_code" open="(" separator="," close=")">
+           		#{work_code}
+        	 </foreach>
+		
  </delete>
 
  

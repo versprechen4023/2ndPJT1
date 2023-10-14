@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Tables - SB Admin</title>
+        <title>아이스마일</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="../resources/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -75,9 +75,9 @@
                                             <th>작업 지시 완료 날짜</th>
                                             <th>라인 코드</th>
                                             <th>완제품 코드</th>
-                                            <th>지시 수량</th>
-                                            <th>양품</th>
-                                            <th>불량</th>
+                                            <th>지시 수량 (EA)</th>
+                                            <th>양품 (EA)</th>
+                                            <th>불량 (EA)</th>
                                             <th>불량 사유</th>
                                             <th>비고</th>
 
@@ -100,9 +100,9 @@
 											</c:choose>
                                             <td>${ResultDTO.line_code}</td>
                                             <td>${ResultDTO.prod_code}</td>
-                                            <td>${ResultDTO.order_amount}EA</td>
-                                            <td>${ResultDTO.good_prod}EA</td>
-                                            <td>${ResultDTO.faulty_prod}EA</td>
+                                            <td>${ResultDTO.order_amount}</td>
+                                            <td>${ResultDTO.good_prod}</td>
+                                            <td>${ResultDTO.faulty_prod}</td>
                                             <td>${ResultDTO.faulty_reason}</td>
                                             <td>${ResultDTO.remark}</td>
                                         </tr>
@@ -112,8 +112,8 @@
 </form>
                             </div>
                         </div>
-                        <input type="button" value="엑셀파일다운" id="excelRS">
-                    </div>
+                      </div>
+                      <input type="button" value="엑셀파일다운" id="excelRS">
                 <!-- 내용 들어가는 곳 -->   
                 </main>
                 
@@ -309,15 +309,15 @@ function getDate() {
 	  $tr.append(
 	    '<td><input type="checkbox" name="selectedRSList" disabled></td>',
 	    '<td><input type="text" id="result_code" name="result_code" placeholder="(자동으로 부여)" readonly></td>',
-	    '<td><input type="text" id="work_code" name="work_code" readonly></td>',
+	    '<td><input type="text" id="work_code" name="work_code" placeholder="작업 지시 코드 선택" readonly></td>',
 	    '<td><input type="text" id="done_date" name="done_date" readonly></td>',
 	    '<td><input type="text" id="line_code" name="line_code" readonly></td>',
-	    '<td><input type="text" id="prod_code" name="prod_code" readonly></td>',
+	    '<td><input type="text" id="prod_code" name="prod_code" placeholder="완제품 코드 선택" readonly></td>',
 	    '<td><input type="text" id="order_amount" name="order_amount" ></td>',
 	    '<td><input type="text" id="good_prod" name="good_prod" placeholder="(자동으로 계산됨)" readonly></td>',
-	    '<td><input type="text" id="faulty_prod" name="faulty_prod" ></td>',
-	    '<td><input type="text" id="faulty_reason" name="faulty_reason" ></td>',
-	    '<td><input type="text" id="remark" name="remark" value="없음"></td>'
+	    '<td><input type="text" id="faulty_prod" name="faulty_prod" placeholder="불량품 개수 입력"></td>',
+	    '<td><input type="text" id="faulty_reason" name="faulty_reason" placeholder="불량 사유 입력" ></td>',
+	    '<td><input type="text" id="remark" name="remark" placeholder="입력해 주세요"></td>'
 	  );
 
 	  // 생성한 <tr> 요소를 tbody에 추가
@@ -616,10 +616,10 @@ function getDate() {
 		window.open('${pageContext.request.contextPath }/factory/workOrderPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 	});// end function
 	
-	// 라인 코드를 선택하면 새창을 여는 이벤트 리스너
-	$(document).on("click", "input[name='line_code']", function() {
-		window.open('${pageContext.request.contextPath }/factory/facilityPopUp2', '_blank', 'width=590px, height=770px, left=600px, top=300px');
-	});// end function
+//	// 라인 코드를 선택하면 새창을 여는 이벤트 리스너
+//	$(document).on("click", "input[name='line_code']", function() {
+//		window.open('${pageContext.request.contextPath }/factory/facilityPopUp2', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+//	});// end function
 	
 	// 완제품 코드를 선택하면 새창을 여는 이벤트 리스너
 	$(document).on("click", "input[name='prod_code']", function() {

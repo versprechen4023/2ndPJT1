@@ -34,14 +34,22 @@
     								<option value="4">물류팀</option>
 							     </select> </td></tr>
 <tr><td class="tdbold">직급</td><td><select name="position" id="position">
-									<option value="">직급을 선택하십시오</option>
+<c:out value="${memberDTO.position}"></c:out>
+					<c:choose>
+						<c:when test="${memberDTO.position eq '0'}">
+							<option value="0">관리자</option>
+						</c:when>
+						<c:otherwise>
+							<option value="">직급을 선택하십시오</option>
 									<option value="0">관리자</option>
     								<option value="1">사원</option>
     								<option value="2">대리</option>
     								<option value="3">과장</option>
     								<option value="4">차장</option>
     								<option value="5">부장</option>
-							    	</select>  </td></tr>
+						</c:otherwise>
+					</c:choose>
+								   </select></td></tr>
 <tr><td class="tdbold">전화번호</td><td><input type="text" name="phone_num" id="phone_num" value="${memberDTO.phone_num }"></td></tr>
 <tr><td class="tdbold">내선번호</td><td><input type="text" name="hotline" id="hotline" value="${memberDTO.hotline}"></td></tr>
 <tr><td class="tdbold">이메일</td><td>	<input type="text" name="email_id" id="email_id"> @ 
@@ -61,22 +69,22 @@
 <tr><td class="tdbold">권한설정</td><td><label for="dept1">
 								<input type="checkbox" id="dept1" name="role" value="1000" 
 								<c:if test="${memberDTO.emp_role.charAt(0).toString() eq '1' }">checked</c:if>
-								<c:if test="${memberDTO.position != '5' && memberDTO.position != '0'}">disabled</c:if>>인사
+								<c:if test="${memberDTO.position != '5'}">disabled</c:if>>인사
 								</label>
 									<label for="dept2">
 								<input type="checkbox" id="dept2" name="role" value="100" 
 								<c:if test="${memberDTO.emp_role.charAt(1).toString() eq '1' }">checked</c:if>
-								<c:if test="${memberDTO.position != '5' && memberDTO.position != '0'}">disabled</c:if>>영업
+								<c:if test="${memberDTO.position != '5'}">disabled</c:if>>영업
 								</label>
 									<label for="dept3">
 								<input type="checkbox" id="dept3" name="role" value="10" 
 								<c:if test="${memberDTO.emp_role.charAt(2).toString() eq '1' }">checked</c:if>
-								<c:if test="${sessionScope.position != '5' && memberDTO.position != '0'}">disabled</c:if>>생산
+								<c:if test="${memberDTO.position != '5'}">disabled</c:if>>생산
 								</label>
 									<label for="dept4">
 								<input type="checkbox" id="dept4" name="role" value="1" 
 								<c:if test="${memberDTO.emp_role.charAt(3).toString() eq '1' }">checked</c:if>
-								<c:if test="${memberDTO.position != '5' && memberDTO.position != '0'}">disabled</c:if>>물류
+								<c:if test="${memberDTO.position != '5'}">disabled</c:if>>물류
 								</label>	</td></tr>
 </table>	
 
@@ -226,21 +234,64 @@ $(document).ready(function() {
 	
 	// 부서 선택이 변경되었을 때
     $('#dept_name').on('change', function () {
+    	
+    	// 이벤트가 발생하는 첫번째 셀렉트 태그를 선택한다
         selectedDept = $(this).val();
+        // 두번째 셀렉트 태그(직급)를 변수에 담는다
+        var $position = $('#position');
         
      	// 권한 초기화
         $('[name="role"]').prop('checked', false);
-     
-     	// 해당 부서에 대한 권한 체크박스 checked로 변경
+        $('[name="role"]').prop('disabled', true);
+        
+        // 해당 부서에 대한 권한 체크박스 checked로 변경
         // 관리자일경우에는 전체체크 및 직급 관리자 자동 설정
         if(selectedDept == '0'){
         	$('[name="role"]').prop('checked', true);
         	
+        	// 직급 선택 초기화
+        	$position.empty();
+        	
+        	var $option = $('<option>', {
+        		value: "0",
+        		text: "관리자"
+      			});//end var
+    			
+    		// 최종값을 셀렉트 태그에 추가한다
+      		$position.append($option);
+      			
         	// 선택자 지정후 변수에 담기
         	var positionSelect = document.getElementById("position").value = 0;
         	// 관리자 선택
         	positionSelect.value = "0";
         } else {
+        	
+        	// 직급 선택 초기화
+        	$position.empty();
+        	
+        	// 셀렉트 값에 담을 배열 변수 선언
+       		var options = [
+       			{ value: "", text: "직급을 선택하십시오" },
+          		{ value: "1", text: "사원" },
+          		{ value: "2", text: "대리" },
+          		{ value: "3", text: "과장" },
+          		{ value: "4", text: "차장" },
+          		{ value: "5", text: "부장" },
+        	];
+        
+        	// 옵션을 배열에서 반복하여 추가
+        	for (var i = 0; i < options.length; i++) {
+        		
+        		// 타입은 옵션 밸류값과 텍스트값은 배열에서 가져온다
+          		var $option = $('<option>', {
+            		value: options[i].value,
+            		text: options[i].text
+          			});
+        			
+        			// 최종값을 셀렉트 태그에 추가한다
+          			$position.append($option);
+        	}// end for
+      			
        		$('#dept' + selectedDept).prop('checked', true);
         }
     });
@@ -253,6 +304,7 @@ $(document).ready(function() {
         	// 선택된 직급이 부장일 경우 모든 체크박스를 선택 할 수 있다
         	$('[name="role"]').prop('disabled', false);
         } else {
+        	$('[name="role"]').prop('disabled', true);
             $('[name="role"]').prop('checked', false);
             $('#dept' + selectedDept).prop('checked', true);
         }

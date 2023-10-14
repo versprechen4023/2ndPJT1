@@ -1,9 +1,7 @@
 package ems.icemile.controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -14,10 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ems.icemile.annotation.Departments;
+import ems.icemile.annotation.Logistics;
+import ems.icemile.annotation.Production;
+import ems.icemile.annotation.UnUseAOP;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.enums.Department;
 import ems.icemile.enums.Position;
@@ -32,6 +32,8 @@ public class MemberController {
 	@Inject // 멤버 서비스 의존성 주입
 	private MemberServiceImpl memberService;
 	
+	// AOP 제외대상 어노테이션 선언
+	@UnUseAOP
 	@GetMapping("/login")
 	public String login() {
 		
@@ -40,6 +42,8 @@ public class MemberController {
 		return "member/login";
 	}// end_of_login
 	
+	// AOP 제외대상 어노테이션 선언
+	@UnUseAOP
 	@PostMapping("/login")
 	public String loginPro(MemberDTO memberDTO, HttpSession session, RedirectAttributes msg) {
 		
@@ -62,23 +66,22 @@ public class MemberController {
 		
 	}//end_of_loginPro
 	
+	// 관리자 권한제어를 위한 어노테이션 선언
+	@Departments
 	@GetMapping("/memberInsert")
 	public String memberInsert(HttpSession session) {
 		
-		// 세션 검증
-		if(session.getAttribute("emp_num")==null){
-			return "redirect:/member/login";
-		};
-		
-		log.debug("사용자 추가 페이지");
+		log.debug("관리자 사용자 추가 페이지 member/memberInsert.jsp");
 		
 		return "member/memberInsert";
-	}
+	} // end memberInsert
 	
+	// 관리자 권한제어를 위한 어노테이션 선언
+	@Departments
 	@GetMapping("/memberUpdate")
 	public String memberUpdate(@RequestParam("emp_num") String emp_num, Model model) {
 		
-		log.debug("사용자 수정 페이지");
+		log.debug("관리자 사용자 수정 페이지 member/memberUpdate.jsp");
 		
 		// 사원 정보를 얻기위한 메서드 호출
 		MemberDTO memberDTO = memberService.getMemberInfo(emp_num);
@@ -91,12 +94,12 @@ public class MemberController {
 		model.addAttribute("memberDTO", memberDTO);
 				
 		return "member/memberUpdate";
-	}
+	} // end memberUpdate
 	
 	@GetMapping("/empUpdate")
 	public String empUpdate(@RequestParam("emp_num") String emp_num, Model model) {
 		
-		log.debug("사용자 수정 페이지");
+		log.debug("사용자 수정 페이지 member/empUpdate.jsp");
 		
 		// 사원 정보를 얻기위한 메서드 호출
 		MemberDTO memberDTO = memberService.getMemberInfo(emp_num);
@@ -109,22 +112,15 @@ public class MemberController {
 		model.addAttribute("memberDTO", memberDTO);
 				
 		return "member/empUpdate";
-	}
+	} // end empUpdate
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		
-		log.debug("로그아웃 함");
 		session.invalidate();
+		log.debug("로그아웃 완료");
 		return "redirect:/member/login";
-	}
-	
-	@GetMapping("/ajax")
-	public String ajax() {
-		log.debug("멤버 AJAX 진입");
-		
-		return "member/ajax";
-	}
+	} // end logout
 	
 	@GetMapping("/chat")
 	public String chat() {
@@ -135,9 +131,9 @@ public class MemberController {
 	
 	// 마이페이지
 	@GetMapping("/memberInfo")
-	public String info(HttpSession session, Model model) {
+	public String memberInfo(HttpSession session, Model model) {
 		
-		log.debug("마이페이지");
+		log.debug("마이페이지 member/memberInfo.jsp");
 		
 		// 세션에서 사원 번호 가져오기
 		String emp_num = (String)session.getAttribute("emp_num");
@@ -149,21 +145,21 @@ public class MemberController {
 		model.addAttribute("memberDTO", memberDTO);
 		
 		return "/member/memberInfo";
-	}
+	} // end memberInfo
 	
 	@GetMapping("/passwordUpdate")
 	public String passwordUpdate(HttpSession session, Model model) {
 		
-		log.debug("비밀번호 변경 페이지");
+		log.debug("비밀번호 변경 페이지 member/passwordUpdate.jsp");
 		
 		return "/member/passwordUpdate";
-	}
+	} // end passwordUpdate
 	
 	@GetMapping("/memberList")
 	public String getMemberList(Model model) {
 		
 		//사원 조회
-		log.debug("memberList");
+		log.debug("member/memberList.jsp");
 		
 		// 멤버리스트를 가져오기위한 멤버리스트 객체생성
 		List<MemberDTO> memberList = new ArrayList<MemberDTO>();
@@ -173,13 +169,13 @@ public class MemberController {
 		model.addAttribute("memberList", memberList);
 		
 		return "/member/memberList";
-	}
+	} // end getMemberList
 	
 	@GetMapping("/memberListPopUp")
 	public String getMemberListPopUp(Model model) {
 		
 		//사원 조회
-		log.debug("memberList");
+		log.debug("member/memberListPopUp.jsp");
 		
 		// 멤버리스트를 가져오기위한 멤버리스트 객체생성
 		List<MemberDTO> memberList = new ArrayList<MemberDTO>();
@@ -189,7 +185,7 @@ public class MemberController {
 		model.addAttribute("memberList", memberList);
 		
 		return "/member/memberListPopUp";
-	}
+	} // end getMemberListPopUp
 	
 	// 브랜치리스트에서 매니저 누르면 정보 나오게
 	@GetMapping("/managerInfo")
@@ -205,6 +201,6 @@ public class MemberController {
 		// 페이지 이동
 		return "member/managerInfo";
 		
-	}
+	} // end managerInfo
 	
-}
+} // end class

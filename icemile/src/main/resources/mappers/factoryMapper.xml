@@ -12,10 +12,11 @@
 	
 	
 	<select id="getNewFacilityCode" resultType="java.lang.String">
-		SELECT line_code
-  		FROM facility
-  		ORDER BY line_code desc
-  		LIMIT 1
+    	SELECT line_code
+    	FROM facility
+    	WHERE line_name = #{line_name}
+		ORDER BY line_code desc
+        LIMIT 1
 	</select>
 	
 	

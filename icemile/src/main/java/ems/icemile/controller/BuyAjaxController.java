@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,30 +30,17 @@ public class BuyAjaxController {
 	@Inject // 바이 서비스 의존성 주입
 	private BuyServiceImpl buyService;
 	
-    @PostMapping("/insert")
-    public ResponseEntity<String> buyInsert(BuyDTO buyDTO) {
-        try {
-            buyService.buyInsert(buyDTO);
-            return new ResponseEntity<>("true", HttpStatus.OK); // 성공 시 "true" 반환
-        } catch (Exception e) {
-            log.error("Error during buy insertion: {}", e.getMessage());
-            return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
-        }
-    }
-	
-//    @PostMapping("/update")
-//    public ResponseEntity<String> buyUpdate(BuyDTO buyDTO) {
-//        try {
-//            buyService.buyUpdate(buyDTO);
-//            return new ResponseEntity<>("true", HttpStatus.OK); // 성공 시 "true" 반환
-//        } catch (Exception e) {
-//            log.error("Error during buy insertion: {}", e.getMessage());
-//            return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
-//        }
-//    }
+
+	@PostMapping("/insert")
+	public String insert(BuyDTO buyDTO, HttpSession session) throws Exception {
+		
+		log.debug("값 잘 넘어오나 "+buyDTO.toString());
+		
+		return Boolean.toString(buyService.buyInsert(buyDTO));
+	}
     
 	@PostMapping("/update")
-	public String branchUpdate(BuyDTO buyDTO) throws Exception {
+	public String buyUpdate(BuyDTO buyDTO) throws Exception {
 		
 		log.debug("값 잘 넘어오나 "+buyDTO.toString());
 		

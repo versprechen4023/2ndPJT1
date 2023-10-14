@@ -32,7 +32,7 @@
                 <main>
                 <!-- 내용 들어가는 곳 -->
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">원자재 재고</h1>
+                        <h1 class="mt-4">완제품 재고</h1>
                         <ol class="breadcrumb mb-4">
 <!--                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
@@ -66,7 +66,7 @@
                                         <tr>
                                         	<th data-sortable="false"><input type="checkbox" name="selectedAll" disabled></th>
                                             <th>코드</th>
-                                            <th>원자재 이름</th>
+                                            <th>완제품 이름</th>
                                             <th>종류</th>
                                             <th>수량</th>
                                             <th>실수량</th>
@@ -76,12 +76,12 @@
                                         </tr>
                                     </thead>
                                     <tbody id="tableBody">
-                                    	<c:forEach var="stockDTO" items="${rawStock}">
+                                    	<c:forEach var="stockDTO" items="${productStock}">
                                         <tr>
                                         	<td><input type="checkbox" name="selected" value="${stockDTO.stock_code}"></td>
                                             <td>${stockDTO.stock_code}</td>
-                                            <td>${stockDTO.raw_name}</td>
-                                            <td>${stockDTO.raw_type}</td>
+                                            <td>${stockDTO.prod_name}</td>
+                                            <td>${stockDTO.prod_taste}</td>
                                             <td>${stockDTO.stock_status}</td>
                                             <td>${stockDTO.stock_amount}</td>
                                             <td>${stockDTO.wh_code}</td>
@@ -102,7 +102,7 @@
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 -->
 
-            </div>
+           </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
@@ -210,7 +210,7 @@
 		            value: stockDate
 		        }).appendTo('#rawStock');
 		        
-		        $('#rawStock').attr("action", "/home/warehouse/updateRawStock");
+		        $('#rawStock').attr("action", "/home/warehouse/updateProdStock");
 		        $('#rawStock').attr("method", "POST");
 		        
 		        // 수정이 완료되었음을 알리는 알림창 띄우기
@@ -241,7 +241,7 @@
 			   
 		// 검색 결과값을 받아오기 위한 ajax 호출
 		$.ajax({
-		 		url : '${pageContext.request.contextPath}/warehouse_ajax/rawStockSearch',
+		 		url : '${pageContext.request.contextPath}/warehouse_ajax/prodStockSearch',
 		 		// JSON타입의 변수를 스트링으로 변환한다
 		 		data: JSON.stringify(json),
 		 		// JSON타입의 변수를 전송한다
@@ -263,8 +263,8 @@
 		 				    $tr.append(
 		 				    '<td><input type="checkbox" name="selected" value="' + data.stock_code + '"></td>',
 		 				    "<td>"+data.stock_code+"</td>",
-		 				    "<td>"+data.raw_name+"</td>",
-		 				    "<td>"+data.raw_type+"</td>",
+		 				    "<td>"+data.prod_name+"</td>",
+		 				    "<td>"+data.prod_taste+"</td>",
 		 				    "<td>"+data.stock_status+"</td>",
 		 				    "<td>"+data.stock_amount+"</td>",
 		 				  	"<td>"+data.wh_code+"</td>",
