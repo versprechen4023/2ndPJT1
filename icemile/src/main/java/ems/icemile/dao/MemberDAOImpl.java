@@ -118,5 +118,13 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.update(namespace+"memberReset", memberDTO) > 0;
 	}
 	
+	@Override
+	public boolean userUpdate(MemberDTO memberDTO) {
+		
+		log.debug("유저 업데이트 DAO 도달");
+		
+		return sqlSession.update(namespace+"userUpdate",memberDTO) > 0;
+	}
+	
 	
 }

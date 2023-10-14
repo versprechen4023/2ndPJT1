@@ -97,16 +97,14 @@ public class MemberController {
 	} // end memberUpdate
 	
 	@GetMapping("/empUpdate")
-	public String empUpdate(@RequestParam("emp_num") String emp_num, Model model) {
+	public String empUpdate(HttpSession session, Model model) {
 		
 		log.debug("사용자 수정 페이지 member/empUpdate.jsp");
 		
+		// 사용자 정보를 얻기위한 세션 호출
+		String emp_num = (String)session.getAttribute("emp_num");
 		// 사원 정보를 얻기위한 메서드 호출
 		MemberDTO memberDTO = memberService.getMemberInfo(emp_num);
-		
-		// 직급, 부서 번호값 저장
-		memberDTO.setPosition(Integer.toString(Position.fromName(memberDTO.getPosition()).getNum()));
-		memberDTO.setDept_name(Integer.toString(Department.fromName(memberDTO.getDept_name()).getNum()));
 		
 		// 모델에 멤버 DTO값 저장
 		model.addAttribute("memberDTO", memberDTO);
@@ -137,7 +135,6 @@ public class MemberController {
 		
 		// 세션에서 사원 번호 가져오기
 		String emp_num = (String)session.getAttribute("emp_num");
-		
 		// 사원 정보를 얻기위한 메서드 호출
 		MemberDTO memberDTO = memberService.getMemberInfo(emp_num);
 		
@@ -148,7 +145,7 @@ public class MemberController {
 	} // end memberInfo
 	
 	@GetMapping("/passwordUpdate")
-	public String passwordUpdate(HttpSession session, Model model) {
+	public String passwordUpdate() {
 		
 		log.debug("비밀번호 변경 페이지 member/passwordUpdate.jsp");
 		

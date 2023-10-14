@@ -177,8 +177,8 @@ font-weight: bold;
   
 <div style="display: flex; justify-content: center; margin-bottom: 20px; ">
  <div class="btn">
-    <input type="button" value="수정" onclick="memberUpdate('${sessionScope.emp_num}')" id="updateEmp" >
-     <input type="button" value="비밀번호 변경"  onclick="memberPassword('${sessionScope.emp_num}')" id="passwordEmp" >
+    <input type="button" value="수정" onclick="memberUpdate()" id="updateEmp" >
+     <input type="button" value="비밀번호 변경"  onclick="memberPassword()" id="passwordEmp" >
  </div>
  </div>
                 
@@ -190,10 +190,10 @@ font-weight: bold;
             </div>
         </div>
 <script type="text/javascript">
-function memberUpdate(emp_num){
-	window.open('${pageContext.request.contextPath }/member/empUpdate?emp_num='+emp_num, '_blank', 'width=590px, height=673px, left=600px, top=300px');
+function memberUpdate(){
+	window.open('${pageContext.request.contextPath }/member/empUpdate', '_blank', 'width=590px, height=673px, left=600px, top=300px');
 }
-function memberPassword(emp_num){
+function memberPassword(){
 	window.open('${pageContext.request.contextPath }/member/passwordUpdate', '_blank', 'width=330px, height=306px, left=600px, top=300px');
 }
 </script>
