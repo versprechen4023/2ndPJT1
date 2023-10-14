@@ -19,6 +19,8 @@ public class ResultDTO {
 	private String line_code;
 	//v 품목 코드
 	private String prod_code;
+	//v 품목 이
+	private String prod_name;
 	//v 지시수량 = 전체수 - 불량 = 양품 
 	private int order_amount;	
 	// 양품

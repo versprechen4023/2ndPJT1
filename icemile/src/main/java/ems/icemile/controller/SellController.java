@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ems.icemile.annotation.Business;
+import ems.icemile.annotation.UnUseAOP;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.dto.SellDTO;
 import ems.icemile.enums.ProOrderStatus;
@@ -29,6 +31,8 @@ public class SellController {
 	@Inject
 	private SellServiceImpl sellService;
 
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@GetMapping("/branchReg")
 	public String branchReg() {
 		log.debug("컨트롤러| 지점 등록 페이지");
@@ -36,6 +40,8 @@ public class SellController {
 		return "sell/branchReg";
 	}
 
+	// AOP 제외대상 어노테이션 선언
+	@UnUseAOP
 	@GetMapping("/branchList")
 	public String branch(Model model) {
 		log.debug("컨트롤러| 지점 목록 페이지");
@@ -51,6 +57,8 @@ public class SellController {
 
 	}
 
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@GetMapping("/branchUpdate")
 	public String branchUpdate(@RequestParam("branch_code") String branch_code, Model model) {
 		log.debug("컨트롤러| 지점 수정 페이지");
@@ -64,14 +72,14 @@ public class SellController {
 		return "sell/branchUpdate";
 	}
 
-	@PostMapping("/branchUpdatePro")
-	public String branchUpdatePro(SellDTO sellDTO) {
-		log.debug("컨트롤러| 지점 수정 넘기기 페이지");
-
-		sellService.branchUpdate(sellDTO);
-
-		return "redirect:/sell/branchList";
-	}
+//	@PostMapping("/branchUpdatePro")
+//	public String branchUpdatePro(SellDTO sellDTO) {
+//		log.debug("컨트롤러| 지점 수정 넘기기 페이지");
+//
+//		sellService.branchUpdate(sellDTO);
+//
+//		return "redirect:/sell/branchList";
+//	}
 	
 	@GetMapping("/proOrderList")
 	public String proOrderList(Model model) {

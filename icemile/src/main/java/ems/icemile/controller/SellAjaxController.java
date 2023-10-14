@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ems.icemile.annotation.Business;
 import ems.icemile.dto.ProOrderDTO;
 import ems.icemile.dto.RowOrderListDTO;
 import ems.icemile.dto.SellDTO;
@@ -32,6 +33,8 @@ public class SellAjaxController {
 	@Inject // 멤버 서비스 의존성 주입
 	private SellServiceImpl sellService;
 	
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@PostMapping("delete")
 	public String memberDelete(@RequestParam("branch_code")String branch_code) {
 		
@@ -55,6 +58,8 @@ public class SellAjaxController {
 		return branchList;
 	}
 	
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@PostMapping("/insert")
 	public String insert(SellDTO sellDTO, HttpSession session) throws Exception {
 		

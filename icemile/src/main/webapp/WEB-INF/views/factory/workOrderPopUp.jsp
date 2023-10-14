@@ -137,6 +137,7 @@ function workOrderSearch() {
                                             <th>라인코드</th>
                                             <th>주문량</th>
                                             <th>작업 지시 완료 날짜</th>
+                                            <th>제품명</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -146,7 +147,8 @@ function workOrderSearch() {
         					    <td>${workOrderDTO.work_code}</td>
          					   <td>${workOrderDTO.line_code}</td>
          					   <td>${workOrderDTO.order_amount}</td>
-         					   <td>${workOrderDTO.done_date}</td>
+         					   <td>${workOrderDTO.done_date}</td>         					   
+         					   <td>${workOrderDTO.prod_name}</td>
       						  </tr>
   								  </c:if>
 								</c:forEach>
@@ -186,6 +188,7 @@ $(document).ready(function() {
 	      var done_date = $(this).find("td:eq(3)").text();
 	      var line_code = $(this).find("td:eq(1)").text();
 	      var order_amount = $(this).find("td:eq(2)").text();
+	      var prod_name = $(this).find("td:eq(4)").text();
 		  
 
 	      // 부모창으로 값을 전달한다
@@ -193,6 +196,7 @@ $(document).ready(function() {
 	      opener.document.getElementById("done_date").value = done_date;
 	      opener.document.getElementById("line_code").value = line_code;
 	      opener.document.getElementById("order_amount").value = order_amount;
+	      opener.document.getElementById("prod_name").value = prod_name;
 	      
 	      /* // 부모창에서 가격값을 갱신하기위해 함수를 호출한다
 	      opener.openUpdate(); */

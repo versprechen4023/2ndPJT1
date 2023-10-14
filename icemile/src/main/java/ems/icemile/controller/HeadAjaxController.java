@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ems.icemile.annotation.Departments;
+import ems.icemile.annotation.Production;
 import ems.icemile.dto.ResultDTO;
 import ems.icemile.dto.RowOrderListDTO;
 import ems.icemile.service.HeadServiceImpl;
@@ -45,6 +47,8 @@ public class HeadAjaxController {
 		return resultSearch;
 	}
 	
+	// 관리자 권한제어를 위한 어노테이션 선언
+	@Production
 	@PostMapping("/resultInsert")
 	public boolean resultInsert(ResultDTO resultDTO) {
 		log.debug("실적 등록");
@@ -53,6 +57,8 @@ public class HeadAjaxController {
 		return headService.resultInsert(resultDTO);
 	}
 	
+	// 관리자 권한제어를 위한 어노테이션 선언
+	@Production
 	@PostMapping("/resultUpdate")
 	public boolean resultUpdate(ResultDTO resultDTO) {
 		log.debug("실적 등록");
@@ -61,6 +67,8 @@ public class HeadAjaxController {
 		return headService.resultUpdate(resultDTO);
 	}
 	
+	// 관리자 권한제어를 위한 어노테이션 선언
+	@Production
 	@PostMapping("/resultDelete")
 	public boolean rawOrderDelete(@RequestParam("selectedRSList") String[] selectedRSList) {
 		
