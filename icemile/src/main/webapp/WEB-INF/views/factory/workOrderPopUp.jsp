@@ -32,24 +32,28 @@ function workOrderSearch() {
  			  dataType: 'json',
  			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
  			  success:function(json){
- 				  
- 				    // tbody 내용을 초기화
- 				    $('tbody').empty();
-					
- 				    // 배열 크기만큼 반복
- 				    json.forEach(function (data) {
- 				    	// tr 태그 생성
- 				        var $tr = $('<tr>');
- 				    		//tr 에 내용추가
- 				        	$tr.append(
- 				        	"<td>"+data.work_code+"</td>",
-				         	"<td>"+data.line_name+"</td>",
-				         	"<td>"+data.prod_name+"</td>",
-				         	"<td>"+data.branch_name+"</td>"
- 				        	);
- 				        // 생성한 <tr> 요소를 tbody에 추가
- 				        $('tbody').append($tr);
- 				    });
+ 				   // tbody 내용을 초기화
+ 		            $('tbody').empty();
+
+ 		            // 배열 크기만큼 반복
+ 		            json.forEach(function (data) {
+ 		                // done_date가 있는 경우에만 행을 추가
+ 		                if (data.done_date != null) {
+ 		                    // tr 태그 생성
+ 		                    var $tr = $('<tr>');
+ 		                    // tr에 내용 추가
+ 		                    $tr.append(
+ 		                        "<td>" + data.work_code + "</td>",
+ 		                        "<td>" + data.line_code + "</td>",
+ 		                        "<td>" + data.order_amount + "</td>",
+ 		                        "<td>" + data.done_date + "</td>"
+ 		                        
+ 		                    );
+ 		                    // 생성한 <tr> 요소를 tbody에 추가
+ 		                    $('tbody').append($tr);
+ 		                }
+ 		            });
+
  				    
  					// 페이징 동적 처리
  				    // 태그 개수 구하기
@@ -116,9 +120,9 @@ function workOrderSearch() {
                             <input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
   								<option value="work_code">지시코드</option>
-  								<option value="line_name">라인명</option>
-  								<option value="prod_name">제품명</option>
-  								<option value="branch_name">지점명</option>
+  								<option value="line_code">라인코드</option>
+  								<option value="order_amount">주문량</option>
+  							
   							</select>
 							<input type="text" name="content" size=20 placeholder="검색어를 입력하세요"
 								id="content">
@@ -130,20 +134,22 @@ function workOrderSearch() {
                                     <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
                                         <tr>
                                            <th>지시코드</th>
-                                            <th>라인명</th>
+                                            <th>라인코드</th>
                                             <th>주문량</th>
                                             <th>작업 지시 완료 날짜</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="workOrderDTO" items="${workOrderList}">
-                                        <tr>
-                                            <td>${workOrderDTO.work_code}</td>
-                                            <td>${workOrderDTO.line_name}</td>
-                                            <td>${workOrderDTO.order_amount}</td>                                       
-                                            <td>${workOrderDTO.done_date}</td>                                       
-                                        </tr>
-                                    </c:forEach>
+           					      <c:forEach var="workOrderDTO" items="${workOrderList}">
+   								 <c:if test="${not empty workOrderDTO.done_date}">
+    						    <tr>
+        					    <td>${workOrderDTO.work_code}</td>
+         					   <td>${workOrderDTO.line_code}</td>
+         					   <td>${workOrderDTO.order_amount}</td>
+         					   <td>${workOrderDTO.done_date}</td>
+      						  </tr>
+  								  </c:if>
+								</c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -177,14 +183,15 @@ $(document).ready(function() {
 		  // 값을 전달하기 위한 변수선언
 		  // 이벤트가 발생되는 테이블의 첫번째(0)부터 4번째 까지 텍스트를 변수에 저장한다
 	      var work_code = $(this).find("td:eq(0)").text();
-	      var line_name = $(this).find("td:eq(1)").text();
-	      var order_amount = $(this).find("td:eq(2)").text();
 	      var done_date = $(this).find("td:eq(3)").text();
+	      var line_code = $(this).find("td:eq(1)").text();
+	      var order_amount = $(this).find("td:eq(2)").text();
 		  
 
 	      // 부모창으로 값을 전달한다
 	      opener.document.getElementById("work_code").value = work_code;
 	      opener.document.getElementById("done_date").value = done_date;
+	      opener.document.getElementById("line_code").value = line_code;
 	      opener.document.getElementById("order_amount").value = order_amount;
 	      
 	      /* // 부모창에서 가격값을 갱신하기위해 함수를 호출한다

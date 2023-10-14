@@ -22,7 +22,7 @@ function productSearch() {
 	
 	   // 검색 결과값을 받아오기 위한 ajax 호출
  	   $.ajax({
- 			  url : '${pageContext.request.contextPath}/product_ajax/productSearch',
+ 			  url : '${pageContext.request.contextPath}/product_ajax/search',
  			  // JSON타입의 변수를 스트링으로 변환한다
  			  data: JSON.stringify(json),
  			  // JSON타입의 변수를 전송한다
@@ -42,9 +42,11 @@ function productSearch() {
  				        var $tr = $('<tr>');
  				    		//tr 에 내용추가
  				        	$tr.append(
- 				        	"<td>"+data.product_code+"</td>",
- 				            "<td>"+data.product_name+"</td>",
- 				           	"<td>"+data.product_taste+"</td>"
+ 				        	"<td>"+data.prod_code+"</td>",
+ 				            "<td>"+data.prod_name+"</td>",
+ 				            "<td>"+data.prod_taste+"</td>",
+ 				            "<td>"+data.prod_price+"</td>",
+ 	
  				        	);
  				        // 생성한 <tr> 요소를 tbody에 추가
  				        $('tbody').append($tr);
@@ -116,7 +118,7 @@ function productSearch() {
 							<select id="category">
   								<option value="prod_code">코드</option>
   								<option value="prod_name">품명</option>
-  								<option value="prod_taste">종류</option>
+  	
 							</select>
 							<input type="text" name="content" size=20 placeholder="검색어를 입력하세요"
 								id="content">
