@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ems.icemile.dto.BuyDTO;
 import ems.icemile.dto.MemberDTO;
+import ems.icemile.dto.ProductDTO;
 import ems.icemile.service.BuyServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -72,18 +73,33 @@ public class BuyController {
 		model.addAttribute("buyDTO", buyDTO);
 		
 		return "buy/buyUpdate";
-			
-		
+				
 	}
 	
 	@PostMapping("/buyUpdatePro")
-	public String branchUpdatePro(BuyDTO buyDTO) {
+	public String buyUpdatePro(BuyDTO buyDTO) {
 		log.debug("거래처 업데이트");
 		
 		buyService.buyUpdate(buyDTO);
 		
 		return "redirect:/buy/buyList";
 		
+	}
+	
+	@GetMapping("/buyListPopUp")
+	public String getBuyListPopUp(Model model) {
+		
+		//거래처 조회
+		log.debug("buy/buyListPopUP.jsp");
+		
+		// 거래처 리스트를 가져오기위한 거래처 리스트 객체생성
+		List<BuyDTO> buyList = new ArrayList<BuyDTO>();
+		buyList = buyService.getBuyList();
+		
+		// 모델에 멤버 DTO값 저장
+		model.addAttribute("buyList", buyList);
+		
+		return "/buy/buyListPopUp";
 	}
 	
 	

@@ -9,115 +9,8 @@
 <!-- 헤더 -->
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
+  <link href="../resources/css/rawOrderList.css" rel="stylesheet" />
 <!-- 헤드 -->
-<!-- j쿼리호출 -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- 자바스크립트 함수 인식이 또 안됩니다.. -->
-<script>
-function rawOrderSearch() {
-	   // 값을 전달 하기위한 JSON 타입 변수선언
-	   var json = {
-			   		rawOrderBegin: $('#rawOrderBegin').val(),
-			   		rawOrderEnd: $('#rawOrderEnd').val(),
-			   		rawOrderInBegin: $('#rawOrderInBegin').val(),
-			   		rawOrderInEnd: $('#rawOrderInEnd').val(),
-       				status: $('#status').val(),
-       				content: $('#content').val()
-      			  };
-
-	   // 검색 결과값을 받아오기 위한 ajax 호출
-	   $.ajax({
-			  url : '${pageContext.request.contextPath}/buyOrder/rawOrderSearch',
-			  // JSON타입의 변수를 스트링으로 변환한다
-			  data: JSON.stringify(json),
-			  // JSON타입의 변수를 전송한다
-	          contentType: 'application/json',
-			  type : 'POST',
-			  // 반환은 JSON 타입
-			  dataType: 'json',
-			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
-			  success:function(json){
-				  
-				    // tbody 내용을 초기화
-				    $('tbody').empty();
-					
-				    // 배열 크기만큼 반복
-				    json.forEach(function (data) {
-				    	
-				    	// 상태표현을 위한변수 선언
-				    	var status = "";
-				    	if(data.raw_status == 1){
-				    		status = "발주중";
-				    	} else {
-				    		status = "발주확정";
-				    	}
-				    	
-				    	// tr 태그 생성
-				        var $tr = $('<tr>');
-				    		//tr 에 내용추가
-				        	$tr.append(
-				        	'<td><input type="checkbox" name="selectedRawOrderId" value="' + data.raw_order_code + '"></td>',
-				        	"<td>"+data.raw_order_code+"</td>",
-				            "<td>"+data.raw_code+"</td>",
-				           	"<td>"+data.raw_name+"</td>",
-				            "<td>"+data.raw_type+"</td>",
-				         	"<td>"+data.buy_code+"</td>",
-				         	"<td>"+data.buy_name+"</td>",
-				         	"<td>"+data.raw_order_amount+"</td>",
-				         	"<td>"+data.raw_price+"</td>",
-				         	"<td>"+data.raw_fullprice+"</td>",
-				         	"<td>"+data.raw_order_date+"</td>",
-				         	"<td>"+data.in_plan_date+"</td>",
-				         	"<td>"+status+"</td>",
-				         	"<td>"+data.emp_num+"</td>"
-				        	);
-				        // 생성한 <tr> 요소를 tbody에 추가
-				        $('tbody').append($tr);
-				    });
-				    
-					// 페이징 동적 처리
-				    // 태그 개수 구하기
-				    var trCount = $('tbody tr').length;
-				    // 페이징 처리를 위한 변수선언(태그 개수 계산)
-				    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
-				    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
-				   	var dataPageValues = [];
-				    	// 페이징 버튼의 밸류값을 추출 한다
-				  		$('.datatable-pagination-list-item a').each(function() {
-				      		var dataPageValue = $(this).data('page');
-				      		dataPageValues.push(dataPageValue);
-				  		});
-				    	
-				  	// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
-				  	dataPageValues = dataPageValues.filter(function(value) {
-   					return value > parseInt(pageCount);
-					});
-				  	
-				  	// 중복을 삭제한다 indexOf로 첫번째 위치만을 출력한다 중복된다면 첫번째위치가 아닌 다른위치에 있을 것이므로
-				  	// 모두 false 처리하여 삭제한다
-				  	var myArray = dataPageValues.filter(function(value, index, self) {
-   					return self.indexOf(value) === index;
-					});
-				  	
-				  	// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
-				  	var minValue = Math.min(myArray);
-				  	var maxValue = Math.max(myArray);
-				  	
-				  	// 글이 11개 이하라면(즉 페이징이 필요없는경우)
-				    if(trCount < 11){
-				    	// 페이징을 삭제
-				   	    $('.datatable-pagination-list').remove();
-				    } else {
-				    	// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
-				    	for(var i = minValue; i<=maxValue; i++){
-				    		$('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
-				    	}
-				    }
-				  	
-		      }// 콜백함수 종료지점
-     });// end_of_ajax
-}
-</script>
     </head>
 <body class="sb-nav-fixed">
 <div id="layoutSidenav">
@@ -126,7 +19,6 @@ function rawOrderSearch() {
 		<!-- 사이드바 -->
 		<div id="layoutSidenav_content">
 <form id="rawOrderList">
-                <main>
                 <main>
                 <!-- 내용들어가는곳 -->
                     <div class="container-fluid px-4">
@@ -137,31 +29,25 @@ function rawOrderSearch() {
                         </ol>
                         <div class="bnt">
                         <c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
-							<input type="button" value="발주추가" id="rawOrderAdd">
-							<input type="button" value="수정" id="updateRawOr">
-							<input type="button" value="삭제" id="deleteRawOr">
-							<input type="button" value="취소" id="cancelRawOr" disabled>
-							<input type="button" value="저장" id="saveRawOr" disabled>
+							<input type="button" class="tableBtn"  value="발주추가" id="rawOrderAdd">
+							<input type="button" class="tableBtn" value="수정" id="updateRawOr">
+							<input type="button" class="tableBtn" value="삭제" id="deleteRawOr">
+							<input type="button" class="tableBtn" value="취소" id="cancelRawOr" disabled>
+							<input type="button" class="tableBtn" value="저장" id="saveRawOr" disabled>
 						</c:if>
 						</div>
                         <div class="card mb-4">
-<!--                             <div class="card-header"> -->
-<!--                                 <i class="fas fa-table me-1"></i> -->
-<!--                                 DataTable Example -->
-<!--                             </div> -->
-                            <div class="card-body">
-                            <input type="button" name="allList" value="전체목록" onclick="location.reload();">
-                            <br>
-                            
-                            발주일자
-                            <input type="text" name="rawOrderBegin" id="rawOrderBegin"> ~
-                            <input type="text" name="rawOrderEnd" id="rawOrderEnd" disabled>
-                            <br>
+                            <div class="card-header"> 
+                             <div id ="cardHeaderContainer">
+                             발주일자
+                            <input type="text" name="rawOrderBegin" class="rawOrderDateInput" id="rawOrderBegin" readonly> ~
+                            <input type="text" name="rawOrderEnd" class="rawOrderDateInput" id="rawOrderEnd" readonly disabled>
+                       
                             
                             입고예정일
-                            <input type="text" name="rawOrderInBegin" id="rawOrderInBegin"> ~
-                            <input type="text" name="rawOrderInEnd" id="rawOrderInEnd" disabled>
-                            <br>
+                            <input type="text" name="rawOrderInBegin" class="rawOrderDateInput" id="rawOrderInBegin" readonly> ~
+                            <input type="text" name="rawOrderInEnd" class="rawOrderDateInput" id="rawOrderInEnd" readonly disabled>
+               				<br>
                             
                             발주상태
 							<select id="status">
@@ -169,10 +55,16 @@ function rawOrderSearch() {
   								<option value="1">발주중</option>
   								<option value="2">발주확정</option>
 							</select>
-							<input type="text" name="content" size=60 placeholder="자재명을 입력하세요"
+							<input type="text" name="content" size=35 placeholder="자재명을 입력하세요"
 								id="content">
 							<input type="button" name="search" value="조회" onclick="rawOrderSearch()">
-                                <table id="datatablesSimple">
+							<input type="button" name="allList" value="전체목록" onclick="location.reload();">
+                                
+                            </div>
+                            </div>
+                            <div class="card-body">
+                            
+                         	<table id="datatablesSimple">
                                 
                                     <thead>
                                     <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
@@ -214,7 +106,7 @@ function rawOrderSearch() {
                                             <c:if test="${RowOrderListDTO.raw_status eq 2}">
                                             	<td>발주확정</td>
                                             </c:if>
-                                            <td>${RowOrderListDTO.emp_num}</td>
+                                            <td><a href="#" onclick="memberInfo('${RowOrderListDTO.emp_num}')">${RowOrderListDTO.emp_num}</a></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -234,6 +126,7 @@ function rawOrderSearch() {
         </div>
 <!-- 데이트피커 J쿼리등을 사용하기위한 호출 -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!--  데이트피커 커스텀 css-->
@@ -260,6 +153,131 @@ function rawOrderSearch() {
 //추가, 수정 을 구분하기위한 전역변수선언
 var status = "";
 
+// 발주 검색 관련 함수
+function rawOrderSearch() {
+	   // 값을 전달 하기위한 JSON 타입 변수선언
+	   var json = {
+			   		rawOrderBegin: $('#rawOrderBegin').val(),
+			   		rawOrderEnd: $('#rawOrderEnd').val(),
+			   		rawOrderInBegin: $('#rawOrderInBegin').val(),
+			   		rawOrderInEnd: $('#rawOrderInEnd').val(),
+    				status: $('#status').val(),
+    				content: $('#content').val()
+   			  };
+
+	   // 검색 결과값을 받아오기 위한 ajax 호출
+	   $.ajax({
+			  url : '${pageContext.request.contextPath}/buyOrder/rawOrderSearch',
+			  // JSON타입의 변수를 스트링으로 변환한다
+			  data: JSON.stringify(json),
+			  // JSON타입의 변수를 전송한다
+	          contentType: 'application/json',
+			  type : 'POST',
+			  // 반환은 JSON 타입
+			  dataType: 'json',
+			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
+			  success:function(json){
+				  
+				    // tbody 내용을 초기화
+				    $('tbody').empty();
+					
+				    // json 배열에 값이 없는 경우 추가가 안되는걸 방지하기위한 tr태그 생성
+				    if(json.length === 0){
+				    	// tr 태그 생성
+				        var $tr = $('<tr>');
+				        $('tbody').append($tr);
+				    }
+				    
+				    // 배열 크기만큼 반복
+				    json.forEach(function (data) {
+				    	
+				    	// 상태표현을 위한변수 선언
+				    	var status = "";
+				    	if(data.raw_status == 1){
+				    		status = "발주중";
+				    	} else {
+				    		status = "발주확정";
+				    	}
+				    	
+				    	// tr 태그 생성
+				        var $tr = $('<tr>');
+				    		//tr 에 내용추가
+				        	$tr.append(
+				        	'<td><input type="checkbox" name="selectedRawOrderId" value="' + data.raw_order_code + '"></td>',
+				        	"<td>"+data.raw_order_code+"</td>",
+				            "<td>"+data.raw_code+"</td>",
+				           	"<td>"+data.raw_name+"</td>",
+				            "<td>"+data.raw_type+"</td>",
+				         	"<td>"+data.buy_code+"</td>",
+				         	"<td>"+data.buy_name+"</td>",
+				         	"<td>"+data.raw_order_amount+"</td>",
+				         	"<td>"+data.raw_price+"</td>",
+				         	"<td>"+data.raw_fullprice+"</td>",
+				         	"<td>"+data.raw_order_date+"</td>",
+				         	"<td>"+data.in_plan_date+"</td>",
+				         	"<td>"+status+"</td>",
+				         	'<td><a href="#" onclick="memberInfo(\'' + data.emp_num + '\')">' + data.emp_num + '</a></td>'
+				        	);
+				        // 생성한 <tr> 요소를 tbody에 추가
+				        $('tbody').append($tr);
+				    });
+
+					// 페이징 동적 처리
+				    // 태그 개수 구하기
+				    var trCount = $('tbody tr').length;
+				    // 페이징 처리를 위한 변수선언(태그 개수 계산)
+				    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
+				    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
+				   	var dataPageValues = [];
+				    	// 페이징 버튼의 밸류값을 추출 한다
+				  		$('.datatable-pagination-list-item a').each(function() {
+				      		var dataPageValue = $(this).data('page');
+				      		dataPageValues.push(dataPageValue);
+				  		});
+				    	
+				  	// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
+				  	dataPageValues = dataPageValues.filter(function(value) {
+					return value > parseInt(pageCount);
+					});
+				  	
+				  	// 중복을 삭제한다 indexOf로 첫번째 위치만을 출력한다 중복된다면 첫번째위치가 아닌 다른위치에 있을 것이므로
+				  	// 모두 false 처리하여 삭제한다
+				  	var myArray = dataPageValues.filter(function(value, index, self) {
+					return self.indexOf(value) === index;
+					});
+				  	
+				  	// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
+				  	var minValue = Math.min(myArray);
+				  	var maxValue = Math.max(myArray);
+				  	
+				  	// 글이 11개 이하라면(즉 페이징이 필요없는경우)
+				    if(trCount < 11){
+				    	// 페이징을 삭제
+				   	    $('.datatable-pagination-list').remove();
+				    } else {
+				    	// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
+				    	for(var i = minValue; i<=maxValue; i++){
+				    		$('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
+				    	}
+				    }
+				  	
+		      }// 콜백함수 종료지점
+  });// end_of_ajax
+} // end function
+
+//부모창에서 전달받을때 금액 업데이트
+function openUpdate() {
+	// 수주량을 가져온다
+	var raw_order_amount = parseInt($("#raw_order_amount").val());
+	// 단가를 가져온다
+	var raw_price = parseInt($("#raw_price").val());
+	// 수주량과 단가를 계산한다
+	var result = raw_order_amount * raw_price;
+	
+	// 밸류값을 최종가격으로 변경한다
+	$("#raw_fullprice").val(result);
+} // end function
+
 //날짜 계산 함수
 function getDate() {
 	// 현재 날짜를 변수에 담는다
@@ -277,6 +295,9 @@ function getDate() {
 	return formattedDate;
 }// end function
 
+function memberInfo(emp_num) {
+	window.open('${pageContext.request.contextPath }/member/managerInfo?emp_num='+ emp_num+'', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+}
 //함수 시작지점
 $(document).ready(function() {
 	
@@ -350,12 +371,12 @@ $(document).ready(function() {
 	  		'<td><input type="text" id="raw_code" name="raw_code" readonly></td>',
 	  		'<td><input type="text" id="raw_name" name="raw_name" readonly></td>',
 	  		'<td><input type="text" id="raw_type" name="raw_type" readonly></td>',
-	  		'<td><input type="text" id="buy_code" name="buy_code"></td>',
-	  		'<td><input type="text" id="buy_name" name="buy_name"></td>',
+	  		'<td><input type="text" id="buy_code" name="buy_code" readonly></td>',
+	  		'<td><input type="text" id="buy_name" name="buy_name" readonly></td>',
 	  		'<td><input type="text" id="raw_order_amount" name="raw_order_amount" value ="0"></td>',
 	  		'<td><input type="text" id="raw_price" name="raw_price" readonly></td>',
 	  		'<td><input type="text" id="raw_fullprice" name="raw_fullprice" placeholder="(자동으로 계산됨)" readonly></td>',
-	  		'<td><input type="text" id="raw_order_date" name="raw_order_date" value="'+getDate()+'"></td>',
+	  		'<td><input type="text" id="raw_order_date" name="raw_order_date" value="'+getDate()+'" readonly></td>',
 	  		'<td><input type="text" id="in_plan_date" name="in_plan_date" readonly></td>',
 	  		'<td><input type="text" id="raw_status_name" name="raw_status_name" value="발주전" readonly></td>',
 	  		'<td><input type="text" id="emp_num" name="emp_num" readonly></td>',
@@ -440,8 +461,18 @@ $(document).ready(function() {
 				
 				// 기존 텍스트 값을 변수에 저장한다
 				var cellValue = $(this).text();
-				// 삼항연산자 6번째 행(주문량)과 10번째행(종류)을 제외하고는 리드온리로 변경할 수 없다
-				var cellOption = index === 6 || index === 10 ? "" : "readonly";
+				// 셀에 옵션을 주기 위해 변수를 선언한다
+				var cellOption = ""
+				// 삼항연산자 6번째 행(발주량)및 10번쨰 행(입고예정일)을 제외하고는 비활성화로 변경할 수 없다
+				// 단 셀렉트태그는 직접 부여되므로 마찬가지로 수정 할 수 있다
+				if(index === 6 || index === 10){
+					cellOption = "";
+				} else if(index === 0){
+					cellOption = "readonly";
+				} else {
+					cellOption = "disabled";
+				}
+				
 				// 반복문의 숫자에 따라 html 태그의 이름을 네임 이름으로 한다
 				var cellName = cellNames[index];
 				// 반복문의 숫자에 따라 html 태그의 이름을 아이디 이름으로 한다
@@ -541,6 +572,7 @@ $(document).ready(function() {
 	     	
 	     	// 동적으로 생성된 셀렉트태그는 인식되지않으므로 셀렉트 태그의 값은 직접가져온다
 	     	var selectValue = $('#raw_status').val();
+	     	console.log(selectValue);
 	     	
 	    	// 데이터를 전송하기위한 폼 데이터 직렬화 및 셀렉트 태그 값을 직접 추가한다
 	    	var formData = $('#rawOrderList').serialize() + '&' + $.param({ raw_status: selectValue });
@@ -664,14 +696,19 @@ $(document).ready(function() {
 	
 	// 이벤트 관련 함수 시작지점
 	
-	// 원자재 코드를 입력하면 새창을 여는 이벤트 리스너
+	// 원자재 코드를 선택하면 새창을 여는 이벤트 리스너
 	$(document).on("click", "input[name='raw_code']", function() {
 		window.open('${pageContext.request.contextPath }/product/rawListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 	});// end function
 	
-	// 담당자를 입력하면 새창을 여는 이벤트 리스너
+	// 담당자를 선택하면 새창을 여는 이벤트 리스너
 	$(document).on("click", "input[name='emp_num']", function() {
 		window.open('${pageContext.request.contextPath }/member/memberListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+	});// end function
+	
+	// 매입처코드를 선택하면 새창을 여는 이벤트 리스너
+	$(document).on("click", "input[name='buy_code']", function() {
+		window.open('${pageContext.request.contextPath }/buy/buyListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 	});// end function
 	
 	// 숫자만 입력되야하는 텍스트필드의 이벤트 리스너
@@ -696,6 +733,25 @@ $(document).ready(function() {
 		  // 밸류값을 업데이트한다
 		  $(this).val(inputValue);
 	});// end function
+	
+	// 금액 계산
+	$(document).on("input", "#raw_order_amount", function() {
+		
+		// 수주량을 가져온다
+		var raw_order_amount = parseInt($(this).val());
+		// 단가를 가져온다
+		var raw_price = parseInt($("#raw_price").val());
+		// 수주량과 단가를 계산한다
+		var result = raw_order_amount * raw_price;
+		
+		// 밸류값을 최종가격으로 변경한다
+		if(isNaN(result) || result == 0){
+			$("#raw_fullprice").val("");
+		} else {
+			$("#raw_fullprice").val(result);
+		}
+		
+	});
 	
 	// thead의 체크박스를 클릭했을때 전체체크가되게끔 이벤트를 발생시킨다
 	$('input[name="selectedAllRawOrderId"]').click(function() {

@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 import ems.icemile.dto.InMaterialDTO;
-import ems.icemile.dto.RequirementDTO;
-import ems.icemile.service.ShippingService;
+
+import ems.icemile.dto.outMaterialDTO;
 import ems.icemile.service.ShippingServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,9 +29,9 @@ public class ShippingController {
 	
 	// 입고 리스트
 	@GetMapping("/inMaterial")
-	public String requirementList(Model model) {
+	public String inMaterialList(Model model) {
 
-		log.debug("ShippingController requirement");
+		log.debug("ShippingController inMaterialList");
 		
 		List<InMaterialDTO> inMaterialList = new ArrayList<InMaterialDTO>();
 		inMaterialList = shippingService.getInMaterialList();
@@ -39,6 +40,7 @@ public class ShippingController {
 		
 		return "/shipping/inMaterial";
 	}// requirementList()
+	
 	
 	// 입고 목록 삭제
 	@GetMapping("/deleteInMaterial")
@@ -52,7 +54,7 @@ public class ShippingController {
 	@GetMapping("/in_material_add")
 	public String in_material_add() {
 		
-		log.debug("in_material_add");
+		log.debug("ShippingController in_material_add()");
 		
 		return "shipping/in_material_add";
 	}// in_material_add
@@ -83,13 +85,28 @@ public class ShippingController {
 		return "redirect:/shipping/inMaterial";
 	}
 	
-	@GetMapping("/out_material_add")
-	public String out_material_add() {
+	
+	//////////////////////////////////////////출고////////////////////////////////////////////////
+    @GetMapping("/outMaterial")
+    public String out_material(Model model) {
+    	//출고 관리
+    	log.debug("shippingController outMaterial");
+    	
+    	List<outMaterialDTO> outMaterialList = new ArrayList<outMaterialDTO>();
+    	outMaterialList = shippingService.getoutMaterialList();
 		
-		log.debug("out_material_add");
+    	//모델에 하우스DTO값 저장
+	    model.addAttribute("outMaterialList",outMaterialList);
 		
-		return "shipping/out_material_add";
-	}
+		return "shipping/outMaterial";
+    	
+    }
+    
+        
+		
+    
+	
+
 	
 	
 }

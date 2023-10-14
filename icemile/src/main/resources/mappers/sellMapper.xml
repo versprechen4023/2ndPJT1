@@ -29,7 +29,7 @@
   	
   	<update id="branchUpdate">
   	UPDATE branch
-  		SET branch_ceo = #{branch_ceo}, emp_num = #{emp_num}, branch_phone = #{branch_phone},
+  		SET branch_reg = #{branch_reg}, branch_ceo = #{branch_ceo}, emp_num = #{emp_num}, branch_phone = #{branch_phone},
   			branch_post = #{branch_post}, branch_add = #{branch_add}, branch_email = #{branch_email}
   				 	WHERE branch_code = #{branch_code}
   	</update>
@@ -60,7 +60,71 @@
   				LIMIT 1
   </select>
   
-
+  <select id="proOrderList" resultType="map">
+  	SELECT o.order_code, o.emp_num, o.branch_code, p.prod_code, 
+  		   o.prod_name, p.prod_taste, p.prod_price, o.order_amount,
+  		   o.order_date, o.out_plan_date, o.order_status
+				FROM orders o JOIN product p
+					ON (o.prod_name = p.prod_name)
+						ORDER BY o.order_code DESC
+  </select>
   
+   <select id="getNewProOrderCode" resultType="java.lang.String">
+   <bind name="myDate" value="'%' + myDate+ '%'"/>
+  	SELECT order_code
+  		FROM orders
+  			WHERE order_code LIKE #{myDate}
+  				ORDER BY order_code desc
+  					LIMIT 1
+  </select>
+  
+  <insert id="proOrderInsert">
+  	INSERT INTO orders(order_code, branch_code, prod_name, order_amount, order_date, out_plan_date, order_status, emp_num)
+ 		VALUES(#{order_code}, #{branch_code}, #{prod_name}, #{order_amount}, #{order_date}, #{out_plan_date}, #{order_status}, #{emp_num})
+  </insert>
+  
+  <update id="proOrderUpdate">
+  	UPDATE orders
+ 		SET order_amount = #{order_amount}, order_date = #{order_date}, out_plan_date = #{out_plan_date}, order_status = #{order_status}
+ 			WHERE order_code = #{order_code}
+  </update>
+  
+  <delete id="proOrderDelete" parameterType="java.util.List">
+	DELETE FROM orders
+		WHERE order_code IN 
+			 <foreach collection="list" item="order_code" open="(" separator="," close=")">
+			  	#{order_code}
+			 </foreach>
+  </delete>
+  
+  <select id="proOrderSearch" resultType="map">
+  	SELECT o.order_code, o.emp_num, o.branch_code, p.prod_code, 
+  		   o.prod_name, p.prod_taste, p.prod_price, o.order_amount,
+  		   o.order_date, o.out_plan_date, o.order_status
+				FROM orders o JOIN product p
+					ON (o.prod_name = p.prod_name)
+						<where>
+							<if test="status != null and status != ''">
+								AND o.order_status = #{status}
+							</if>
+							<if test="content != null and content != ''">
+							<bind name="content" value="'%' + content + '%'"/>
+								AND o.branch_code LIKE #{content}
+							</if>
+							<if test="proOrderBegin != null and proOrderBegin != '' and proOrderEnd != null and proOrderEnd != ''">
+            					AND o.order_date BETWEEN #{proOrderBegin} AND #{proOrderEnd}
+        					</if>
+        					<if test="proOrderBegin != null and proOrderBegin != '' and (proOrderEnd == null or proOrderEnd == '')">
+    							AND o.order_date >= #{proOrderBegin}
+							</if>
+        					<if test="proOrderOutBegin != null and proOrderOutBegin != '' and proOrderOutEnd != null and proOrderOutEnd != ''">
+            					AND o.out_plan_date BETWEEN #{proOrderOutBegin} AND #{proOrderOutEnd}
+        					</if>
+        					<if test="proOrderOutBegin != null and proOrderOutBegin != '' and (proOrderOutEnd == null and proOrderOutEnd == '')">
+            					AND o.out_plan_date >= #{proOrderOutBegin}
+        					</if>
+						</where>
+							ORDER BY o.order_code DESC
+  </select>
 	
 </mapper>

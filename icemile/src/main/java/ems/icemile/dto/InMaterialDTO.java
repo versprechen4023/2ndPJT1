@@ -18,8 +18,11 @@ public class InMaterialDTO {
 	// 입고 담당자
 	private String emp_num;
 	// 입고 현황
-	private String in_status;
+	private int in_status;
 	// 수정일
 //	private String updatedate;
+	private String buy_code;
+	
+	private String trBuy_codeNum;
 	
 }

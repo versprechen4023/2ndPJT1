@@ -125,6 +125,102 @@
 // 추가, 수정 을 구분하기위한 전역변수선언
 var status = "";
 
+//조회를 눌렀을때 실행되는 물품 검색관련 함수
+function productSearch() {
+		
+	   // 값 전달 하기위한 JSON 타입 변수선언
+	   var json = {
+        			category: $('#category').val(),
+        			content: $('#content').val()
+       			  };
+	
+	   // 검색 결과값을 받아오기 위한 ajax 호출
+ 	   $.ajax({
+ 			  url : '${pageContext.request.contextPath}/product_ajax/search',
+ 			  // JSON타입의 변수를 스트링으로 변환한다
+ 			  data: JSON.stringify(json),
+ 			  // JSON타입의 변수를 전송한다
+ 	          contentType: 'application/json',
+ 			  type : 'POST',
+ 			  // 반환은 JSON 타입
+ 			  dataType: 'json',
+ 			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
+ 			  success:function(json){
+ 				  
+ 				    // tbody 내용을 초기화
+ 				    $('tbody').empty();
+					
+ 					// json 배열에 값이 없는 경우 추가가 안되는걸 방지하기위한 tr태그 생성
+				    if(json.length === 0){
+				    	// tr 태그 생성
+				        var $tr = $('<tr>');
+				        $('tbody').append($tr);
+				    }
+ 					
+ 				    // 배열 크기만큼 반복
+ 				    json.forEach(function (data) {
+ 				    	// tr 태그 생성
+ 				        var $tr = $('<tr>');
+ 				    		//tr 에 내용추가
+ 				        	$tr.append(
+ 				        	'<td><input type="checkbox" name="selectedProId" value="' + data.prod_code + '"></td>',
+ 				        	"<td>"+data.prod_code+"</td>",
+ 				            "<td>"+data.prod_name+"</td>",
+ 				           	"<td>"+data.prod_type+"</td>",
+ 				            "<td>"+data.prod_unit+"</td>",
+ 				         	"<td>"+data.prod_amount+"</td>",
+ 				         	"<td>"+data.prod_price+"</td>",
+ 				         	"<td>"+data.prod_exp+"</td>",
+ 				         	"<td>"+data.deal_code+"</td>",
+ 				         	"<td>"+data.wh_code+"</td>",
+ 				         	"<td>"+data.prod_note+"</td>"
+ 				        	);
+ 				        // 생성한 <tr> 요소를 tbody에 추가
+ 				        $('tbody').append($tr);
+ 				    });
+ 				    
+ 					// 페이징 동적 처리
+ 				    // 태그 개수 구하기
+ 				    var trCount = $('tbody tr').length;
+ 				    // 페이징 처리를 위한 변수선언(태그 개수 계산)
+ 				    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
+ 				    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
+ 				   	var dataPageValues = [];
+ 				    	// 페이징 버튼의 밸류값을 추출 한다
+ 				  		$('.datatable-pagination-list-item a').each(function() {
+ 				      		var dataPageValue = $(this).data('page');
+ 				      		dataPageValues.push(dataPageValue);
+ 				  		});
+ 				    	
+ 				  	// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
+ 				  	dataPageValues = dataPageValues.filter(function(value) {
+    					return value > parseInt(pageCount);
+					});
+ 				  	
+ 				  	// 중복을 삭제한다
+ 				  	var myArray = dataPageValues.filter(function(value, index, self) {
+    					return self.indexOf(value) === index;
+					});
+ 				  	
+ 				  	// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
+ 				  	var minValue = Math.min(myArray);
+ 				  	var maxValue = Math.max(myArray);
+ 				  	
+ 				  	// 글이 11개 이하라면(즉 페이징이 필요없는경우)
+ 				    if(trCount < 11){
+ 				    	// 페이징을 삭제
+ 				   	    $('.datatable-pagination-list').remove();
+ 				    } else {
+ 				    	// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
+ 				    	for(var i = minValue; i<=maxValue; i++){
+ 				    		$('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
+ 				    	}
+ 				    }
+ 				  	
+ 		      }// 콜백함수 종료지점
+      });// end_of_ajax
+}// end function
+
 // 함수 시작지점
 $(document).ready(function() {
 
@@ -183,6 +279,8 @@ function formTest(formData) {
 			  	type: "GET",
 		        url: "${pageContext.request.contextPath}/product_ajax/searchProName",
 		        data: {"prod_name": value},
+		     	// 조건문 발동을 위해 비동기로 처리
+		        async: false,
 		        success: function(response) {
 		        	// 공백을 제거한다
             		const resultAjax = $.trim(response);
@@ -532,94 +630,6 @@ $("#deleteProd").click(function() {
 		}// end else
 });//end function
 
-// 조회를 눌렀을때 실행되는 물품 검색관련 함수
-function productSearch() {
-		
-	   // 값 전달 하기위한 JSON 타입 변수선언
-	   var json = {
-        			category: $('#category').val(),
-        			content: $('#content').val()
-       			  };
-	
-	   // 검색 결과값을 받아오기 위한 ajax 호출
- 	   $.ajax({
- 			  url : '${pageContext.request.contextPath}/product_ajax/search',
- 			  // JSON타입의 변수를 스트링으로 변환한다
- 			  data: JSON.stringify(json),
- 			  // JSON타입의 변수를 전송한다
- 	          contentType: 'application/json',
- 			  type : 'POST',
- 			  // 반환은 JSON 타입
- 			  dataType: 'json',
- 			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
- 			  success:function(json){
- 				  
- 				    // tbody 내용을 초기화
- 				    $('tbody').empty();
-					
- 				    // 배열 크기만큼 반복
- 				    json.forEach(function (data) {
- 				    	// tr 태그 생성
- 				        var $tr = $('<tr>');
- 				    		//tr 에 내용추가
- 				        	$tr.append(
- 				        	'<td><input type="checkbox" name="selectedProId" value="' + data.prod_code + '"></td>',
- 				        	"<td>"+data.prod_code+"</td>",
- 				            "<td>"+data.prod_name+"</td>",
- 				           	"<td>"+data.prod_type+"</td>",
- 				            "<td>"+data.prod_unit+"</td>",
- 				         	"<td>"+data.prod_amount+"</td>",
- 				         	"<td>"+data.prod_price+"</td>",
- 				         	"<td>"+data.prod_exp+"</td>",
- 				         	"<td>"+data.deal_code+"</td>",
- 				         	"<td>"+data.wh_code+"</td>",
- 				         	"<td>"+data.prod_note+"</td>"
- 				        	);
- 				        // 생성한 <tr> 요소를 tbody에 추가
- 				        $('tbody').append($tr);
- 				    });
- 				    
- 					// 페이징 동적 처리
- 				    // 태그 개수 구하기
- 				    var trCount = $('tbody tr').length;
- 				    // 페이징 처리를 위한 변수선언(태그 개수 계산)
- 				    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
- 				    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
- 				   	var dataPageValues = [];
- 				    	// 페이징 버튼의 밸류값을 추출 한다
- 				  		$('.datatable-pagination-list-item a').each(function() {
- 				      		var dataPageValue = $(this).data('page');
- 				      		dataPageValues.push(dataPageValue);
- 				  		});
- 				    	
- 				  	// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
- 				  	dataPageValues = dataPageValues.filter(function(value) {
-    					return value > parseInt(pageCount);
-					});
- 				  	
- 				  	// 중복을 삭제한다
- 				  	var myArray = dataPageValues.filter(function(value, index, self) {
-    					return self.indexOf(value) === index;
-					});
- 				  	
- 				  	// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
- 				  	var minValue = Math.min(myArray);
- 				  	var maxValue = Math.max(myArray);
- 				  	
- 				  	// 글이 11개 이하라면(즉 페이징이 필요없는경우)
- 				    if(trCount < 11){
- 				    	// 페이징을 삭제
- 				   	    $('.datatable-pagination-list').remove();
- 				    } else {
- 				    	// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
- 				    	for(var i = minValue; i<=maxValue; i++){
- 				    		$('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
- 				    	}
- 				    }
- 				  	
- 		      }// 콜백함수 종료지점
-      });// end_of_ajax
-}// end function
 // 기능 함수 종료
 
 // 이벤트 관련 함수 시작지점
@@ -642,8 +652,11 @@ $('tbody').on('change', 'select[name="type"]', function() {
     	// 셀렉트 값에 담을 배열 변수 선언
    		var options = [
    			{ value: "", text: "원자재를 선택해주십시오" },
-      		{ value: "1", text: "원자재1" },
-      		{ value: "2", text: "원자재2" },
+      		{ value: "1", text: "우유" },
+      		{ value: "2", text: "크림" },
+      		{ value: "3", text: "파우더" },
+      		{ value: "4", text: "조미료" },
+      		{ value: "5", text: "포장" }
     	];
     
     	// 옵션을 배열에서 반복하여 추가
@@ -665,8 +678,11 @@ $('tbody').on('change', 'select[name="type"]', function() {
     		// 셀렉트 값에 담을 배열 변수 선언
        		var options = [
        			{ value: "", text: "완제품을 선택해주십시오" },
-          		{ value: "1", text: "완제품1" },
-          		{ value: "2", text: "완제품2" },
+          		{ value: "1", text: "바나나아이스크림" },
+          		{ value: "2", text: "딸기아이스크림" },
+          		{ value: "3", text: "포도아이스크림" },
+          		{ value: "4", text: "사과아이스크림" },
+          		
         	];
         
         	// 옵션을 배열에서 반복하여 추가

@@ -75,6 +75,8 @@
 												onclick="memberUpdate('${memberDTO.emp_num}')" id="updateEmp">
 												<input type="button" value="삭제"
 												onclick="memberDelete('${memberDTO.emp_num}')" id="deleteEmp">
+												<input type="button" value="비밀번호 초기화"
+												onclick="memberReset('${memberDTO.emp_num}')" id="resetEmp">
 											</td>
 											</c:if>
 										</tr>
@@ -115,6 +117,9 @@ function memberSearch() {
 		// 원래 매개변수로 전달할려했으나 처음에 언디파인드가 뜨는 문제가 있음 따라서 변수선언
  		var role = '${sessionScope.emp_role}';
  		
+ 		if($('#content').val() == ''){
+ 			return false;
+ 		}
 	   // 값 전달 하기위한 JSON 타입 변수선언
 	   var json = {
         			category: $('#category').val(),
@@ -152,6 +157,7 @@ function memberSearch() {
  				            "<td>" +
  				          	"<input type='button' value='수정' onclick='memberUpdate(\"" + data.emp_num + "\")' id='updateEmp'>" +
  				            "<input type='button' value='삭제' onclick='memberDelete(\"" + data.emp_num + "\")' id='deleteEmp'>" +
+ 				            "<input type='button' value='비밀번호 초기화' onclick='memberReset(\"" + data.emp_num + "\")' id='resetEmp'>" +
  				            "</td>"
  				        	);
  				    	} else {
@@ -171,6 +177,7 @@ function memberSearch() {
  				    // 페이징 동적 처리
  				    // 태그 개수 구하기
  				    var trCount = $('tbody tr').length;
+ 				    console.log(trCount);
  				    // 페이징 처리를 위한 변수선언(태그 개수 계산)
  				    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
  				    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
@@ -212,11 +219,11 @@ function memberSearch() {
 
 // 멤버 추가관련 함수
 function memberInsert(){
-	window.open('${pageContext.request.contextPath }/member/memberInsert', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/member/memberInsert', '_blank', 'width=590px, height=672px, left=600px, top=300px');
 } //end function
 
 function memberUpdate(emp_num){
-	window.open('${pageContext.request.contextPath }/member/memberUpdate?emp_num='+emp_num, '_blank', 'width=600px, height=770px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/member/memberUpdate?emp_num='+emp_num, '_blank', 'width=600px, height=672px, left=600px, top=300px');
 }
 // 멤버 삭제관련 함수
 function memberDelete(emp_num) {
@@ -263,11 +270,59 @@ function memberDelete(emp_num) {
 	  });// end_of_function(alert 콜백함수 종료지점)
 }// end_of_function
 
-//엔터키 입력시 검색되게 이벤트 리스너 활성화
-document.addEventListener("keyup", function(event) {
-    if (event.key === 'Enter') {
-    	memberSearch();
-    }// end if
+//멤버 비밀번호 초기화 관련 함수
+function memberReset(emp_num) {
+	
+	// sweetalert2 호출
+	Swal.fire({
+		   title: '비밀번호 초기화',
+		   text: '정말로 사원의 비밀번호를 초기화 하시겠습니까?',
+		   icon: 'warning',
+		   
+		   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+		   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+		   cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+		   confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+		   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+		   
+		   reverseButtons: true, // 버튼 순서 거꾸로
+		
+		// 람다식 alert 창이 닫히면 호출
+		}).then(result => {
+		   // 만약 Promise리턴을 받으면,
+		   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+			   
+			   // 멤버 삭제하는 ajax 호출
+			   $.ajax({
+					  url : '${pageContext.request.contextPath}/member_ajax/reset',
+					  data: {"emp_num": emp_num},
+					  type : 'POST',
+					  success:function(data){
+							const result = $.trim(data);
+							
+							if(result == "true"){
+							Swal.fire('사원의 비밀번호가 생일로 초기화 되었습니다.', '성공', 'success');
+							} else {
+							Swal.fire('초기화 과정에서 문제가 발생했습니다.', '실패', 'error');
+							}
+				      }// 콜백함수 종료지점
+		       });// end_of_ajax
+		  }// end_of_if(컨펌확인)
+	  });// end_of_function(alert 콜백함수 종료지점)
+}// end_of_function
+
+//폼제출을 막고 엔터키로 조회가 가능하게 하는 함수
+// 텍스트타입 제출을 막음
+$('input[type="text"]').keydown(function() {
+	// 엔터키 이벤트 발생을 확인한다
+	if (event.keyCode === 13) {
+		// 폼 태그 제출을 막는다
+ 		event.preventDefault();
+		// 검색 함수를 실행한다
+ 		memberSearch();
+		// 검색입력창을 초기화한다
+ 		$('#content').val("");
+	}// end if
 });// end function
 </script>
 </body>

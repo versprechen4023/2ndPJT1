@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import ems.icemile.dto.ProductAllDTO;
+import ems.icemile.dto.ProductDTO;
 import ems.icemile.dto.ProductInsertDTO;
 import ems.icemile.dto.RawMaterialDTO;
 
@@ -33,4 +34,10 @@ public interface ProductService {
 	
 	// 원자재 검색
 	public List<RawMaterialDTO> rowSearch(HashMap<String, Object> json);
+	
+	// 팝업창에서 사용할 완제품 리스트 출력
+	public List<ProductDTO> getProductListPopUp();
+	
+	// 품목 삭제 시 연관된 데이터 처리
+	public boolean deleteRawStock(List<String> rawStockDelete);
 }

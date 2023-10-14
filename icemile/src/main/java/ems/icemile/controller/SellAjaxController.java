@@ -1,8 +1,10 @@
 package ems.icemile.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -12,9 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ems.icemile.dto.ProOrderDTO;
+import ems.icemile.dto.RowOrderListDTO;
 import ems.icemile.dto.SellDTO;
+import ems.icemile.enums.ProOrderStatus;
 import ems.icemile.service.SellServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -79,6 +85,79 @@ public class SellAjaxController {
 		log.debug("{} 값 확인", branch_phone);
 		
 		return Boolean.toString(sellService.searchPhone(branch_phone));
+	}
+	
+	@PostMapping("proOrderUpdate")
+	public boolean proOrderUpdate(ProOrderDTO proOrderDTO) {
+		
+		log.debug("proOrderUpdate ajax 실행");
+		
+		return sellService.proOrderUpdate(proOrderDTO);
+	}
+	
+	@PostMapping("proOrderInsert")
+	public boolean proOrderInsert(ProOrderDTO proOrderDTO) {
+		
+		log.debug("proOrderInsert ajax 실행");
+				
+		return sellService.proOrderInsert(proOrderDTO);
+	}
+	
+	@PostMapping("proOrderDelete")
+	public boolean proOrderDelete(@RequestParam("selectedProOrderId") String[] selectedProOrderId) {
+		
+		log.debug("proOrderDelete ajax 실행");
+		
+		// 마이바티스에서 반복처리를 위해 배열을 리스트 타입으로 변경
+		List<String> deleteProList = Arrays.asList(selectedProOrderId);
+				
+		return sellService.proOrderDelete(deleteProList);
+	}
+	
+	@PostMapping("/proOrderSearch")
+	public List<HashMap<String, Object>> proOrderSearch(@RequestBody HashMap<String, Object> json) {
+		
+		log.debug("발주 검색");
+		
+		// 값 확인
+		for (Entry<String, Object> entry : json.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            boolean test = entry.getValue().toString().isEmpty();
+            log.debug("키값 {} 밸류 값 {}",key,value);
+            log.debug("빈값{}",test);
+        }
+		
+		// 수주리스트를 가져오기위한 품목리스트 객체생성
+		List<HashMap<String, Object>> proOrderList = new ArrayList<HashMap<String, Object>>();
+		proOrderList = sellService.proOrderSearch(json);
+//				
+		// 가격 및 상태처리 및 날짜처리
+		for(HashMap<String,Object> a : proOrderList) {
+			// 배열에서 주문량을 가져온다
+			int order_amount = (int)a.get("order_amount");
+			// 배열에서 단가(완제품가격) 을 가져온다
+			int prod_price = (int)a.get("prod_price");
+			// 계산을 수행한다
+			int result = (int)((order_amount * prod_price) * 1.2);
+			// 계산된 값을 수주금액에 넣는다
+			a.put("order_price", result);
+					
+			// 상태처리 번호를 가져온다
+			int order_status = (int)a.get("order_status");
+			// 번호를 상태(문자)로 반환한다
+			String text_order_status = ProOrderStatus.fromNumber(order_status).getName();
+			// 반환한 문자를 상태로 갱신한다
+			a.put("order_status", text_order_status);
+			
+			// Date타입의 데이터를 String으로 변환한다
+			Object myDate = a.get("order_date");
+			Object myPlanDate = a.get("out_plan_date");
+			a.put("order_date", myDate.toString());
+			a.put("out_plan_date", myPlanDate.toString());
+		}
+		
+		return proOrderList;
 	}
 
 }

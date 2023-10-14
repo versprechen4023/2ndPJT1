@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -34,7 +35,7 @@
 <!--<li class="breadcrumb-item active">Tables</li> --> 
 </ol>
 <div class="bnt">
-<input type="button" value="추가" onclick="location.href='${pageContext.request.contextPath}/factory/requirementAdd'">
+<input type="button" value="추가" onclick="requirementAdd()">
 </div>
 <div class="card mb-4">
 <!--<div class="card-header"> -->
@@ -78,11 +79,11 @@
 <td>${requirementDTO.req_code}</td> <!--소요량 코드 -->
 <td>${requirementDTO.prod_code}</td> <!-- 완제품 코드 -->
 <td>${requirementDTO.raw_code }</td> <!-- 원자재 코드 -->
-<td>${requirementDTO.req_insertDATE}</td><!--  소요량 등록일-->
+<td>${fn:substring(requirementDTO.req_insertDATE, 0, 10)}</td><!--  소요량 등록일-->
 <td>${requirementDTO.req_amount }</td><!-- 소요량 -->
-<td>${requirementDTO.req_upDATEDATE }</td><!-- 수정일 -->
+<td>${fn:substring(requirementDTO.req_upDATEDATE, 0, 10)}</td><!-- 수정일 -->
 <td>${requirementDTO.req_note }</td><!-- 비고 -->
-<td><input type="button" value="수정" onclick="location.href='${pageContext.request.contextPath}/factory/requirementUpdate?req_code=${requirementDTO.req_code}'">
+<td><input type="button" value="수정" onclick="requirementUpdate('${requirementDTO.req_code}')">
 <input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/factory/deleteRequirement?req_code=${requirementDTO.req_code}')">
 </td>
 </tr>
@@ -105,7 +106,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="../resources/js/requirement.js"></script>
+        <script src="../resources/js/requirement_im.js"></script>
         
      	
 <script type="text/javascript">
@@ -136,11 +137,14 @@ function requirementSearch() {
  				    $('tbody').empty();
 					
  				    // 배열 크기만큼 반복
+ 				    var num = 0;
  				    json.forEach(function (data) {
  				    	// tr 태그 생성
  				        var $tr = $('<tr>');
+ 				    		num+=1;
  				    		//tr 에 내용추가
- 				        	$tr.append(				        					     
+ 				        	$tr.append(			
+ 				        	"<td>"+num+"</td>",
  				        	"<td>"+data.req_code+"</td>",
  				            "<td>"+data.prod_code+"</td>",
  				           	"<td>"+data.raw_code+"</td>",
@@ -149,13 +153,53 @@ function requirementSearch() {
  				         	"<td>"+data.req_upDATEDATE+"</td>",
  				         	"<td>"+data.req_note+"</td>",
  				         	 '<td>' +
- 				            '<input type="button" value="수정" onclick="openEditPopup(\'' + data.req_code + '\')">' +
+ 				            '<input type="button" value="수정" onclick="requirementUpdate(\'' + data.req_code + '\')">' +
  				            '<input type="button" value="삭제" onclick="confirmDelete(\'' + '${pageContext.request.contextPath}/factory/deleteRequirement?req_code=' + data.req_code + '\')">' +
  				            '</td>' 
  				        	);
  				        // 생성한 <tr> 요소를 tbody에 추가
  				        $('tbody').append($tr);
  				    });
+ 				    
+ 				// 페이징 동적 처리
+				    // 태그 개수 구하기
+				    var trCount = $('tbody tr').length;
+				    // 페이징 처리를 위한 변수선언(태그 개수 계산)
+				    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
+				    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
+				   	var dataPageValues = [];
+				    	// 페이징 버튼의 밸류값을 추출 한다
+				  		$('.datatable-pagination-list-item a').each(function() {
+				      		var dataPageValue = $(this).data('page');
+				      		dataPageValues.push(dataPageValue);
+				  		});
+				    	
+				  	// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
+				  	dataPageValues = dataPageValues.filter(function(value) {
+					return value > parseInt(pageCount);
+					});
+				  	
+				  	// 중복을 삭제한다 indexOf로 첫번째 위치만을 출력한다 중복된다면 첫번째위치가 아닌 다른위치에 있을 것이므로
+				  	// 모두 false 처리하여 삭제한다
+				  	var myArray = dataPageValues.filter(function(value, index, self) {
+					return self.indexOf(value) === index;
+					});
+				  	
+				  	// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
+				  	var minValue = Math.min(myArray);
+				  	var maxValue = Math.max(myArray);
+				  	
+				  	// 글이 11개 이하라면(즉 페이징이 필요없는경우)
+				    if(trCount < 11){
+				    	// 페이징을 삭제
+				   	    $('.datatable-pagination-list').remove();
+				    } else {
+				    	// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
+				    	for(var i = minValue; i<=maxValue; i++){
+				    		$('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
+				    	}
+				    }
+			
  		      }// 콜백함수 종료지점
       });// end_of_ajax
 }// end function
@@ -170,19 +214,17 @@ function confirmDelete(deleteUrl) {
         // 취소 버튼을 눌렀을 때의 처리 (생략 가능)
     }
 }
-// function openEditPopup(req_code) {
-//     // 팝업 창의 URL을 서버의 컨트롤러 엔드포인트로 설정
-//     var editUrl = '/factory/requirementUpdate?req_code=' +req_code;
+// 등록 페이지 팝업
+ function requirementAdd(){        
+	window.open('${pageContext.request.contextPath }/factory/requirementAdd', '_blank', 'width=968px, height=292px, left=400px, top=300px');
+} //end function
 
-//     // 팝업 창의 속성 설정
-//     var popupWidth = 800;
-//     var popupHeight = 600;
-//     var left = (screen.width - popupWidth) / 2;
-//     var top = (screen.height - popupHeight) / 2;
-
-//     // 팝업 창 열기
-//     window.open(editUrl, 'editPopup', 'width=' + popupWidth + ',height=' + popupHeight + ',left=' + left + ',top=' + top);
-// }
+// 수정 페이지 팝업
+ function requirementUpdate(req_code){      
+// 	alert(req_code);
+	window.open('${pageContext.request.contextPath }/factory/requirementUpdate?req_code='+req_code+'', '_blank', 'width=1049px, height=286px, left=400px, top=300px');
+} 
+	
 </script>
 
     </body>

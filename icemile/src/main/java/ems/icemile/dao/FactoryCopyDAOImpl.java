@@ -36,10 +36,15 @@ public class FactoryCopyDAOImpl implements FactoryCopyDAO {
 	}//deleteRequirement
 	
 	// 소요량 코드 자동부여
+//	@Override
+//	public int getNewReq_code() {
+//		return sqlSession.selectOne(namespace+"getNewReq_code");
+//	}// getNewReq_code() 
+	
 	@Override
-	public int getNewReq_code() {
+	public String getNewReq_code() {
 		return sqlSession.selectOne(namespace+"getNewReq_code");
-	}// getNewReq_code() 
+	}
 	
 	// 소요량 등록
 	@Override
@@ -63,4 +68,5 @@ public class FactoryCopyDAOImpl implements FactoryCopyDAO {
 		log.debug("FactoryDAO requirementSearch");
 		return sqlSession.selectList(namespace+"requirementSearch", json);
 	}
+
 }

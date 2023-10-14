@@ -20,11 +20,20 @@ public interface BuyDAO {
 	public BuyDTO getBuyInfo(String buy_code);
 
 	// 구매처 업데이트
-	public void buyUpdate(BuyDTO buyDTO);
+	public boolean buyUpdate(BuyDTO buyDTO);
 	
 	// 구매처 삭제
 	public boolean buyDelete(String buy_code);
 
 	// 구매처 검색
 	public List<BuyDTO> buySearch(HashMap<String, Object> json);
+
+	// 이메일 중복 검사
+	boolean searchEmail(String buy_email);
+	
+	// 번호 중복 검사
+	boolean searchPhone(String buy_phone);
+	
+	// 구매처 팝업 리스트
+	public List<BuyDTO> getBuyListPopUp();
 }

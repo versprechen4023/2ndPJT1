@@ -2,36 +2,16 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>아이스마일</title>
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="../resources/css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+   <head>
+<!-- 헤드 -->
+<jsp:include page="../include/head.jsp"></jsp:include>
+<!-- 헤드 -->
     </head>
     <body class="sb-nav-fixed">  
 <!-- 헤더 -->
 <jsp:include page="../include/header.jsp"></jsp:include>
 <!-- 헤더 -->
 
-<style>
-@font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-}
-*{
-    font-family: 'Pretendard-Regular';
-}
-h1{
-	font-weight: 600;
-}
-</style>
         <div id="layoutSidenav">
 <!-- 사이드바 -->
 <jsp:include page="../include/sidebar.jsp"></jsp:include>

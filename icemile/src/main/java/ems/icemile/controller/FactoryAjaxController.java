@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import ems.icemile.dto.FacilityDTO;
 import ems.icemile.dto.RequirementDTO;
 import ems.icemile.service.FactoryCopyServiceImpl;
+import ems.icemile.dto.BuyDTO;
+import ems.icemile.dto.WorkOrderDTO;
+import ems.icemile.service.FactoryCopy2ServiceImpl;
 import ems.icemile.service.FactoryService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,8 +33,13 @@ public class FactoryAjaxController {
 	@Inject // 팩토리 서비스 의존성 주입
 	private FactoryService factoryService;
 	
+
 	@Inject 
 	private FactoryCopyServiceImpl factoryCopyService;
+
+	@Inject // Copy2는 workOrder 작업. 충돌 최소화를 위해 FactoryCopy2에 작업
+	private FactoryCopy2ServiceImpl factoryCopy2Service;
+
 	
 	
 	@PostMapping("/deleteFacility")
@@ -66,6 +75,7 @@ public class FactoryAjaxController {
 		return facilityList;
 	}
 	
+
 	@PostMapping("requirementSearch")
 	public List<RequirementDTO> requirementSearch(@RequestBody HashMap<String, Object> json) {
 		
@@ -79,6 +89,64 @@ public class FactoryAjaxController {
 		// 콜백 함수에 결과값 리턴
 		return requirementList;
 	}
+
+    @PostMapping("/workOrderAdd")
+    public ResponseEntity<String> workOrderAdd(WorkOrderDTO workOrderDTO) {
+        try {
+            factoryCopy2Service.workOrderAdd(workOrderDTO);
+            return new ResponseEntity<>("true", HttpStatus.OK); // 성공 시 "true" 반환
+        } catch (Exception e) {
+            log.error("Error during workOrderAdd: {}", e.getMessage());
+            return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
+        }
+    }
+	
+    @PostMapping("/workOrderUpdate")
+    public ResponseEntity<String> workOrderUpdate (WorkOrderDTO workOrderDTO) {
+        try {
+            factoryCopy2Service.workOrderUpdate(workOrderDTO);
+            return new ResponseEntity<>("true", HttpStatus.OK); // 성공 시 "true" 반환
+        } catch (Exception e) {
+            log.error("Error during workOrderUpdate: {}", e.getMessage());
+            return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
+        }
+    }
+    
+	@PostMapping("/workOrderDelete")
+	public String workOrderDelete(@RequestParam("work_code") String work_code) {
+		log.debug("작업 지시 삭제 AJAX 호출");
+		
+		return Boolean.toString(factoryCopy2Service.workOrderDelete(work_code));
+		
+	}
+	
+	@PostMapping("workOrderSearch")
+	public List<WorkOrderDTO> workOrderSearch(@RequestBody HashMap<String, Object> json) {
+		
+		log.debug("작업 지시 서치 AJAX 호출");
+		
+		// 작업 지시 리스트를 가져오기위한 작업 지시 리스트 객체생성
+		List<WorkOrderDTO> workOrderList = new ArrayList<WorkOrderDTO>();
+		//결과값에 따라 작업 지시 리스트를 가져온다
+		workOrderList = factoryCopy2Service.workOrderSearch(json);
+		
+		// 콜백 함수에 결과값 리턴
+		return workOrderList;
+	
+	}
+	
+	@PostMapping("/workOrderDone")
+	public ResponseEntity<String> workOrderDone(@RequestParam("work_code") String work_code) {
+	    try {
+	    	factoryCopy2Service.workOrderDone(work_code);
+	        return new ResponseEntity<>("true", HttpStatus.OK);
+	    } catch (Exception e) {
+	        log.error("Error during workOrderDone: {}", e.getMessage());
+	        return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
+	    }
+	}
+	
+	
 
 }// class FactoryAjaxController
 	

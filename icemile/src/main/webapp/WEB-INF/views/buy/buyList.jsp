@@ -4,12 +4,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 헤더 -->
-<jsp:include page="../include/header.jsp"></jsp:include>
-<!-- 헤더 -->
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
+<!-- 헤더 -->
+<jsp:include page="../include/header.jsp"></jsp:include>
+<!-- 헤더 -->
 </head>
 <body class="sb-nav-fixed">
 <div id="layoutSidenav">
@@ -74,7 +74,7 @@
 											<td>${buyDTO.buy_reg}</td>
 											<td>${buyDTO.buy_ceo}</td>
 											<td>${buyDTO.buy_emp}</td>
-											<td>${buyDTO.emp_num}</td>
+                                            <td><a href="#" class="emp-num-link" data-emp-num="${buyDTO.emp_num}">${buyDTO.emp_num}</a></td>
 											<td>${buyDTO.buy_type}</td>
 											<td>${buyDTO.buy_phone}</td>
 											<td>${buyDTO.buy_post}</td>
@@ -118,7 +118,53 @@
 		crossorigin="anonymous"></script>
 	<script src="../resources/js/buyList_im.js"></script>
 	
-<script>
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	$(document).on("click", ".emp-num-link", function(event) {
+        event.preventDefault();
+        var empNum = $(this).data("emp-num"); // 클릭한 링크의 emp_num 값을 가져옵니다.
+
+        // 팝업 창 크기 및 위치 설정
+        var width = 590;
+        var height = 705;
+        var left = (screen.width - width) / 2;
+        var top = (screen.height - height) / 2;
+
+        // 팝업 창 열기
+        var url = '${pageContext.request.contextPath}/member/managerInfo?emp_num=' + empNum; // 팝업에 필요한 데이터를 URL에 포함
+        var popupWindow = window.open(url, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
+
+        // 팝업 창 포커스
+        popupWindow.focus();
+    });
+});
+
+
+$(document).ready(function() {
+    $("#emp_num").click(function() {
+        // 업체코드 입력란의 값을 가져옵니다.
+        // var emp_num = $("input[name='emp_num']").val();
+        // 여기에서 검색 기능을 구현하고, 필요한 로직을 수행합니다.
+        // 예: 업체코드를 이용하여 검색하고 결과를 표시합니다.
+        
+        $(document).ready(function() {
+	        $("#emp_num").click(function() {
+	            // 팝업 창 크기 및 위치 설정
+	            var width = 400;
+	            var height = 400;
+	            var left = (screen.width - width) / 2;
+	            var top = (screen.height - height) / 2;
+	            // 팝업 창 열기
+	            var url = '${pageContext.request.contextPath}/member/memberList'; // 업체 검색 페이지의 URL.
+	            var popupWindow = window.open(url, '_blank', "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top);
+	            // 팝업 창 포커스
+	            popupWindow.focus();
+	        });
+	    });
+    });
+});
+
 // 멤버 검색관련 함수
 function buySearch() {
 		
@@ -158,7 +204,7 @@ function buySearch() {
  				         	"<td>"+data.buy_reg+"</td>",
  				         	"<td>"+data.buy_ceo+"</td>",
  				         	"<td>"+data.buy_emp+"</td>",
- 				         	"<td>"+data.emp_num+"</td>",
+				         	'<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>',    				            
  				         	"<td>"+data.buy_type+"</td>",
  				         	"<td>"+data.buy_phone+"</td>",
  				         	"<td>"+data.buy_post+"</td>",
@@ -176,12 +222,12 @@ function buySearch() {
  		 				         	"<td>"+data.buy_reg+"</td>",
  		 				         	"<td>"+data.buy_ceo+"</td>",
  		 				         	"<td>"+data.buy_emp+"</td>",
- 		 				         	"<td>"+data.emp_num+"</td>",
+ 	    				         	'<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>',    				            
  		 				         	"<td>"+data.buy_type+"</td>",
  		 				         	"<td>"+data.buy_phone+"</td>",
  		 				         	"<td>"+data.buy_post+"</td>",
  		 				         	"<td>"+data.buy_add+"</td>",
- 		 				         	"<td>"+data.buy_email+"</td>",
+ 		 				         	"<td>"+data.buy_email+"</td>"
  		 				     );
  				    	}
  				        // 생성한 <tr> 요소를 tbody에 추가
@@ -193,11 +239,11 @@ function buySearch() {
 
 // 멤버 추가관련 함수
 function buyInsert(){
-	window.open('${pageContext.request.contextPath }/buy/buyInsert', '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/buy/buyInsert', '_blank', 'width=620px, height=598px, left=600px, top=300px');
 } //end function
 
 function buyUpdate(buy_code){
-	window.open('${pageContext.request.contextPath }/buy/buyUpdate?buy_code='+buy_code, '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/buy/buyUpdate?buy_code='+buy_code, '_blank', 'width=570px, height=641px, left=600px, top=300px');
 }
 // 멤버 삭제관련 함수
 function buyDelete(buy_code) {
@@ -243,6 +289,39 @@ function buyDelete(buy_code) {
 		  }// end_of_if(컨펌확인)
 	  });// end_of_function(alert 콜백함수 종료지점)
 }// end_of_function
+
+
+// buy_phone 형식을 000-0000-0000으로 변경하는 함수
+function formatBuyPhone() {
+    var buyPhones = document.querySelectorAll("#datatablesSimple td:nth-child(8)");
+    buyPhones.forEach(function (buyPhoneCell) {
+        var buyPhone = buyPhoneCell.textContent.trim();
+        var formattedPhone = buyPhone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+        buyPhoneCell.textContent = formattedPhone;
+    });
+}
+
+
+// 페이지 로드 시 호출하여 전체 테이블의 buy_phone 형식 변경
+window.addEventListener("load", function () {
+    formatBuyPhone();
+});
+
+//branch_reg 형식을 XXX-XX-XXXXX로 변경하는 함수
+function formatBranchReg() {
+    var branchRegs = document.querySelectorAll("#datatablesSimple td:nth-child(3)");
+    branchRegs.forEach(function (branchRegCell) {
+        var branchReg = branchRegCell.textContent.trim();
+        var formattedBranchReg = branchReg.replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3');
+        branchRegCell.textContent = formattedBranchReg;
+    });
+}
+
+// 페이지 로드 시 호출하여 전체 테이블의 branch_reg 형식 변경
+window.addEventListener("load", function () {
+    formatBranchReg();
+});
+
 
 //엔터키 입력시 검색되게 이벤트 리스너 활성화
 document.addEventListener("keyup", function(event) {

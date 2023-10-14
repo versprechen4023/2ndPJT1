@@ -110,5 +110,13 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.selectOne(namespace+"getmanagerInfo", emp_num);
 	}
 	
+	@Override
+	public boolean memberReset(MemberDTO memberDTO) {
+		
+		log.debug("memberReset DAO 도달");
+		
+		return sqlSession.update(namespace+"memberReset", memberDTO) > 0;
+	}
+	
 	
 }

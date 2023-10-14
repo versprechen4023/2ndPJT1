@@ -81,6 +81,7 @@
     </foreach>
  </delete>
  
+ 
  <select id="productSearch" resultType="ems.icemile.dto.ProductAllDTO">
  	<bind name="content" value="'%' + content + '%'"/>
  	SELECT *
@@ -112,11 +113,25 @@
  		FROM raw_material
  </select>
  
-  <select id="rowSearch" resultType="ems.icemile.dto.RawMaterialDTO">
+ <select id="rowSearch" resultType="ems.icemile.dto.RawMaterialDTO">
  	<bind name="content" value="'%' + content + '%'"/>
  	SELECT raw_code, raw_name, raw_type, raw_price
  		FROM raw_material
  			WHERE ${category} LIKE #{content}
  </select>
+ 
+ <select id="getProductListPopUp" resultType="ems.icemile.dto.ProductDTO">
+ 	SELECT prod_code, prod_name, prod_taste, prod_price
+ 		FROM product
+ </select> 
+ 
+ <delete id="deleteRawStock" parameterType="java.util.List">
+	DELETE FROM stock
+		WHERE raw_code IN 
+			 <foreach collection="list" item="raw_order_code" open="(" separator="," close=")">
+			  	#{raw_order_code}
+			 </foreach>
+ </delete>
+
  
 </mapper>

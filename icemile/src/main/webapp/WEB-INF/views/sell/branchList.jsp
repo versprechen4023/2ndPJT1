@@ -50,7 +50,6 @@
 							<select id="category">
   								<option value="branch_code">지점코드</option>
   								<option value="branch_name">지점명</option>
-  								<option value="emp_num">가맹 담당자명</option>
   								<option value="branch_phone">지점 연락처</option>
 							</select>
 							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
@@ -128,13 +127,14 @@
 	<script src="../resources/js/branchList_im.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-    $(".emp-num-link").click(function(event) {
+	
+	$(document).on("click", ".emp-num-link", function(event) {
         event.preventDefault();
         var empNum = $(this).data("emp-num"); // 클릭한 링크의 emp_num 값을 가져옵니다.
 
         // 팝업 창 크기 및 위치 설정
-        var width = 400;
-        var height = 400;
+        var width = 590;
+        var height = 705;
         var left = (screen.width - width) / 2;
         var top = (screen.height - height) / 2;
 
@@ -217,9 +217,8 @@ $(document).ready(function() {
     				         	"<td>"+data.branch_post+"</td>",
     				         	"<td>"+data.branch_add+"</td>",
     				         	"<td>"+data.branch_email+"</td>",
-    				         	"<td>"+data.emp_name+"</td>",
-    				            "<td>" +
-    				            "<input type='button' value='수정' onclick='branchUpdate(\"" + data.branch_code + "\")' id='branchUpdate1'>" +
+    				         	'<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>',    				            
+    				         	"<input type='button' value='수정' onclick='branchUpdate(\"" + data.branch_code + "\")' id='branchUpdate1'>" +
     				            "<input type='button' value='삭제' onclick='branchDelete(\"" + data.branch_code + "\")' id='branchDelete1'>" +
     				            "</td>"
 
@@ -234,23 +233,44 @@ $(document).ready(function() {
     				         	"<td>"+data.branch_post+"</td>",
     				         	"<td>"+data.branch_add+"</td>",
     				         	"<td>"+data.branch_email+"</td>",
-    				         	"<td>"+data.emp_name+"</td>",
-    		 				     );
-    				    	}
+    				         	'<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>'	            
+    				    	);}
     				        // 생성한 <tr> 요소를 tbody에 추가
     				        $('tbody').append($tr);
     				    });
     		      }// 콜백함수 종료지점
          });// end_of_ajax
    }// end function
+   
+ /*   $(document).ready(function() {
+	    // emp-num-link 클래스를 가진 링크를 클릭했을 때 팝업 창을 엽니다.
+	    $(document).on('click', '.emp-num-link', function(event) {
+	        event.preventDefault();
+	        var empNum = $(this).data('emp-num'); // 클릭한 링크의 emp_num 값을 가져옵니다.
+
+	     	// 팝업 창 크기 및 위치 설정
+	        var width = 400;
+	        var height = 400;
+	        var left = (screen.width - width) / 2;
+	        var top = (screen.height - height) / 2;
+	        
+	        // 팝업 창 열기
+	        var url = '${pageContext.request.contextPath}/member/managerInfo?emp_num=' + empNum; // 팝업에 필요한 데이터를 URL에 포함
+	        var popupWindow = window.open(url, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
+
+	        // 팝업 창 포커스
+	        popupWindow.focus();
+	    });
+	}); */
+
 
 // 지점 추가관련 함수
    function branchReg(){
-   	window.open('${pageContext.request.contextPath }/sell/branchReg', '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+   	window.open('${pageContext.request.contextPath }/sell/branchReg', '_blank', 'width=615px, height=526px, left=600px, top=300px');
    } //end function
 
    function branchUpdate(branch_code){
-   	window.open('${pageContext.request.contextPath }/sell/branchUpdate?branch_code='+branch_code, '_blank', 'width=600px, height=1000px, left=600px, top=300px');
+   	window.open('${pageContext.request.contextPath }/sell/branchUpdate?branch_code='+branch_code, '_blank', 'width=550px, height=526px, left=600px, top=300px');
    }
    
 // 지점 삭제관련 함수
@@ -297,6 +317,38 @@ $(document).ready(function() {
    		  }// end_of_if(컨펌확인)
    	  });// end_of_function(alert 콜백함수 종료지점)
    }// end_of_function
+   
+
+   // branch_phone 형식을 000-0000-0000으로 변경하는 함수
+   function formatBranchPhone() {
+       var branchPhones = document.querySelectorAll("#datatablesSimple td:nth-child(5)");
+       branchPhones.forEach(function (branchPhoneCell) {
+           var branchPhone = branchPhoneCell.textContent.trim();
+           var formattedPhone = branchPhone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+           branchPhoneCell.textContent = formattedPhone;
+       });
+   }
+
+   // 페이지 로드 시 호출하여 전체 테이블의 branch_phone 형식 변경
+   window.addEventListener("load", function () {
+       formatBranchPhone();
+   });
+
+// branch_reg 형식을 XXX-XX-XXXXX로 변경하는 함수
+   function formatBranchReg() {
+       var branchRegs = document.querySelectorAll("#datatablesSimple td:nth-child(3)");
+       branchRegs.forEach(function (branchRegCell) {
+           var branchReg = branchRegCell.textContent.trim();
+           var formattedBranchReg = branchReg.replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3');
+           branchRegCell.textContent = formattedBranchReg;
+       });
+   }
+
+   // 페이지 로드 시 호출하여 전체 테이블의 branch_reg 형식 변경
+   window.addEventListener("load", function () {
+       formatBranchReg();
+   });
+
    
  //엔터키 입력시 검색되게 이벤트 리스너 활성화
    document.addEventListener("keyup", function(event) {

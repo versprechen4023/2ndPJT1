@@ -37,15 +37,14 @@
 								</select> </td></tr>
 <tr><td class="tdbold">직급</td><td><select name="position" id="position">
 								<option value="">직급을 선택하십시오</option>
-								<option value="0">관리자</option>
     							<option value="1">사원</option>
     							<option value="2">대리</option>
     							<option value="3">과장</option>
     							<option value="4">차장</option>
     							<option value="5">부장</option>
 								</select> </td></tr>
-<tr><td class="tdbold">전화번호</td><td><input type="text" name="phone_num" id="phone_num"></td></tr>
-<tr><td class="tdbold">내선번호</td><td><input type="text" name="hotline" id="hotline"></td></tr>
+<tr><td class="tdbold">전화번호</td><td><input type="text" name="phone_num" id="phone_num" maxlength="11"></td></tr>
+<tr><td class="tdbold">내선번호</td><td><input type="text" name="hotline" id="hotline" maxlength="11"></td></tr>
 <tr><td class="tdbold">이메일</td><td>	<input type="text" name="email_id" id="email_id"> @ 
 										<input type="text" name="email_dns" id="email_dns"> 
 								<select name="email_sel" id="email_sel" onchange="updateEmailDns()">
@@ -179,7 +178,11 @@ $(document).ready(function() {
 	
 	// 부서 선택이 변경되었을 때
     $('#dept_name').on('change', function () {
+    	
+    	// 이벤트가 발생하는 첫번째 셀렉트 태그를 선택한다
         selectedDept = $(this).val();
+        // 두번째 셀렉트 태그(직급)를 변수에 담는다
+        var $position = $('#position');
         
      	// 권한 초기화
         $('[name="role"]').prop('checked', false);
@@ -189,11 +192,49 @@ $(document).ready(function() {
         if(selectedDept == '0'){
         	$('[name="role"]').prop('checked', true);
         	
+        	// 직급 선택 초기화
+        	$position.empty();
+        	
+        	var $option = $('<option>', {
+        		value: "0",
+        		text: "관리자"
+      			});//end var
+    			
+    		// 최종값을 셀렉트 태그에 추가한다
+      		$position.append($option);
+      			
         	// 선택자 지정후 변수에 담기
         	var positionSelect = document.getElementById("position").value = 0;
         	// 관리자 선택
         	positionSelect.value = "0";
         } else {
+        	
+        	// 직급 선택 초기화
+        	$position.empty();
+        	
+        	// 셀렉트 값에 담을 배열 변수 선언
+       		var options = [
+       			{ value: "", text: "직급을 선택하십시오" },
+          		{ value: "1", text: "사원" },
+          		{ value: "2", text: "대리" },
+          		{ value: "3", text: "과장" },
+          		{ value: "4", text: "차장" },
+          		{ value: "5", text: "부장" },
+        	];
+        
+        	// 옵션을 배열에서 반복하여 추가
+        	for (var i = 0; i < options.length; i++) {
+        		
+        		// 타입은 옵션 밸류값과 텍스트값은 배열에서 가져온다
+          		var $option = $('<option>', {
+            		value: options[i].value,
+            		text: options[i].text
+          			});
+        			
+        			// 최종값을 셀렉트 태그에 추가한다
+          			$position.append($option);
+        	}// end for
+      			
        		$('#dept' + selectedDept).prop('checked', true);
         }
     });
