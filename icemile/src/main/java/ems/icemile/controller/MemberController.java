@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ems.icemile.annotation.Departments;
-import ems.icemile.annotation.Logistics;
-import ems.icemile.annotation.Production;
 import ems.icemile.annotation.UnUseAOP;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.enums.Department;

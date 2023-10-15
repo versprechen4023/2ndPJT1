@@ -22,7 +22,7 @@ public class HomeController {
 		
 		log.debug("start icemile");
 		
-		return "redirect:/main/index";
+		return "redirect:/member/login";
 	}
 	
 }
