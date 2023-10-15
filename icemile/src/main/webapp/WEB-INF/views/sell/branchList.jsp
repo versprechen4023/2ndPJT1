@@ -122,8 +122,43 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
-	<script src="../resources/js/branchList_im.js"></script>
+<!-- 	<script src="../resources/js/branchList_im.js"></script> -->
 <script type="text/javascript">
+//Table 초기화를 위한 전역변수 선언
+var simpleDataTableInstance;
+
+//테이블 초기화 함수
+function simpleDataTable() {
+	// 테이블의 선택자를 찾는다
+	const datatablesSimple = document.getElementById('datatablesSimple');
+		
+		// 테이블 객체를 생성하고 전역변수에 저장한다
+  	simpleDataTableInstance = new simpleDatatables.DataTable(datatablesSimple, {
+     
+   		// 페이지 표시 버튼 삭제
+   		perPageSelect : false,
+   		// 검색창 삭제
+   		searchable : false,
+   		// 페이지당 목록 10개
+   		perPage : 10,
+   
+   		//라벨 수정
+   		labels: {
+   		placeholder: "검색",
+   		noResults : "검색 결과가 없습니다",
+   		noRows : "데이터가 없습니다",
+   		info : ""
+   		}
+   }); // end 초기화
+ 
+}//end function
+
+//돔이 로드될떄 테이블 초기화
+window.addEventListener('DOMContentLoaded', event => {
+	simpleDataTable();
+});
+
+// 직원 팝업 관련 함수
 $(document).ready(function() {
 	
 	$(document).on("click", ".emp-num-link", function(event) {
@@ -194,6 +229,12 @@ $(document).ready(function() {
    			  
     			  success:function(json){
     				  
+    				// 아무것도 출력할게 없을때 선택자가 삭제되어 테이블을 더이상 초기화하지 못하는 문제가 있음
+   				   	// 따라서 조건문으로 0개가 아닐때만 테이블을 삭제함
+   				 	if(json.length !== 0){
+  				    	simpleDataTableInstance.destroy();
+   				 	}
+    				  
     				    // tbody 내용을 초기화
     				    $('tbody').empty();
    					
@@ -237,30 +278,20 @@ $(document).ready(function() {
     				        // 생성한 <tr> 요소를 tbody에 추가
     				        $('tbody').append($tr);
     				    });
+    				    
+    				 	   // 테이블 재생성 마찬가지로 데이터가있는 경우에만 객체 재생성
+    	 				   if(json.length !== 0){
+    	 				       simpleDataTable();
+    	 				   // 그렇지않은경우 기존 객체를 유지하고 페이징만 삭제
+    	 				   } else if(json.length === 0){
+    	 	 				    // 페이징을 삭제
+    	 	 				   	$('.datatable-pagination-list').remove();
+    	 	 			   }
+    				    
     		      }// 콜백함수 종료지점
          });// end_of_ajax
    }// end function
-   
- /*   $(document).ready(function() {
-	    // emp-num-link 클래스를 가진 링크를 클릭했을 때 팝업 창을 엽니다.
-	    $(document).on('click', '.emp-num-link', function(event) {
-	        event.preventDefault();
-	        var empNum = $(this).data('emp-num'); // 클릭한 링크의 emp_num 값을 가져옵니다.
 
-	     	// 팝업 창 크기 및 위치 설정
-	        var width = 400;
-	        var height = 400;
-	        var left = (screen.width - width) / 2;
-	        var top = (screen.height - height) / 2;
-	        
-	        // 팝업 창 열기
-	        var url = '${pageContext.request.contextPath}/member/managerInfo?emp_num=' + empNum; // 팝업에 필요한 데이터를 URL에 포함
-	        var popupWindow = window.open(url, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
-
-	        // 팝업 창 포커스
-	        popupWindow.focus();
-	    });
-	}); */
 
 
 // 지점 추가관련 함수
