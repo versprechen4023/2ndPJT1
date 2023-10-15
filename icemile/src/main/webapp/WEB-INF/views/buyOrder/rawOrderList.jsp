@@ -38,28 +38,32 @@
 						</div>
                         <div class="card mb-4">
                             <div class="card-header"> 
-                             <div id ="cardHeaderContainer">
-                             발주일자
+                             <div id ="cardHeaderContainer" style="font-weight: bold;">
+                             <div class="cardHeaderFirstLine">
+                             발주일자&nbsp;
                             <input type="text" name="rawOrderBegin" class="rawOrderDateInput" id="rawOrderBegin" readonly> ~
                             <input type="text" name="rawOrderEnd" class="rawOrderDateInput" id="rawOrderEnd" readonly disabled>
                        
                             
-                            입고예정일
+                            입고예정일&nbsp;
                             <input type="text" name="rawOrderInBegin" class="rawOrderDateInput" id="rawOrderInBegin" readonly> ~
                             <input type="text" name="rawOrderInEnd" class="rawOrderDateInput" id="rawOrderInEnd" readonly disabled>
                				<br>
+                            </div>
                             
-                            발주상태
+                            <div class="cardHeaderSecondLine">
+                            발주상태&nbsp;
 							<select id="status">
   								<option value="">전체</option>
   								<option value="1">발주중</option>
   								<option value="2">발주확정</option>
-							</select>
+							</select>&nbsp;
 							<input type="text" name="content" size=35 placeholder="자재명을 입력하세요"
-								id="content">
-							<input type="button" name="search" value="조회" onclick="rawOrderSearch()">
+								id="content">&nbsp;
+							<input type="button" name="search" value="조회" onclick="rawOrderSearch()">&nbsp;
 							<input type="button" name="allList" value="전체목록" onclick="location.reload();">
-                                
+                             </div>   
+                             
                             </div>
                             </div>
                             <div class="card-body">
