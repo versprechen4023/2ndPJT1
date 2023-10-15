@@ -137,7 +137,7 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
-	<script src="../resources/js/productList_im.js"></script>
+<!-- 	<script src="../resources/js/productList_im.js"></script> -->
 	
 <script>
 //Table 초기화를 위한 전역변수 선언
