@@ -99,14 +99,18 @@ $(document).ready(function(){
 //         		this.submit();
         		event.preventDefault();
         		
-        	 	var formData = new FormData(this);
+        	 	var formData = {
+        	 			in_code: $('#in_code').val(),
+        	 			in_wh_code: $('#in_wh_code').val(),
+        	 			raw_order_code: $('#raw_order_code').val(),
+        	 			emp_num: $('#emp_num').val(),
+        	            in_status: $('#in_status').val()   	 			
+        	 	}
                  
             	 $.ajax({
             		    type: "POST",
             		    url: "${pageContext.request.contextPath}/Shipping_ajax/updateInMaterial",
             		    data: formData,
-            		    contentType: false,
-            		    processData: false,
             		    success: function(response) {
             		        if (response === "true") {
             		            Swal.fire('정보 입력이 완료되었습니다.', '성공', 'success').then(result => {

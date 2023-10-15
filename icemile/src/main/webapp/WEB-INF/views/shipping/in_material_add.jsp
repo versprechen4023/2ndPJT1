@@ -53,11 +53,11 @@
 <!-- 푸터 -->  
 
 <input type="hidden" name="buy_name" id="buy_name">
-
+		
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
        	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
        	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/datatables-simple-demo.js"></script>
@@ -94,14 +94,17 @@ $(document).ready(function(){
 // 		this.submit();
 		event.preventDefault();
 		
-	 	var formData = new FormData(this);
-         
+		var formData = {
+	 			in_wh_code: $('#in_wh_code').val(),
+	 			raw_order_code: $('#raw_order_code').val(),
+	 			emp_num: $('#emp_num').val(),
+	 			buy_code: $('#buy_code').val()   	 			
+	 	}
+		
     	 $.ajax({
     		    type: "POST",
     		    url: "${pageContext.request.contextPath}/Shipping_ajax/inMaterialInsert",
     		    data: formData,
-    		    contentType: false,
-    		    processData: false,
     		    success: function(response) {
     		        if (response === "true") {
     		            Swal.fire('정보 입력이 완료되었습니다.', '성공', 'success').then(result => {
