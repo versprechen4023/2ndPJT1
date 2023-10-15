@@ -157,27 +157,30 @@ var simpleDataTableInstance;
 
 // 테이블 초기화 함수
 function simpleDataTable() {
+	// 테이블의 선택자를 찾는다
 	const datatablesSimple = document.getElementById('datatablesSimple');
-    if (datatablesSimple) {
-    	simpleDataTableInstance = new simpleDatatables.DataTable(datatablesSimple, {
+		
+		// 테이블 객체를 생성하고 전역변수에 저장한다
+     	simpleDataTableInstance = new simpleDatatables.DataTable(datatablesSimple, {
         
-      // 페이지 표시 버튼 삭제
-      perPageSelect : false,
-      // 검색창 삭제
-      searchable : false,
-      // 페이지당 목록 10개
-      perPage : 10,
+      		// 페이지 표시 버튼 삭제
+      		perPageSelect : false,
+      		// 검색창 삭제
+      		searchable : false,
+      		// 페이지당 목록 10개
+      		perPage : 10,
       
-      //라벨 수정
-      labels: {
-      placeholder: "검색",
-      noResults : "검색 결과가 없습니다",
-      info : ""
-      }
-        
-      });
-    }
-}
+      		//라벨 수정
+      		labels: {
+      		placeholder: "검색",
+      		noResults : "검색 결과가 없습니다",
+      		noRows : "데이터가 없습니다",
+      		info : ""
+      		}
+      }); // end 초기화
+    
+}//end function
+
 // 돔이 로드될떄 테이블 초기화
 window.addEventListener('DOMContentLoaded', event => {
 	simpleDataTable();
@@ -208,8 +211,12 @@ function rawOrderSearch() {
 			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
 			  success:function(json){
 				  	
-					// 테이블을 초기화한다
-				 	simpleDataTableInstance.destroy();
+					// 아무것도 출력할게 없을때 선택자가 삭제되어 테이블을 더이상 초기화하지 못하는 문제가 있음
+				   	// 따라서 조건문으로 0개가 아닐때만 테이블을 삭제함
+				 	if(json.length !== 0){
+				    	simpleDataTableInstance.destroy();
+				 	}
+
 					
 				    // tbody 내용을 초기화
 				    $('tbody').empty();
@@ -255,8 +262,14 @@ function rawOrderSearch() {
 				        $('tbody').append($tr);
 				    });
 
-				 // 테이블 재생성
-	 			 simpleDataTable();
+				 	   // 테이블 재생성 마찬가지로 데이터가있는 경우에만 객체 재생성
+	 				   if(json.length !== 0){
+	 				       simpleDataTable();
+	 				   // 그렇지않은경우 기존 객체를 유지하고 페이징만 삭제
+	 				   } else if(json.length === 0){
+	 	 				    // 페이징을 삭제
+	 	 				   	$('.datatable-pagination-list').remove();
+	 	 			   }
 				  	
 		      }// 콜백함수 종료지점
   });// end_of_ajax
