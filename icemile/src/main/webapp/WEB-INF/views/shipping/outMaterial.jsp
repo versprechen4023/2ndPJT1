@@ -83,8 +83,8 @@
 										</tr>
 									</thead>
 
-
 									<tbody>
+									    
 										<c:forEach var="outMaterialDTO" items="${outMaterialList}">
 											<tr>
 												<td><input type="checkbox" name="selectedProId"
@@ -108,6 +108,7 @@
 													</c:choose></td>
 											</tr>
 										</c:forEach>
+										
 									</tbody>
 								</table>
 			</form>
@@ -173,9 +174,8 @@
             
             // modalContent를 초기화 (이전 내용 지우기)
             myModal.innerHTML = "";
-            //다기버튼과 초기화 버튼은 유지
-            myModal.innerHTML = `<span id="closeModalButton" style="cursor: pointer;">닫기</span><br>`;
-            //기존닫기
+
+            //닫기
             myModal.innerHTML = `<span id="closeModalButton" style="cursor: pointer;">닫기</span><br>`;
 
             
@@ -214,31 +214,22 @@
                   }
               });
             	
-            	const newCloseModalButton = document.createElement("span");
-            	newCloseModalButton.id = "newCloseModalButton"; // ID를 다르게 설정
-            	newCloseModalButton.style.cursor = "pointer";
-            	newCloseModalButton.textContent = "닫기";
-            	myModal.appendChild(newCloseModalButton);
 
-            	newCloseModalButton.addEventListener("click", function (e) {
-            	    if (e.target === newCloseModalButton) {
-            	        myModal.style.display = "none";
-            	    }
-            	});
-            	
+            	//기존 닫기 창 함수 
             	closeModalButton.addEventListener("click", function (e) {
             	    if (e.target === closeModalButton) {
             	        myModal.style.display = "none";
             	    }
             	});
+            	
 
-              
       	  }else if(clickedElementValue.startsWith("IM")){
       		  
       		    addInput("이름:", "mv1Element");
                 addInput("부서:", "mv2Element");
-                addInput("전화 번호:", "mv3Element");
-                addInput("내선 번호:", "mv4Element");
+                addInput("직책:", "mv3Element");
+                addInput("전화 번호:", "mv4Element");
+                addInput("내선 번호:", "mv5Element");
       		  
       		    //modal_ajax 
             	$.ajax({
@@ -256,8 +247,9 @@
                         	// 값 할당
                           document.getElementById("mv1Element").value = json.emp_name;
                           document.getElementById("mv2Element").value = json.dept_name;
-                          document.getElementById("mv3Element").value = json.phone_num;
-                          document.getElementById("mv4Element").value = json.hotline;
+                          document.getElementById("mv3Element").value = json.position;
+                          document.getElementById("mv4Element").value = json.phone_num;
+                          document.getElementById("mv5Element").value = json.hotline;
                           
                     	} else {
                     	    // JSON 데이터가 없거나 빈 경우에 대한 처리를 추가
@@ -266,20 +258,30 @@
 
                   }
               });
+      		    
+            	
+            	//기존 닫기 창 함수 
+            	closeModalButton.addEventListener("click", function (e) {
+            	    if (e.target === closeModalButton) {
+            	        myModal.style.display = "none";
+            	    }
+            	});
         		
                
       	  }else{
       		 
-      		addInput("이름:", "mv1Element");
-            addInput("부서:", "mv2Element");
-            addInput("전화 번호:", "mv3Element");
-            addInput("내선 번호:", "mv4Element");
+      		addInput("지점 코드:", "mv1Element");
+            addInput("제품명:", "mv2Element");
+            addInput("주문량:", "mv3Element");
+            addInput("수주일자:", "mv4Element");
+            addInput("납품예정일:", "mv5Element");
+            addInput("진행상황:", "mv6Element");
       		  
       		//modal_ajax 
           	$.ajax({
           	  url : '${pageContext.request.contextPath}/Shipping_ajax/modalOsSearch',
           	  
-          	  data: {emp_num : clickedElementValue},
+          	  data: {order_code : clickedElementValue},
           	  
           	  type : 'GET',
           	  
@@ -289,10 +291,23 @@
                     if (json && typeof json === 'object') {
                     	
                     	// 값 할당
-                        document.getElementById("mv1Element").value = json.line_name;
+                        document.getElementById("mv1Element").value = json.branch_code;
                         document.getElementById("mv2Element").value = json.prod_name;
                         document.getElementById("mv3Element").value = json.order_amount;
-                        document.getElementById("mv4Element").value = json.branch_name;
+                        document.getElementById("mv4Element").value = json.order_date;
+                        document.getElementById("mv5Element").value = json.out_plan_date;
+                        
+                        // mv6Element에 수주 상태 문자열 설정
+                        var orderStatus = "알 수 없음"; // 기본 값
+                        if (json.order_status === 1) {
+                            orderStatus = "수주 전";
+                        } else if (json.order_status === 2) {
+                            orderStatus = "수주 중";
+                        } else if (json.order_status === 3) {
+                            orderStatus = "수주 확정";
+                        }
+                        document.getElementById("mv6Element").value = orderStatus;
+
                     	
                   	} else {
                   	    // JSON 데이터가 없거나 빈 경우에 대한 처리를 추가
@@ -301,6 +316,13 @@
 
                 }
             });
+        	
+        	//기존 닫기 창 함수 
+        	closeModalButton.addEventListener("click", function (e) {
+        	    if (e.target === closeModalButton) {
+        	        myModal.style.display = "none";
+        	    }
+        	});
       		
       	  }
          
@@ -313,15 +335,14 @@
                 input.type = "text";
                 input.id = id;
                 input.value = value; // 값을 설정
-                input.size = 8;
+                input.size = 12;
                 input.readOnly = true;
                 div.appendChild(document.createTextNode(label));
                 div.appendChild(input);
                 myModal.appendChild(div);
             }
           	
-            
-           
+        
                
     </script>
 	<!-- 모달창 script -->
@@ -417,7 +438,7 @@ $(document).ready(function() {
 	  }
 	  
 	  // 중복값 검사수행
-	  if (key === "out_code" && value !== "") {
+	  if (key === "out_code" && value !== "" && status !== "update") {
 		  // ajax 호출
 		  $.ajax({
 			  	type: "GET",
@@ -503,7 +524,7 @@ $(document).ready(function() {
 
 	//상단에 할당한 <tr>태그 닫아 주기
 	row += "</tr>";
-
+    
 	// 생성한 <tr> 요소를 tbody에 추가
 	//:nth-child(1) 선택자는 <tbody> 내의 첫 번째 자식 요소를 선택하는데 사용됩니다.
 	// before($tr) 함수를 호출하여 $tr 요소를 선택한 첫 번째 자식 요소 앞에 추가합니다.
@@ -621,114 +642,92 @@ $(document).ready(function() {
 	});// end function
 	
 //////////////////////////////////////////////수정/////////////////////////////////////////////////////////////////
-	$("#updateMt").click(function(){
-		
-		// 상태를 업데이트로 변경한다
-		status = "update";
-		
-		// 체크박스가 체크된 여부를 확인하기위한 변수선언
-		var selectedCheckbox = $("input[name='selectedProId']:checked");
-		
-		// 체크된 체크박스가 하나인 경우에만 수정 기능 작동
-		if (selectedCheckbox.length === 1) {
-			
-			// 텍스트태그를 추가할 tr태그를 선택한다
-			// JavaScript에서 선택한 체크박스 또는 요소(selectedCheckbox)가 속한 가장 가까운 <tr>(테이블 행) 요소를 찾아 row 변수에 할당하는 코드입니다.
+	$("#updateMt").click(function () {
+    // 상태를 업데이트로 변경한다
+    status = "update";
 
-	        // selectedCheckbox: 이 변수는 JavaScript로 선택된 체크박스 또는 요소를 나타냅니다.
+    // 체크박스가 체크된 여부를 확인하기 위한 변수 선언
+    var selectedCheckbox = $("input[name='selectedProId']:checked");
 
-	        // .closest("tr"): closest() 메서드는 선택한 요소에서 시작하여 가장 가까운 상위 조상 요소를 찾는 메서드입니다.
-	        // 여기서는 "tr"을 인수로 전달하여 가장 가까운 <tr>(테이블 행) 요소를 찾습니다.
-	        
-			var row = selectedCheckbox.closest("tr");
-			
-			// input type의 name 값 지정
-			var cellNames = [
-				"out_code", 
-				"out_wh_code", 
-				"order_code", 
-				"emp_num",
-				"out_status",
-			];
-			
-			// input type의 id 값 지정
-			var cellIds = [
-				"out_code", 
-				"out_wh_code", 
-				"order_code", 
-				"emp_num",
-				"out_status",
-			];
-			
-			
-			// 각 셀을 수정 가능한 텍스트 입력 필드로 변경(단 첫번째의 체크박스가 있는 셀은 제외한다
-			// 설명
-			//아래에 있는 JavaScript 코드는 선택된 요소 중에서 부모 요소의 첫 번째 자식이 아닌 `<td>` 요소들을 찾아서 각각에 대해 작업을 수행하는 코드입니다.
+    // 체크된 체크박스가 하나인 경우에만 수정 기능 작동
+    if (selectedCheckbox.length === 1) {
+        // 텍스트태그를 추가할 tr태그를 선택한다
+        var row = selectedCheckbox.closest("tr");
+        
+        var statusCell = row.find("td:nth-child(6)");
 
-	        // row.find("td:not(:first-child)"): 이 부분은 `.find()` 메서드를 사용하여 `row` 요소 내에서 부모 요소의 첫 번째 자식이 아닌 `<td>` 요소들을 선택합니다. `:not(:first-child)` 선택자는 각 부모 요소의 첫 번째 `<td>` 자식을 제외하도록 사용됩니다.
+        // 출고 확정 상태인 경우 수정 버튼 비활성화
+        if (statusCell.text().trim() === "출고 확정") {
+            Swal.fire('출고 확정 상태의 행은 수정할 수 없습니다.', '실패', 'error');
+            return;
+        }
 
-	        // each(function(index) { /* ... */ }): 원하는 `<td>` 요소들을 선택한 후, `.each()` 메서드를 사용하여 각각에 대해 반복 작업을 수행합니다. `function(index) { /* ... */ }`는 각 선택된 `<td>` 요소에 대해 실행되는 콜백 함수입니다. `index` 매개변수는 현재 `<td>` 요소의 선택된 집합 내에서의 인덱스를 나타냅니다.
+            var cellNames = [
+                "out_code", 
+                "out_wh_code", 
+                "order_code", 
+                "emp_num",
+                "out_status",
+            ];
+            
+            var cellIds = [
+                "out_code", 
+                "out_wh_code", 
+                "order_code", 
+                "emp_num",
+                "out_status",
+            ];
 
-	        // 콜백 함수 내부에서는 각 선택된 `<td>` 요소에 대해 인덱스나 다른 기준에 따라 특정 작업을 수행할 수 있습니다.
-			row.find("td:not(:first-child)").each(function(index) {
-				
-				// 기존 텍스트 값을 변수에 저장한다
-				var cellValue = $(this).text();
-				// 삼항연산자 0번째 행(코드)와 2번째행(종류)는 리드온리로 변경할 수 없다
-				var cellOption = index === 0 ? "readonly" : "";
-				// 반복문의 숫자에 따라 html 태그의 이름을 네임 이름으로 한다
-				var cellName = cellNames[index];
-				// 반복문의 숫자에 따라 html 태그의 이름을 아이디 이름으로 한다
-				var cellId = cellIds[index];
-			            
-				
-				if (cellName === "out_status") {
-				    var cvValue;
-				    
-				    if (cellValue === "출고전") {
-				        cvValue = "1";
-				    } else if (cellValue === "출고중") {
-				        cvValue = "2";
-				    } else if (cellValue === "출고확정") {
-				        cvValue = "3";
-				    } else {
-				        cvValue = cellValue;
-				    }
+            row.find("td:not(:first-child)").each(function(index) {
+                // 기존 텍스트 값을 변수에 저장한다
+                var cellValue = $(this).find('input').val() || $(this).text().trim();
 
-				    var selectHTML = '<select name="' + cellName + '" id="' + cellId + '" ' + cellOption + ' >' +
-				                           '<option value="1" ' + (cvValue === "1" ? "selected" : "") + '>출고전</option>' +
-				                           '<option value="2" ' + (cvValue === "2" ? "selected" : "") + '>출고중</option>' +
-				                           '<option value="3" ' + (cvValue === "3" ? "selected" : "") + '>출고확정</option>' +
-				                           '</select>';
-				    
-				    $(this).html(selectHTML);
-				               
-	               } else {
-	               // 다른 열은 그대로 입력 칸 생성
-	               $(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + '  size="5">');
-	               }
-	            
-			});// end_find(행 검색 반복문 종료지점)
-		    
-			// 품목수정중에 품목추가,수정,삭제 버튼을 비활성화한다
-		  	$("#mtAdd").attr('disabled','disabled');
-		  	$("#updateMt").attr('disabled','disabled');
-			$("#deleteMt").attr('disabled','disabled');
-			
-			// 품목수정중에 취소, 저장 버튼입력이 가능하다
-			$("#cancelMt").removeAttr("disabled");
-			$("#saveMt").removeAttr("disabled");
-			
-		} // end if
-		
-		// 체크박스가 선택되어있지않으면 에러가 발생한다
-		else if (selectedCheckbox.length === 0){
-			Swal.fire('수정할 행을 선택해 주십시오.', '실패', 'error');
-		// 여러개가 체크되어있으면 에러가 발생한다
-		} else {
-			Swal.fire('수정할 행은 한개만 선택 가능합니다.', '실패', 'error');
-		} // end else
-	}); // end function
+                var cellOption = index === 0 ? "readonly" : "";
+                var cellName = cellNames[index];
+                var cellId = cellIds[index];
+
+                if (cellName === "out_status") {
+                    var cvValue;
+                    
+                    if (cellValue === "출고 전") {
+                        cvValue = "1";
+                    } else if (cellValue === "출고 중") {
+                        cvValue = "2";
+                    } else if (cellValue === "출고 확정") {
+                        cvValue = "3";
+                    } else {
+                        cvValue = cellValue;
+                    }
+
+                    var selectHTML = '<select name="' + cellName + '" id="' + cellId + '" ' + cellOption + ' >' +
+                                       '<option value="1" ' + (cvValue === "1" ? "selected" : "") + '>출고 전</option>' +
+                                       '<option value="2" ' + (cvValue === "2" ? "selected" : "") + '>출고 중</option>' +
+                                       '<option value="3" ' + (cvValue === "3" ? "selected" : "") + '>출고 확정</option>' +
+                                       '</select>';
+                    
+                    $(this).html(selectHTML);
+                } else {
+                    $(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + '  size="18">');
+                }
+            });
+            
+
+            // 품목 수정 중에 품목 추가, 수정, 삭제 버튼을 비활성화한다
+            $("#mtAdd").attr('disabled','disabled');
+            $("#updateMt").attr('disabled','disabled');
+            $("#deleteMt").attr('disabled','disabled');
+            
+            // 품목 수정 중에 취소, 저장 버튼 입력이 가능하다
+            $("#cancelMt").removeAttr("disabled");
+            $("#saveMt").removeAttr("disabled");
+    
+            
+    } else if (selectedCheckbox.length === 0) {
+        Swal.fire('수정할 행을 선택해 주십시오.', '실패', 'error');
+    } else {
+        Swal.fire('수정할 행은 한 개만 선택 가능합니다.', '실패', 'error');
+    }
+});
 
 /////////////////////////////////////////////// 취소 ///////////////////////////////////////////////////////
 
@@ -844,11 +843,17 @@ $(document).ready(function() {
 	     			content: $('#content').val()
 	    			  };
 		   
-		   var statusText = {
-	    		    1: "출고 전",
-	    		    2: "출고 중",
-	    		    3: "출고 확정"
-	    		};
+		   function getStatusText(status) {
+			    if (status === "1") {
+			        return "출고 전";
+			    } else if (status === "2") {
+			        return "출고 중";
+			    } else if (status === "3") {
+			        return "출고 확정";
+			    } else {
+			        return "알 수 없음";
+			    }
+			}
 		
 		   // 검색 결과값을 받아오기 위한 ajax 호출
 		   $.ajax({
@@ -868,29 +873,47 @@ $(document).ready(function() {
 				  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
 				  success:function(json){
 					  
-					    // tbody 내용을 초기화
-					    $('tbody').empty();
-						
-					    // 배열 크기만큼 반복
-					    json.forEach(function (data) {
-					    	// tr 태그 생성
-					        var $tr = $('<tr>');
-					    		//tr 에 내용추가
-					        	$tr.append(
-					        			'<td><input type="checkbox" name="selectedProId" value="' + data.out_code + '"></td>',
-							        	"<td>"+data.out_code+"</td>",
-							            "<td>"+data.out_wh_code+"</td>",
-							           	"<td>"+data.order_code+"</td>",
-							            "<td>"+data.emp_num+"</td>",
-							            "<td>" + (statusText[data.out_status] || '알 수 없음') + "</td>"
-					        	);
-					        // 생성한 <tr> 요소를 tbody에 추가
-					        $('tbody').append($tr);
-					    });
+					// tbody 내용을 초기화
+					  $('tbody').empty();
+					
+					  // 첫 번째 행 생성 및 숨기기
+					  var $firstRow = $('<tr class="hidden-row"></tr>');
+					  $firstRow.css('display', 'none');
+					  $firstRow.append(
+					      '<td><input type="checkbox" name="selectedProId" value="" class="eachCheckbox"></td>',
+					      '<td></td>',
+					      '<td><input type="button" onclick="openModal(this)" name="" value=""></td>',
+					      '<td><input type="button" onclick="openModal(this)" name="" value=""></td>',
+					      '<td><input type="button" onclick="openModal(this)" name="" value=""></td>',
+					      '<td></td>'
+					  );
+					  $('tbody').append($firstRow);
+
+					  // 배열 크기만큼 반복
+					  json.forEach(function (data) {
+					      // tr 태그 생성
+					      var $tr = $('<tr>');
+
+					      // td 태그 생성
+					      $tr.append(
+					          '<td><input type="checkbox" name="selectedProId" value="' + data.out_code + '" class="eachCheckbox"></td>',
+					          '<td>' + data.out_code + '</td>',
+					          '<td><input type="button" onclick="openModal(this)" name="' + data.out_wh_code + '" value="' + data.out_wh_code + '"></td>',
+					          '<td><input type="button" onclick="openModal(this)" name="' + data.order_code + '" value="' + data.order_code + '"></td>',
+					          '<td><input type="button" onclick="openModal(this)" name="' + data.emp_num + '" value="' + data.emp_num + '"></td>',
+					          "<td>" + getStatusText(data.out_status) + "</td>",					       
+						      );
+
+					      // 생성한 <tr> 요소를 tbody에 추가
+					      $('tbody').append($tr);
+					      
+					      
+					  });
+
 			      }// 콜백함수 종료지점
 	   });// end_of_ajax
 	}// end function
-
+	
 
 	/////////////////////////////////////////////input 조회 //////////////////////////////////////////////
 	$("#inputmtSearch").click(function()  {
@@ -900,11 +923,18 @@ $(document).ready(function() {
 	     			content: $('#content').val()
 	    			  };
 		   
-		   var statusText = {
-	    		    1: "출고 전",
-	    		    2: "출고 중",
-	    		    3: "출고 확정"
-	    		};
+
+		   function getStatusText(status) {
+			    if (status === "1") {
+			        return "출고 전";
+			    } else if (status === "2") {
+			        return "출고 중";
+			    } else if (status === "3") {
+			        return "출고 확정";
+			    } else {
+			        return "알 수 없음";
+			    }
+			}
 		   
 		   // 검색 결과값을 받아오기 위한 ajax 호출
 		   $.ajax({
@@ -926,23 +956,38 @@ $(document).ready(function() {
 					  
 					    // tbody 내용을 초기화
 					    $('tbody').empty();
+					    
+					 // 첫 번째 행 생성 및 숨기기
+						  var $firstRow = $('<tr class="hidden-row"></tr>');
+						  $firstRow.css('display', 'none');
+						  $firstRow.append(
+						      '<td><input type="checkbox" name="selectedProId" value="" class="eachCheckbox"></td>',
+						      '<td></td>',
+						      '<td><input type="button" onclick="openModal(this)" name="" value=""></td>',
+						      '<td><input type="button" onclick="openModal(this)" name="" value=""></td>',
+						      '<td><input type="button" onclick="openModal(this)" name="" value=""></td>',
+						      '<td></td>'
+						  );
+						  $('tbody').append($firstRow);
 						
 					    // 배열 크기만큼 반복
 					    json.forEach(function (data) {
+					    	  // tr 태그 생성
+						      var $tr = $('<tr>');
+
+						      // td 태그 생성
+						      $tr.append(
+						          '<td><input type="checkbox" name="selectedProId" value="' + data.out_code + '" class="eachCheckbox"></td>',
+						          '<td>' + data.out_code + '</td>',
+						          '<td><input type="button" onclick="openModal(this)" name="' + data.out_wh_code + '" value="' + data.out_wh_code + '"></td>',
+						          '<td><input type="button" onclick="openModal(this)" name="' + data.order_code + '" value="' + data.order_code + '"></td>',
+						          '<td><input type="button" onclick="openModal(this)" name="' + data.emp_num + '" value="' + data.emp_num + '"></td>',
+						          "<td>" + getStatusText(data.out_status) + "</td>",					       
+							      );
+
+						      // 생성한 <tr> 요소를 tbody에 추가
+						      $('tbody').append($tr);
 					    	   	
-					    	// tr 태그 생성
-					        var $tr = $('<tr>');
-					    		//tr 에 내용추가
-					        	$tr.append(
-					        	'<td><input type="checkbox" name="selectedProId" value="' + data.out_code + '"></td>',
-					        	"<td>"+data.out_code+"</td>",
-					            "<td>"+data.out_wh_code+"</td>",
-					           	"<td>"+data.order_code+"</td>",
-					            "<td>"+data.emp_num+"</td>",
-					         	"<td>" + (statusText[data.out_status] || '알 수 없음') + "</td>"
-					        	);
-					        // 생성한 <tr> 요소를 tbody에 추가
-					        $('tbody').append($tr);
 					    });
 			      }// 콜백함수 종료지점
 	   });// end_of_ajax
@@ -1002,6 +1047,26 @@ $(document).on("click", "input[name='order_code']", function() {
 	window.open('${pageContext.request.contextPath }/sell/ordersListPopUp', '_blank', 'width=800px, height=770px, left=600px, top=300px');
 });// end function
 
+
+////////////////////////////////////출고확정 선택 시 확인 메시지//////////////////////////////////////////////////
+
+$(document).on('change', '#out_status', function() {
+    if ($(this).val() === '3') {
+        Swal.fire({
+            title: '출고 확정',
+            text: '출고를 확정하시겠습니까?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: '확인',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 사용자가 확인을 누른 경우
+                // 추가 작업 수행 또는 행 저장
+            }
+        });
+    }
+});
 
 ////////////////////////////////////액셀 버튼 구현////////////////////////////////
 

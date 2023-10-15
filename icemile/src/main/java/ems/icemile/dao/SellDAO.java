@@ -54,5 +54,8 @@ public interface SellDAO {
 	
 	// 수주 검색
 	public List<HashMap<String, Object>> proOrderSearch(HashMap<String, Object> json);
+    
+	//수주목록팝업 
+	public List<ProOrderDTO> getorderList();
 
 }

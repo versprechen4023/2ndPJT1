@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import ems.icemile.dao.ShippingDAOImpl;
 import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.MemberDTO;
+import ems.icemile.dto.ProOrderDTO;
 import ems.icemile.dto.WareHouseDTO;
 import ems.icemile.dto.WorkOrderDTO;
 import ems.icemile.dto.outMaterialDTO;
@@ -278,7 +279,7 @@ public class ShippingServiceImpl implements ShippingService {
 	
 	@Override
 	//OSmodal 
-	public WorkOrderDTO searchOSModal(String order_code) {
+	public ProOrderDTO searchOSModal(String order_code) {
 		
 		log.debug("서치 modal OS 서비스");
 

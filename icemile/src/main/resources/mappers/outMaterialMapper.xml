@@ -83,7 +83,7 @@
     <!--     modal_wh -->
     
      <!--     modal_OS -->
-    <select id="searchOSModal" resultType="ems.icemile.dto.WorkOrderDTO">
+    <select id="searchOSModal" resultType="ems.icemile.dto.ProOrderDTO">
         SELECT *
 		FROM orders
 		WHERE order_code = #{order_code}
