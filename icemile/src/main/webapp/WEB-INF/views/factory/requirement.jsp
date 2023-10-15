@@ -61,9 +61,9 @@
 				<th>코드</th>
 				<th>완제품 코드</th>
 				<th>원자재 코드</th>
-				<th>소요량등록일</th>
+<!-- 				<th>소요량등록일</th> -->
 				<th>소요량</th>
-				<th>소요량수정일</th>
+<!-- 				<th>소요량수정일</th> -->
 				<th>비고</th>
 				<th>관리</th>
 		</tr>
@@ -81,9 +81,9 @@
 				<td>${requirementDTO.req_code}</td> <!--소요량 코드 -->
 				<td>${requirementDTO.prod_code}</td> <!-- 완제품 코드 -->
 				<td>${requirementDTO.raw_code }</td> <!-- 원자재 코드 -->
-				<td>${fn:substring(requirementDTO.req_insertDATE, 0, 10)}</td><!--  소요량 등록일-->
+<%-- 				<td>${fn:substring(requirementDTO.req_insertDATE, 0, 10)}</td><!--  소요량 등록일--> --%>
 				<td>${requirementDTO.req_amount }</td><!-- 소요량 -->
-				<td>${fn:substring(requirementDTO.req_upDATEDATE, 0, 10)}</td><!-- 수정일 -->
+<%-- 				<td>${fn:substring(requirementDTO.req_upDATEDATE, 0, 10)}</td><!-- 수정일 --> --%>
 				<td>${requirementDTO.req_note }</td><!-- 비고 -->
 				<td><input type="button" value="수정" onclick="requirementUpdate('${requirementDTO.req_code}')">
 				<input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/factory/deleteRequirement?req_code=${requirementDTO.req_code}')">
@@ -152,7 +152,7 @@ function requirementSearch() {
  				           	"<td>"+data.raw_code+"</td>",
  				            "<td>"+data.req_insertDATE+"</td>",
  				         	"<td>"+data.req_amount+"</td>",
- 				         	"<td>"+data.req_upDATEDATE+"</td>",
+//  				         	"<td>"+data.req_upDATEDATE+"</td>",
  				         	"<td>"+data.req_note+"</td>",
  				         	 '<td>' +
  				            '<input type="button" value="수정" onclick="requirementUpdate(\'' + data.req_code + '\')">' +

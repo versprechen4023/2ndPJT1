@@ -26,15 +26,15 @@
 					<th>완제품 코드</th>
 					<th>원자재 코드</th>
 					<th>소요량</th>
-					<th>등록일</th>
-					<th>수정일</th>
+<!-- 					<th>등록일</th> -->
+<!-- 					<th>수정일</th> -->
 					<th>비고</th>
 			</tr>
 
 <tr>
 <!-- 소요량 코드 -->
-<td>${requirementDTO.req_code }
-<input type="hidden" name="req_code" value="${requirementDTO.req_code }" id="req_code">
+<%-- <td>${requirementDTO.req_code } --%>
+<td><input type="text" name="req_code" value="${requirementDTO.req_code }" id="req_code" readonly>
 </td>
 <!-- 완제품 코드 -->
 <td><input type="text" name="prod_code" id="prod_code" value="${requirementDTO.prod_code }" ></td>
@@ -43,10 +43,10 @@
 <!-- 소요량 -->
 <td><input type="text" name="req_amount" id="req_amount" value="${requirementDTO.req_amount }" > </td>
 <!-- 등록일 -->
-<td><input type="hidden" name="req_insertDATE" id="req_insertDATE" value="${requirementDTO.req_insertDATE }">
-${fn:substring(requirementDTO.req_insertDATE, 0, 10)}</td>
+<%-- <td><input type="hidden" name="req_insertDATE" id="req_insertDATE" value="${requirementDTO.req_insertDATE }"> --%>
+<%-- ${fn:substring(requirementDTO.req_insertDATE, 0, 10)}</td> --%>
 <!-- 수정일 -->
-<td><input type="date" name="req_upDATEDATE" id="req_upDATEDATE" value="${requirementDTO.req_upDATEDATE }"></td>
+<%-- <td><input type="date" name="req_upDATEDATE" id="req_upDATEDATE" value="${requirementDTO.req_upDATEDATE }"></td> --%>
 <!-- 비고 -->
 <td><input type="text" name="req_note" id="req_note" value="${requirementDTO.req_note }" ></td>
 </tr>
@@ -70,11 +70,11 @@ ${fn:substring(requirementDTO.req_insertDATE, 0, 10)}</td>
 <input type="hidden" name="raw_name" id="raw_name" value="">
 <input type="hidden" name="raw_type" id="raw_type" value="">
 <input type="hidden" name="raw_price" id="raw_price" value="">	
-
+		
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
        	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/datatables-simple-demo.js"></script>
@@ -107,15 +107,23 @@ ${fn:substring(requirementDTO.req_insertDATE, 0, 10)}</td>
 //    		this.submit();
    		event.preventDefault();
    		
-   	 	var formData = new FormData(this);
+   	 	var formData = {     
+   	 		req_code : $('#req_code').val(),
+   	 		prod_code: $('#prod_code').val(),
+        	raw_code: $('#raw_code').val(),
+        	req_amount: $('#req_amount').val(),
+//         	req_insertDATE: $('#req_insertDATE').val(),
+//         	req_upDATEDATE: $('#req_upDATEDATE').val(),
+        	req_note: $('#req_note').val()
+    };
             
        	 $.ajax({
        		    type: "POST",
        		    url: "${pageContext.request.contextPath}/factoryCopy_ajax/updateRequirement",
        		    data: formData,
-       		    contentType: false,
-       		    processData: false,
        		    success: function(response) {
+       		    	const result = $.trim(response);
+       		    	
        		        if (response === "true") {
        		            Swal.fire('정보 변경이 완료되었습니다.', '성공', 'success').then(result => {
        		                if (result.isConfirmed) {
@@ -124,7 +132,7 @@ ${fn:substring(requirementDTO.req_insertDATE, 0, 10)}</td>
        		                }
        		            });
        		        } else {
-       		            Swal.fire('정보 입력에 실패했습니다.', '실패', 'error');
+       		            Swal.fire('정보 변경이 실패했습니다.', '실패', 'error');
        		        }
        		    },
        		    error: function() {
