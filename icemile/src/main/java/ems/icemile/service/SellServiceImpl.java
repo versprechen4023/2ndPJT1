@@ -162,6 +162,14 @@ public class SellServiceImpl implements SellService{
 		return sellDAO.proOrderSearch(json);
 	}
 
+    @Override
+	public List<ProOrderDTO> orderList() {
+
+		log.debug("서비스 | 수주 목록 가져오기");
+		
+		return sellDAO.getorderList();
+	}
+
 
 
 	

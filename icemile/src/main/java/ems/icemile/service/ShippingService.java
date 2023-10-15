@@ -2,6 +2,7 @@ package ems.icemile.service;
 
 import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.MemberDTO;
+import ems.icemile.dto.ProOrderDTO;
 import ems.icemile.dto.WareHouseDTO;
 import ems.icemile.dto.WorkOrderDTO;
 
@@ -56,7 +57,7 @@ public interface ShippingService {
     
 	
 	//OSmodal
-	public WorkOrderDTO searchOSModal(String order_code);
+	public ProOrderDTO searchOSModal(String order_code);
 	
    
 	//EPmodal

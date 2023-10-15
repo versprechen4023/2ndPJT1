@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.MemberDTO;
+import ems.icemile.dto.ProOrderDTO;
 import ems.icemile.dto.WareHouseDTO;
 import ems.icemile.dto.WorkOrderDTO;
 import ems.icemile.dto.outMaterialDTO;
@@ -160,7 +161,7 @@ public class ShippingDAOImpl implements ShippingDAO {
     
 	//OSmodal
     @Override
-	public WorkOrderDTO searchOSModal(String order_code) {
+	public ProOrderDTO searchOSModal(String order_code) {
     	log.debug("searchOSModal DAO 도달");
 
 		return sqlSession.selectOne(namespace2 + "searchOSModal", order_code );

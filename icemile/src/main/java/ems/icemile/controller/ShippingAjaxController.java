@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.MemberDTO;
+import ems.icemile.dto.ProOrderDTO;
 import ems.icemile.dto.RequirementDTO;
 import ems.icemile.dto.WareHouseDTO;
 import ems.icemile.dto.WareHouseinsertDTO;
@@ -153,7 +154,7 @@ public class ShippingAjaxController {
 
     /////////////////////////////////////////////////OSmodal////////////////////////////////////
 	@GetMapping("modalOsSearch")
-	public WorkOrderDTO modalOsSearch(@RequestParam("order_code") String order_code) {
+	public ProOrderDTO modalOsSearch(@RequestParam("order_code") String order_code) {
 
 		log.debug("서치 OSmodal AJAX 호출");
 

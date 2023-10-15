@@ -126,5 +126,9 @@
 						</where>
 							ORDER BY o.order_code DESC
   </select>
+  
+  <select id="orderList" resultType="ems.icemile.dto.ProOrderDTO">
+	SELECT * FROM orders
+	</select>
 	
 </mapper>

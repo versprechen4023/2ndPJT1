@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ems.icemile.dto.MemberDTO;
+import ems.icemile.dto.ProOrderDTO;
 import ems.icemile.dto.SellDTO;
 import ems.icemile.enums.ProOrderStatus;
 import ems.icemile.service.MemberServiceImpl;
@@ -125,20 +126,20 @@ public class SellController {
 	}
 	
 	////////////////////////////////////// orderListPopUp //////////////////////////////////////////////////
-//	@GetMapping("ordersListPopUp")
-//	public String getordersListPopUp(Model model) {
-//		//수주 조회
-//		log.debug("odersList");
-//
-//		// 수주 리스트를 가져오기위한 멤버리스트 객체생성
-//		List<odersDTO> ordersList = new ArrayList<odersDTO>();
-//		ordersList = sellService.getorderList();
-//
-//		// 모델에 sell DTO값 저장
-//		model.addAttribute("ordersList", ordersList);
-//
-//		return "/sell/ordersListPopUp";
-//
-//	}
+	@GetMapping("ordersListPopUp")
+	public String getordersListPopUp(Model model) {
+		//수주 조회
+		log.debug("odersList");
+
+		// 수주 리스트를 가져오기위한 멤버리스트 객체생성
+		List<ProOrderDTO> ordersList = new ArrayList<ProOrderDTO>();
+		ordersList = sellService.orderList();
+
+		// 모델에 sell DTO값 저장
+		model.addAttribute("ordersList", ordersList);
+
+		return "/sell/ordersListPopUp";
+
+	}
 
 }

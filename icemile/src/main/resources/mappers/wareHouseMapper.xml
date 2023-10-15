@@ -34,7 +34,7 @@
 <!-- 창고 코드 중복 검사 -->
 <select id="searchwhcode" resultType="java.lang.String">
  	SELECT *
- 	FROM
+ 	FROM warehouse
  	WHERE wh_code = #{wh_code}
  </select>
 <!-- 창고 코드 중복 검사 -->
