@@ -10,6 +10,7 @@
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
+  <link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
 </head>
 <body class="sb-nav-fixed">
 <div id="layoutSidenav">
@@ -33,16 +34,20 @@
 					<div class="card mb-4">
 					
 						<div class="card-header">
-							<input type="button" name="allList" value="전체목록" onclick="location.reload();">
+
+                             <div class="cardHeaderFirstLine">
+							<input type="button" name="allList" value="전체목록" onclick="location.reload();">&nbsp;
 							<select id="category">
   								<option value="emp_name">이름</option>
   								<option value="position">직급</option>
   								<option value="hotline">내선번호</option>
   								<option value="dept_name">부서</option>
   								<option value="email">이메일</option>
-							</select>
-							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content">
+							</select>&nbsp;
+							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content">&nbsp;
 							<input type="button" name="search" value="조회" onclick="memberSearch()">
+						</div>
+
 						</div>
 						
 						<div class="card-body">
