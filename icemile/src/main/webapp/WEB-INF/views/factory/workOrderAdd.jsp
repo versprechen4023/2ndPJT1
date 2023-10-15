@@ -16,7 +16,7 @@
 	
 	<div id ="container">			
 	<!-- 내용들어가는곳 -->
-	<form action="${pageContext.request.contextPath }/factory/workOrderAddPro" id="registration" name="registration" method="POST" enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath }/factory/workOrderAddPro" id="registration" name="registration" method="POST">
 		<h1>작업 지시 추가</h1>
 
 		<table border="1">
@@ -109,7 +109,7 @@ $(document).ready(function() {
     		    type: "POST",
     		    url: "${pageContext.request.contextPath}/factory_ajax/workOrderAdd",
     		    data: formData,
-    		    contentType: false,
+//     		    contentType: false,
     		    processData: false,
     		    success: function(response) {
     		        if (response === "true") {
