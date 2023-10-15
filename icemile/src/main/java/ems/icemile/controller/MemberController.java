@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -35,9 +36,23 @@ public class MemberController {
 	// AOP 제외대상 어노테이션 선언
 	@UnUseAOP
 	@GetMapping("/login")
-	public String login() {
+	public String login(HttpServletRequest request, HttpSession session) {
 		
 		log.debug("member/login.jsp");
+		
+		// 기존페이지로 이동하기위해 헤더의 리퍼러(요청을 보낸 페이지)값을 변수에 저장한다
+		String uri = request.getHeader("Referer");
+		
+		// 사용자가 직접 이동했거나 login페이지가 아니라면 세션에 레퍼값을 저장한다
+		if(uri != null && !uri.contains("/login")) {
+			request.getSession().setAttribute("prevPage", uri);
+		}
+		
+		// 이미 로그인되어있다면 main/index로 강제이동시킨다
+		if (session.getAttribute("emp_num") != null) {
+			log.debug("이미 로그인 되어 있음");
+			return "redirect:/main/index";
+		}
 		
 		return "member/login";
 	}// end_of_login
@@ -45,7 +60,7 @@ public class MemberController {
 	// AOP 제외대상 어노테이션 선언
 	@UnUseAOP
 	@PostMapping("/login")
-	public String loginPro(MemberDTO memberDTO, HttpSession session, RedirectAttributes msg) {
+	public String loginPro(MemberDTO memberDTO, HttpSession session, HttpServletRequest request, RedirectAttributes msg) {
 		
 		log.debug("로그인 유저 인증 로직 실행");
 		
@@ -55,9 +70,22 @@ public class MemberController {
 		// 객체가 있는 경우 로그인 성공 null 인경우 실패
 		if(result != null) {
 			log.debug("로그인 성공 및 세션 저장");
+			// 세션의 사원번호(유저아이디)와 권한(2진수의 형태)를 저장한다
 			session.setAttribute("emp_num", result.getEmp_num());
 			session.setAttribute("emp_role", result.getEmp_role());
-			return "redirect:/main/index";
+			
+			// 기존 페이지로 이동하기위해 세션에서 이전 페이지를 불러온다
+			String prevPage = (String)request.getSession().getAttribute("prevPage");
+			
+			// 이전 페이지가 없다면 메인으로 이동하고
+			if(prevPage == null) {
+				return "redirect:/main/index";
+			} else {
+				// 이전 페이지가 있었다면 그 페이지로 이동한다
+				String uri = prevPage.replaceAll(".*/home/", "");
+				return "redirect:/"+uri;
+			}
+			
 		} else {
 			log.debug("로그인 실패");
 			msg.addFlashAttribute("msg", "사원번호 또는 비밀번호가 일치하지 않습니다");
