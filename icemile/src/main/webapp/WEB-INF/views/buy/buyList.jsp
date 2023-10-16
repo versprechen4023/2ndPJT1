@@ -25,7 +25,7 @@
 						<!--                             <li class="breadcrumb-item active">Tables</li> -->
 					</ol>
 					<div class="bnt">
-						<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
+						<c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
 						<input type="button" value="거래처 등록" onclick="buyInsert()">
 						</c:if>
 					</div>
@@ -60,7 +60,7 @@
 										<th>우편번호</th>
 										<th>주소</th>
 										<th>email</th>
-										<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
+										<c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
 										<th data-sortable="false">관리</th>
 										</c:if>
 									</tr>
@@ -81,7 +81,7 @@
 											<td>${buyDTO.buy_email}</td>
 								
 										
-											<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
+											<c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
 											<td><input type="button" value="수정"
 												onclick="buyUpdate('${buyDTO.buy_code}')" id="updateBuy">
 												<input type="button" value="삭제"
@@ -237,7 +237,7 @@ function buySearch() {
  				    	//tr 에 내용추가
  				    	
  				    	// 권한이있으면 수정 삭제 버튼도 같이 출력
- 				    	if(role.charAt(0) === '1'){
+ 				    	if(role.charAt(1) === '1'){
  				        	$tr.append(
  				            "<td>"+data.buy_code+"</td>",
  				           	"<td>"+data.buy_name+"</td>",
