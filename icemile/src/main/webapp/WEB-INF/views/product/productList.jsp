@@ -60,12 +60,7 @@
                                             <th>코드</th>
                                             <th>품명</th>
                                             <th>종류</th>
-                                            <th>단위</th>
-                                            <th>수량</th>
-                                            <th>가격</th>
-                                            <th>유통기한</th>
-                                            <th>매입처코드/지점코드</th>
-                                            <th>창고코드</th>
+                                            <th>단가</th>
                                             <th>비고</th>
 
                                         </tr>
@@ -77,12 +72,7 @@
                                             <td>${productAllDTO.prod_code}</td>
                                             <td>${productAllDTO.prod_name}</td>
                                             <td>${productAllDTO.prod_type}</td>
-                                            <td>${productAllDTO.prod_unit}</td>
-                                            <td>${productAllDTO.prod_amount}</td>
                                             <td>${productAllDTO.prod_price}</td>
-                                            <td>${productAllDTO.prod_exp}</td>
-                                            <td>${productAllDTO.deal_code}</td>
-                                            <td>${productAllDTO.wh_code}</td>
                                             <td>${productAllDTO.prod_note}</td>
                                         </tr>
                                     </c:forEach>
@@ -207,12 +197,7 @@ function productSearch() {
  				        	"<td>"+data.prod_code+"</td>",
  				            "<td>"+data.prod_name+"</td>",
  				           	"<td>"+data.prod_type+"</td>",
- 				            "<td>"+data.prod_unit+"</td>",
- 				         	"<td>"+data.prod_amount+"</td>",
  				         	"<td>"+data.prod_price+"</td>",
- 				         	"<td>"+data.prod_exp+"</td>",
- 				         	"<td>"+data.deal_code+"</td>",
- 				         	"<td>"+data.wh_code+"</td>",
  				         	"<td>"+data.prod_note+"</td>"
  				        	);
  				        // 생성한 <tr> 요소를 tbody에 추가
@@ -254,12 +239,7 @@ function formTest(formData) {
   		"type": "품목종류(코드)",
   		"prod_name": "품목이름",
   		"prod_type": "원자재/완제품 종류",
-  		"prod_unit": "단위",
-  		"prod_amount": "수량",
-  		"prod_price": "가격",
-  		"prod_exp": "유통기한",
-  		"deal_code": "매입처코드/지점코드",
-  		"wh_code": "창고코드",
+  		"prod_price": "단가"
 	};
 	// 반복문을 사용하여 각 항목을 검사한다
 	for (var i = 0; i < formArray.length; i++) {
@@ -348,12 +328,7 @@ $("#productAdd").click(function(){
   			'<option value="">품목종류를 먼저 선택하십시오</option>'+
 			'</select>'+
   		'</td>',
-  		'<td><input type="text" name="prod_unit" value = "0" size="3"></td>',
-  		'<td><input type="text" name="prod_amount" value = "0" size="3"></td>',
   		'<td><input type="text" name="prod_price" value = "0" size="5"></td>',
-  		'<td><input type="text" name="prod_exp" id="prod_exp" size="13"></td>',
-  		'<td><input type="text" name="deal_code" size="13"></td>',
-  		'<td><input type="text" name="wh_code" size="13"></td>',
   		'<td><input type="text" name="prod_note" size="6"></td>',
   		);
   	// 생성한 <tr> 요소를 tbody에 추가
@@ -390,12 +365,7 @@ $("#updateProd").click(function(){
 			"prod_code", 
 			"prod_name", 
 			"prod_type", 
-			"prod_unit",
-			"prod_amount",
 			"prod_price",
-			"prod_exp",
-			"deal_code",
-			"wh_code",
 			"prod_note"
 		];
 		
@@ -404,12 +374,7 @@ $("#updateProd").click(function(){
 			"prod_code", 
 			"prod_name", 
 			"prod_type", 
-			"prod_unit",
-			"prod_amount",
 			"prod_price",
-			"prod_exp",
-			"deal_code",
-			"wh_code",
 			"prod_note"
 		];
 		
@@ -420,7 +385,7 @@ $("#updateProd").click(function(){
 			// 기존 텍스트 값을 변수에 저장한다
 			var cellValue = $(this).text();
 			// 삼항연산자 0번째 행(코드)와 2번째행(종류)는 리드온리로 변경할 수 없다
-			var cellOption = index === 0 || index === 2 ? "readonly" : "";
+			var cellOption = index === 0 || index === 1 || index === 2 ? "readonly" : "";
 			// 반복문의 숫자에 따라 html 태그의 이름을 네임 이름으로 한다
 			var cellName = cellNames[index];
 			// 반복문의 숫자에 따라 html 태그의 이름을 아이디 이름으로 한다
@@ -728,7 +693,7 @@ $('tbody').on('change', 'select[name="type"]', function() {
 
 // 숫자만 입력되야하는 텍스트필드의 이벤트 리스너
 // 인풋 이벤트 대상이 되는 선택자 리스너 변수선언
-var inputSelector = 'input[name="prod_unit"], input[name="prod_amount"], input[name="prod_price"]';
+var inputSelector = 'input[name="prod_price"]';
 
 // 숫자 제어 이벤트리스너 함수
 $('tbody').on('input', inputSelector, function() {
