@@ -9,6 +9,7 @@
 <!-- 헤더 -->
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
+  <link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
 <!-- 헤드 -->
 </head>
 <body class="sb-nav-fixed">
@@ -37,15 +38,16 @@
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
-                           <input type="button" name="allList" value="전체목록" onclick="location.reload();">
+                             <div class="cardHeaderFirstLine">                            
+                           <input type="button" name="allList" value="전체목록" onclick="location.reload();">&nbsp;
 							<select id="category">
   								<option value="prod_code">코드</option>
   								<option value="prod_name">품명</option>
   								<option value="prod_type">종류</option>
-							</select>
-							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
-								id="content">
+							</select>&nbsp;
+							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"	 id="content">&nbsp;
 							<input type="button" name="search" value="조회" onclick="productSearch()">
+                            </div>
                             </div>
                             <div class="card-body">
  
