@@ -65,8 +65,11 @@
       <bind name="content" value="'%' + content + '%'"/>
  		SELECT *
 			FROM(
-				SELECT in_code, in_wh_code, raw_order_code as raw_order_code, emp_num, in_status
-  					FROM in_material
+				SELECT i.*, b.buy_name
+		FROM in_material i LEFT JOIN raw_order r
+		ON i.raw_order_code = r.raw_order_code
+		LEFT JOIN buy b
+		ON r.buy_name = b.buy_name
 				) AS myTable
 					WHERE myTable.${category} LIKE #{content}
 	</select>

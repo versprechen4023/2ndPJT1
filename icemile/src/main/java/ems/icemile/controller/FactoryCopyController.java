@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ems.icemile.annotation.Production;
+import ems.icemile.annotation.Logistics;
 import ems.icemile.dto.RequirementDTO;
 import ems.icemile.service.FactoryCopyServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class FactoryCopyController {
 	}// requirementList()
 	
 	// 소요량 목록 삭제
-	@Production 
+	@Logistics
 	@GetMapping("/deleteRequirement")
 	public String deleteRequirement(RequirementDTO requirementDTO) {
 		log.debug("FactoryController delete");
@@ -49,7 +49,7 @@ public class FactoryCopyController {
 	}// deleteRequirement()
 	
 	// 소요량 등록 페이지
-	@Production 
+	@Logistics
 	@GetMapping("/requirementAdd")
 	public String requirementAdd() {
 		log.debug("FactoryController requirementAdd");
@@ -57,7 +57,7 @@ public class FactoryCopyController {
 	}// requirementAdd()
 	
 	// 소요량 등록
-	@Production 
+	@Logistics
 	@PostMapping("/insertRequirement")
 	public String insertRequirement(RequirementDTO requirementDTO) {
 		log.debug("FactoryController insertRequirement");
@@ -66,7 +66,7 @@ public class FactoryCopyController {
 	} // insertRequirement()
 	
 	// 소요량 수정 페이지
-	@Production 
+	@Logistics
 	@GetMapping("/requirementUpdate")
 	public String requirementUpdate(HttpServletRequest request, Model model) {
 		log.debug("FactoryController requirementUpdate");
@@ -77,7 +77,7 @@ public class FactoryCopyController {
 	}// requirementAdd()
 	
 	// 소요량 수정
-	@Production 
+	@Logistics
 	@PostMapping("/updateRequirement")
 	public String updateRequirement(RequirementDTO requirementDTO) {
 		log.debug("FactoryController updateRequirement");
