@@ -52,8 +52,7 @@
                             <input type="text" name="content" size=35 placeholder="실적코드를 입력하세요" id="content">&nbsp;
 							<input type="button" name="search" value="조회" onclick="resultSearch()">&nbsp;  
 							<input type="button" name="allList" value="전체목록" onclick="location.reload();">
-                            
-                            </div>
+                            </div><!-- cardHeaderFirstLine -->
 
 							</div><!-- cardHeaderContainer -->
                             </div><!-- card-header -->
