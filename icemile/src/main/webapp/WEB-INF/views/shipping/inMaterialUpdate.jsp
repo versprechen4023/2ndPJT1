@@ -95,6 +95,10 @@ $(document).ready(function(){
         			Swal.fire('담당자를 선택해주세요.', '실패', 'error');
         			return false;
         		} 
+        		if($('#in_status').val()==""){
+        			Swal.fire('입고현황을 선택해주세요.', '실패', 'error');
+        			return false;
+        		} 
 //         		Swal.fire('등록되었습니다.', '성공', 'success');
 //         		this.submit();
         		event.preventDefault();
