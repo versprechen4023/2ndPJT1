@@ -87,7 +87,7 @@
                                             <td>${sellDTO.branch_add }</td>
                                             <td>${sellDTO.branch_email }</td>
                                             <td><a href="#" class="emp-num-link" data-emp-num="${sellDTO.emp_num}">${sellDTO.emp_num}</a></td>
-                                            <c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
+                                            <c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
 											<td><input type="button" value="수정"
 												onclick="branchUpdate('${sellDTO.branch_code}')" id="branchUpdate1">
 												<input type="button" value="삭제"
