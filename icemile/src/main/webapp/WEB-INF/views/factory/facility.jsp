@@ -333,7 +333,7 @@
 			                line_note: line_note
 			            };
 				
-				            $('#facilityList').attr("action", "/home/factory/updateFacility");
+				            $('#facilityList').attr("action", "${pageContext.request.contextPath}/factory/updateFacility");
 					        $('#facilityList').attr("method", "POST");
 					        Swal.fire('수정 완료되었습니다.', '성공', 'success').then(result => {
 					            if (result.isConfirmed) {
@@ -354,7 +354,7 @@
 								                line_note: line_note
 								            };
 								        
-								        $('#facilityList').attr("action", "/home/factory/addPro");
+								        $('#facilityList').attr("action", "${pageContext.request.contextPath}/factory/addPro");
 								        $('#facilityList').attr("method", "POST");
 								        Swal.fire('등록 완료되었습니다.', '성공', 'success').then(result => {
 								            if (result.isConfirmed) {

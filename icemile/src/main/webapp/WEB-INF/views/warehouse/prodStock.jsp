@@ -210,7 +210,7 @@
 		            value: stockDate
 		        }).appendTo('#rawStock');
 		        
-		        $('#rawStock').attr("action", "/home/warehouse/updateProdStock");
+		        $('#rawStock').attr("action", "${pageContext.request.contextPath}/warehouse/updateProdStock");
 		        $('#rawStock').attr("method", "POST");
 		        
 		        // 수정이 완료되었음을 알리는 알림창 띄우기
