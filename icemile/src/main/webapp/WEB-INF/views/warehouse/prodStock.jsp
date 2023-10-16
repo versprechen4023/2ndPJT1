@@ -48,7 +48,8 @@
                         </c:if>
                         </div>
                         <div class="card mb-4" id="card mb-4">
-                            <div class="card-body" id="card-body">
+                        
+                                <div class="card-header">
                             <input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
   								<option value="stock_code">코드</option>
@@ -56,11 +57,13 @@
   								<option value="raw_type">종류</option>
   								<option value="wh_code">창고</option>
 							</select>
-							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
-								id="content">
-							<input type="button" name="search" value="조회" onclick="stockSearch()">
-                                <table id="datatablesSimple">
+							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content">
+							<input type="button" name="search" value="조회" onclick="stockSearch()">                                
+                                </div>
                                 
+                            <div class="card-body" id="card-body">
+
+                                <table id="datatablesSimple">
                                     <thead>
                                     <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
                                         <tr>
