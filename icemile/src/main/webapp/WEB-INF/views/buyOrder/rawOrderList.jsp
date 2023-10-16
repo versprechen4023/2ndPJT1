@@ -4,14 +4,14 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-<!-- 헤더 -->
-<jsp:include page="../include/header.jsp"></jsp:include>
-<!-- 헤더 -->
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
   <link href="../resources/css/rawOrderList.css" rel="stylesheet" />
 <!-- 헤드 -->
     </head>
+<!-- 헤더 -->
+<jsp:include page="../include/header.jsp"></jsp:include>
+<!-- 헤더 -->    
 <body class="sb-nav-fixed">
 <div id="layoutSidenav">
 		<!-- 사이드바 -->

@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+.cardHeaderFirstLine{
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}  
+
+.cardHeaderFirstLine>text{
+	margin-right:1em;
+}
+
+#done_dateBegin{
+	width:6em;
+}
+
+#done_dateEnd{
+	width:6em;
+	margin-right: 1.5em;
+}
+
+
+

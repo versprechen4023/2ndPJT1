@@ -4,21 +4,15 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>아이스마일</title>
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="../resources/css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    </head>
-     <body class="sb-nav-fixed">
-        
+<!-- 헤드 -->
+<jsp:include page="../include/head.jsp"></jsp:include>
+  <link href="../resources/css/resultList.css" rel="stylesheet" />
+<!-- 헤드 -->    
+</head>
 <!-- 헤더 -->
 <jsp:include page="../include/header.jsp"></jsp:include>
 <!-- 헤더 -->
+     <body class="sb-nav-fixed">
         <div id="layoutSidenav">
 <!-- 사이드바 -->
 <jsp:include page="../include/sidebar.jsp"></jsp:include>
@@ -37,32 +31,33 @@
                         </ol>
                         <div class="bnt">
                         <c:if test="${sessionScope.emp_role.charAt(2).toString() eq '1' }">
-							<input type="button" value="추가" id="rsAdd">
-							<input type="button" value="수정" id="rsupdate">
-							<input type="button" value="삭제" id="rsdelete">
-							<input type="button" value="취소" id="rscancel" disabled>
-							<input type="button" value="저장" id="rssave" disabled>
+							<input type="button" class="tableBtn"  value="추가" id="rsAdd">
+							<input type="button" class="tableBtn"  value="수정" id="rsupdate">
+							<input type="button" class="tableBtn"  value="삭제" id="rsdelete">
+							<input type="button" class="tableBtn"  value="취소" id="rscancel" disabled>
+							<input type="button" class="tableBtn"  value="저장" id="rssave" disabled>
 						</c:if>
-						</div>
+						</div> <!-- bnt -->
                         <div class="card mb-4">
-<!--                             <div class="card-header"> -->
-<!--                                 <i class="fas fa-table me-1"></i> -->
-<!--                                 DataTable Example -->
-<!--                             </div> -->
-                            <div class="card-body">
-                            <div class="card-body">
-                            <input type="button" name="allList" value="전체목록" onclick="location.reload();">
-                           
+
                             
-                            완료일자
+                            <div class="card-header">
+                            
+                            <div id ="cardHeaderContainer" style="font-weight: bold;"> 
+                            <div class="cardHeaderFirstLine"> 
+                            완료일자&nbsp;
                             <input type="text" name="done_dateBegin" id="done_dateBegin"> ~
-                            <input type="text" name="done_dateEnd" id="done_dateEnd" disabled>
-                            <br>
+                            <input type="text" name="done_dateEnd" class="cardHeaderTab" id="done_dateEnd" disabled class >
                             
+                            <input type="text" name="content" size=35 placeholder="실적코드를 입력하세요" id="content">&nbsp;
+							<input type="button" name="search" value="조회" onclick="resultSearch()">&nbsp;  
+							<input type="button" name="allList" value="전체목록" onclick="location.reload();">
+                            </div><!-- cardHeaderFirstLine -->
+
+							</div><!-- cardHeaderContainer -->
+                            </div><!-- card-header -->
                             
-							<input type="text" name="content" size=60 placeholder="실적코드를 입력하세요"
-								id="content">
-							<input type="button" name="search" value="조회" onclick="resultSearch()">
+                            <div class="card-body">
                                 <table id="datatablesSimple">
                                 
                                     <thead>
