@@ -404,12 +404,12 @@ function getDate() {
 	            var cellValue = $(this).text();
 	            // 셀에 옵션을 주기 위해 변수를 선언한다
 	            var cellOption = ""
-	            // 삼항연산자 6번째 행(발주량)및 10번째 행(입고예정일)을 제외하고는 비활성화로 변경할 수 없다
+	            // 삼항연산자 제외하고는 비활성화로 변경할 수 없다
 	            // 단 셀렉트태그는 직접 부여되므로 마찬가지로 수정 할 수 있다
-	            if (index === 2 || index === 8 || index === 9 || index === 10) {
+	            if (index === 6|| index===7 ||index===8 ||index===9 ) {
 	                cellOption = "";
 	            } else {
-	                cellOption = "disabled";
+	                cellOption = "readonly";
 	            }
 
 	            // 반복문의 숫자에 따라 html 태그의 이름을 네임 이름으로 한다
