@@ -12,8 +12,8 @@
   	</select>
   	
   	<insert id="resultInsert">
-	INSERT INTO result(result_code, work_code, done_date, line_code, prod_code, order_amount, good_prod, faulty_prod, faulty_reason, remark)
-		VALUES(CONCAT('RS', LPAD(#{result_code}, 4, '0')), #{work_code}, #{done_date}, #{line_code}, #{prod_code}, #{order_amount}, #{good_prod}, #{faulty_prod}, #{faulty_reason}, #{remark});
+	INSERT INTO result(result_code, work_code, done_date, line_code, prod_name, order_amount, good_prod, faulty_prod, faulty_reason, remark)
+		VALUES(CONCAT('RS', LPAD(#{result_code}, 4, '0')), #{work_code}, #{done_date}, #{line_code}, #{prod_name}, #{order_amount}, #{good_prod}, #{faulty_prod}, #{faulty_reason}, #{remark});
 	
 	</insert>
 
@@ -41,7 +41,7 @@
   	
   	<update id="resultUpdate">
  		UPDATE result
-  			SET work_code = #{work_code}, done_date = #{done_date}, line_code = #{line_code}, prod_code = #{prod_code}, good_prod = #{good_prod}, faulty_prod = #{faulty_prod}, faulty_reason = #{faulty_reason}, remark = #{remark}
+  			SET work_code = #{work_code}, done_date = #{done_date}, line_code = #{line_code}, prod_name = #{prod_name}, good_prod = #{good_prod}, faulty_prod = #{faulty_prod}, faulty_reason = #{faulty_reason}, remark = #{remark}
   				WHERE result_code = #{result_code}
 	</update>
 	

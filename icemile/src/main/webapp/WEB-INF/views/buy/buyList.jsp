@@ -30,11 +30,7 @@
 						</c:if>
 					</div>
 					<div class="card mb-4">
-						<!--                             <div class="card-header"> -->
-						<!--                                 <i class="fas fa-table me-1"></i> -->
-						<!--                                 DataTable Example -->
-						<!--                             </div> -->
-						<div class="card-body">
+						                            <div class="card-header">
 						<input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
   								<option value="buy_code">코드</option>
@@ -46,6 +42,9 @@
 							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
 								id="content">
 							<input type="button" name="search" value="조회" onclick="buySearch()">
+						                            </div>
+						<div class="card-body">
+
 							<table id="datatablesSimple">
 								<thead>
 									<!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
@@ -116,9 +115,44 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
-	<script src="../resources/js/buyList_im.js"></script>
 	
 <script type="text/javascript">
+
+//Table 초기화를 위한 전역변수 선언
+var simpleDataTableInstance;
+
+// 테이블 초기화 함수
+function simpleDataTable() {
+	// 테이블의 선택자를 찾는다
+	const datatablesSimple = document.getElementById('datatablesSimple');
+		
+		// 테이블 객체를 생성하고 전역변수에 저장한다
+     	simpleDataTableInstance = new simpleDatatables.DataTable(datatablesSimple, {
+        
+      		// 페이지 표시 버튼 삭제
+      		perPageSelect : false,
+      		// 검색창 삭제
+      		searchable : false,
+      		// 페이지당 목록 10개
+      		perPage : 10,
+      
+      		//라벨 수정
+      		labels: {
+      		placeholder: "검색",
+      		noResults : "검색 결과가 없습니다",
+      		noRows : "데이터가 없습니다",
+      		info : ""
+      		}
+      }); // end 초기화
+    
+}//end function
+
+// 돔이 로드될떄 테이블 초기화
+window.addEventListener('DOMContentLoaded', event => {
+	simpleDataTable();
+});
+
+// 멤버리스트 팝업 관련 함수
 $(document).ready(function() {
 	
 	$(document).on("click", ".emp-num-link", function(event) {
@@ -187,6 +221,12 @@ function buySearch() {
 			  
  			  success:function(json){
  				  
+ 					// 아무것도 출력할게 없을때 선택자가 삭제되어 테이블을 더이상 초기화하지 못하는 문제가 있음
+				   	// 따라서 조건문으로 0개가 아닐때만 테이블을 삭제함
+				 	if(json.length !== 0){
+				    	simpleDataTableInstance.destroy();
+				 	}
+ 				  
  				    // tbody 내용을 초기화
  				    $('tbody').empty();
 					
@@ -233,6 +273,15 @@ function buySearch() {
  				        // 생성한 <tr> 요소를 tbody에 추가
  				        $('tbody').append($tr);
  				    });
+ 				    
+ 				   // 테이블 재생성 마찬가지로 데이터가있는 경우에만 객체 재생성
+  				   if(json.length !== 0){
+  				       simpleDataTable();
+  				   // 그렇지않은경우 기존 객체를 유지하고 페이징만 삭제
+  				   } else if(json.length === 0){
+  	 				    // 페이징을 삭제
+  	 				   	$('.datatable-pagination-list').remove();
+  	 			   }
  		      }// 콜백함수 종료지점
       });// end_of_ajax
 }// end function

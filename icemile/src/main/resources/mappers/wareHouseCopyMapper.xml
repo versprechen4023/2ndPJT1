@@ -8,32 +8,85 @@
   	<!-- 원자재 재고 리스트 -->
   	<select id="getRawStockList" resultType="ems.icemile.dto.StockDTO">
 		SELECT s.stock_code, r.raw_name, r.raw_code, r.raw_type, r.raw_amount AS 'stock_status', 
-       		   s.stock_amount, r.wh_code, s.stock_date
+       		   s.stock_amount, w.emp_num, w.wh_code, s.stock_date
 		FROM raw_material r LEFT JOIN stock s 
-		ON r.raw_code = s.raw_code	
+		ON r.raw_code = s.raw_code
+		JOIN warehouse w
+		ON r.raw_code = w.raw_code
   	</select>
   	
   	
-  	<!-- 원자재 재고 삽입 -->
-	<insert id="insertRawStock" parameterType="ems.icemile.dto.StockDTO">
-   	 	INSERT INTO stock(stock_code, raw_code, stock_date, stock_status, wh_code)
-    	VALUES (CONCAT('ST', LPAD(#{stock_code}, 4, '0')), #{raw_code}, #{stock_date}, #{stock_status}, #{wh_code})
+  	<!-- 재고 삽입 -->
+ 	<insert id="insertRawStock" parameterType="ems.icemile.dto.StockDTO">
+   	 	INSERT INTO stock(stock_code, 
+   	 	<choose>
+            <when test='type_type == "P"'>
+                prod_code,
+            </when>
+            <when test='type_type == "R"'>
+                raw_code,
+            </when>
+        </choose>
+   	 	stock_date, stock_status, wh_code)
+    	VALUES (#{stock_code}, #{raw_code}, #{stock_date}, #{stock_status}, #{wh_code})
 	</insert>
     
     
     <!-- 재고 코드 부여 -->
-    <select id="getNewStockCode" resultType="int">
-		SELECT count(*) + 1
-		FROM stock
+    <select id="getNewStockCode" resultType="java.lang.String">
+		SELECT stock_code
+  		FROM stock
+  		ORDER BY stock_code desc
+  		LIMIT 1
 	</select>
 	
 	
+	<!-- 원자재 재고 수정 -->
 	<update id="updateRawStock" parameterType="ems.icemile.dto.StockDTO">
 		UPDATE stock
-		SET stock_amount = #{stock_amount}
+		SET stock_amount = #{stock_amount}, stock_date = now(), emp_num = #{emp_num}
 		WHERE stock_code = #{stock_code}
 	</update>
-
+	
+	
+	<!-- 원자재 재고 검색 -->
+	<select id="rawStockSearch" resultType="ems.icemile.dto.StockDTO">
+	<bind name="content" value="'%' + content + '%'"/>
+		SELECT s.*, r.raw_name, r.raw_type
+		FROM stock s LEFT JOIN raw_material r
+		ON s.raw_code = r.raw_code
+		WHERE ${category} LIKE #{content}
+	</select>
+	
+	
+	<!-- 완제품 재고 리스트 -->
+  	<select id="getProdStockList" resultType="ems.icemile.dto.StockDTO">
+		SELECT s.stock_code, p.prod_name, p.prod_code, p.prod_taste, p.prod_amount AS 'stock_status', 
+       		   s.stock_amount, w.emp_num, w.wh_code, s.stock_date
+		FROM product p LEFT JOIN stock s 
+		ON p.prod_code = s.prod_code
+		LEFT JOIN warehouse w
+		ON p.prod_code = w.prod_code
+  	</select>
+  	
+  	
+  	<!-- 완제품 재고 수정 -->
+	<update id="updateProdStock" parameterType="ems.icemile.dto.StockDTO">
+		UPDATE stock
+		SET stock_amount = #{stock_amount}, stock_date = now(), emp_num = #{emp_num}
+		WHERE stock_code = #{stock_code}
+	</update>
+	
+	
+	<!-- 원자재 재고 검색 -->
+	<select id="prodStockSearch" resultType="ems.icemile.dto.StockDTO">
+	<bind name="content" value="'%' + content + '%'"/>
+		SELECT s.*, p.prod_name, p.prod_taste
+		FROM stock s LEFT JOIN product p
+		ON s.prod_code = p.prod_code
+		WHERE ${category} LIKE #{content}
+	</select>
+  	
   
  </mapper>
   

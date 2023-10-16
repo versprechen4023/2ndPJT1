@@ -52,16 +52,16 @@ public class BuyController {
 		return "buy/buyInsert";
 	}
 
-	@PostMapping("/buyInsertPro")
-	public String insertPro(BuyDTO buyDTO) {
-		System.out.println("BuyController insertPro");
-		// 구매처 등록 
-		System.out.println(buyDTO);
-//		buyService.buyInsert(buyDTO);
-		
-		return "redirect:/buy/buyList";
-	}
-	
+//	@PostMapping("/buyInsertPro")
+//	public String insertPro(BuyDTO buyDTO) {
+//		System.out.println("BuyController insertPro");
+//		// 구매처 등록 
+//		System.out.println(buyDTO);
+////		buyService.buyInsert(buyDTO);
+//		
+//		return "redirect:/buy/buyList";
+//	}
+//	
 	@GetMapping("/buyUpdate")
 	public String buyUpdate(@RequestParam("buy_code") String buy_code, Model model) {
 		log.debug("거래처 수정 페이지");
@@ -76,15 +76,15 @@ public class BuyController {
 				
 	}
 	
-	@PostMapping("/buyUpdatePro")
-	public String buyUpdatePro(BuyDTO buyDTO) {
-		log.debug("거래처 업데이트");
-		
-		buyService.buyUpdate(buyDTO);
-		
-		return "redirect:/buy/buyList";
-		
-	}
+//	@PostMapping("/buyUpdatePro")
+//	public String buyUpdatePro(BuyDTO buyDTO) {
+//		log.debug("거래처 업데이트");
+//		
+//		buyService.buyUpdate(buyDTO);
+//		
+//		return "redirect:/buy/buyList";
+//		
+//	}
 	
 	@GetMapping("/buyListPopUp")
 	public String getBuyListPopUp(Model model) {

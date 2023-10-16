@@ -48,5 +48,8 @@ public interface SellService {
 	
 	// 수주 검색
 	public List<HashMap<String, Object>> proOrderSearch(HashMap<String, Object> json);
+    
+	//수주 목록팝업 가져오기
+	public List<ProOrderDTO> orderList();
 
 }

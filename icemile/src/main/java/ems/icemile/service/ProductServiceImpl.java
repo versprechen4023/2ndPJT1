@@ -79,9 +79,26 @@ public class ProductServiceImpl implements ProductService {
 		
         // Product 페이지에 품목 추가되면 Stock에도 자동으로 추가(소현)
         StockDTO stockDTO = new StockDTO();
-        stockDTO.setStock_code(Integer.toString(wareHouseDAO.getNewStockCode()));// 재고 코드 생성
+        String getCode = wareHouseDAO.getNewStockCode();
+        
+        int codeNum = 0;
+		
+		// DB에 데이터가없다면 초기값(1)이되고
+		if(getCode == null) {
+			codeNum = 1;
+		// 아니라면 +1을 더한다
+		} else {
+			String code = getCode.replaceAll("[^0-9]", "");
+			codeNum = Integer.parseInt(code) + 1;
+		}
+        
+        stockDTO.setStock_code("ST" + String.format("%04d", codeNum));// 재고 코드 생성
         stockDTO.setStock_date(getCurrentDate()); // 현재 날짜 및 시분초 호출
         stockDTO.setRaw_code(productInsertDTO.getProd_code()); // Product의 prod_code를 Stock의 raw_code로 복사
+        // raw_code 및 prod_code의 맨앞 문자만 추출 후 매퍼에서 조건문으로 줌
+        // 만약 type_type의 글자가 p일 시 prod_code에 입력됨
+        stockDTO.setType_type(stockDTO.getRaw_code().substring(0, 1)); 
+        stockDTO.setProd_code(productInsertDTO.getProd_code()); // Product의 prod_code를 Stock의 prod_code로 복사
         stockDTO.setStock_status(productInsertDTO.getProd_amount()); // Product의 raw_amount를 Stock의 raw_amount로 복사
         stockDTO.setWh_code(productInsertDTO.getWh_code()); // Product의 wh_code를 Stock의 wh_code로 복사
         // wareHouseDAO에 insertStock 메서드 생성

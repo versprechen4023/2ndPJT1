@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 
 import ems.icemile.dao.ShippingDAOImpl;
 import ems.icemile.dto.InMaterialDTO;
+import ems.icemile.dto.MemberDTO;
+import ems.icemile.dto.ProOrderDTO;
+import ems.icemile.dto.WareHouseDTO;
+import ems.icemile.dto.WorkOrderDTO;
 import ems.icemile.dto.outMaterialDTO;
 import ems.icemile.dto.outMaterialInsertDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -261,6 +265,34 @@ public class ShippingServiceImpl implements ShippingService {
 
 		return shippingDAO.mtSearch(json);
 
+	}
+	
+	@Override
+	//WHmodal 
+	public WareHouseDTO searchModalwh(String wh_code) {
+		
+		log.debug("서치 modal wh 서비스");
+
+		return shippingDAO.searchModalwh(wh_code);
+	}
+    
+	
+	@Override
+	//OSmodal 
+	public ProOrderDTO searchOSModal(String order_code) {
+		
+		log.debug("서치 modal OS 서비스");
+
+		return shippingDAO.searchOSModal(order_code);
+	}
+	
+	@Override
+	//EPmodal 
+	public MemberDTO searchEPModal(String emp_num) {
+		
+		log.debug("서치 modal EP 서비스");
+
+		return shippingDAO.searchEPModal(emp_num);
 	}
 
 }

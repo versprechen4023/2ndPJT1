@@ -1,5 +1,6 @@
 package ems.icemile.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -41,12 +42,12 @@ public class WareHouseCopyDAOImpl implements WareHouseCopyDAO {
 	     int result = sqlSession.insert(namespace + "insertRawStock", stockDTO);
 	     // 삽입된 게 적어도 하나 이상일 때를 의미하며, true를 반환하는 것
 	     return result > 0;
-	}
+	}// insertRawStock
 
 
 	// 재고 코드 생성
 	@Override
-	public int getNewStockCode() {
+	public String getNewStockCode() {
 		
 		log.debug("WareHouseDAO getNewStockCode()");
 		
@@ -61,7 +62,49 @@ public class WareHouseCopyDAOImpl implements WareHouseCopyDAO {
 		log.debug("WareHouseDAO updateRawStock()");
 		
 		sqlSession.update(namespace+"updateRawStock", stockDTO);
+	}// updateRawStock
+
+
+	// 원자재 재고 검색
+	@Override
+	public List<StockDTO> rawStockSearch(HashMap<String, Object> json) {
+		
+		log.debug("WareHouseDAO rawStockSearch()");
+		
+		return sqlSession.selectList(namespace+"rawStockSearch", json);
+	}// rawStockSearch
+
+
+	// 완제품 재고 리스트
+	@Override
+	public List<StockDTO> getProdStockList() {
+
+		log.debug("WareHouseDAO getProdStockList()");
+		
+		// 네임페이스 변수 선언할 때 뒤에 .까지 붙여서 메서드명 앞에 .안 붙이는 것
+		return sqlSession.selectList(namespace+"getProdStockList");
+	}// getProdStockList
+
+
+	// 완제품 실수량 수정
+	@Override
+	public void updateProdStock(StockDTO stockDTO) {
+		
+		log.debug("WareHouseDAO updateProdStock()");
+		
+		sqlSession.update(namespace+"updateProdStock", stockDTO);
+	}// updateProdStock
+
+
+	@Override
+	public List<StockDTO> prodStockSearch(HashMap<String, Object> json) {
+		
+		log.debug("WareHouseDAO prodStockSearch()");
+		
+		return sqlSession.selectList(namespace+"prodStockSearch", json);
 	}
+
+
 
 
 

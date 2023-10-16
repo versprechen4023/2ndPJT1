@@ -39,12 +39,12 @@
                         </ol>
                         <div class="bnt">
                         <!-- 아이디 session 들고 와서 admin일 때만 추가~저장 버튼 보이게 -->
-                        <c:if test="${sessionScope.emp_num eq 'admin'}">
+                        <c:if test="${sessionScope.emp_role.charAt(2).toString() eq '1' }">
                         <input type="button" class ="tableBtn" id="add" value="추가">
                         <input type="button" class ="tableBtn" id="update" value="수정">
                         <input type="button" class ="tableBtn" id="delete" value="삭제">
-                        <input type="button" class ="tableBtn" id="save" value="저장">
-                        <input type="button" class ="tableBtn" id="cancel" value="취소">
+                        <input type="button" class ="tableBtn" id="save" value="저장" disabled>
+                        <input type="button" class ="tableBtn" id="cancel" value="취소" disabled>
                         </c:if>
                         </div>
                         <div class="card mb-4" id="card mb-4">
@@ -68,7 +68,7 @@
                                         <tr>
                                         	<th data-sortable="false"><input type="checkbox" name="selectedAllLineCo"></th>
                                             <th>코드</th>
-                                            <th>라인 이름</th>
+                                            <th>이름</th>
                                             <th>전화번호</th>
                                             <th>생산 공정</th>
                                             <th>가동 상태</th>
@@ -84,8 +84,8 @@
                                             <td>${facilityDTO.line_code}</td>
                                             <td>${facilityDTO.line_name}</td>
                                             <td>${facilityDTO.line_phone}</td>
-                                            <td>${facilityDTO.line_process}</td>
-                                            <td>${facilityDTO.line_status}</td>
+                                            <td class="facility-process">${facilityDTO.line_process}</td>
+                                            <td class="facility-status">${facilityDTO.line_status}</td>
                                             <td><a href="#" onclick="memberInfo('${facilityDTO.emp_num}')">${facilityDTO.emp_num}</a></td>
                                             <td>${facilityDTO.line_note}</td>
                                             <!-- <td><input type="button" value="수정"
@@ -145,11 +145,17 @@
 			
 			// 라인코드
 			row += "<td>";
+			row += "<select name='line_code' id='line_code' required class='#datatablesSimple tr'>";
+			row += "<option disabled selected>단계 선택</option>";
+			row += "<option value='PR'>PR:생산</option>";
+			row += "<option value='IN'>IN:검수</option>";
+			row += "<option value='PA'>PA:포장</option>";
+			row += "</select>";
 			row += "</td>";
 			
 			// 라인명
 			row += "<td>";
-			row += "<input type='text' name='line_name' id='line_name' required class='#datatablesSimple tr'>";
+			row += "<input type='text' name='line_name' id='line_name' readonly required class='#datatablesSimple tr'>";
 			row += "</td>";
 			
 			// 전화번호
@@ -160,7 +166,8 @@
 			// 생산공정
 			row += "<td>";
 			row += "<select name='line_process' id='line_process' required class='#datatablesSimple tr'>";
-			row += "<option value='1'>1차 공장</option>";
+			row += "<option disabled selected>차수 선택</option>";
+			row += "<option value='1'>1차 공정</option>";
 			row += "<option value='2'>2차 공정</option>";
 			row += "<option value='3'>3차 공정</option>";
 			row += "</select>";
@@ -169,6 +176,7 @@
 			// 가동상태
 			row += "<td>";
 			row += "<select name='line_status' id='line_status' required class='#datatablesSimple tr'>";
+			row += "<option disabled selected>상태 선택</option>";
 			row += "<option value='1'>1:가동중</option>";
 			row += "<option value='2'>2:대기중</option>";
 			row += "<option value='3'>3:고장</option>";
@@ -207,6 +215,22 @@
 			// disabled(비활성화) 속성 제거(removeAttr)
 			$("#cancel").removeAttr("disabled");
 			$("#save").removeAttr("disabled");
+			
+	        // 라인 이름 변경 이벤트 리스너 추가
+	        $("#line_code").on("change", function() {
+	            var codeValue = $(this).val();
+	            var lineName = $("#line_name");
+
+	            if (codeValue === 'PR') {
+	                lineName.val('생산 라인');
+	            } else if (codeValue === 'IN') {
+	                lineName.val('검수 라인');
+	            } else if (codeValue === 'PA') {
+	                lineName.val('포장 라인');
+	            } else {
+	                lineName.val('');
+	            }
+	        });
 		}); // end function addRow
 		
 		
@@ -260,7 +284,7 @@
 
     saveCell.appendChild(saveButton);
 } */
-		
+
 		
 			// 저장
          	$('#save').click(function () {
@@ -275,6 +299,7 @@
       		
 				// $(# )안에 있는 값 반환(.val()이 그 역할)해서 
 				// 선언한 var 변수에 할당
+				var line_code = $('#line_code').val();
 				var line_name = $('#line_name').val();
 				var line_phone = $('#line_phone').val();
 				var line_process = $('#line_process').val();
@@ -283,7 +308,7 @@
 				var line_note = $('#line_note').val();
 				
 				// 아래 입력해 준 컬럼에 입력 안 되어 있으면 입력하라는 하단 알림창 뜬다
-				if(line_name == "" || line_phone == "" || line_process == "" ||
+				if(line_code == "" || line_name == "" || line_phone == "" || line_process == "" ||
 						line_status == "" || emp_num == ""){
 					
 					// <link>의 sweetalert2.min.js.css 및 
@@ -310,26 +335,12 @@
 				
 				            $('#facilityList').attr("action", "/home/factory/updateFacility");
 					        $('#facilityList').attr("method", "POST");
-					        $('#facilityList').submit();
-				}else{
-			        
-			     // 중복값 검사수행
-					  if (line_name && line_name !== "") {
-						  // ajax 호출
-						  $.ajax({
-							  	type: "GET",
-						        url: "${pageContext.request.contextPath}/factory_ajax/searchLineName",
-						        data: {"line_name": line_name},
-						        success: function(response) {
-						        	// 공백을 제거한다
-				            		const resultAjax = $.trim(response);
-				            		
-						        	if(resultAjax == "false"){
-						        		result = false;
-						        		continueFor = false;
-						        		Swal.fire('이미 존재하는 이름입니다 다른 이름을 입력하십시오', '', 'info');
-						        	// 상태가 add면 addPro로 넘어가서 input에 입력한 값이 데이터베이스로 넘어간다
-						        	}else if(status === "add"){
+					        Swal.fire('수정 완료되었습니다.', '성공', 'success').then(result => {
+					            if (result.isConfirmed) {
+					                $('#facilityList').submit();
+					            }
+					        });
+				}else if(status === "add"){
 						        	 
 										// form 태그의 액션을 변수 선언
 								        var formAction = $('#facilityList').attr("action");
@@ -345,13 +356,13 @@
 								        
 								        $('#facilityList').attr("action", "/home/factory/addPro");
 								        $('#facilityList').attr("method", "POST");
-								        $('#facilityList').submit();
+								        Swal.fire('등록 완료되었습니다.', '성공', 'success').then(result => {
+								            if (result.isConfirmed) {
+								                $('#facilityList').submit();
+								            }
+								        });
 						        	} 
-						        }//success 콜백함수 종료지점
-						  });// ajax
-					  }
-				}
-			});// end save function
+						});// end save function
 			
 			
 			// 취소 -> 새로고침
@@ -610,8 +621,76 @@
 		$(document).on("click", "input[name='emp_num']", function() {
 			window.open('${pageContext.request.contextPath }/member/memberListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 		});// end function
+		
+		
+		// 폼제출을 막고 엔터키로 조회가 가능하게 하는 함수
+		// 텍스트타입 제출을 막음
+		$('input[type="text"]').keydown(function() {
+			// 엔터키 이벤트 발생을 확인한다
+			if (event.keyCode === 13) {
+				// 폼 태그 제출을 막는다
+		 		event.preventDefault();
+				// 검색 함수를 실행한다
+		 		facilitySearch();
+				// 검색입력창을 초기화한다
+		 		$('#content').val("");
+			}// end if
+		});// end function
+		
+		
+		// 생산 공정 프론트에서는 문자열로 보여 주기
+		// DOM(Document Object Model 줄임말: document 객체 모델인 DOM은 트리 자료 구조 형태)
+		// DOMContentLoaded: 브라우저가 html을 전부 읽고 DOM 트리를 완성하는 즉시 발생
+		document.addEventListener('DOMContentLoaded', function() {
+			
+			// facility-process인 요소 찾아서 statusElements 배열에 할당
+		    var statusElements = document.querySelectorAll('.facility-process');
+			
+			// statusElements 배열의 각 요소에 대한 반복문 실행
+		    statusElements.forEach(function(element) {
+		    	// 반복 중인 요소의 내용을 statusValue 변수에 할당 후 내용 가져오기
+		        var statusValue = element.textContent;
+				// switch 구문으로 조건 부여
+		        switch (statusValue) {
+		            case '1':
+		                element.textContent = '1차 공정';
+		                break;
+		            case '2':
+		                element.textContent = '2차 공정';
+		                break;
+		            case '3':
+		                element.textContent = '3차 공정';
+		                break;
+		            default:
+		                element.textContent = '알 수 없음';
+		        }
+		    });
+		});
+		
 
-        
+		// 가동 상태 프론트에서는 문자열로 보여 주기
+		document.addEventListener('DOMContentLoaded', function() {
+		    var statusElements = document.querySelectorAll('.facility-status');
+
+		    statusElements.forEach(function(element) {
+		        var statusValue = element.textContent;
+
+		        switch (statusValue) {
+		            case '1':
+		                element.textContent = '가동중';
+		                break;
+		            case '2':
+		                element.textContent = '대기중';
+		                break;
+		            case '3':
+		                element.textContent = '고장';
+		                break;
+		            default:
+		                element.textContent = '알 수 없음';
+		        }
+		    });
+		});
+		
         </script>
         
         

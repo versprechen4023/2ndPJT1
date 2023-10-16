@@ -38,28 +38,32 @@
 						</div>
                         <div class="card mb-4">
                             <div class="card-header"> 
-                             <div id ="cardHeaderContainer">
-                             발주일자
+                             <div id ="cardHeaderContainer" style="font-weight: bold;">
+                             <div class="cardHeaderFirstLine">
+                             발주일자&nbsp;
                             <input type="text" name="rawOrderBegin" class="rawOrderDateInput" id="rawOrderBegin" readonly> ~
                             <input type="text" name="rawOrderEnd" class="rawOrderDateInput" id="rawOrderEnd" readonly disabled>
                        
                             
-                            입고예정일
+                            입고예정일&nbsp;
                             <input type="text" name="rawOrderInBegin" class="rawOrderDateInput" id="rawOrderInBegin" readonly> ~
                             <input type="text" name="rawOrderInEnd" class="rawOrderDateInput" id="rawOrderInEnd" readonly disabled>
                				<br>
+                            </div>
                             
-                            발주상태
+                            <div class="cardHeaderSecondLine">
+                            발주상태&nbsp;
 							<select id="status">
   								<option value="">전체</option>
   								<option value="1">발주중</option>
   								<option value="2">발주확정</option>
-							</select>
+							</select>&nbsp;
 							<input type="text" name="content" size=35 placeholder="자재명을 입력하세요"
-								id="content">
-							<input type="button" name="search" value="조회" onclick="rawOrderSearch()">
+								id="content">&nbsp;
+							<input type="button" name="search" value="조회" onclick="rawOrderSearch()">&nbsp;
 							<input type="button" name="allList" value="전체목록" onclick="location.reload();">
-                                
+                             </div>   
+                             
                             </div>
                             </div>
                             <div class="card-body">
@@ -144,7 +148,6 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
-	<script src="../resources/js/productList_im.js"></script>
 	
 <!-- 엑셀파일 저장을 위한 스크립트 호출 -->
 	<script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
@@ -152,6 +155,40 @@
 <script>
 //추가, 수정 을 구분하기위한 전역변수선언
 var status = "";
+
+//Table 초기화를 위한 전역변수 선언
+var simpleDataTableInstance;
+
+// 테이블 초기화 함수
+function simpleDataTable() {
+	// 테이블의 선택자를 찾는다
+	const datatablesSimple = document.getElementById('datatablesSimple');
+		
+		// 테이블 객체를 생성하고 전역변수에 저장한다
+     	simpleDataTableInstance = new simpleDatatables.DataTable(datatablesSimple, {
+        
+      		// 페이지 표시 버튼 삭제
+      		perPageSelect : false,
+      		// 검색창 삭제
+      		searchable : false,
+      		// 페이지당 목록 10개
+      		perPage : 10,
+      
+      		//라벨 수정
+      		labels: {
+      		placeholder: "검색",
+      		noResults : "검색 결과가 없습니다",
+      		noRows : "데이터가 없습니다",
+      		info : ""
+      		}
+      }); // end 초기화
+    
+}//end function
+
+// 돔이 로드될떄 테이블 초기화
+window.addEventListener('DOMContentLoaded', event => {
+	simpleDataTable();
+});
 
 // 발주 검색 관련 함수
 function rawOrderSearch() {
@@ -177,7 +214,14 @@ function rawOrderSearch() {
 			  dataType: 'json',
 			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
 			  success:function(json){
-				  
+				  	
+					// 아무것도 출력할게 없을때 선택자가 삭제되어 테이블을 더이상 초기화하지 못하는 문제가 있음
+				   	// 따라서 조건문으로 0개가 아닐때만 테이블을 삭제함
+				 	if(json.length !== 0){
+				    	simpleDataTableInstance.destroy();
+				 	}
+
+					
 				    // tbody 내용을 초기화
 				    $('tbody').empty();
 					
@@ -222,44 +266,14 @@ function rawOrderSearch() {
 				        $('tbody').append($tr);
 				    });
 
-					// 페이징 동적 처리
-				    // 태그 개수 구하기
-				    var trCount = $('tbody tr').length;
-				    // 페이징 처리를 위한 변수선언(태그 개수 계산)
-				    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
-				    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
-				   	var dataPageValues = [];
-				    	// 페이징 버튼의 밸류값을 추출 한다
-				  		$('.datatable-pagination-list-item a').each(function() {
-				      		var dataPageValue = $(this).data('page');
-				      		dataPageValues.push(dataPageValue);
-				  		});
-				    	
-				  	// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
-				  	dataPageValues = dataPageValues.filter(function(value) {
-					return value > parseInt(pageCount);
-					});
-				  	
-				  	// 중복을 삭제한다 indexOf로 첫번째 위치만을 출력한다 중복된다면 첫번째위치가 아닌 다른위치에 있을 것이므로
-				  	// 모두 false 처리하여 삭제한다
-				  	var myArray = dataPageValues.filter(function(value, index, self) {
-					return self.indexOf(value) === index;
-					});
-				  	
-				  	// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
-				  	var minValue = Math.min(myArray);
-				  	var maxValue = Math.max(myArray);
-				  	
-				  	// 글이 11개 이하라면(즉 페이징이 필요없는경우)
-				    if(trCount < 11){
-				    	// 페이징을 삭제
-				   	    $('.datatable-pagination-list').remove();
-				    } else {
-				    	// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
-				    	for(var i = minValue; i<=maxValue; i++){
-				    		$('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
-				    	}
-				    }
+				 	   // 테이블 재생성 마찬가지로 데이터가있는 경우에만 객체 재생성
+	 				   if(json.length !== 0){
+	 				       simpleDataTable();
+	 				   // 그렇지않은경우 기존 객체를 유지하고 페이징만 삭제
+	 				   } else if(json.length === 0){
+	 	 				    // 페이징을 삭제
+	 	 				   	$('.datatable-pagination-list').remove();
+	 	 			   }
 				  	
 		      }// 콜백함수 종료지점
   });// end_of_ajax

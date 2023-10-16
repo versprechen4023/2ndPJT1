@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Tables - SB Admin</title>
+        <title>아이스마일</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="../resources/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -36,7 +36,7 @@
 <!--                             <li class="breadcrumb-item active">Tables</li> -->
                         </ol>
                         <div class="bnt">
-                        <c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
+                        <c:if test="${sessionScope.emp_role.charAt(2).toString() eq '1' }">
 							<input type="button" value="추가" id="rsAdd">
 							<input type="button" value="수정" id="rsupdate">
 							<input type="button" value="삭제" id="rsdelete">
@@ -74,10 +74,10 @@
                                             <th>작업 지시 코드</th>
                                             <th>작업 지시 완료 날짜</th>
                                             <th>라인 코드</th>
-                                            <th>완제품 코드</th>
-                                            <th>지시 수량</th>
-                                            <th>양품</th>
-                                            <th>불량</th>
+                                            <th>제품명</th>
+                                            <th>지시 수량 (EA)</th>
+                                            <th>양품 (EA)</th>
+                                            <th>불량 (EA)</th>
                                             <th>불량 사유</th>
                                             <th>비고</th>
 
@@ -99,12 +99,19 @@
     											</c:otherwise>
 											</c:choose>
                                             <td>${ResultDTO.line_code}</td>
-                                            <td>${ResultDTO.prod_code}</td>
-                                            <td>${ResultDTO.order_amount}EA</td>
-                                            <td>${ResultDTO.good_prod}EA</td>
-                                            <td>${ResultDTO.faulty_prod}EA</td>
+                                            <td>${ResultDTO.prod_name}</td>
+                                            <td>${ResultDTO.order_amount}</td>
+                                            <td>${ResultDTO.good_prod}</td>
+                                            <td>${ResultDTO.faulty_prod}</td>
                                             <td>${ResultDTO.faulty_reason}</td>
-                                            <td>${ResultDTO.remark}</td>
+                                            <c:choose>
+   												<c:when test="${empty ResultDTO.remark}">
+        											<td>-</td>
+    											</c:when>
+    											<c:otherwise>
+        											<td>${ResultDTO.remark}</td>
+    											</c:otherwise>
+											</c:choose>
                                         </tr>
                                        </c:forEach>
                                     </tbody>
@@ -112,8 +119,8 @@
 </form>
                             </div>
                         </div>
-                        <input type="button" value="엑셀파일다운" id="excelRS">
-                    </div>
+                      </div>
+                      <input type="button" value="엑셀파일다운" id="excelRS">
                 <!-- 내용 들어가는 곳 -->   
                 </main>
                 
@@ -143,13 +150,47 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
-	<script src="../resources/js/productList_im.js"></script>
+<!-- 	<script src="../resources/js/productList_im.js"></script> -->
 	
 <!-- 엑셀파일 저장을 위한 스크립트 호출 -->
 	<script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
     <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 
 <script>
+//Table 초기화를 위한 전역변수 선언
+var simpleDataTableInstance;
+
+//테이블 초기화 함수
+function simpleDataTable() {
+	// 테이블의 선택자를 찾는다
+	const datatablesSimple = document.getElementById('datatablesSimple');
+		
+		// 테이블 객체를 생성하고 전역변수에 저장한다
+  	simpleDataTableInstance = new simpleDatatables.DataTable(datatablesSimple, {
+     
+   		// 페이지 표시 버튼 삭제
+   		perPageSelect : false,
+   		// 검색창 삭제
+   		searchable : false,
+   		// 페이지당 목록 10개
+   		perPage : 10,
+   
+   		//라벨 수정
+   		labels: {
+   		placeholder: "검색",
+   		noResults : "검색 결과가 없습니다",
+   		noRows : "데이터가 없습니다",
+   		info : ""
+   		}
+   }); // end 초기화
+ 
+}//end function
+
+//돔이 로드될떄 테이블 초기화
+window.addEventListener('DOMContentLoaded', event => {
+	simpleDataTable();
+});
+
 //추가, 수정 을 구분하기위한 전역변수선언
 var status = "";
 
@@ -175,6 +216,12 @@ function resultSearch(){
 			  	dataType: 'json',
 			  	// 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
 			  	success:function(json){
+			  		
+			  		// 아무것도 출력할게 없을때 선택자가 삭제되어 테이블을 더이상 초기화하지 못하는 문제가 있음
+ 				   	// 따라서 조건문으로 0개가 아닐때만 테이블을 삭제함
+ 				 	if(json.length !== 0){
+				    	simpleDataTableInstance.destroy();
+ 				 	}
 			  		
 			  		// tbody 내용을 초기화
 				    $('tbody').empty();
@@ -204,7 +251,7 @@ function resultSearch(){
 			        	"<td>"+data.work_code+"</td>",
 			        	"<td>"+data.done_date+"</td>",
 			        	"<td>"+data.line_code+"</td>",
-			        	"<td>"+data.prod_code+"</td>",
+			        	"<td>"+data.prod_name+"</td>",
 			        	"<td>"+data.order_amount+"</td>",
 			        	"<td>"+data.good_prod+"</td>",
 			        	"<td>"+data.faulty_prod+"</td>",
@@ -214,44 +261,15 @@ function resultSearch(){
 				    	// 생성한 <tr> 요소를 tbody에 추가
 				        $('tbody').append($tr);
 			  		});
-				 // 페이징 동적 처리
-				    // 태그 개수 구하기
-				    var trCount = $('tbody tr').length;
-				    // 페이징 처리를 위한 변수선언(태그 개수 계산)
-				    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
-				    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
-				   	var dataPageValues = [];
-				    	// 페이징 버튼의 밸류값을 추출 한다
-				  		$('.datatable-pagination-list-item a').each(function() {
-				      		var dataPageValue = $(this).data('page');
-				      		dataPageValues.push(dataPageValue);
-				  		});
-				    	
-				  	// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
-				  	dataPageValues = dataPageValues.filter(function(value) {
-					return value > parseInt(pageCount);
-					});
-				  	
-				  	// 중복을 삭제한다 indexOf로 첫번째 위치만을 출력한다 중복된다면 첫번째위치가 아닌 다른위치에 있을 것이므로
-				  	// 모두 false 처리하여 삭제한다
-				  	var myArray = dataPageValues.filter(function(value, index, self) {
-					return self.indexOf(value) === index;
-					});
-				  	
-				  	// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
-				  	var minValue = Math.min(myArray);
-				  	var maxValue = Math.max(myArray);
-				  	
-				  	// 글이 11개 이하라면(즉 페이징이 필요없는경우)
-				    if(trCount < 11){
-				    	// 페이징을 삭제
-				   	    $('.datatable-pagination-list').remove();
-				    } else {
-				    	// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
-				    	for(var i = minValue; i<=maxValue; i++){
-				    		$('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
-				    	}
-				    }
+			
+				 // 테이블 재생성 마찬가지로 데이터가있는 경우에만 객체 재생성
+	 			 if(json.length !== 0){
+	 				simpleDataTable();
+	 			 // 그렇지않은경우 기존 객체를 유지하고 페이징만 삭제
+	 			 } else if(json.length === 0){
+	 	 			// 페이징을 삭제
+	 	 			$('.datatable-pagination-list').remove();
+	 	 		 }
 				  	
 		      }// 콜백함수 종료지점
 		}); // end_of_ajax
@@ -309,15 +327,15 @@ function getDate() {
 	  $tr.append(
 	    '<td><input type="checkbox" name="selectedRSList" disabled></td>',
 	    '<td><input type="text" id="result_code" name="result_code" placeholder="(자동으로 부여)" readonly></td>',
-	    '<td><input type="text" id="work_code" name="work_code" readonly></td>',
+	    '<td><input type="text" id="work_code" name="work_code" placeholder="작업 지시 코드 선택" readonly></td>',
 	    '<td><input type="text" id="done_date" name="done_date" readonly></td>',
 	    '<td><input type="text" id="line_code" name="line_code" readonly></td>',
-	    '<td><input type="text" id="prod_code" name="prod_code" readonly></td>',
-	    '<td><input type="text" id="order_amount" name="order_amount" ></td>',
+	    '<td><input type="text" id="prod_name" name="prod_name" readonly></td>',
+	    '<td><input type="text" id="order_amount" name="order_amount" readonly></td>',
 	    '<td><input type="text" id="good_prod" name="good_prod" placeholder="(자동으로 계산됨)" readonly></td>',
-	    '<td><input type="text" id="faulty_prod" name="faulty_prod" ></td>',
-	    '<td><input type="text" id="faulty_reason" name="faulty_reason" ></td>',
-	    '<td><input type="text" id="remark" name="remark" value="없음"></td>'
+	    '<td><input type="text" id="faulty_prod" name="faulty_prod" placeholder="불량품 개수 입력"></td>',
+	    '<td><input type="text" id="faulty_reason" name="faulty_reason" placeholder="불량 사유 입력" ></td>',
+	    '<td><input type="text" id="remark" name="remark" placeholder="입력해 주세요"></td>'
 	  );
 
 	  // 생성한 <tr> 요소를 tbody에 추가
@@ -354,7 +372,7 @@ function getDate() {
 	            "work_code",
 	            "done_date",
 	            "line_code",
-	            "prod_code",
+	            "prod_name",
 	            "order_amount",
 	            "good_prod",
 	            "faulty_prod",
@@ -368,7 +386,7 @@ function getDate() {
 	            "work_code",
 	            "done_date",
 	            "line_code",
-	            "prod_code",
+	            "prod_name",
 	            "order_amount",
 	            "good_prod",
 	            "faulty_prod",
@@ -388,10 +406,10 @@ function getDate() {
 	            var cellOption = ""
 	            // 삼항연산자 6번째 행(발주량)및 10번째 행(입고예정일)을 제외하고는 비활성화로 변경할 수 없다
 	            // 단 셀렉트태그는 직접 부여되므로 마찬가지로 수정 할 수 있다
-	            if (index === 6 || index === 10) {
+	            if (index === 2 || index === 8 || index === 9 || index === 10) {
 	                cellOption = "";
 	            } else {
-	                cellOption = "abled";
+	                cellOption = "disabled";
 	            }
 
 	            // 반복문의 숫자에 따라 html 태그의 이름을 네임 이름으로 한다
@@ -616,15 +634,15 @@ function getDate() {
 		window.open('${pageContext.request.contextPath }/factory/workOrderPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 	});// end function
 	
-	// 라인 코드를 선택하면 새창을 여는 이벤트 리스너
-	$(document).on("click", "input[name='line_code']", function() {
-		window.open('${pageContext.request.contextPath }/factory/facilityPopUp2', '_blank', 'width=590px, height=770px, left=600px, top=300px');
-	});// end function
+//	// 라인 코드를 선택하면 새창을 여는 이벤트 리스너
+//	$(document).on("click", "input[name='line_code']", function() {
+//		window.open('${pageContext.request.contextPath }/factory/facilityPopUp2', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+//	});// end function
 	
-	// 완제품 코드를 선택하면 새창을 여는 이벤트 리스너
-	$(document).on("click", "input[name='prod_code']", function() {
-		window.open('${pageContext.request.contextPath }/product/productListPopUp2', '_blank', 'width=590px, height=770px, left=600px, top=300px');
-	});// end function
+// 	// 완제품 코드를 선택하면 새창을 여는 이벤트 리스너
+// 	$(document).on("click", "input[name='prod_code']", function() {
+// 		window.open('${pageContext.request.contextPath }/product/productListPopUp2', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+// 	});// end function
 
 	// 숫자만 입력되야하는 텍스트필드의 이벤트 리스너
 	// 인풋 이벤트 대상이 되는 선택자 리스너 변수선언
@@ -654,20 +672,26 @@ function getDate() {
 		// 수주량을 가져온다
 		var order_amount = parseInt($("#order_amount").val());
 		console.log(order_amount);
-		// 단가를 가져온다
+		
+		// 불량 값을 입력한다
 		var faulty_prod = parseInt($(this).val());
 		console.log(faulty_prod);
 
-		// 수주량과 단가를 계산한다
+		// 수주량과 불량을 계산한다
 		var result = order_amount - faulty_prod;
 		console.log(result);
 
+		// result가 음수인 경우 0으로 설정
+		if (faulty_prod > order_amount){
+			result = '불량은 지시 수량보다 클 수 없습니다.';
+		}
 		// 밸류값을 최종가격으로 변경한다
 		if (isNaN(result) || result == 0) {
 		    $("#good_prod").val("");
 		} else {
 		    $("#good_prod").val(result);
 		}
+
 
 		
 	});

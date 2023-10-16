@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ems.icemile.dto.FacilityDTO;
 import ems.icemile.dto.RequirementDTO;
 import ems.icemile.service.FactoryCopyServiceImpl;
+import ems.icemile.annotation.Production;
 import ems.icemile.dto.BuyDTO;
 import ems.icemile.dto.WorkOrderDTO;
 import ems.icemile.service.FactoryCopy2ServiceImpl;
@@ -42,6 +43,8 @@ public class FactoryAjaxController {
 
 	
 	
+	// 권한제어를 위한 생산 어노테이션 선언
+	@Production
 	@PostMapping("/deleteFacility")
 	public String deleteFacility(@RequestParam("selectedLineCo") String[] selectedLineCo) {
 		

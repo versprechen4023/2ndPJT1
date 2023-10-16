@@ -26,10 +26,11 @@
 <!-- 사이드바 -->
         
 <div id="layoutSidenav_content">
-<main>
-<!-- 내용 들어가는 곳 -->
-<div class="container-fluid px-4">                       
-<h1 class="mt-4">소요량</h1>                        
+	<main>
+	<!-- 내용 들어가는 곳 -->
+		<div class="container-fluid px-4">                       
+		<h1 class="mt-4">소요량</h1>        
+		                
 <ol class="breadcrumb mb-4">
 <!-- <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
 <!--<li class="breadcrumb-item active">Tables</li> --> 
@@ -38,57 +39,58 @@
 <input type="button" value="추가" onclick="requirementAdd()">
 </div>
 <div class="card mb-4">
-<!--<div class="card-header"> -->
-<!--<i class="fas fa-table me-1"></i> -->
-<!-- DataTable Example -->
-<!-- </div> -->
-<div class="card-body">
+<div class="card-header">
 <select id="category" name="category">
 	<option value="req_code">소요량 코드</option>
   	<option value="prod_code">제품 코드</option>
 </select>
 <input type="text" name="content" size="60" placeholder="검색어를 입력하세요" id="content">
 <input type="button" name="requirementSearch" value="검색" onclick="requirementSearch()">
+</div>
+<div class="card-body">
+
 <!-- <input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content"> -->
 <!-- <input type="button" name="search" value="조회" onclick="productSearch()"> -->
+
 <table id="datatablesSimple">   
-<thead>
-<!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
-<tr>
-<th>순서</th>
-<th>코드</th>
-<th>완제품 코드</th>
-<th>원자재 코드</th>
-<th>소요량등록일</th>
-<th>소요량</th>
-<th>소요량수정일</th>
-<th>비고</th>
-<th>관리</th>
-</tr>
-</thead>
+	<thead>
+	<!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
+		
+		<tr>
+				<th>순서</th>
+				<th>코드</th>
+				<th>완제품 코드</th>
+				<th>원자재 코드</th>
+<!-- 				<th>소요량등록일</th> -->
+				<th>소요량</th>
+<!-- 				<th>소요량수정일</th> -->
+				<th>비고</th>
+				<th>관리</th>
+		</tr>
+	</thead>
                                 
-<tbody>
-<!--순서값 1씩 증가 시키기 위한 rowNum -->
-<c:set var="rowNum" value="0" />
-<c:forEach var="requirementDTO" items="${requirementList}">
-<c:set var="rowNum" value="${rowNum + 1}" />
-<tr>
-<!--<th class="eachCheck"> -->
-<!--<input type="checkbox" name="cbox" class="eachCheckbox"></th> -->
-<td>${rowNum}</td> <!-- 순서 -->
-<td>${requirementDTO.req_code}</td> <!--소요량 코드 -->
-<td>${requirementDTO.prod_code}</td> <!-- 완제품 코드 -->
-<td>${requirementDTO.raw_code }</td> <!-- 원자재 코드 -->
-<td>${fn:substring(requirementDTO.req_insertDATE, 0, 10)}</td><!--  소요량 등록일-->
-<td>${requirementDTO.req_amount }</td><!-- 소요량 -->
-<td>${fn:substring(requirementDTO.req_upDATEDATE, 0, 10)}</td><!-- 수정일 -->
-<td>${requirementDTO.req_note }</td><!-- 비고 -->
-<td><input type="button" value="수정" onclick="requirementUpdate('${requirementDTO.req_code}')">
-<input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/factory/deleteRequirement?req_code=${requirementDTO.req_code}')">
-</td>
-</tr>
-</c:forEach>
-</tbody>                                  
+	<tbody>
+	<!--순서값 1씩 증가 시키기 위한 rowNum -->
+	<c:set var="rowNum" value="0" />
+		<c:forEach var="requirementDTO" items="${requirementList}">
+	<c:set var="rowNum" value="${rowNum + 1}" />
+		<tr>
+				<!--<th class="eachCheck"> -->
+				<!--<input type="checkbox" name="cbox" class="eachCheckbox"></th> -->
+				<td>${rowNum}</td> <!-- 순서 -->
+				<td>${requirementDTO.req_code}</td> <!--소요량 코드 -->
+				<td>${requirementDTO.prod_code}</td> <!-- 완제품 코드 -->
+				<td>${requirementDTO.raw_code }</td> <!-- 원자재 코드 -->
+<%-- 				<td>${fn:substring(requirementDTO.req_insertDATE, 0, 10)}</td><!--  소요량 등록일--> --%>
+				<td>${requirementDTO.req_amount }</td><!-- 소요량 -->
+<%-- 				<td>${fn:substring(requirementDTO.req_upDATEDATE, 0, 10)}</td><!-- 수정일 --> --%>
+				<td>${requirementDTO.req_note }</td><!-- 비고 -->
+				<td><input type="button" value="수정" onclick="requirementUpdate('${requirementDTO.req_code}')">
+				<input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/factory/deleteRequirement?req_code=${requirementDTO.req_code}')">
+				</td>
+			</tr>
+			</c:forEach>
+		</tbody>                                  
 </table>
 </div>
 </div>
@@ -150,7 +152,7 @@ function requirementSearch() {
  				           	"<td>"+data.raw_code+"</td>",
  				            "<td>"+data.req_insertDATE+"</td>",
  				         	"<td>"+data.req_amount+"</td>",
- 				         	"<td>"+data.req_upDATEDATE+"</td>",
+//  				         	"<td>"+data.req_upDATEDATE+"</td>",
  				         	"<td>"+data.req_note+"</td>",
  				         	 '<td>' +
  				            '<input type="button" value="수정" onclick="requirementUpdate(\'' + data.req_code + '\')">' +

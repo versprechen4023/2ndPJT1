@@ -11,7 +11,7 @@ public interface BuyService {
 	public List<BuyDTO> getBuyList();
 
 	// 구매처 추가
-	public void buyInsert(BuyDTO buyDTO);
+	public boolean buyInsert(BuyDTO buyDTO);
 	
 	// 구매처 정보 얻기
 	public BuyDTO getBuyInfo(String buy_code);

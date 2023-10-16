@@ -16,10 +16,10 @@
 	
 	<div id ="container">			
 	<!-- 내용들어가는곳 -->
-	<form action="${pageContext.request.contextPath }/factory/workOrderAddPro" id="registration" name="registration" method="POST" enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath }/factory/workOrderAddPro" id="registration" name="registration" method="POST">
 		<h1>작업 지시 추가</h1>
 
-		<table>
+		<table border="1">
 		<tr>
 						<!-- <th>지시코드</th> -->
 						<th>작업지시자</th>
@@ -35,10 +35,10 @@
 		<tr>
 						<!-- 일단 타입 텍스트로 다 작업. 추후에 불러올 때 수정 -->
 						<!-- <td><input type="text" name="work_code" id="work_code"></td>  -->
-						<td><input type="text" name="emp_num" id="emp_num"></td>  <!-- 사원 정보 가져오기 --> 
-						<td><input type="text" name="line_code" id="line_code"></td>  <!-- 라인 코드(정보) 가져오기 -->
+						<td><input type="text" name="emp_num" id="emp_num" placeholder="작업지시자 선택"></td>  <!-- 사원 정보 가져오기 --> 
+						<td><input type="text" name="line_code" id="line_code" placeholder="라인코드 선택"></td>  <!-- 라인 코드(정보) 가져오기 -->
 						<td><input type="text" name="line_name" id="line_name" readonly></td>  <!-- 사원 코드 가져왔을시 자동으로 해당 라인 이름 등록 -->
-						<td><input type="text" name="order_code" id="order_code"></td>  <!-- 수주 코드(정보) 가져오기 -->
+						<td><input type="text" name="order_code" id="order_code" placeholder="수주코드 선택"></td>  <!-- 수주 코드(정보) 가져오기 -->
 						<td><input type="text" name="prod_name" id="prod_name" readonly></td>   <!-- 수주 코드 가져왔을시 자동으로 해당 제품명 등록 -->
 						<td><input type="text" name="order_amount" id="order_amount" readonly></td>  <!-- 수주 코드 가져왔을시 자동으로 해당 지시량 등록 -->
 						<td><input type="text" name="line_process" id="line_process" readonly></td>  <!-- 라인 코드 가져왔을시 자동으로 해당 라인 공정 등록 -->
@@ -109,7 +109,7 @@ $(document).ready(function() {
     		    type: "POST",
     		    url: "${pageContext.request.contextPath}/factory_ajax/workOrderAdd",
     		    data: formData,
-    		    contentType: false,
+//     		    contentType: false,
     		    processData: false,
     		    success: function(response) {
     		        if (response === "true") {

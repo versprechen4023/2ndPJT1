@@ -36,9 +36,9 @@ public class FactoryDAOImpl implements FactoryDAO {
 
 
 	@Override
-	public String getNewFacilityCode() {
+	public String getNewFacilityCode(FacilityDTO facilityDTO) {
 
-		return sqlSession.selectOne(namespace+"getNewFacilityCode");
+		return sqlSession.selectOne(namespace+"getNewFacilityCode", facilityDTO);
 	}
 
 

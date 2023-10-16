@@ -51,7 +51,10 @@
   	UPDATE emp
   		SET emp_name = #{emp_name}, birthdate = #{birthdate}, dept_name = #{dept_name}, position = #{position},
   			phone_num = #{phone_num}, hotline = #{hotline}, email = #{email}, emp_post = #{emp_post}, address = #{address},
-  				 hire_date = #{hire_date}, profilepic = #{profilepic}, emp_role = #{emp_role} 
+  				 hire_date = #{hire_date}, 
+  				 <if test="profilepic != null and profilepic != ''">
+					profilepic = #{profilepic},				
+				 </if> emp_role = #{emp_role} 
   				 	WHERE emp_num = #{emp_num}
   </update>
   
@@ -85,5 +88,14 @@
   	UPDATE emp
   		SET emp_pw = #{emp_pw}
   			WHERE emp_num = #{emp_num}
+  </update>
+  
+  <update id="userUpdate">
+  	UPDATE emp
+  		SET phone_num = #{phone_num}, email = #{email}, emp_post = #{emp_post}, address = #{address}
+  				 <if test="profilepic != null and profilepic != ''">
+					, profilepic = #{profilepic}				
+				 </if> 
+  				 	WHERE emp_num = #{emp_num}
   </update>
 </mapper>

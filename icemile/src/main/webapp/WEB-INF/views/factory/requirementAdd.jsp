@@ -16,7 +16,7 @@
 
 <body>
 	<div id ="container">			
-	<form action="${pageContext.request.contextPath}/factory/insertRequirement" id="insertRequirement" method="POST">
+	<form action="${pageContext.request.contextPath}/factory/insertRequirement" id="insertRequirement" name="insertRequirement" method="POST">
 		<h1>소요량 추가</h1>
 
 		<table >
@@ -26,16 +26,16 @@
 				<th>완제품 코드</th>
 				<th>원자재 코드</th>
 				<th>소요량</th>
-				<th>등록일</th>
-				<th>수정일</th>
+<!-- 				<th>등록일</th> -->
+<!-- 				<th>수정일</th> -->
 				<th>비고</th>
 		</tr>
 		<tr>
 				<td><input type="text" name="prod_code" id="prod_code" ></td>  <!-- 완제품 코드 -->
 				<td><input type="text" name="raw_code" id="raw_code"></td>  <!-- 원자재 코드 -->
 				<td><input type="text" name="req_amount" id="req_amount"></td>  <!-- 소요량 -->
-				<td><input type="date" name="req_insertDATE" id="req_insertDATE" ></td> <!-- 등록일 -->
-				<td><input type="date" name="req_upDATEDATE" id="req_upDATEDATE"></td>  <!-- 수정일 -->
+<!-- 				<td><input type="date" name="req_insertDATE" id="req_insertDATE" ></td> 등록일 -->
+<!-- 				<td><input type="date" name="req_upDATEDATE" id="req_upDATEDATE"></td>  수정일 -->
 				<td><input type="text" name="req_note" id="req_note" ></td>  <!-- 비고 -->
 		</tr>
 		</table>
@@ -60,11 +60,11 @@
 <input type="hidden" name="raw_type" id="raw_type" value="">
 <input type="hidden" name="raw_price" id="raw_price" value="">				
 <!-- 내용들어가는곳 -->
-               
+         
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>      
        	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
        	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/datatables-simple-demo.js"></script>
@@ -88,27 +88,26 @@ $(document).ready(function(){
 			Swal.fire('소요량을 입력해주세요.', '실패', 'error');
 			return false;
 		}
-// 		if($('#req_insertDATE').val()==""){
-// 			Swal.fire('등록일을 선택해주세요.', '실패', 'error');
-// 			return false;
-// 		}
-// 		if($('#req_upDATEDATE').val()==""){
-// 			Swal.fire('수정일을 선택해주세요.', '실패', 'error');
-// 		}
-// 		Swal.fire('등록되었습니다.', '성공', 'success');
-// 		this.submit();
-		event.preventDefault();
-		
-	 	var formData = new FormData(this);
+
+         event.preventDefault();
          
+          var formData = {
+            prod_code: $('#prod_code').val(),
+            raw_code: $('#raw_code').val(),
+            req_amount: $('#req_amount').val(),
+//             req_insertDATE: $('#req_insertDATE').val(),
+//             req_upDATEDATE: $('#req_upDATEDATE').val(),
+            req_note: $('#req_note').val()
+        };
+          
     	 $.ajax({
     		    type: "POST",
     		    url: "${pageContext.request.contextPath}/factoryCopy_ajax/insertRequirement",
     		    data: formData,
-    		    contentType: false,
-    		    processData: false,
     		    success: function(response) {
-    		        if (response === "true") {
+    		    	const result = $.trim(response);
+    		    	
+    		        if (result === "true") {
     		            Swal.fire('정보 입력이 완료되었습니다.', '성공', 'success').then(result => {
     		                if (result.isConfirmed) {
     		                    window.opener.location.reload();

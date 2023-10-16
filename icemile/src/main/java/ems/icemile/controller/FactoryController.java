@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ems.icemile.annotation.Production;
 import ems.icemile.dto.FacilityDTO;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.service.FactoryService;  
@@ -47,7 +48,9 @@ public class FactoryController {
 	}
 	
 	
-	// 가상주소: http://localhost:8080/FunWeb/factory/addPro
+		// 가상주소: http://localhost:8080/FunWeb/factory/addPro
+		// 권한제어를 위한 생산 어노테이션 선언
+		@Production
 		@PostMapping("/addPro")
 		public String addPro(FacilityDTO facilityDTO) {
 			log.debug("FactoryController addPro()");
@@ -61,6 +64,8 @@ public class FactoryController {
 		
 		
 		// 가상주소: http://localhost:8080/FunWeb/factory/updateFacility
+		// 권한제어를 위한 생산 어노테이션 선언
+		@Production
 		@PostMapping("/updateFacility")
 		public String updateFacility(FacilityDTO facilityDTO) {
 			log.debug("FactoryController updateFacility()");

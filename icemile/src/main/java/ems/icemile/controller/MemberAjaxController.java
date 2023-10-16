@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import ems.icemile.annotation.Departments;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.service.MemberServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,8 @@ public class MemberAjaxController {
 	@Inject // 멤버 서비스 의존성 주입
 	private MemberServiceImpl memberService;
 	
+	// 관리자 권한제어를 위한 어노테이션 선언
+	@Departments
 	@PostMapping("delete")
 	public String memberDelete(@RequestParam("emp_num") String emp_num) {
 		
@@ -36,7 +39,8 @@ public class MemberAjaxController {
 		
 		// 콜백 함수에 결과값 리턴
 		return Boolean.toString(memberService.memberDelete(emp_num));
-	}
+	} // end memberIDelete
+	
 	
 	@PostMapping("search")
 	public List<MemberDTO> memberSearch(@RequestBody HashMap<String, Object> json) {
@@ -50,8 +54,10 @@ public class MemberAjaxController {
 		
 		// 콜백 함수에 결과값 리턴
 		return memberList;
-	}
+	} // end memberSearch
 	
+	// 관리자 권한제어를 위한 어노테이션 선언
+	@Departments
 	@PostMapping("/insert")
 	public String memberInsert(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file, HttpSession session) throws Exception {
 		
@@ -83,8 +89,10 @@ public class MemberAjaxController {
 		}
 		
 		return Boolean.toString(memberService.memberInsert(memberDTO));
-	}
+	} // end memberInsert
 	
+	// 관리자 권한제어를 위한 어노테이션 선언
+	@Departments
 	@PostMapping("/update")
 	public String memberUpdate(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file, HttpSession session) throws Exception {
 		
@@ -116,7 +124,40 @@ public class MemberAjaxController {
 		}
 		
 		return Boolean.toString(memberService.memberUpdate(memberDTO));
-	}
+	} // end memberUpdate
+	
+	@PostMapping("/userUpdate")
+	public String userUpdate(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file, HttpSession session) throws Exception {
+		
+		log.debug("값 잘 넘어오나 "+memberDTO.toString());
+		
+		// 프로필 사진 업로드 처리
+		// 파일이 있다면 업로드 처리 시작
+		if(file.getSize() > 0 ) {
+	        
+			// 업로드 경로 지정
+			String uploadDir = "/resources/upload"; 
+			String saveDir = session.getServletContext().getRealPath(uploadDir);
+			
+			log.debug("실제 파일 업로드 주소 : "+saveDir);
+			
+			// 폴더가 없다면 생성
+			File uploadFolder = new File(saveDir);
+	        if (!uploadFolder.exists()) {
+	            uploadFolder.mkdirs();
+	        }
+			
+			// 사진 이름 얻어오기 중복되지않기 위해 랜덤값 부여 나중에 _전으로 잘라서 표기하면됨
+			String photo = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+			// 멤버 DTO에 등록
+			memberDTO.setProfilepic(photo);
+			
+			// 파일 저장 실행
+			file.transferTo(new File(saveDir + File.separator + photo));
+		}
+		
+		return Boolean.toString(memberService.userUpdate(memberDTO));
+	} // end memberUpdate
 	
 	@PostMapping("updatePassword")
 	public String updatePassword(MemberDTO memberDTO, @RequestParam("emp_newPw1") String new_password, HttpSession session) {
@@ -137,7 +178,7 @@ public class MemberAjaxController {
 			return "false";
 		}
 		
-	}
+	} // end updatePassword
 	
 	@GetMapping("searchEmail")
 	public String searchEmail(@RequestParam("email") String email) {
@@ -145,7 +186,7 @@ public class MemberAjaxController {
 		log.debug("{} 값 확인", email);
 		
 		return Boolean.toString(memberService.searchEmail(email));
-	}
+	} // end searchEmail
 	
 	@GetMapping("searchPhone")
 	public String searchPhone(@RequestParam("phone_num") String phone_num) {
@@ -153,14 +194,16 @@ public class MemberAjaxController {
 		log.debug("{} 값 확인", phone_num);
 		
 		return Boolean.toString(memberService.searchPhone(phone_num));
-	}
+	} // end searchPhone
 	
+	// 관리자 권한제어를 위한 어노테이션 선언
+	@Departments
 	@PostMapping("reset")
 	public String memberReset(@RequestParam("emp_num") String emp_num) {
-		
+		// 사용자의 비밀번호를 생일로 초기화하는 메서드
 		log.debug("멤버 리셋 AJAX 호출");
 		
 		// 콜백 함수에 결과값 리턴
 		return Boolean.toString(memberService.memberReset(emp_num));
-	}
+	} // end memberReset
 }

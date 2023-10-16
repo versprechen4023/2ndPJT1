@@ -44,21 +44,22 @@
 						</div>
 
 						<div class="card mb-4">
+								<div class="card-header">
+									<!--location.reload() 함수를 호출하여 현재 웹 페이지를 다시 로드하도록 지정합니다. -->
+									<input type="button" name="allList" value="전체목록" onclick="location.reload();"> 
+											<select id="category">
+													<option value="wh_code">코드</option>
+													<option value="wh_name">이름</option>
+													<option value="wh_type">종류</option>
+													<option value="wh_location">위치</option>
+													<option value="wh_status">가용상태</option>
+													<option value="emp_num">담당자</option>
+											</select> 
+									<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content"> 
+									<input type="button" name="search" id="inputwhSearch" value="조회">
+								</div>
+						
 							<div class="card-body">
-								<!--location.reload() 함수를 호출하여 현재 웹 페이지를 다시 로드하도록 지정합니다. -->
-								<input type="button" name="allList" value="전체목록"
-									onclick="location.reload();"> <select id="category">
-									<option value="wh_code">코드</option>
-									<option value="wh_name">이름</option>
-									<option value="wh_type">종류</option>
-									<option value="wh_location">위치</option>
-									<option value="wh_status">가용상태</option>
-									<option value="emp_num">담당자</option>
-								</select> <input type="text" name="content" size=60
-									placeholder="검색어를 입력하세요" id="content"> <input
-									type="button" name="search" id="inputwhSearch" value="조회">
-
-
 								<table id="datatablesSimple">
 									<thead>
 										<tr>
@@ -102,7 +103,7 @@
 
 												<td>${WareHouseDTO.prod_code}</td>
 												<td>${WareHouseDTO.raw_code}</td>
-												<td>${WareHouseDTO.emp_num}</td>
+								                <td><a href="#" onclick="memberInfo('${WareHouseDTO.emp_num}')" style="text-decoration: none; color: #808080;">${WareHouseDTO.emp_num}</a></td>
 												<td>${WareHouseDTO.wh_note}</td>
 											</tr>
 										</c:forEach>
@@ -182,11 +183,15 @@ $(document).ready(function() {
 	"raw_code": "원자재 코드",
 	"emp_num": "창고 담당자",
 	"wh_status": "가용상태",
+	"prod_name":"물품 이름",
+	"prod_taste":"물품 맛",
+    "prod_price":"물품 가격", 
+	"raw_name":"원재료 이름",
+	"raw_type":"원재료 타입",
+	"raw_price":"원재료 가격"
 };
   
-  var prodCodeCount = 0; // prod_code 입력 횟수를 추적
-  var rawCodeCount = 0; // raw_code 입력 횟수를 추적
-  
+
 // 반복문을 사용하여 각 항목을 검사한다
 // 반복문을 사용하여 formArray 배열에 있는 각 항목을 검사합니다. 
 // 이 배열은 formData를 & 문자로 분할한 결과를 저장하고 있습니다.
@@ -208,18 +213,10 @@ $(document).ready(function() {
 	  
 	  // 비고와 검색칸은 비어있어도 상관없음
 	  // 검사에서 제외사항
-	  if ((key === "wh_note"|| key === "content" || key === "prod_code" || key === "raw_code") && value === ""){
+	  if ((key === "wh_note"|| key === "content" || key === "prod_code" || key === "prod_name" || key === "prod_taste" || key === "prod_price" || key === "raw_code" || key === "raw_name" || key === "raw_type" || key === "raw_price" ) && value === ""){
 		  continue;
 	  }
-	  
-	    if (key === "prod_code" && value !== "") {
-	        prodCodeCount++;
-	    }
-
-	    if (key === "raw_code" && value !== "") {
-	        rawCodeCount++;
-	    }
-	  
+	   
 	  //이 부분의 코드는 폼 필드의 값이 비어있을 때 실행되며,사용자에게 오류 메세지를 표시하고'result'값을 'false'로 설정하는 역할을 합니다.
 	  if (value === "") {
 	    // 값이 비어 있는 경우 결과값은 false가 된다
@@ -230,7 +227,7 @@ $(document).ready(function() {
 	  }
 	  
 	  // 중복값 검사수행
-	  if (key === "wh_code" && value !== "") {
+	  if (key === "wh_code" && value !== ""  && status !== "update") {
 		  // ajax 호출
 		  $.ajax({
 			  	type: "GET",
@@ -263,12 +260,6 @@ $(document).ready(function() {
 	 } // end 중복값 검증
 	}// end for
 	
-	if ((prodCodeCount === 1 && rawCodeCount === 0) || (prodCodeCount === 0 && rawCodeCount === 1)) {
-	    // 하나만 입력된 경우는 유효
-	} else {
-	    Swal.fire("prod_code 또는 raw_code 중 하나만 입력하세요.", "", "info");
-	    result = false;
-	}
 	
 	// 결과값 반환
 	return result;
@@ -339,6 +330,7 @@ row += "<td>";
 row += "<input type='text' name='prod_code' id='prod_code' size='5' required class='#datatablesSimple tr'>"
 row += "<input type='hidden' name='prod_name' id='prod_name' class='#datatablesSimple tr'>"
 row += "<input type='hidden' name='prod_taste' id='prod_taste' class='#datatablesSimple tr'>"
+row += "<input type='hidden' name='prod_price' id='prod_price' class='#datatablesSimple tr'>"
 row += "</td>";
 
 //원자재 코드
@@ -529,7 +521,6 @@ $("#updateWh").click(function(){
 			"wh_note"
 		];
 		
-		
 		// 각 셀을 수정 가능한 텍스트 입력 필드로 변경(단 첫번째의 체크박스가 있는 셀은 제외한다
 		// 설명
 		//아래에 있는 JavaScript 코드는 선택된 요소 중에서 부모 요소의 첫 번째 자식이 아닌 `<td>` 요소들을 찾아서 각각에 대해 작업을 수행하는 코드입니다.
@@ -547,9 +538,13 @@ $("#updateWh").click(function(){
 			var cellOption = index === 0 || index === 2 ? "readonly" : "";
 			// 반복문의 숫자에 따라 html 태그의 이름을 네임 이름으로 한다
 			var cellName = cellNames[index];
+// 			var cellNameS = cellNamesH[index];
 			// 반복문의 숫자에 따라 html 태그의 이름을 아이디 이름으로 한다
 			var cellId = cellIds[index];
-		            
+// 			var cellIdS = cellIdsH[index];
+		    
+		        
+		    	
             if (cellName === "wh_status"){
             // 사용자가 입력한 값을 1 또는 2로 변환
             var cvValue = cellValue === "Y" ? "1" : (cellValue === "N" ? "2" : cellValue);
@@ -563,11 +558,42 @@ $("#updateWh").click(function(){
            $(this).html(selectHTML);
            
            } else {
-           // 다른 열은 그대로 입력 칸 생성
-           $(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + '  size="5">');
+        	  
+        	  //기존의 값을 input값에 넣는다.
+          	  var firstInputHTML = '<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + ' size="5">';
+              
+          	  //추가 popup창에 쓸모 없는 value값을 hidden에 넣어서 처리하게 함
+        	  var additionalInputsHTML = '';
+              if (cellName === 'prod_code') {
+              additionalInputsHTML += '<input type="hidden" name="prod_name" id="prod_name" value="" size="5">';
+              additionalInputsHTML += '<input type="hidden" name="prod_taste" id="prod_taste" value="" size="5">';
+              additionalInputsHTML += '<input type="hidden" name="prod_price" id="prod_price" value="" size="5">';
+              } else if (cellName === 'raw_code') {
+              additionalInputsHTML += '<input type="hidden" name="raw_name" id="raw_name" value="" size="5">';
+              additionalInputsHTML += '<input type="hidden" name="raw_type" id="raw_type" value="" size="5">';
+              additionalInputsHTML += '<input type="hidden" name="raw_price" id="raw_price" value="" size="5">';
+              } 
+              $(this).html(firstInputHTML + additionalInputsHTML);
+
            }
-            
+		  
 		});// end_find(행 검색 반복문 종료지점)
+		
+		// Wh_type 값을 가져와서 해당 값에 따라 prod_code와 raw_code 입력란을 활성화 또는 비활성화합니다.
+		var whTypeValue = row.find("input[name='wh_type']").val();
+		var prodCodeInput = row.find("input[name='prod_code']");
+		var rawCodeInput = row.find("input[name='raw_code']");
+
+		if (whTypeValue === 'P') {
+		    prodCodeInput.removeAttr("disabled");
+		    rawCodeInput.attr("disabled", "disabled");
+		} else if (whTypeValue === 'R') {
+		    rawCodeInput.removeAttr("disabled");
+		    prodCodeInput.attr("disabled", "disabled");
+		} else {
+		    prodCodeInput.removeAttr("disabled");
+		    rawCodeInput.removeAttr("disabled");
+		}
 	    
 		// 품목수정중에 품목추가,수정,삭제 버튼을 비활성화한다
 	  	$("#whAdd").attr('disabled','disabled');
@@ -729,6 +755,24 @@ function enterwhSearch() {
 				    // tbody 내용을 초기화
 				    $('tbody').empty();
 					
+				    // 첫 번째 행 생성 및 숨기기
+					  var $firstRow = $('<tr class="hidden-row"></tr>');
+					  $firstRow.css('display', 'none');
+					  $firstRow.append(
+					      '<td><input type="checkbox" name="selectedProId" value="" class="eachCheckbox"></td>',
+					      '<td></td>',
+					      '<td></td>',
+					      '<td></td>',
+					      '<td></td>',
+					      '<td></td>',
+					      '<td></td>',
+					      '<td></td>',
+					      '<td>/td>',
+					      '<td></td>',
+					      '<td></td>'
+					  );
+					 $('tbody').append($firstRow);
+				    
 				    // 배열 크기만큼 반복
 				    json.forEach(function (data) {
 				    	// tr 태그 생성
@@ -742,9 +786,9 @@ function enterwhSearch() {
 				            "<td>"+data.wh_location+"</td>",
 				         	"<td>"+data.wh_phone+"</td>",
 				         	"<td>"+ (statusText[data.wh_status] || '알 수 없음') +"</td>",
-				         	"<td>"+data.prod_code+"</td>",
-				         	"<td>"+data.raw_code+"</td>",
-				         	"<td>"+data.emp_num+"</td>",
+				         	"<td>" + (data.prod_code || '') + "</td>", // null인 경우 공백 문자열로 처리
+				            "<td>" + (data.raw_code || '') + "</td>", // null인 경우 공백 문자열로 처리
+				            '<td><a href="#" onclick="memberInfo(\'' + data.emp_num + '\')"  style="text-decoration: none; color: #808080;">' + data.emp_num + '</a></td>',
 				         	"<td>"+data.wh_note+"</td>"
 				         	
 				        	);
@@ -769,7 +813,8 @@ $("#inputwhSearch").click(function()  {
    		    1: "Y",
    		    2: "N",
    		};
-	
+	    
+		 
 	   // 검색 결과값을 받아오기 위한 ajax 호출
 	   $.ajax({
 			  url : '${pageContext.request.contextPath}/warehouse_ajax/search',
@@ -788,9 +833,28 @@ $("#inputwhSearch").click(function()  {
 			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
 			  success:function(json){
 				  
-				    // tbody 내용을 초기화
-				    $('tbody').empty();
-					
+				   // tbody 내용을 초기화
+				    $('tbody').empty(); 
+				  
+				  // 첫 번째 행 생성 및 숨기기
+				  var $firstRow = $('<tr class="hidden-row"></tr>');
+				  $firstRow.css('display', 'none');
+				  $firstRow.append(
+				      '<td><input type="checkbox" name="selectedProId" value="" class="eachCheckbox"></td>',
+				      '<td></td>',
+				      '<td></td>',
+				      '<td></td>',
+				      '<td></td>',
+				      '<td></td>',
+				      '<td></td>',
+				      '<td></td>',
+				      '<td>/td>',
+				      '<td></td>',
+				      '<td></td>'
+				  );
+				 $('tbody').append($firstRow);
+				 
+				    
 				    // 배열 크기만큼 반복
 				    json.forEach(function (data) {
 				    	// tr 태그 생성
@@ -804,9 +868,9 @@ $("#inputwhSearch").click(function()  {
 				            "<td>"+data.wh_location+"</td>",
 				         	"<td>"+data.wh_phone+"</td>",
 				         	"<td>"+ (statusText[data.wh_status] || '알 수 없음') +"</td>",
-				         	"<td>"+data.prod_code+"</td>",
-				         	"<td>"+data.raw_code+"</td>",
-				         	"<td>"+data.emp_num+"</td>",
+				         	"<td>" + (data.prod_code || '') + "</td>", // null인 경우 공백 문자열로 처리
+				            "<td>" + (data.raw_code || '') + "</td>", // null인 경우 공백 문자열로 처리
+				         	'<td><a href="#" onclick="memberInfo(\'' + data.emp_num + '\')"  style="text-decoration: none; color: #808080;">' + data.emp_num + '</a></td>',
 				         	"<td>"+data.wh_note+"</td>"
 				        	);
 				        // 생성한 <tr> 요소를 tbody에 추가
@@ -867,8 +931,10 @@ $('input[name="selectedAllProId"]').click(function() {
     $('input[name="selectedProId"]').prop('checked', $(this).prop('checked'));
 });// end function
 
-/////////////////////////type을 누르면 wh_type이 자동으로 바뀌는것/////////////////////
- 
+
+/////////////////////////////////////type을 누르면 wh_type이 자동으로 바뀌는것////////////////////////////////////////////////////
+/////////////////////////////////////type을 누르면 prod_code와 raw_code의 disalbe로 자동으로 바뀌는것 //////////////////////////////////////////
+
  // 이 코드는 jQuery를 사용하여 "type" 선택 상자(#type)의 변경 이벤트(change)를 감지하고,
  // 선택된 값에 따라 "wh_type" 선택 상자(#wh_type)의 값을 설정하는 이벤트 핸들러를 등록하는 부분입니다. 이 코드를 하나씩 설명해보겠습니다:
 
@@ -895,8 +961,20 @@ $('input[name="selectedAllProId"]').click(function() {
     } else if (selectedType === "P") {
       $("#wh_type").val("P");
     }
+    
+    if (selectedType === "R") {
+        $("#wh_type").val("R");
+        // "prod_code" 비활성화, "raw_code" 활성화
+        $("#prod_code").prop("disabled", true);
+        $("#raw_code").prop("disabled", false);
+    } else if (selectedType === "P") {
+        $("#wh_type").val("P");
+        // "raw_code" 비활성화, "prod_code" 활성화
+        $("#raw_code").prop("disabled", true);
+        $("#prod_code").prop("disabled", false);
+    }
+    
   });
- 
  
 ////////////////////////////////전화번호 유효성 검사/////////////////////////////////
 
@@ -996,6 +1074,10 @@ $("#excelProd").click(function(){
 function openUpdate() {
 //내용은 필요 없음	
 } 
+/////////////////////////////////memberInfo값을 가져오는 이벤트///////////////////////////////////////////////
+function memberInfo(emp_num) {
+			window.open('${pageContext.request.contextPath }/member/managerInfo?emp_num='+ emp_num+'', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+		}
 //////////////////////////////////PopUp창 오류 및 close/////////////////////////////////////////////////////
 
 </script>

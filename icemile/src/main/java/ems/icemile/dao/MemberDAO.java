@@ -28,7 +28,7 @@ public interface MemberDAO {
 	// 사원 검색
 	public List<MemberDTO> memberSearch(HashMap<String, Object> json);
 	
-	// 사원 정보 수정
+	// 사원 정보 수정(관리자)
 	public boolean memberUpdate(MemberDTO memberDTO);
 	
 	// 사원 비밀번호 변경
@@ -45,5 +45,8 @@ public interface MemberDAO {
 	
 	// 사원 비밀번호 초기화
 	public boolean memberReset(MemberDTO memberDTO);
+	
+	// 사원 정보 수정
+	public boolean userUpdate(MemberDTO memberDTO);
 	
 }

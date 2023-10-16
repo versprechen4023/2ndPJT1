@@ -37,11 +37,7 @@
 <input type="button" value="추가" onclick="in_material_add()">
 </div>
 <div class="card mb-4">
-<!--                             <div class="card-header"> -->
-<!--                                 <i class="fas fa-table me-1"></i> -->
-<!--                                 DataTable Example -->
-<!--                             </div> -->
-<div class="card-body">
+                            <div class="card-header">
 <select id="category" name="category">
 	<option value="in_code">입고 코드</option>
   	<option value="in_wh_code">창고 코드</option>
@@ -49,6 +45,9 @@
 </select>
 <input type="text" name="content" size="60" placeholder="검색어를 입력하세요" id="content">
 <input type="button" name="inMateSearch" value="검색" onclick="inMateSearch()">
+                            </div>
+<div class="card-body">
+
 <table id="datatablesSimple">
                                 
 <thead>
@@ -79,20 +78,24 @@
 <td>${inMaterialDTO.in_wh_code }</td> <!-- 창고코드 -->
 <td>${inMaterialDTO.raw_order_code }</td> <!-- 발주코드 -->
 <td>${inMaterialDTO.buy_code }</td><!-- 거래처코드 -->
-<td>${inMaterialDTO.emp_num }</td>	<!-- 담당자 -->
+<td><a href="#" class="emp-num-link" data-emp-num="${inMaterialDTO.emp_num}">${inMaterialDTO.emp_num}</a></td>
+<%-- <td>${inMaterialDTO.emp_num }</td>	<!-- 담당자 --> --%>
 <td>
   <c:choose>
     <c:when test="${inMaterialDTO.in_status == 1}">입고전</c:when>
     <c:when test="${inMaterialDTO.in_status == 2}">입고중</c:when>
-    <c:when test="${inMaterialDTO.in_status == 3}">입고완료</c:when>
+    <c:when test="${inMaterialDTO.in_status == 3}">
+    <c:set var="isInStatus3" value="true" />
+      입고확정
+      </c:when>
     <c:otherwise>알 수 없음</c:otherwise>
   </c:choose>
 </td>
 <%-- <td>${inMaterialDTO.in_status}</td> <!-- 입고현황 --> --%>
 <%-- <td>${inMaterialDTO.updatedate }</td> --%>
 <td>
-<input type="button" value="수정" onclick="inMaterialUpdate('${inMaterialDTO.in_code}')">
-<input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/shipping/deleteInMaterial?in_code=${inMaterialDTO.in_code }')">
+<input type="button" value="수정" id="inMaterialUpdate${inMaterialDTO.in_code}" onclick="inMaterialUpdate('${inMaterialDTO.in_code}')" ${isInStatus3 == true ? 'disabled' : ''} />
+<input type="button" value="삭제" id="deleteInMaterial${inMaterialDTO.in_code}" onclick="confirmDelete('${pageContext.request.contextPath}/shipping/deleteInMaterial?in_code=${inMaterialDTO.in_code }')" ${isInStatus3 == true ? 'disabled' : ''} />
 </td>
 </tr>
 </c:forEach>
@@ -118,6 +121,19 @@
         <script src="../resources/js/inMaterial_im.js"></script>
         
 <script type="text/javascript">
+
+document.addEventListener("DOMContentLoaded", function() {
+    var inStatusElements = document.querySelectorAll("c\\:when");
+    
+    inStatusElements.forEach(function(element) {
+        if (element.textContent === "입고확정") {
+            var inCode = element.parentElement.querySelector("input[type=button]").id.replace("inMaterialUpdate", "");
+            document.getElementById("inMaterialUpdate" + inCode).style.display = "none";
+            var inCode = element.parentElement.querySelector("input[type=button]").id.replace("deleteInMaterial", "");
+            document.getElementById("deleteInMaterial" + inCode).style.display = "none";
+        }
+    });
+});
 
 //조회를 눌렀을때 실행되는 물품 검색관련 함수
 function inMateSearch() {
@@ -193,6 +209,28 @@ function inMaterialUpdate(in_code){
 //	alert(in_code);
 	window.open('${pageContext.request.contextPath }/shipping/inMaterialUpdate?in_code='+in_code+'', '_blank', 'width=780px, height=266px, left=600px, top=300px');
 } //end function
+
+// 담당자 클릭 시 정보 확인
+$(document).ready(function() {
+	
+	$(document).on("click", ".emp-num-link", function(event) {
+        event.preventDefault();
+        var empNum = $(this).data("emp-num"); // 클릭한 링크의 emp_num 값을 가져옵니다.
+
+        // 팝업 창 크기 및 위치 설정
+        var width = 590;
+        var height = 705;
+        var left = (screen.width - width) / 2;
+        var top = (screen.height - height) / 2;
+
+        // 팝업 창 열기
+        var url = '${pageContext.request.contextPath}/member/managerInfo?emp_num=' + empNum; // 팝업에 필요한 데이터를 URL에 포함
+        var popupWindow = window.open(url, '_blank', 'width=' + width + ', height=' + height + ', left=' + left + ', top=' + top);
+
+        // 팝업 창 포커스
+        popupWindow.focus();
+    });
+});
 
 </script>
     </body>
