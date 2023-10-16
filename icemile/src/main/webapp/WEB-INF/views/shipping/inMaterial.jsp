@@ -84,18 +84,15 @@
   <c:choose>
     <c:when test="${inMaterialDTO.in_status == 1}">입고전</c:when>
     <c:when test="${inMaterialDTO.in_status == 2}">입고중</c:when>
-    <c:when test="${inMaterialDTO.in_status == 3}">
-    <c:set var="isInStatus3" value="true" />
-      입고확정
-      </c:when>
+    <c:when test="${inMaterialDTO.in_status == 3}">입고확정</c:when>
     <c:otherwise>알 수 없음</c:otherwise>
   </c:choose>
 </td>
 <%-- <td>${inMaterialDTO.in_status}</td> <!-- 입고현황 --> --%>
 <%-- <td>${inMaterialDTO.updatedate }</td> --%>
 <td>
-<input type="button" value="수정" id="inMaterialUpdate${inMaterialDTO.in_code}" onclick="inMaterialUpdate('${inMaterialDTO.in_code}')" ${isInStatus3 == true ? 'disabled' : ''} />
-<input type="button" value="삭제" id="deleteInMaterial${inMaterialDTO.in_code}" onclick="confirmDelete('${pageContext.request.contextPath}/shipping/deleteInMaterial?in_code=${inMaterialDTO.in_code }')" ${isInStatus3 == true ? 'disabled' : ''} />
+<input type="button" value="수정" ${inMaterialDTO.in_status == 3 ? 'disabled' : ''} onclick="inMaterialUpdate('${inMaterialDTO.in_code}')">
+<input type="button" value="삭제" ${inMaterialDTO.in_status == 3 ? 'disabled' : ''} onclick="confirmDelete('${pageContext.request.contextPath}/shipping/deleteInMaterial?in_code=${inMaterialDTO.in_code }')">
 </td>
 </tr>
 </c:forEach>
@@ -121,19 +118,6 @@
         <script src="../resources/js/inMaterial_im.js"></script>
         
 <script type="text/javascript">
-
-document.addEventListener("DOMContentLoaded", function() {
-    var inStatusElements = document.querySelectorAll("c\\:when");
-    
-    inStatusElements.forEach(function(element) {
-        if (element.textContent === "입고확정") {
-            var inCode = element.parentElement.querySelector("input[type=button]").id.replace("inMaterialUpdate", "");
-            document.getElementById("inMaterialUpdate" + inCode).style.display = "none";
-            var inCode = element.parentElement.querySelector("input[type=button]").id.replace("deleteInMaterial", "");
-            document.getElementById("deleteInMaterial" + inCode).style.display = "none";
-        }
-    });
-});
 
 //조회를 눌렀을때 실행되는 물품 검색관련 함수
 function inMateSearch() {
