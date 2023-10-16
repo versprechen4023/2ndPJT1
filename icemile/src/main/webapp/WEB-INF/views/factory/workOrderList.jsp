@@ -25,7 +25,7 @@
 						<!--                             <li class="breadcrumb-item active">Tables</li> -->
 					</ol>
 					<div class="bnt">
-						<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
+						<c:if test="${sessionScope.emp_role.charAt(2).toString() eq '1' }">
 						<input type="button" value="작업지시 추가" onclick="workOrderAdd()">
 						</c:if>
 					</div>
@@ -72,7 +72,7 @@
 										<th>지시/수정날짜</th>
 										<th>지점코드</th>
 										<th>완료날짜</th>
-										<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
+										 <c:if test="${sessionScope.emp_role.charAt(2).toString() eq '1' }">
 										<th data-sortable="false">관리</th>
 										</c:if>
 									</tr>
@@ -91,7 +91,7 @@
 											<td>${workOrderDTO.work_order_date}</td>
 											<td>${workOrderDTO.branch_code}</td>
 											<td>${workOrderDTO.done_date != null ? workOrderDTO.done_date : ""}</td>
-        							<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
+        							<c:if test="${sessionScope.emp_role.charAt(2).toString() eq '1' }">
            								 <td>
            								 <c:if test="${empty workOrderDTO.done_date}">
                 							<input type="button" value="수정" onclick="workOrderUpdate('${workOrderDTO.work_code}')" id="updateWorkOrder">
@@ -221,7 +221,7 @@ function workOrderSearch() {
 
  				    	
  				    	// 권한이있으면 수정 삭제 버튼도 같이 출력
- 				    	if(role.charAt(0) === '1'){
+ 				    	if(role.charAt(2) === '1'){
  				        	$tr.append(
  				            "<td>"+data.work_code+"</td>",
  				            '<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>',   

@@ -1,21 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>아이스마일</title>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>아이스마일</title>
 	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
  		<link href="../resources/css/addTableHorizontal.css" rel="stylesheet" />
-</head>
+</head>	
+
+
 <body>
-	
-	<div id ="container">			
-	<!-- 내용들어가는곳 -->
+	<div id ="container">		
 	<form action="${pageContext.request.contextPath }/factory/workOrderAddPro" id="registration" name="registration" method="POST">
 		<h1>작업 지시 추가</h1>
 
@@ -32,7 +33,7 @@
 						<!-- <th>지시날짜</th> -->
 						<th>지점코드</th>
 		</tr>
-		<tr>
+	<tr>
 						<!-- 일단 타입 텍스트로 다 작업. 추후에 불러올 때 수정 -->
 						<!-- <td><input type="text" name="work_code" id="work_code"></td>  -->
 						<td><input type="text" name="emp_num" id="emp_num" placeholder="작업지시자 선택"></td>  <!-- 사원 정보 가져오기 --> 
@@ -46,34 +47,34 @@
 						<td><input type="text" name="branch_code" id="branch_code" readonly></td>  <!-- 수주 코드 가져왔을시 자동으로 해당 지점코드 등록 -->
 
 		</tr>
-	</table>
+		</table>
 
-			<span id="msg"></span>
-
-		<!-- 등록 버튼 -->
+				<span id="msg"></span>
+			<!-- 등록 버튼 -->
 		<div id="bottomContainer">
 			<input type="submit" id="btn" value="추가">
 			<input type="reset" id="btn" value="취소">
 		</div>
-		</form>
-	<!-- 내용들어가는곳 -->
-	</div>
-
+		</form>                
+    	</div>
+            
 <!-- 푸터 -->
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 -->  
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- sweetalert2 API 호출 -->
-<link rel="stylesheet"
-		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
-	<script
-src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+<input type="hidden" name="buy_name" id="buy_name">
+		
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+       	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+       	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+        <script src="../resources/js/scripts.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="../resources/js/datatables-simple-demo.js"></script>
 
 <script>
 
-
-// J쿼리 함수 시작지점
+//정규식 제어함수
 $(document).ready(function() {
 	        
   	//서브밋 제어
@@ -96,40 +97,50 @@ $(document).ready(function() {
     		$('#order_code').focus();
     		return false;
     	}
-    	
-    	
-    	
+    	    	
     	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
     	 event.preventDefault(); // 기본 폼 제출 동작을 막음
-    		
+		
     	 // 폼 데이터 객체생성
-    	 var formData = new FormData(this);
-         
+    	 var formData = {
+ 	 			emp_num : $('#emp_num').val(),
+	 			line_code : $('#line_code').val(),
+	 			line_name : $('#line_name').val(),
+	 			order_code : $('#order_code').val(),   	
+	 			prod_name : $('#prod_name').val(),   	
+	 			order_amount : $('#order_amount').val(),   	
+	 			line_process : $('#line_process').val(),   	
+	 			branch_code : $('#branch_code').val()   	
+    	 }
+    	 
     	 $.ajax({
-    		    type: "POST",
-    		    url: "${pageContext.request.contextPath}/factory_ajax/workOrderAdd",
-    		    data: formData,
-//     		    contentType: false,
-    		    processData: false,
-    		    success: function(response) {
-    		        if (response === "true") {
-    		            Swal.fire('정보 입력이 완료되었습니다.', '성공', 'success').then(result => {
-    		                if (result.isConfirmed) {
-    		                    window.opener.location.reload();
-    		                    window.close();
-    		                }
-    		            });
-    		        } else {
-    		            Swal.fire('정보 입력에 실패했습니다.', '실패', 'error');
-    		        }
-    		    },
-    		    error: function() {
-    		        Swal.fire('서버 통신에 문제가 발생했습니다.', '실패', 'error');
-    		    }
-    		});
-    	
-    });//submit기능 제어 끝
+ 		    type: "POST",
+ 		    url: "${pageContext.request.contextPath}/factory_ajax/workOrderAdd",
+ 		    data: formData,
+//  		    contentType: false,
+// 		    processData: false,
+ 		    success: function(response) {
+ 		        if (response === "true") {
+ 		            Swal.fire('정보 입력이 완료되었습니다.', '성공', 'success').then(result => {
+ 		                if (result.isConfirmed) {
+ 		                    window.opener.location.reload();
+ 		                    window.close();
+ 		                }
+ 		            });
+ 		        } else {
+ 		            Swal.fire('정보 입력에 실패했습니다.', '실패', 'error');
+ 		        }
+ 		    },
+ 		    error: function() {
+ 		        Swal.fire('서버 통신에 문제가 발생했습니다.', '실패', 'error');
+ 		    }
+ 		});
+ 	
+ });//submit기능 제어 끝
 });
+
+function openUpdate() {
+}
 
 //작업 지시자를 선택하면 새창을 여는 이벤트 리스너
 $(document).on("click", "input[name='emp_num']", function() {
@@ -147,12 +158,6 @@ $(document).on("click", "input[name='order_code']", function() {
 	window.open('${pageContext.request.contextPath }/sell/proOrderPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
 });// end function
 
-
 </script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-		crossorigin="anonymous"></script>
-	<script src="../resources/js/scripts.js"></script>
-	
 </body>
 </html>
