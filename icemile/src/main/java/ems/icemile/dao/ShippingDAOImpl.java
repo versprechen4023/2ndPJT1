@@ -83,6 +83,12 @@ public class ShippingDAOImpl implements ShippingDAO {
 		log.debug("ShippingDAO inMateSearch");
 		return sqlSession.selectList(namespace+"inMateSearch", json);
 	}
+	
+	@Override
+	public String getBuy_code(InMaterialDTO inMaterialDTO) {
+		
+		return sqlSession.selectOne(namespace+"getBuy_code", inMaterialDTO);
+	}
 
 ////////////////////////////////////////////출고 ////////////////////////////////////////////////////////////
 	

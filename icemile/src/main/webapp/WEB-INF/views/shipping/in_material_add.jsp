@@ -25,8 +25,8 @@
 				<!-- <th>입고코드</th> -->
 				<th>창고코드</th>
 				<th>발주코드</th>
-				<th>담당자</th>
-				<th>거래처코드</th>
+				<th>거래처</th>
+				<th>담당자</th>				
 				<th>입고현황</th>
 		</tr>
 		<tr>
@@ -34,8 +34,8 @@
 				<!-- <td><input type="text" name="in_code" id="in_code" size="12"></td> -->
 				<td><input type="text" name="in_wh_code" id="in_wh_code" ></td>  <!-- 입고 창고 코드 -->
 				<td><input type="text" name="raw_order_code" id="raw_order_code"  ></td>  <!-- 발주 코드 -->
+				<td><input type="text" name="buy_name" id="buy_name"></td>
 				<td><input type="text" name="emp_num" id="emp_num" ></td>  <!-- 입고 담당자 -->
-				<td><input type="text" name="buy_code" id="buy_code"></td>
 				<td><input type="text" value="입고전" readonly></td>
 		</tr>
 		</table>
@@ -52,7 +52,7 @@
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 -->  
 
-<input type="hidden" name="buy_name" id="buy_name">
+<!-- <input type="hidden" name="buy_name" id="buy_name"> -->
 		
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
@@ -82,14 +82,14 @@ $(document).ready(function(){
 			Swal.fire('발주 코드를 선택해주세요.', '실패', 'error');
 			return false;
 		}
+// 		if($('#buy_code').val()==""){
+// 			Swal.fire('거래처를 선택해주세요.', '실패', 'error');
+// 			return false;
+// 		} 
 		if($('#emp_num').val()==""){
 			Swal.fire('담당자를 선택해주세요.', '실패', 'error');
 			return false;
-		} 
-		if($('#buy_code').val()==""){
-			Swal.fire('거래처를 선택해주세요.', '실패', 'error');
-			return false;
-		} 
+		}
 // 		Swal.fire('등록되었습니다.', '성공', 'success');
 // 		this.submit();
 		event.preventDefault();
@@ -97,8 +97,8 @@ $(document).ready(function(){
 		var formData = {
 	 			in_wh_code: $('#in_wh_code').val(),
 	 			raw_order_code: $('#raw_order_code').val(),
-	 			emp_num: $('#emp_num').val(),
-	 			buy_code: $('#buy_code').val()   	 			
+	 			buy_code: $('#buy_name').val(),
+	 			emp_num: $('#emp_num').val() 	 			
 	 	}
 		
     	 $.ajax({
@@ -144,9 +144,9 @@ $(document).on("click", "input[name='emp_num']", function() {
 });
 
 //매입처 팝업 리스트
-$(document).on("click", "input[name='buy_code']", function() {
-	window.open('${pageContext.request.contextPath }/buy/buyListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
-})
+// $(document).on("click", "input[name='buy_code']", function() {
+// 	window.open('${pageContext.request.contextPath }/buy/buyListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+// })
 
 </script>
 </body>

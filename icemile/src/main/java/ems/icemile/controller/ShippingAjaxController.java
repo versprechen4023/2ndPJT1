@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ems.icemile.annotation.Production;
 import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.dto.ProOrderDTO;
@@ -54,6 +55,7 @@ public class ShippingAjaxController {
 		return inMaterialList;
 	} //inMateSearch
 	
+	@Production
     @PostMapping("/inMaterialInsert")
     public ResponseEntity<String> inMaterialInsert(InMaterialDTO inMaterialDTO) {
     	try {
@@ -66,6 +68,7 @@ public class ShippingAjaxController {
         }
     }
     
+	@Production
     @PostMapping("/updateInMaterial")
     public ResponseEntity<String> updateInMaterial(InMaterialDTO inMaterialDTO) {
         try {

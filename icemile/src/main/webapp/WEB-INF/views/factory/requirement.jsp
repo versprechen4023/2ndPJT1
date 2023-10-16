@@ -36,7 +36,9 @@
 <!--<li class="breadcrumb-item active">Tables</li> --> 
 </ol>
 <div class="bnt">
+<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '3' }">
 <input type="button" value="추가" onclick="requirementAdd()">
+</c:if>
 </div>
 <div class="card mb-4">
 <div class="card-header">
@@ -85,8 +87,11 @@
 				<td>${requirementDTO.req_amount }</td><!-- 소요량 -->
 <%-- 				<td>${fn:substring(requirementDTO.req_upDATEDATE, 0, 10)}</td><!-- 수정일 --> --%>
 				<td>${requirementDTO.req_note }</td><!-- 비고 -->
-				<td><input type="button" value="수정" onclick="requirementUpdate('${requirementDTO.req_code}')">
+				<td>
+				<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '3' }">
+				<input type="button" value="수정" onclick="requirementUpdate('${requirementDTO.req_code}')">
 				<input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/factory/deleteRequirement?req_code=${requirementDTO.req_code}')">
+				</c:if>
 				</td>
 			</tr>
 			</c:forEach>

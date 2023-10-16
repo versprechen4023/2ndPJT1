@@ -6,8 +6,11 @@
 
 
 	<select id="getInMaterialList" resultType="ems.icemile.dto.InMaterialDTO">
-		SELECT *
-		FROM in_material 
+		SELECT i.*, b.buy_name
+		FROM in_material i LEFT JOIN raw_order r
+		ON i.raw_order_code = r.raw_order_code
+		LEFT JOIN buy b
+		ON r.buy_name = b.buy_name
 	</select>
 	
   	<delete id="deleteInMaterial">
@@ -30,9 +33,19 @@
 <!-- 		LIMIT 1 -->
 <!-- 	</select> -->
 	
+<!-- 	<insert id="inMaterialInsert"> -->
+<!-- 		INSERT INTO in_material(in_code,in_wh_code,raw_order_code,emp_num,in_status, buy_code ) -->
+<!-- 		VALUES(#{in_code}, #{in_wh_code}, #{raw_order_code}, #{emp_num}, #{in_status}, #{buy_code}) -->
+<!-- 	</insert> -->
 	<insert id="inMaterialInsert">
-		INSERT INTO in_material(in_code,in_wh_code,raw_order_code,emp_num,in_status, buy_code )
-		VALUES(#{in_code}, #{in_wh_code}, #{raw_order_code}, #{emp_num}, #{in_status}, #{buy_code})
+	INSERT INTO in_material (in_code, in_wh_code, raw_order_code, emp_num, in_status, buy_code)
+	VALUES (
+    #{in_code}, #{in_wh_code}, #{raw_order_code}, #{emp_num}, #{in_status},
+    (SELECT b.buy_code
+     FROM raw_order r
+     INNER JOIN buy b ON r.buy_name = b.buy_name
+     WHERE r.raw_order_code = #{raw_order_code}) 
+     )
 	</insert>
 	
 	<select id="getInMaterial" resultType="ems.icemile.dto.InMaterialDTO">
@@ -56,6 +69,12 @@
   					FROM in_material
 				) AS myTable
 					WHERE myTable.${category} LIKE #{content}
+	</select>
+	
+	<select id="getBuy_code" resultType="java.lang.String">
+		SELECT buy_code
+		FROM buy
+		WHERE buy_name = #{buy_code}
 	</select>
   
 </mapper>

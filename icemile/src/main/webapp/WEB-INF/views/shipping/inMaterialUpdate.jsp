@@ -87,12 +87,12 @@ $(document).ready(function(){
         			Swal.fire('발주 코드를 선택해주세요.', '실패', 'error');
         			return false;
         		}
-        		if($('#emp_num').val()==""){
-        			Swal.fire('담당자를 선택해주세요.', '실패', 'error');
-        			return false;
-        		} 
         		if($('#buy_code').val()==""){
         			Swal.fire('거래처를 선택해주세요.', '실패', 'error');
+        			return false;
+        		} 
+        		if($('#emp_num').val()==""){
+        			Swal.fire('담당자를 선택해주세요.', '실패', 'error');
         			return false;
         		} 
 //         		Swal.fire('등록되었습니다.', '성공', 'success');
