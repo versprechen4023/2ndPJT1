@@ -229,6 +229,43 @@
 		}); // end cancle function
 		
 		
+		
+		// Table 초기화를 위한 전역변수 선언
+		var simpleDataTableInstance;
+
+		// 테이블 초기화 함수
+		function simpleDataTable() {
+			// 테이블의 선택자를 찾는다
+			const datatablesSimple = document.getElementById('datatablesSimple');
+				
+				// 테이블 객체를 생성하고 전역변수에 저장한다
+		     	simpleDataTableInstance = new simpleDatatables.DataTable(datatablesSimple, {
+		        
+		      		// 페이지 표시 버튼 삭제
+		      		perPageSelect : false,
+		      		// 검색창 삭제
+		      		searchable : false,
+		      		// 페이지당 목록 10개
+		      		perPage : 10,
+		      
+		      		//라벨 수정
+		      		labels: {
+		      		placeholder: "검색",
+		      		noResults : "검색 결과가 없습니다",
+		      		noRows : "데이터가 없습니다",
+		      		info : ""
+		      		}
+		      }); // end 초기화
+		    
+		}//end function
+
+		// 돔이 로드될 때 테이블 초기화
+		window.addEventListener('DOMContentLoaded', event => {
+			simpleDataTable();
+		});
+		
+		
+		
 		// 조회를 눌렀을때 실행되는 물품 검색관련 함수
 		function stockSearch() {
 			
@@ -275,48 +312,16 @@
 		 				 $('tbody').append($tr);
 		 				});
 		 				    
-		 		      
-					// 페이징 동적 처리
-					// 태그 개수 구하기
-					var trCount = $('tbody tr').length;
-					// 페이징 처리를 위한 변수선언(태그 개수 계산)
-					var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
-					// 페이징 계산을 위한 삭제값을 담을 배열 변수선언
-					var dataPageValues = [];
-					// 페이징 버튼의 밸류값을 추출 한다
-						$('.datatable-pagination-list-item a').each(function() {
-						 	var dataPageValue = $(this).data('page');
-						    dataPageValues.push(dataPageValue);
-						  });
-						    	
-					// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
-					dataPageValues = dataPageValues.filter(function(value) {
-					return value > parseInt(pageCount);
-				});
-						  	
-					// 중복을 삭제한다 indexOf로 첫번째 위치만을 출력한다 중복된다면 첫번째위치가 아닌 다른위치에 있을 것이므로
-					// 모두 false 처리하여 삭제한다
-					var myArray = dataPageValues.filter(function(value, index, self) {
-					return self.indexOf(value) === index;
-				});
-						  	
-					// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
-					var minValue = Math.min(myArray);
-					var maxValue = Math.max(myArray);
-						  	
-					// 글이 11개 이하라면(즉 페이징이 필요없는경우)
-					if(trCount < 11){
-						 // 페이징을 삭제
-						 $('.datatable-pagination-list').remove();
-					} else {
-					// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
-						 for(var i = minValue; i<=maxValue; i++){
-						    $('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
-						}
-					}
+	  				   // 테이블 재생성 마찬가지로 데이터가있는 경우에만 객체 재생성
+	  				   if(json.length !== 0){
+	  				       simpleDataTable();
+	  				   // 그렇지않은경우 기존 객체를 유지하고 페이징만 삭제
+	  				   } else if(json.length === 0){
+	  	 				    // 페이징을 삭제
+	  	 				   	$('.datatable-pagination-list').remove();
+	  	 			   }
 		 			  
-		 			  
-		 			  }// 콜백함수 종료지점
+		 			}// 콜백함수 종료지점
 		      });// end_of_ajax
 		}// end function
 		
@@ -334,9 +339,22 @@
 		 		$('#content').val("");
 			}// end if
 		});// end function
+	
+		
+		// 수량이랑 실수량 개수가 다를 경우 실수량 글자를 빨간색으로 처리
+		$(document).ready(function() {
+		    // 각 테이블 행을 순회합니다.
+		    $('table#datatablesSimple tbody tr').each(function() {
+		        var stockStatus = $(this).find('td:nth-child(5)').text(); // stock_status의 값을 가져옵니다
+		        var stockAmount = $(this).find('td:nth-child(6)').text(); // stock_amount의 값을 가져옵니다
 
-
-
+		        // stock_status와 stock_amount를 비교합니다
+		        if (stockStatus !== stockAmount) {
+		            // stock_amount 셀에 빨간 글씨 스타일을 적용합니다
+		            $(this).find('td:nth-child(6)').css('color', 'red');
+		        }
+		    });
+		});
 
 
 
