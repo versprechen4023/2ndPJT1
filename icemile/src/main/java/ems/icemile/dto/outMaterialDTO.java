@@ -1,5 +1,7 @@
 package ems.icemile.dto;
 
+import java.time.LocalDate;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,4 +25,6 @@ public class outMaterialDTO {
   //출고 현황
   private String out_status;
   
+  //출고일자
+  private LocalDate out_date;
 }

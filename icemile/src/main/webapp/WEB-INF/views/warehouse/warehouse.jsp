@@ -141,11 +141,45 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
-	<script src="../resources/js/warehouse_im.js"></script>
 	<!-- 엑셀파일 저장을 위한 스크립트 호출 -->
 	<script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
 	<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 	<script>
+	
+//Table 초기화를 위한 전역변수 선언
+var simpleDataTableInstance;
+
+//테이블 초기화 함수
+function simpleDataTable() {
+// 테이블의 선택자를 찾는다
+const datatablesSimple = document.getElementById('datatablesSimple');
+			
+// 테이블 객체를 생성하고 전역변수에 저장한다
+simpleDataTableInstance = new simpleDatatables.DataTable(datatablesSimple, {
+	     
+	   		// 페이지 표시 버튼 삭제
+	   		perPageSelect : false,
+	   		// 검색창 삭제
+	   		searchable : false,
+	   		// 페이지당 목록 10개
+	   		perPage : 10,
+	   
+	   		//라벨 수정
+	   		labels: {
+	   		placeholder: "검색",
+	   		noResults : "검색 결과가 없습니다",
+	   		noRows : "데이터가 없습니다",
+	   		info : ""
+	   		}
+	   }); // end 초기화
+	 
+	}//end function
+
+	//돔이 로드될떄 테이블 초기화
+	window.addEventListener('DOMContentLoaded', event => {
+		simpleDataTable();
+	});	
+
 //추가, 수정 을 구분하기위한 전역변수선언
 var status = "";
 
@@ -686,6 +720,7 @@ $("#deleteWh").click(function() {
              	data: formData,
              	// 통신성공시 콜백함수 response매개변수에 "true" or "false" 결과값이 입력된다
              	success: function(response) {
+             		
             	 	// 공백을 제거한다
             	 	const result = $.trim(response);
             	 
@@ -752,26 +787,21 @@ function enterwhSearch() {
 			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
 			  success:function(json){
 				  
+				    // 아무것도 출력할게 없을때 선택자가 삭제되어 테이블을 더이상 초기화하지 못하는 문제가 있음
+				   	// 따라서 조건문으로 0개가 아닐때만 테이블을 삭제함
+				 	if(json.length !== 0){
+				    	simpleDataTableInstance.destroy();
+				 	}
+				  
 				    // tbody 내용을 초기화
 				    $('tbody').empty();
 					
-				    // 첫 번째 행 생성 및 숨기기
-					  var $firstRow = $('<tr class="hidden-row"></tr>');
-					  $firstRow.css('display', 'none');
-					  $firstRow.append(
-					      '<td><input type="checkbox" name="selectedProId" value="" class="eachCheckbox"></td>',
-					      '<td></td>',
-					      '<td></td>',
-					      '<td></td>',
-					      '<td></td>',
-					      '<td></td>',
-					      '<td></td>',
-					      '<td></td>',
-					      '<td>/td>',
-					      '<td></td>',
-					      '<td></td>'
-					  );
-					 $('tbody').append($firstRow);
+				    // json 배열에 값이 없는 경우 추가가 안되는걸 방지하기위한 tr태그 생성
+				    if(json.length === 0){
+				    	// tr 태그 생성
+				        var $tr = $('<tr>');
+				        $('tbody').append($tr);
+				    }
 				    
 				    // 배열 크기만큼 반복
 				    json.forEach(function (data) {
@@ -795,6 +825,16 @@ function enterwhSearch() {
 				        // 생성한 <tr> 요소를 tbody에 추가
 				        $('tbody').append($tr);
 				    });
+				    
+				 // 테이블 재생성 마찬가지로 데이터가있는 경우에만 객체 재생성
+		 			 if(json.length !== 0){
+		 				simpleDataTable();
+		 			 // 그렇지않은경우 기존 객체를 유지하고 페이징만 삭제
+		 			 } else if(json.length === 0){
+		 	 			// 페이징을 삭제
+		 	 			$('.datatable-pagination-list').remove();
+		 	 		 }
+				 
 		      }// 콜백함수 종료지점
    });// end_of_ajax
 }// end function
@@ -832,29 +872,23 @@ $("#inputwhSearch").click(function()  {
 			  dataType: 'json',
 			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
 			  success:function(json){
+				    
+				    // 아무것도 출력할게 없을때 선택자가 삭제되어 테이블을 더이상 초기화하지 못하는 문제가 있음
+				   	// 따라서 조건문으로 0개가 아닐때만 테이블을 삭제함
+				 	if(json.length !== 0){
+				    	simpleDataTableInstance.destroy();
+				 	}
 				  
 				   // tbody 내용을 초기화
 				    $('tbody').empty(); 
 				  
-				  // 첫 번째 행 생성 및 숨기기
-				  var $firstRow = $('<tr class="hidden-row"></tr>');
-				  $firstRow.css('display', 'none');
-				  $firstRow.append(
-				      '<td><input type="checkbox" name="selectedProId" value="" class="eachCheckbox"></td>',
-				      '<td></td>',
-				      '<td></td>',
-				      '<td></td>',
-				      '<td></td>',
-				      '<td></td>',
-				      '<td></td>',
-				      '<td></td>',
-				      '<td>/td>',
-				      '<td></td>',
-				      '<td></td>'
-				  );
-				 $('tbody').append($firstRow);
+				    // json 배열에 값이 없는 경우 추가가 안되는걸 방지하기위한 tr태그 생성
+				    if(json.length === 0){
+				    	// tr 태그 생성
+				        var $tr = $('<tr>');
+				        $('tbody').append($tr);
+				    }
 				 
-				    
 				    // 배열 크기만큼 반복
 				    json.forEach(function (data) {
 				    	// tr 태그 생성
@@ -876,6 +910,16 @@ $("#inputwhSearch").click(function()  {
 				        // 생성한 <tr> 요소를 tbody에 추가
 				        $('tbody').append($tr);
 				    });
+				    
+				    // 테이블 재생성 마찬가지로 데이터가있는 경우에만 객체 재생성
+		 			 if(json.length !== 0){
+		 				simpleDataTable();
+		 			 // 그렇지않은경우 기존 객체를 유지하고 페이징만 삭제
+		 			 } else if(json.length === 0){
+		 	 			// 페이징을 삭제
+		 	 			$('.datatable-pagination-list').remove();
+		 	 		 }
+				    
 		      }// 콜백함수 종료지점
    });// end_of_ajax
 });// end function

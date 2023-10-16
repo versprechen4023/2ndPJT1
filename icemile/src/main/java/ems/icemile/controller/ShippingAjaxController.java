@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ems.icemile.annotation.Logistics;
 import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.dto.ProOrderDTO;
@@ -87,7 +88,8 @@ public class ShippingAjaxController {
 
 		return shippingService.searchOutCode(out_code);
 	}
-
+    
+	@Logistics
 	@PostMapping("mtUpdate")
 	public String mtUpdate(outMaterialInsertDTO outmaterialInsertDTO) {
 
@@ -95,7 +97,8 @@ public class ShippingAjaxController {
 
 		return Boolean.toString(shippingService.mtUpdate(outmaterialInsertDTO));
 	}
-
+    
+	@Logistics
 	@PostMapping("/mtInsert")
 	public String mtInsert(outMaterialInsertDTO outmaterialInsertDTO) {
 
@@ -103,7 +106,8 @@ public class ShippingAjaxController {
 
 		return Boolean.toString(shippingService.mtInsert(outmaterialInsertDTO));
 	}
-
+	
+	@Logistics
 	@PostMapping("/mtDelete")
 	public String mtDelete(@RequestParam("selectedProId") String[] selectedProId) {
 

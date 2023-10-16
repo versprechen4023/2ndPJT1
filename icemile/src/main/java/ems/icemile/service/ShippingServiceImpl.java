@@ -147,7 +147,7 @@ public class ShippingServiceImpl implements ShippingService {
 		log.debug("출고 업데이트 서비스");
 
 		// 지점코드 분류
-		outmaterialInsertDTO.setBranch(outmaterialInsertDTO.getOut_code().substring(10, 11));
+		outmaterialInsertDTO.setBranch_code(outmaterialInsertDTO.getOut_code().substring(10, 11));
 
 		return shippingDAO.mtUpdate(outmaterialInsertDTO);
 	}
@@ -159,7 +159,7 @@ public class ShippingServiceImpl implements ShippingService {
 		log.debug("출고 인서트 서비스");
 
 		// 현재 코드에서 branch 값을 가져오고
-		String branch = outmaterialInsertDTO.getBranch();
+		String branch = outmaterialInsertDTO.getBranch_code();
 
 		// "BR" 부분을 제외하고 뒤의 숫자 부분만 추출
 		// 설명
@@ -234,16 +234,20 @@ public class ShippingServiceImpl implements ShippingService {
 
 		// 날짜를 포맷에 맞게 문자열로 변환합니다.
 		String formattedDate = currentDate.format(formatter);
-
+        
+		outmaterialInsertDTO.setOut_date(currentDate);
+		System.out.println("확인"+outmaterialInsertDTO.getOut_date());
+		
 		// 문자열을 숫자로 변환합니다.
 		int dateNum = Integer.parseInt(formattedDate);
-
+        
+		
 		// 출고 코드에서 이게 지점으로 보내는건 맞는데 이게 한지점에서 한개만 출고 될리 없으므로 뒤에 출고 번호를 넣어서 출고 번호도 넣을 필요가
 		// 있을거 같아서
 		// numstr을 통해서 출고 번호를 나타낼수 있게 해보았다.
 		String out_Code = "OUT" + dateNum + "_" + outmaterialInsertDTO.getTrBranchNumber() + "_" + numStr;
 		outmaterialInsertDTO.setOut_code(out_Code);
-
+        
 		log.debug("출고 테스트 출력" + outmaterialInsertDTO.toString());
 		
 		return shippingDAO.mtInsert(outmaterialInsertDTO);
