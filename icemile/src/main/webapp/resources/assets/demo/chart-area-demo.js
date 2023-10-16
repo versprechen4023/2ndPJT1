@@ -39,7 +39,7 @@ var myLineChart = new Chart(ctx, {
       yAxes: [{
         ticks: {
           min: 0,
-          max: 40000,
+          max: 5000,
           maxTicksLimit: 5
         },
         gridLines: {
@@ -71,7 +71,7 @@ var chart,
         } 
       } 
     }, 
-    yAxis_visible: false, 
+    yAxis_visible: true, 
     legend_visible: false, 
     calendar: { 
       range: ['7/1/2018', '7/31/2018'], 
