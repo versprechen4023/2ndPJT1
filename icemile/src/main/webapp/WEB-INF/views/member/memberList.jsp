@@ -158,9 +158,6 @@ function memberSearch() {
 		// 원래 매개변수로 전달할려했으나 처음에 언디파인드가 뜨는 문제가 있음 따라서 변수선언
  		var role = '${sessionScope.emp_role}';
  		
- 		if($('#content').val() == ''){
- 			return false;
- 		}
 	   // 값 전달 하기위한 JSON 타입 변수선언
 	   var json = {
         			category: $('#category').val(),

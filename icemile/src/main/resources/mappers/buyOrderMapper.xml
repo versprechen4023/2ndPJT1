@@ -45,9 +45,9 @@
   	SELECT o.raw_order_code, r.raw_code, r.raw_name, r.raw_type,
 	    	b.buy_code, b.buy_name, o.raw_order_amount, r.raw_price,
         	o.raw_order_date, o.in_plan_date, o.raw_status, o.emp_num
-				FROM raw_order o LEFT OUTER JOIN raw_material r
+				FROM raw_order o JOIN raw_material r
 					ON (o.raw_name = r.raw_name)
-						LEFT OUTER JOIN buy b
+						JOIN buy b
 							ON (o.buy_name = b.buy_name)
 								<where>
 									<if test="status != null and status != ''">
