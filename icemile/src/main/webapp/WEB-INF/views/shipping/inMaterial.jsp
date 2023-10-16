@@ -4,15 +4,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>아이스마일</title>
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="../resources/css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<!-- 헤드 -->
+<jsp:include page="../include/head.jsp"></jsp:include>
+<!-- 헤드 -->
+  <link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
     </head>
      <body class="sb-nav-fixed">
         
@@ -37,15 +32,18 @@
 <input type="button" value="추가" onclick="in_material_add()">
 </div>
 <div class="card mb-4">
-                            <div class="card-header">
+<div class="card-header">
+<div class="cardHeaderFirstLine">
 <select id="category" name="category">
 	<option value="in_code">입고 코드</option>
   	<option value="in_wh_code">창고 코드</option>
   	<option value="raw_order_code">발주 코드</option>
-</select>
-<input type="text" name="content" size="60" placeholder="검색어를 입력하세요" id="content">
+</select>&nbsp;
+<input type="text" name="content" size="60" placeholder="검색어를 입력하세요" id="content">&nbsp;
 <input type="button" name="inMateSearch" value="검색" onclick="inMateSearch()">
-                            </div>
+</div>
+</div>
+
 <div class="card-body">
 
 <table id="datatablesSimple">
