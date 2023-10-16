@@ -120,7 +120,7 @@
         					<if test="proOrderOutBegin != null and proOrderOutBegin != '' and proOrderOutEnd != null and proOrderOutEnd != ''">
             					AND o.out_plan_date BETWEEN #{proOrderOutBegin} AND #{proOrderOutEnd}
         					</if>
-        					<if test="proOrderOutBegin != null and proOrderOutBegin != '' and (proOrderOutEnd == null and proOrderOutEnd == '')">
+        					<if test="proOrderOutBegin != null and proOrderOutBegin != '' and (proOrderOutEnd == null or proOrderOutEnd == '')">
             					AND o.out_plan_date >= #{proOrderOutBegin}
         					</if>
 						</where>

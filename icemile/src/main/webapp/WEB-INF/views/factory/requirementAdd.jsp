@@ -19,7 +19,7 @@
 	<form action="${pageContext.request.contextPath}/factory/insertRequirement" id="insertRequirement" name="insertRequirement" method="POST">
 		<h1>소요량 추가</h1>
 
-		<table >
+		<table>
 		<tr>
 
 				<!-- <th>소요량 코드</th> 소요량 코드는 자동추가를 하기때문에 필요없을 듯.. -->

@@ -10,6 +10,7 @@
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
+  <link href="../resources/css/rawOrderList.css" rel="stylesheet" />
 </head>
 <body class="sb-nav-fixed">
 <div id="layoutSidenav">
@@ -25,28 +26,26 @@
 						<!--                             <li class="breadcrumb-item active">Tables</li> -->
 					</ol>
 					<div class="bnt">
-						<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
+						<c:if test="${sessionScope.emp_role.charAt(2).toString() eq '1' }">
 						<input type="button" value="작업지시 추가" onclick="workOrderAdd()">
 						</c:if>
 					</div>
 					<div class="card mb-4">
-						<!--                             <div class="card-header"> -->
-						<!--                                 <i class="fas fa-table me-1"></i> -->
-						<!--                                 DataTable Example -->
-						<!--                             </div> -->
-						
-					
-					
-						<div class="card-body">
-						지시/수정날짜
+					<div class="card-header">
+					 <div id ="cardHeaderContainer" style="font-weight: bold;">
+					 <div class="cardHeaderFirstLine">
+						지시/수정날짜&nbsp;
                         <input type="text" name="workOrderBegin" id="workOrderBegin"> ~
-                        <input type="text" name="workOrderEnd" id="workOrderEnd" disabled>
-                        <br>
-                        완료 날짜
+                        <input type="text" name="workOrderEnd" class="cardHeaderTab" id="workOrderEnd" disabled>
+                        
+                        
+                        완료 날짜&nbsp;
                         <input type="text" name="workOrderDoneBegin" id="workOrderDoneBegin" > ~
                         <input type="text" name="workOrderDoneEnd" id="workOrderDoneEnd"  disabled>
-                        <br>
-						<input type="button" name="allList" value="전체목록" onclick="location.reload();">
+                        </div>                       
+                        
+						
+						 <div class="cardHeaderSecondLine">
 							<select id="category">
   								<option value="work_code">지시코드</option>
   								<option value="line_name">라인명</option>
@@ -54,9 +53,19 @@
   								<option value="branch_code">지점코드</option>
   
 							</select>
-							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
-								id="content">
-							<input type="button" name="search" value="조회" onclick="workOrderSearch()">
+							<input type="text" name="content" size=46 placeholder="검색어를 입력하세요"
+								id="content">&nbsp;
+							<input type="button" name="search" value="조회" onclick="workOrderSearch()">&nbsp;
+							<input type="button" name="allList" value="전체목록" onclick="location.reload();">
+						   	</div>
+						   
+						   </div>
+						   </div>
+						
+					
+					
+						<div class="card-body">
+						
 							<table id="datatablesSimple">
 								<thead>
 									<!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
@@ -72,7 +81,7 @@
 										<th>지시/수정날짜</th>
 										<th>지점코드</th>
 										<th>완료날짜</th>
-										<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
+										 <c:if test="${sessionScope.emp_role.charAt(2).toString() eq '1' }">
 										<th data-sortable="false">관리</th>
 										</c:if>
 									</tr>
@@ -91,7 +100,7 @@
 											<td>${workOrderDTO.work_order_date}</td>
 											<td>${workOrderDTO.branch_code}</td>
 											<td>${workOrderDTO.done_date != null ? workOrderDTO.done_date : ""}</td>
-        							<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
+        							<c:if test="${sessionScope.emp_role.charAt(2).toString() eq '1' }">
            								 <td>
            								 <c:if test="${empty workOrderDTO.done_date}">
                 							<input type="button" value="수정" onclick="workOrderUpdate('${workOrderDTO.work_code}')" id="updateWorkOrder">
@@ -221,7 +230,7 @@ function workOrderSearch() {
 
  				    	
  				    	// 권한이있으면 수정 삭제 버튼도 같이 출력
- 				    	if(role.charAt(0) === '1'){
+ 				    	if(role.charAt(2) === '1'){
  				        	$tr.append(
  				            "<td>"+data.work_code+"</td>",
  				            '<td><a href="#" class="emp-num-link" data-emp-num="' + data.emp_num + '">' + data.emp_num + '</a></td>',   

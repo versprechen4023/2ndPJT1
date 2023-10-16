@@ -41,13 +41,13 @@
                              <div id ="cardHeaderContainer" style="font-weight: bold;">
                              <div class="cardHeaderFirstLine">
                              발주일자&nbsp;
-                            <input type="text" name="rawOrderBegin" class="rawOrderDateInput" id="rawOrderBegin" readonly> ~
-                            <input type="text" name="rawOrderEnd" class="rawOrderDateInput" id="rawOrderEnd" readonly disabled>
+                            <input type="text" name="rawOrderBegin" id="rawOrderBegin" readonly> ~
+                            <input type="text" name="rawOrderEnd" class="cardHeaderTab" id="rawOrderEnd" readonly disabled>
                        
                             
                             입고예정일&nbsp;
-                            <input type="text" name="rawOrderInBegin" class="rawOrderDateInput" id="rawOrderInBegin" readonly> ~
-                            <input type="text" name="rawOrderInEnd" class="rawOrderDateInput" id="rawOrderInEnd" readonly disabled>
+                            <input type="text" name="rawOrderInBegin" id="rawOrderInBegin" readonly> ~
+                            <input type="text" name="rawOrderInEnd" id="rawOrderInEnd" readonly disabled>
                				<br>
                             </div>
                             

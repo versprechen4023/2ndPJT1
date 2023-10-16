@@ -248,8 +248,14 @@ function proOrderSearch() {
 				        $('tbody').append($tr);
 				    });
 
-				 	// 테이블 재생성
-	 				simpleDataTable();
+				 	   // 테이블 재생성 마찬가지로 데이터가있는 경우에만 객체 재생성
+	 				   if(json.length !== 0){
+	 				       simpleDataTable();
+	 				   // 그렇지않은경우 기존 객체를 유지하고 페이징만 삭제
+	 				   } else if(json.length === 0){
+	 	 				    // 페이징을 삭제
+	 	 				   	$('.datatable-pagination-list').remove();
+	 	 			   }
 				  	
 		      }// 콜백함수 종료지점
   });// end_of_ajax

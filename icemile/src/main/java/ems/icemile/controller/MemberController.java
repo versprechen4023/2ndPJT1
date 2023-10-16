@@ -2,6 +2,7 @@ package ems.icemile.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +81,7 @@ public class MemberController {
 				return "redirect:/main/index";
 			} else {
 				// 이전 페이지가 있었다면 그 페이지로 이동한다
-				String uri = prevPage.replaceAll(".*/home/", "");
+				String uri = prevPage.replaceFirst(".*" + Pattern.quote(request.getContextPath()), "");
 				return "redirect:/"+uri;
 			}
 			

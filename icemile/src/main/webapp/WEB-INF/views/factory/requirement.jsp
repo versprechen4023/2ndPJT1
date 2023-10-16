@@ -5,15 +5,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>아이스마일</title>
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="../resources/css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<!-- 헤드 -->
+<jsp:include page="../include/head.jsp"></jsp:include>
+<!-- 헤드 -->
+  <link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
     </head>
      <body class="sb-nav-fixed">
         
@@ -29,23 +24,27 @@
 	<main>
 	<!-- 내용 들어가는 곳 -->
 		<div class="container-fluid px-4">                       
-		<h1 class="mt-4">소요량</h1>        
+		<h1 class="mt-4">소요량 관리</h1>        
 		                
 <ol class="breadcrumb mb-4">
 <!-- <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
 <!--<li class="breadcrumb-item active">Tables</li> --> 
 </ol>
 <div class="bnt">
+<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '3' }">
 <input type="button" value="추가" onclick="requirementAdd()">
+</c:if>
 </div>
 <div class="card mb-4">
 <div class="card-header">
+<div class="cardHeaderFirstLine">
 <select id="category" name="category">
 	<option value="req_code">소요량 코드</option>
   	<option value="prod_code">제품 코드</option>
-</select>
-<input type="text" name="content" size="60" placeholder="검색어를 입력하세요" id="content">
+</select>&nbsp;
+<input type="text" name="content" size="60" placeholder="검색어를 입력하세요" id="content">&nbsp;
 <input type="button" name="requirementSearch" value="검색" onclick="requirementSearch()">
+</div>
 </div>
 <div class="card-body">
 
@@ -85,8 +84,11 @@
 				<td>${requirementDTO.req_amount }</td><!-- 소요량 -->
 <%-- 				<td>${fn:substring(requirementDTO.req_upDATEDATE, 0, 10)}</td><!-- 수정일 --> --%>
 				<td>${requirementDTO.req_note }</td><!-- 비고 -->
-				<td><input type="button" value="수정" onclick="requirementUpdate('${requirementDTO.req_code}')">
+				<td>
+				<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '3' }">
+				<input type="button" value="수정" onclick="requirementUpdate('${requirementDTO.req_code}')">
 				<input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/factory/deleteRequirement?req_code=${requirementDTO.req_code}')">
+				</c:if>
 				</td>
 			</tr>
 			</c:forEach>

@@ -10,18 +10,9 @@
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
-
-<style>
-#empBox {
-    display: flex;
-}
-
-#emp_num {
-    margin-right: 7px;
-}
-</style>
-
+<link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
 </head>
+
 <body class="sb-nav-fixed">
 <div id="layoutSidenav">
 		<!-- 사이드바 -->
@@ -47,20 +38,24 @@
                         <input type="button" class ="tableBtn" id="cancel" value="취소" disabled>
                         </c:if>
                         </div>
+                        
                         <div class="card mb-4" id="card mb-4">
-<!--                             <div class="card-header"> -->
-<!--                                 <i class="fas fa-table me-1"></i> -->
-<!--                                 DataTable Example -->
-<!--                             </div> -->
+                        
+                            <div class="card-header">
+                            
+                             <div class="cardHeaderFirstLine">
+                            	<input type="button" name="allList" value="전체목록" onclick="location.reload();">&nbsp;
+									<select id="category">
+  										<option value="line_code">코드</option>
+  										<option value="line_name">이름</option>
+									</select>&nbsp;
+								<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content">&nbsp;
+								<input type="button" name="search" value="조회" onclick="facilitySearch()">                             
+                             </div>
+                            </div>
+                            
                             <div class="card-body" id="card-body">
-                            <input type="button" name="allList" value="전체목록" onclick="location.reload();">
-							<select id="category">
-  								<option value="line_code">코드</option>
-  								<option value="line_name">이름</option>
-							</select>
-							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
-								id="content">
-							<input type="button" name="search" value="조회" onclick="facilitySearch()">
+
                                 <table id="datatablesSimple">
                                 
                                     <thead>
@@ -115,7 +110,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/scripts.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="../resources/js/facilityList_im.js"></script>
+        <!-- <script src="../resources/js/facilityList_im.js"></script> -->
         
         
 		<script type="text/javascript">
@@ -522,9 +517,49 @@
 		
 		});// end 함수
 		
+		
+		// Table 초기화를 위한 전역변수 선언
+		var simpleDataTableInstance;
+
+		// 테이블 초기화 함수
+		function simpleDataTable() {
+			// 테이블의 선택자를 찾는다
+			const datatablesSimple = document.getElementById('datatablesSimple');
+				
+				// 테이블 객체를 생성하고 전역변수에 저장한다
+		     	simpleDataTableInstance = new simpleDatatables.DataTable(datatablesSimple, {
+		        
+		      		// 페이지 표시 버튼 삭제
+		      		perPageSelect : false,
+		      		// 검색창 삭제
+		      		searchable : false,
+		      		// 페이지당 목록 10개
+		      		perPage : 10,
+		      
+		      		//라벨 수정
+		      		labels: {
+		      		placeholder: "검색",
+		      		noResults : "검색 결과가 없습니다",
+		      		noRows : "데이터가 없습니다",
+		      		info : ""
+		      		}
+		      }); // end 초기화
+		    
+		}//end function
+
+		// 돔이 로드될 때 테이블 초기화
+		window.addEventListener('DOMContentLoaded', event => {
+			simpleDataTable();
+		});
+		
+		
+		
 		// 조회를 눌렀을때 실행되는 물품 검색관련 함수
 		function facilitySearch() {
 			
+			   // 원래 매개변수로 전달할려했으나 처음에 언디파인드가 뜨는 문제가 있음 따라서 변수선언
+	 		   var role = '${sessionScope.emp_role}';
+	 		   
 			   // 값 전달 하기위한 JSON 타입 변수선언
 			   var json = {
 		        			category: $('#category').val(),
@@ -544,6 +579,12 @@
 		 			  dataType: 'json',
 		 			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
 		 			  success:function(json){
+		 				  	
+		 				   	// 아무것도 출력할게 없을때 선택자가 삭제되어 테이블을 더이상 초기화하지 못하는 문제가 있음
+		 				   	// 따라서 조건문으로 0개가 아닐때만 테이블을 삭제함
+		 				 	if(json.length !== 0){
+						    	simpleDataTableInstance.destroy();
+		 				 	}
 		 				  
 		 				    // tbody 내용을 초기화
 		 				    $('tbody').empty();
@@ -567,47 +608,15 @@
 		 				        $('tbody').append($tr);
 		 				    });
 		 				    
-		 		      
-							// 페이징 동적 처리
-						    // 태그 개수 구하기
-						    var trCount = $('tbody tr').length;
-						    // 페이징 처리를 위한 변수선언(태그 개수 계산)
-						    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
-						    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
-						   	var dataPageValues = [];
-						    	// 페이징 버튼의 밸류값을 추출 한다
-						  		$('.datatable-pagination-list-item a').each(function() {
-						      		var dataPageValue = $(this).data('page');
-						      		dataPageValues.push(dataPageValue);
-						  		});
-						    	
-						  	// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
-						  	dataPageValues = dataPageValues.filter(function(value) {
-							return value > parseInt(pageCount);
-							});
-						  	
-						  	// 중복을 삭제한다 indexOf로 첫번째 위치만을 출력한다 중복된다면 첫번째위치가 아닌 다른위치에 있을 것이므로
-						  	// 모두 false 처리하여 삭제한다
-						  	var myArray = dataPageValues.filter(function(value, index, self) {
-							return self.indexOf(value) === index;
-							});
-						  	
-						  	// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
-						  	var minValue = Math.min(myArray);
-						  	var maxValue = Math.max(myArray);
-						  	
-						  	// 글이 11개 이하라면(즉 페이징이 필요없는경우)
-						    if(trCount < 11){
-						    	// 페이징을 삭제
-						   	    $('.datatable-pagination-list').remove();
-						    } else {
-						    	// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
-						    	for(var i = minValue; i<=maxValue; i++){
-						    		$('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
-						    	}
-						    }
-		 			  
-		 			  
+		  				   // 테이블 재생성 마찬가지로 데이터가있는 경우에만 객체 재생성
+		  				   if(json.length !== 0){
+		  				       simpleDataTable();
+		  				   // 그렇지않은경우 기존 객체를 유지하고 페이징만 삭제
+		  				   } else if(json.length === 0){
+		  	 				    // 페이징을 삭제
+		  	 				   	$('.datatable-pagination-list').remove();
+		  	 			   }
+		  				   
 		 			  }// 콜백함수 종료지점
 		      });// end_of_ajax
 		}// end function

@@ -50,6 +50,7 @@ public class ShippingServiceImpl implements ShippingService {
 		
 		// 코드 자동 부여 
 		// buy_code(거래처코드) 들고오기
+		inMaterialDTO.setBuy_code(shippingDAO.getBuy_code(inMaterialDTO));
 		String buy_code=inMaterialDTO.getBuy_code();
 		log.debug("buy값은 {} ",buy_code);
 		
@@ -58,6 +59,7 @@ public class ShippingServiceImpl implements ShippingService {
 		
 		inMaterialDTO.setTrBuy_codeNum(trBuy_codeNum);
 		
+		log.debug(trBuy_codeNum);
 		log.debug("trBuy_codeNum : "+inMaterialDTO);
 		
 		String getNum=shippingDAO.getNewIn_code(inMaterialDTO);
@@ -90,7 +92,8 @@ public class ShippingServiceImpl implements ShippingService {
 		// 문자열을 숫자로
 		int dateNum = Integer.parseInt(formattedDate);
 		
-		String in_code = "IN"+dateNum+"_"+inMaterialDTO.getTrBuy_codeNum()+"_"+numStr;
+//		String in_code = "IN"+dateNum+"_"+inMaterialDTO.getTrBuy_codeNum()+"_"+numStr;
+		String in_code = "IN"+dateNum+"_"+trBuy_codeNum+"_"+numStr;
 		inMaterialDTO.setIn_code(in_code);
 		log.debug("{}값은: ",in_code);
 		
