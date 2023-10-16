@@ -598,7 +598,7 @@ function getDate() {
 	        // 문제가 없다면 AJAX 실행
 	        $.ajax({
 	            type: "POST",
-	            url: "/home/head_ajax/resultDelete",
+	            url: "${pageContext.request.contextPath}//head_ajax/resultDelete",
 	            data: formData,
 	            // 통신 성공시 콜백 함수 response 매개변수에 "true" 또는 "false" 결과값이 입력된다
 	            success: function (response) {

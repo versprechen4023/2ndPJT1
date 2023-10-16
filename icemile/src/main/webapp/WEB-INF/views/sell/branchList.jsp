@@ -75,7 +75,7 @@
                                             <th>주소</th>
                                             <th>이메일</th>
                                             <th>담당자</th>
-                                            <c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
+                                            <c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
 											<th data-sortable="false">관리</th>
 											</c:if>
 
@@ -251,7 +251,7 @@ $(document).ready(function() {
     				    	//tr 에 내용추가
     				    	
     				    	// 권한이있으면 수정 삭제 버튼도 같이 출력
-    				    	if(role.charAt(0) === '1'){
+    				    	if(role.charAt(1) === '1'){
     				        	$tr.append(
     				        			
     				           	"<td>"+data.branch_code+"</td>",
