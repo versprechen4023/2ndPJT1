@@ -13,7 +13,9 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="../resources/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
     </head>
+    
      <body class="sb-nav-fixed">
         
 <!-- 헤더 -->
@@ -39,18 +41,22 @@
                         <c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
                        <input type="button" value="지점 등록" onclick="branchReg()"></div>
                         </c:if>
+                        
                         <div class="card mb-4">
                             <div class="card-header">
-                            <!-- 지점 검색 기능 -->
-							<select id="category">
-  								<option value="branch_code">지점코드</option>
-  								<option value="branch_name">지점명</option>
-  								<option value="branch_phone">지점 연락처</option>
-							</select>
-							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
-								id="content">
-							<input type="button" name="search" value="조회" onclick="branchSearch()">
-                            <!-- 지점 검색 기능 -->
+                             	<div class="cardHeaderFirstLine">
+                             	  	<!-- 지점 검색 기능 -->
+                             	 	<input type="button" name="allList" value="전체목록" onclick="location.reload();">&nbsp;
+										<select id="category">
+  											<option value="branch_code">지점코드</option>
+  											<option value="branch_name">지점명</option>
+  											<option value="branch_phone">지점 연락처</option>
+										</select>&nbsp;
+								    <input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content">&nbsp;
+									<input type="button" name="search" value="조회" onclick="branchSearch()">
+                           			<!-- 지점 검색 기능 -->
+                             	</div>
+
                             </div>
                             <div class="card-body">
                             

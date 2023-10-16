@@ -10,7 +10,9 @@
 <!-- 헤더 -->
 <jsp:include page="../include/header.jsp"></jsp:include>
 <!-- 헤더 -->
+<link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
 </head>
+
 <body class="sb-nav-fixed">
 <div id="layoutSidenav">
 		<!-- 사이드바 -->
@@ -29,20 +31,26 @@
 						<input type="button" value="거래처 등록" onclick="buyInsert()">
 						</c:if>
 					</div>
+					
 					<div class="card mb-4">
-						                            <div class="card-header">
-						<input type="button" name="allList" value="전체목록" onclick="location.reload();">
-							<select id="category">
-  								<option value="buy_code">코드</option>
-  								<option value="buy_name">상호명</option>
-  								<option value="buy_type">업종유형</option>
-  								<option value="buy_phone">연락처</option>
-  								<option value="buy_email">이메일</option>
-							</select>
-							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
-								id="content">
+					
+						  <div class="card-header">
+                    
+                             <div class="cardHeaderFirstLine">
+                            		<input type="button" name="allList" value="전체목록" onclick="location.reload();">&nbsp;
+								<select id="category">
+  									<option value="buy_code">코드</option>
+  									<option value="buy_name">상호명</option>
+  									<option value="buy_type">업종유형</option>
+  									<option value="buy_phone">연락처</option>
+  									<option value="buy_email">이메일</option>
+								</select>&nbsp;
+							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content">&nbsp;
 							<input type="button" name="search" value="조회" onclick="buySearch()">
-						                            </div>
+                             </div>						  
+
+						      </div>
+
 						<div class="card-body">
 
 							<table id="datatablesSimple">

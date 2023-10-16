@@ -10,18 +10,9 @@
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
-
-<style>
-#empBox {
-    display: flex;
-}
-
-#emp_num {
-    margin-right: 7px;
-}
-</style>
-
+<link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
 </head>
+
 <body class="sb-nav-fixed">
 <div id="layoutSidenav">
 		<!-- 사이드바 -->
@@ -47,20 +38,24 @@
                         <input type="button" class ="tableBtn" id="cancel" value="취소" disabled>
                         </c:if>
                         </div>
+                        
                         <div class="card mb-4" id="card mb-4">
-<!--                             <div class="card-header"> -->
-<!--                                 <i class="fas fa-table me-1"></i> -->
-<!--                                 DataTable Example -->
-<!--                             </div> -->
+                        
+                            <div class="card-header">
+                            
+                             <div class="cardHeaderFirstLine">
+                            	<input type="button" name="allList" value="전체목록" onclick="location.reload();">&nbsp;
+									<select id="category">
+  										<option value="line_code">코드</option>
+  										<option value="line_name">이름</option>
+									</select>&nbsp;
+								<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content">&nbsp;
+								<input type="button" name="search" value="조회" onclick="facilitySearch()">                             
+                             </div>
+                            </div>
+                            
                             <div class="card-body" id="card-body">
-                            <input type="button" name="allList" value="전체목록" onclick="location.reload();">
-							<select id="category">
-  								<option value="line_code">코드</option>
-  								<option value="line_name">이름</option>
-							</select>
-							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"
-								id="content">
-							<input type="button" name="search" value="조회" onclick="facilitySearch()">
+
                                 <table id="datatablesSimple">
                                 
                                     <thead>
