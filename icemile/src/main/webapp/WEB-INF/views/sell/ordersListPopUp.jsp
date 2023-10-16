@@ -11,6 +11,40 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- 	자바스크립트 또 지랄나서 위치바꿈 -->
 <script type="text/javascript">
+//Table 초기화를 위한 전역변수 선언
+var simpleDataTableInstance;
+
+//테이블 초기화 함수
+function simpleDataTable() {
+	// 테이블의 선택자를 찾는다
+	const datatablesSimple = document.getElementById('datatablesSimple');
+		
+		// 테이블 객체를 생성하고 전역변수에 저장한다
+  	simpleDataTableInstance = new simpleDatatables.DataTable(datatablesSimple, {
+     
+   		// 페이지 표시 버튼 삭제
+   		perPageSelect : false,
+   		// 검색창 삭제
+   		searchable : false,
+   		// 페이지당 목록 10개
+   		perPage : 10,
+   
+   		//라벨 수정
+   		labels: {
+   		placeholder: "검색",
+   		noResults : "검색 결과가 없습니다",
+   		noRows : "데이터가 없습니다",
+   		info : ""
+   		}
+   }); // end 초기화
+ 
+}//end function
+
+//돔이 로드될떄 테이블 초기화
+window.addEventListener('DOMContentLoaded', event => {
+	simpleDataTable();
+});
+
 //조회를 눌렀을때 실행되는 원자재 검색관련 함수
 function proOrderPopUpSearch() {
 		
@@ -33,6 +67,12 @@ function proOrderPopUpSearch() {
  			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
  			  success:function(json){
  				  
+ 				    // 아무것도 출력할게 없을때 선택자가 삭제되어 테이블을 더이상 초기화하지 못하는 문제가 있음
+				   	// 따라서 조건문으로 0개가 아닐때만 테이블을 삭제함
+				 	if(json.length !== 0){
+				    	simpleDataTableInstance.destroy();
+				 	}
+ 				  
  				    // tbody 내용을 초기화
  				    $('tbody').empty();
 					
@@ -51,43 +91,16 @@ function proOrderPopUpSearch() {
  				        $('tbody').append($tr);
  				    });
  				    
- 					// 페이징 동적 처리
- 				    // 태그 개수 구하기
- 				    var trCount = $('tbody tr').length;
- 				    // 페이징 처리를 위한 변수선언(태그 개수 계산)
- 				    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
- 				    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
- 				   	var dataPageValues = [];
- 				    	// 페이징 버튼의 밸류값을 추출 한다
- 				  		$('.datatable-pagination-list-item a').each(function() {
- 				      		var dataPageValue = $(this).data('page');
- 				      		dataPageValues.push(dataPageValue);
- 				  		});
- 				    	
- 				  	// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
- 				  	dataPageValues = dataPageValues.filter(function(value) {
-    					return value > parseInt(pageCount);
-					});
- 				  	
- 				  	// 중복을 삭제한다
- 				  	var myArray = dataPageValues.filter(function(value, index, self) {
-    					return self.indexOf(value) === index;
-					});
- 				  	
- 				  	// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
- 				  	var minValue = Math.min(myArray);
- 				  	var maxValue = Math.max(myArray);
- 				  	
- 				  	// 글이 11개 이하라면(즉 페이징이 필요없는경우)
- 				    if(trCount < 11){
- 				    	// 페이징을 삭제
- 				   	    $('.datatable-pagination-list').remove();
- 				    } else {
- 				    	// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
- 				    	for(var i = minValue; i<=maxValue; i++){
- 				    		$('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
- 				    	}
- 				    }
+ 				     // 테이블 재생성 마찬가지로 데이터가있는 경우에만 객체 재생성
+ 		 			 if(json.length !== 0){
+ 		 				simpleDataTable();
+ 		 			 // 그렇지않은경우 기존 객체를 유지하고 페이징만 삭제
+ 		 			 } else if(json.length === 0){
+ 		 	 			// 페이징을 삭제
+ 		 	 			$('.datatable-pagination-list').remove();
+ 		 	 		 }
+ 				    
+ 					
  		      }// 콜백함수 종료지점
       });// end_of_ajax
 }// end function

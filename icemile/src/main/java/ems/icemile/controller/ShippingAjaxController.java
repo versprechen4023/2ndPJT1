@@ -84,7 +84,8 @@ public class ShippingAjaxController {
 
 		return shippingService.searchOutCode(out_code);
 	}
-
+    
+	@Logistics
 	@PostMapping("mtUpdate")
 	public String mtUpdate(outMaterialInsertDTO outmaterialInsertDTO) {
 
@@ -92,7 +93,8 @@ public class ShippingAjaxController {
 
 		return Boolean.toString(shippingService.mtUpdate(outmaterialInsertDTO));
 	}
-
+    
+	@Logistics
 	@PostMapping("/mtInsert")
 	public String mtInsert(outMaterialInsertDTO outmaterialInsertDTO) {
 
@@ -100,7 +102,8 @@ public class ShippingAjaxController {
 
 		return Boolean.toString(shippingService.mtInsert(outmaterialInsertDTO));
 	}
-
+	
+	@Logistics
 	@PostMapping("/mtDelete")
 	public String mtDelete(@RequestParam("selectedProId") String[] selectedProId) {
 
