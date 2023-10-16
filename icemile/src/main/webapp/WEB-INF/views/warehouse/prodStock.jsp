@@ -340,7 +340,20 @@
 		});// end function
 
 
+		// 수량이랑 실수량 개수가 다를 경우 실수량 글자를 빨간색으로 처리
+		$(document).ready(function() {
+		    // 각 테이블 행을 순회합니다.
+		    $('table#datatablesSimple tbody tr').each(function() {
+		        var stockStatus = $(this).find('td:nth-child(5)').text(); // stock_status의 값을 가져옵니다
+		        var stockAmount = $(this).find('td:nth-child(6)').text(); // stock_amount의 값을 가져옵니다
 
+		        // stock_status와 stock_amount를 비교합니다
+		        if (stockStatus !== stockAmount) {
+		            // stock_amount 셀에 빨간 글씨 스타일을 적용합니다
+		            $(this).find('td:nth-child(6)').css('color', 'red');
+		        }
+		    });
+		});
 
 
 
