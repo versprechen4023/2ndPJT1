@@ -68,6 +68,7 @@
                             <div class="collapse" id="collapseTest3" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
+                                    		<a class="nav-link" href="${pageContext.request.contextPath}/warehouse/productStock">완제품 재고</a>
                                             <a class="nav-link" href="${pageContext.request.contextPath}/factory/workOrderList">작업지시</a>
                                             <a class="nav-link" href="${pageContext.request.contextPath}/head/resultList">생산실적</a>
                                             <a class="nav-link" href="${pageContext.request.contextPath}/factory/facility">설비관리</a>
@@ -84,7 +85,6 @@
                             <div class="collapse" id="collapseTest4" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="${pageContext.request.contextPath}/warehouse/productStock">완제품 재고</a>
                                             <a class="nav-link" href="${pageContext.request.contextPath}/sell/proOrderList">수주</a>
                                             <a class="nav-link" href="${pageContext.request.contextPath}/shipping/outMaterial">출고</a>
                                             <a class="nav-link" href="${pageContext.request.contextPath}/sell/branchList">지점관리</a>
