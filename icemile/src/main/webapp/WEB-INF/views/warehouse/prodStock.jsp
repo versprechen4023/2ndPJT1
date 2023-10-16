@@ -10,17 +10,7 @@
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
-
-<style>
-#empBox {
-    display: flex;
-}
-
-#emp_num {
-    margin-right: 7px;
-}
-</style>
-
+<link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
 </head>
 <body class="sb-nav-fixed">
 <div id="layoutSidenav">
@@ -49,21 +39,23 @@
                         </div>
                         <div class="card mb-4" id="card mb-4">
                         
-                                <div class="card-header">
-                            <input type="button" name="allList" value="전체목록" onclick="location.reload();">
+						<div class="card-header">
+                             <div class="cardHeaderFirstLine">
+                            <input type="button" name="allList" value="전체목록" onclick="location.reload();">&nbsp;
 							<select id="category">
   								<option value="stock_code">코드</option>
   								<option value="raw_name">품명</option>
   								<option value="raw_type">종류</option>
   								<option value="wh_code">창고</option>
-							</select>
-							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content">
-							<input type="button" name="search" value="조회" onclick="stockSearch()">                                
-                                </div>
-                                
+							</select>&nbsp;
+							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content">&nbsp;
+							<input type="button" name="search" value="조회" onclick="stockSearch()">
+                             </div>
+						</div>                        
                             <div class="card-body" id="card-body">
 
                                 <table id="datatablesSimple">
+                                
                                     <thead>
                                     <!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
                                         <tr>
