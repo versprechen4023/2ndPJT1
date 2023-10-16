@@ -68,6 +68,37 @@ $(document).ready(function() {
     		return false;
     	}
     	
+    	if($('#emp_newPw1').val() == ""){
+    		$('#passmsg').css('color','red');
+    		$('#passmsg').text("변경할 비밀번호를 입력하십시오."); 
+    		$('#emp_newPw1').focus();
+    		return false;
+    	}
+    	
+    	if($('#emp_newPw2').val() == ""){
+    		$('#passmsg').css('color','red');
+    		$('#passmsg').text("비밀번호 재확인 부분을 입력하십시오."); 
+    		$('#emp_newPw2').focus();
+    		return false;
+    	}
+    	
+    	if($('#emp_newPw1').val() !== $('#emp_newPw2').val()){
+    		$('#passmsg').css('color','red');
+    		$('#passmsg').text("비밀번호 확인부분이 서로 일치하지 않습니다."); 
+    		$('#emp_newPw1').focus();
+    		return false;
+    	}
+    	
+    	// 정규식검사
+    	var regPass = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[#^()_=+@$!%*?&])[A-Za-z\d#^()_=+@$!%*?&]{6,}$/;
+    	
+    	if (!regPass.test($('#emp_newPw1').val())) {
+    		$('#passmsg').css('color','red');
+    		$('#emp_newPw1').text("변경할 비밀번호는 6자이상의 영문, 숫자, 특수문자가 포함되어야 합니다.");
+    		$('#emp_pw').focus();
+    		return false;
+		}
+    	
     	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
     	 event.preventDefault(); // 기본 폼 제출 동작을 막음
     		
@@ -84,7 +115,13 @@ $(document).ready(function() {
             	 
             	 // 비밀번호 정상변경 되었을경우 변경 출력
                  if (result == "true") {
-                	 Swal.fire('비밀번호 변경이 완료되었습니다.', '성공', 'success').then(result => {
+                	 Swal.fire({
+                		 title: '<div style="font-size:18px">비밀번호 변경이 완료되었습니다.</div>',
+              		   	 icon: 'success',
+              		   	 confirmButtonText: '확인',
+              		   	 width: '400px',
+              		   	 heigh: '20px'
+                	 }).then(result => {
 					 	if(result.isConfirmed)
 						window.close(); // 성공 시 창 닫기
 					 });
