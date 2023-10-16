@@ -33,7 +33,7 @@
 				<!-- 창고 코드 -->
 				<td><input type="text" name="in_wh_code" value="${inMaterialDTO.in_wh_code }" id="in_wh_code"></td>
 				<!-- 발주 코드 -->
-				<td><input type="text" name="raw_order_code" value="${inMaterialDTO.raw_order_code }" id="raw_order_code" ></td> 
+				<td>${inMaterialDTO.raw_order_code }<input type="hidden" name="raw_order_code" value="${inMaterialDTO.raw_order_code }" id="raw_order_code" readonly ></td> 
 				<!-- 입고 담당자 -->
 				<td><input type="text" name="emp_num" value="${inMaterialDTO.emp_num }" id="emp_num"></td>
 				<!-- 입고 현황 -->
@@ -83,14 +83,14 @@ $(document).ready(function(){
         			Swal.fire('창고 코드를 선택해주세요.', '실패', 'error');
         			return false;
         		}
-        		if($('#raw_order_code').val()==""){
-        			Swal.fire('발주 코드를 선택해주세요.', '실패', 'error');
-        			return false;
-        		}
-        		if($('#buy_code').val()==""){
-        			Swal.fire('거래처를 선택해주세요.', '실패', 'error');
-        			return false;
-        		} 
+//         		if($('#raw_order_code').val()==""){
+//         			Swal.fire('발주 코드를 선택해주세요.', '실패', 'error');
+//         			return false;
+//         		}
+//         		if($('#buy_code').val()==""){
+//         			Swal.fire('거래처를 선택해주세요.', '실패', 'error');
+//         			return false;
+//         		} 
         		if($('#emp_num').val()==""){
         			Swal.fire('담당자를 선택해주세요.', '실패', 'error');
         			return false;
