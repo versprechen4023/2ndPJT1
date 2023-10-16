@@ -60,13 +60,13 @@
 									<if test="rawOrderBegin != null and rawOrderBegin != '' and rawOrderEnd != null and rawOrderEnd != ''">
             							AND o.raw_order_date BETWEEN #{rawOrderBegin} AND #{rawOrderEnd}
         							</if>
-        							<if test="rawOrderBegin != null and rawOrderBegin != '' and (rawOrderEnd == null and rawOrderEnd == '')">
+        							<if test="rawOrderBegin != null and rawOrderBegin != '' and (rawOrderEnd == null or rawOrderEnd == '')">
             							AND o.raw_order_date >= #{rawOrderBegin}
         							</if>
         							<if test="rawOrderInBegin != null and rawOrderInBegin != '' and rawOrderInEnd != null and rawOrderInEnd != ''">
             							AND o.in_plan_date BETWEEN #{rawOrderInBegin} AND #{rawOrderInEnd}
         							</if>
-        							<if test="rawOrderInBegin != null and rawOrderInBegin != '' and (rawOrderInEnd == null and rawOrderInEnd == '')">
+        							<if test="rawOrderInBegin != null and rawOrderInBegin != '' and (rawOrderInEnd == null or rawOrderInEnd == '')">
             							AND o.in_plan_date >= #{rawOrderInBegin}
         							</if>
 								</where>
