@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import ems.icemile.annotation.Production;
 import ems.icemile.dto.InMaterialDTO;
 
 import ems.icemile.dto.outMaterialDTO;
@@ -43,6 +43,7 @@ public class ShippingController {
 	
 	
 	// 입고 목록 삭제
+	@Production
 	@GetMapping("/deleteInMaterial")
 	public String deleteInMaterial(InMaterialDTO inMaterialDTO) {
 		log.debug("ShippingController deleteInMaterial");
@@ -51,6 +52,7 @@ public class ShippingController {
 	}// deleteRequirement()
    
 	// 입고 등록 페이지
+	@Production
 	@GetMapping("/in_material_add")
 	public String in_material_add() {
 		
@@ -60,6 +62,7 @@ public class ShippingController {
 	}// in_material_add
 	
 	// 입고 등록
+	@Production
 	@PostMapping("/inMaterialInsert")
 	public String inMaterialInsert(InMaterialDTO inMaterialDTO) {
 		log.debug("ShippingController inMaterialInsert");
@@ -68,6 +71,7 @@ public class ShippingController {
 	}// inMaterialInsert()
 	
 	// 입고 수정 페이지
+	@Production
 	@GetMapping("/inMaterialUpdate")
 	public String inMaterialUpdate(HttpServletRequest request, Model model) {
 		log.debug("ShippingController inMaterialUpdate");
@@ -78,6 +82,7 @@ public class ShippingController {
 	}// requirementAdd()
 	
 	// 입고 수정
+	@Production
 	@PostMapping("/updateInMaterial")
 	public String updateInMaterial(InMaterialDTO inMaterialDTO) {
 		log.debug("ShippingController updateInMaterial");

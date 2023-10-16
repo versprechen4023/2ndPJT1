@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ems.icemile.annotation.Production;
 import ems.icemile.dto.RequirementDTO;
 import ems.icemile.service.FactoryCopyServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,8 @@ public class FactoryCopyAjaxController {
 
 	@Inject 
 	private FactoryCopyServiceImpl factoryCopyService;
-
+	
+	@Production
     @PostMapping("/insertRequirement")
     public ResponseEntity<String> insertRequirement(RequirementDTO requirementDTO) {
         try {
@@ -34,6 +36,7 @@ public class FactoryCopyAjaxController {
         }
     }
     
+	@Production
     @PostMapping("/updateRequirement")
     public ResponseEntity<String> updateRequirement(RequirementDTO requirementDTO) {
         try {
