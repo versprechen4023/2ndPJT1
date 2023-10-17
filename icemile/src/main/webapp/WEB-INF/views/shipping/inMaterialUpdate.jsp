@@ -11,7 +11,7 @@
 <meta name="author" content="" />
 <title>아이스마일</title>
 	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
- 		<link href="../resources/css/addTableVertical.css" rel="stylesheet" />
+ 		<link href="../resources/css/addTableHorizontal.css" rel="stylesheet" />
 </head>
 
 <body>

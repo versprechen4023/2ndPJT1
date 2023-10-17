@@ -20,7 +20,7 @@
 		<form action="${pageContext.request.contextPath}/factory/updateRequirement?req_code=${requirementDTO.req_code}" id="updateRequirement" method="POST">
 <h1>소요량 수정</h1>
 
-<table>
+<table border='1'>
 			<tr>
 					<th>소요량 코드</th>
 					<th>완제품 코드</th>
