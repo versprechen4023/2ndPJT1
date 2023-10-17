@@ -88,7 +88,6 @@ function warehouseSearch() {
  				            "<td>"+data.prod_code+"</td>",
  				            "<td>"+data.raw_code+"</td>",
  				            "<td>"+data.emp_num+"</td>"
- 	                        
  				        	);
  				        // 생성한 <tr> 요소를 tbody에 추가
  				        $('tbody').append($tr);
@@ -177,7 +176,6 @@ function warehouseSearch() {
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
-	<script src="../resources/js/productList_im.js"></script>
 	
 <script>
 // 함수 시작지점

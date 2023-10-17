@@ -84,7 +84,7 @@ function proOrderPopUpSearch() {
  				        	$tr.append(
  				        	"<td>"+data.order_code+"</td>",
  				            "<td>"+data.pord_name+"</td>",
- 				           	"<td>"+data.order_amount+"</td>"
+ 				           	"<td>"+data.order_amount+"</td>",
  				           	"<td>"+data.branch_code+"</td>"
  				           	);
  				        // 생성한 <tr> 요소를 tbody에 추가
@@ -100,7 +100,7 @@ function proOrderPopUpSearch() {
  		 	 			$('.datatable-pagination-list').remove();
  		 	 		 }
  				    
- 					
+ 			  
  		      }// 콜백함수 종료지점
       });// end_of_ajax
 }// end function
@@ -115,16 +115,10 @@ function proOrderPopUpSearch() {
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">수주관리</h1>
                         <ol class="breadcrumb mb-4">
-<!--                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
-<!--                             <li class="breadcrumb-item active">Tables</li> -->
                         </ol>
                         <div class="bnt">
                         </div>
                         <div class="card mb-4">
-<!--                             <div class="card-header"> -->
-<!--                                 <i class="fas fa-table me-1"></i> -->
-<!--                                 DataTable Example -->
-<!--                             </div> -->
                             <div class="card-body">
                             <input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
@@ -179,7 +173,6 @@ function proOrderPopUpSearch() {
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
-	<script src="../resources/js/productList_im.js"></script>
 	
 <script>
 // 함수 시작지점
@@ -198,9 +191,6 @@ $(document).ready(function() {
 		  
 	      // 부모창으로 값을 전달한다
 	      opener.document.getElementById("order_code").value = order_code;
-// 	      opener.document.getElementById("prod_name").value = prod_name;
-// 	      opener.document.getElementById("order_amount").value = order_amount;
-// 	      opener.document.getElementById("branch_code").value = branch_code;
 	      
 	      	  	      
 	      // 창을 종료한다
@@ -216,7 +206,6 @@ $(document).ready(function() {
 			// 폼 태그 제출을 막는다
 	 		event.preventDefault();
 			// 검색 함수를 실행한다
-	 		facilityPopUpSearch();
 			// 검색입력창을 초기화한다
 	 		$('#content').val("");
 		}// end if
