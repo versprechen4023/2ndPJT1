@@ -26,6 +26,15 @@ public class MainController {
 		return "main/index";
 	}
 	
+	@UnUseAOP
+	@GetMapping("/index2")
+	public String index2() {
+		
+		log.debug("index2");
+		
+		return "main/index2";
+	}
+	
 	// AOP 제외대상 어노테이션 선언
 	@UnUseAOP
 	// 401 권한 에러 메시지 페이지
