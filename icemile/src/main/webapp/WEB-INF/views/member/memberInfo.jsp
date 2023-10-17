@@ -121,7 +121,7 @@ font-weight: bold;
 <!-- profilepic 없는 경우 디폴트이미지파일 보여지게 -->
 <c:choose>
     <c:when test="${not empty memberDTO.profilepic}">
-        <img src="${memberDTO.profilepic}" alt="사원프로필사진" width="100px" height="100px">
+        <img src="../resources/upload/${memberDTO.profilepic}" alt="사원프로필사진" width="100px" height="100px">
     </c:when>
     <c:otherwise>
         <img src="../resources/assets/img/icemile.png" width="100px" height="100px">
