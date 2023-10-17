@@ -54,6 +54,12 @@
         NOW(), #{branch_code})
 	</insert>
 	
+	<update id="proOrderProgress">
+		UPDATE orders
+			SET order_status = 2
+				WHERE order_code = #{order_code}
+	</update>
+	
 	<select id="getWorkOrderInfo" resultType="ems.icemile.dto.WorkOrderDTO">
   	SELECT *
   	FROM test_work_order
@@ -107,6 +113,14 @@
     SET done_date = NOW()
     WHERE work_code = #{work_code}
 </update>
+	
+	<update id="proOrderDone" parameterType="String">
+		UPDATE orders
+			SET order_status = 3
+				WHERE order_code = (SELECT order_code
+										FROM test_work_order
+											WHERE work_code = #{work_code})
+	</update>
 	
 
 
