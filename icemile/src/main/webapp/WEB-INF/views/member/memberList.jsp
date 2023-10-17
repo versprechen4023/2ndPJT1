@@ -36,7 +36,7 @@
 						<div class="card-header">
 
                              <div class="cardHeaderFirstLine">
-							<input type="button" name="allList" value="전체목록" onclick="location.reload();">&nbsp;
+							
 							<select id="category">
   								<option value="emp_name">이름</option>
   								<option value="position">직급</option>
@@ -45,7 +45,8 @@
   								<option value="email">이메일</option>
 							</select>&nbsp;
 							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content">&nbsp;
-							<input type="button" name="search" value="조회" onclick="memberSearch()">
+							<input type="button" name="search" value="조회" onclick="memberSearch()">&nbsp;
+							<input type="button" name="allList" value="전체목록" onclick="location.reload();">
 						</div>
 
 						</div>
@@ -200,7 +201,9 @@ function memberSearch() {
  				         	"<td>"+data.birthdate+"</td>",
  				            "<td>" +
  				          	"<input type='button' value='수정' onclick='memberUpdate(\"" + data.emp_num + "\")' id='updateEmp'>" +
+ 				          	"&nbsp;"+
  				            "<input type='button' value='삭제' onclick='memberDelete(\"" + data.emp_num + "\")' id='deleteEmp'>" +
+ 				            "&nbsp;"+
  				            "<input type='button' value='비밀번호 초기화' onclick='memberReset(\"" + data.emp_num + "\")' id='resetEmp'>" +
  				            "</td>"
  				        	);

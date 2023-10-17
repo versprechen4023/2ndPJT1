@@ -37,7 +37,7 @@
 						  <div class="card-header">
                     
                              <div class="cardHeaderFirstLine">
-                            		<input type="button" name="allList" value="전체목록" onclick="location.reload();">&nbsp;
+                            		
 								<select id="category">
   									<option value="buy_code">코드</option>
   									<option value="buy_name">상호명</option>
@@ -46,7 +46,8 @@
   									<option value="buy_email">이메일</option>
 								</select>&nbsp;
 							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content">&nbsp;
-							<input type="button" name="search" value="조회" onclick="buySearch()">
+							<input type="button" name="search" value="조회" onclick="buySearch()">&nbsp;
+							<input type="button" name="allList" value="전체목록" onclick="location.reload();">
                              </div>						  
 
 						      </div>
@@ -260,6 +261,7 @@ function buySearch() {
  				         	"<td>"+data.buy_email+"</td>",
  				            "<td>" +
  				          	"<input type='button' value='수정' onclick='buyUpdate(\"" + data.buy_code + "\")' id='updateBuy'>" +
+ 				          	"&nbsp;"+
  				            "<input type='button' value='삭제' onclick='buyDelete(\"" + data.buy_code + "\")' id='deleteBuy'>" +
  				            "</td>"
  				        	);

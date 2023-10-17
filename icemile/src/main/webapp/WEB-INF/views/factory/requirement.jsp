@@ -195,6 +195,7 @@ function requirementSearch() {
  				         	"<td>"+data.req_note+"</td>",
  				         	 '<td>' +
  				            '<input type="button" value="수정" onclick="requirementUpdate(\'' + data.req_code + '\')">' +
+ 				            "&nbsp;"+
  				            '<input type="button" value="삭제" onclick="confirmDelete(\'' + '${pageContext.request.contextPath}/factory/deleteRequirement?req_code=' + data.req_code + '\')">' +
  				            '</td>' 
  				        	);
@@ -226,13 +227,13 @@ function confirmDelete(deleteUrl) {
 }
 // 등록 페이지 팝업
  function requirementAdd(){        
-	window.open('${pageContext.request.contextPath }/factory/requirementAdd', '_blank', 'width=968px, height=292px, left=400px, top=300px');
+	window.open('${pageContext.request.contextPath }/factory/requirementAdd', '_blank', 'width=968px, height=323px, left=400px, top=300px');
 } //end function
 
 // 수정 페이지 팝업
  function requirementUpdate(req_code){      
 // 	alert(req_code);
-	window.open('${pageContext.request.contextPath }/factory/requirementUpdate?req_code='+req_code+'', '_blank', 'width=1049px, height=286px, left=400px, top=300px');
+	window.open('${pageContext.request.contextPath }/factory/requirementUpdate?req_code='+req_code+'', '_blank', 'width=1049px, height=316px, left=400px, top=300px');
 } 
 	
 </script>

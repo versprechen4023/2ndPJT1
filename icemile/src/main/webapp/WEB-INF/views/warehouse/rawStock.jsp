@@ -4,14 +4,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 헤더 -->
-<jsp:include page="../include/header.jsp"></jsp:include>
-<!-- 헤더 -->
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
 <link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
 </head>
+<!-- 헤더 -->
+<jsp:include page="../include/header.jsp"></jsp:include>
+<!-- 헤더 -->
 <body class="sb-nav-fixed">
 <div id="layoutSidenav">
 		<!-- 사이드바 -->
@@ -43,7 +43,7 @@
 							<div class="card-header">        
 							
                              <div class="cardHeaderFirstLine">
-                                   <input type="button" name="allList" value="전체목록" onclick="location.reload();">&nbsp;
+                                  
 							<select id="category">
   								<option value="stock_code">코드</option>
   								<option value="raw_name">품명</option>
@@ -51,7 +51,8 @@
   								<option value="wh_code">창고</option>
 							</select>&nbsp;
 							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content">&nbsp;
-							<input type="button" name="search" value="조회" onclick="stockSearch()">
+							<input type="button" name="search" value="조회" onclick="stockSearch()">&nbsp;
+							 <input type="button" name="allList" value="전체목록" onclick="location.reload();">
                              </div>             
                              
 							</div>  
@@ -120,12 +121,12 @@
 		
 		// 담당자 상세 정보
 		function memberInfo(emp_num) {
-			window.open('${pageContext.request.contextPath }/member/managerInfo?emp_num='+ emp_num+'', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+			window.open('${pageContext.request.contextPath }/member/managerInfo?emp_num='+ emp_num+'', '_blank', 'width=590px, height=705px, left=600px, top=300px');
 		}
 		
 		// 담당자를 선택하면 새창을 여는 이벤트 리스너
 		$(document).on("click", "input[name='emp_num']", function() {
-			window.open('${pageContext.request.contextPath }/member/memberListPopUp', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+			window.open('${pageContext.request.contextPath }/member/memberListPopUp', '_blank', 'width=590px, height=705px, left=600px, top=300px');
 		});// end function
 		
 		

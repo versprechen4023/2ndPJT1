@@ -50,7 +50,7 @@
 						<div class="card mb-4">
 								<div class="card-header">
 								 <div class="cardHeaderFirstLine">
-											<input type="button" name="allList" value="전체목록" onclick="location.reload();"> &nbsp;
+											
 											<select id="category">
 													<option value="out_code">출고 지점</option>
 													<option value="out_wh_code">창고코드</option>
@@ -58,7 +58,8 @@
 													<option value="out_status">담당자</option>
 											</select> &nbsp;
 											<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content"> &nbsp;
-											<input type="button" name="search" id="inputmtSearch" value="조회">
+											<input type="button" name="search" id="inputmtSearch" value="조회">&nbsp;
+											<input type="button" name="allList" value="전체목록" onclick="location.reload();"> 
 								 </div>
 							    </div>	
 							<div class="card-body">
