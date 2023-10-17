@@ -182,7 +182,9 @@ function createCalendar(json) {
             if (info.event.title === '수주') {
                 eventEl.style.backgroundColor = '#6A5ACD';
             } else if (info.event.title === '발주') {
-                eventEl.style.backgroundColor = '##FF8200';
+                eventEl.style.backgroundColor = '#1E90FF';
+            } else if (info.event.title === '작업지시') {
+                eventEl.style.backgroundColor = '#46B4B4';
             } else {
                 eventEl.style.backgroundColor = '#828282'; // Default color
             }
@@ -201,21 +203,26 @@ function createCalendar(json) {
         eventClick: function(info) {
             console.log(info);
             var title = info.event.title;
- 			var eventDate = moment(info.event.start);
- 			var eventDate2 = moment(info.event.end);
-			var start = eventDate.format("YYYY-MM-DD");
-			var end = eventDate2.format("YYYY-MM-DD");
+            var eventDate = moment(info.event.start);
+            var eventDate2 = moment(info.event.end);
+			console.log(eventDate);
+			console.log(eventDate2);
+            
+                var start = eventDate.format("YYYY-MM-DD");
+                var end = eventDate2.format("YYYY-MM-DD");
+				console.log(start);
+				console.log(end);
+                
+                if (end == 'Invalid date') {
+                    var message = '<div style="text-align:left; padding-left:15%;">' + title + ' 기간 <br>: ' + start + ' ~ ' + start + '<br>' + '</div>';
+                } else {
+                    var message = '<div style="text-align:left; padding-left:20%;">' + title + ' 기간 <br>: ' + start + ' ~ ' + end + '<br>' + '</div>';
+                }
+//             else {
+//                 // 유효하지 않은 날짜 처리
+//                 var message = "유효하지 않은 날짜";
+//             }
 
-//		    var start = info.event.start.toISOString().substring(0, 10);
-
-		    var otherDate = info.event.extendedProps.otherDate;
-		   
-		    
-		    if (otherDate !== null) {
-		        var message ='<div style="text-align:left; padding-left:15%;">' + title + ' 기간 <br>: ' + start + ' ~ ' + end + '<br>' + '</div>';
-		    } else {
-		        var message ='<div style="text-align:left; padding-left:20%;">' + title + ' 기간 <br>: ' + start + ' ~ ' + end + '<br>' + '</div>';
-		    }
 //             var title = info.event.title;
 //             // 클릭 이벤트 처리 로직
 //             var message = "상세보기";
@@ -233,6 +240,9 @@ function createCalendar(json) {
 		            } else if (title === '발주') {
 		                // 발주 페이지로 이동
 		                window.location.href = '${pageContext.request.contextPath}/buyOrder/rawOrderList'; 
+		            }else if (title === '작업지시') {
+		                // 작업지시 페이지로 이동
+		                window.location.href = '${pageContext.request.contextPath}/factory/workOrderList'; 
 		            }
 		        }
 		    });
@@ -255,9 +265,6 @@ var calendar_compare = null; // 전역변수용
 // ajax 갱신 까지 
 // 캘린더정보 처음 로드될 때 데이터를 가져옴
 			loadCalendar();
-
-// 			// 4초마다 실행될 데이터를 가져오는 함수
-// 			setInterval(loadCalendar, 4000);
 
 			function loadCalendar() {
 				$.ajax({

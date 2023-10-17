@@ -8,7 +8,10 @@
   	SELECT '발주' AS 'title', raw_order_date AS 'start', in_plan_DATE AS 'end'
   		FROM raw_order UNION ALL
 			SELECT '수주' AS 'title', order_date AS 'start', out_plan_date AS 'end'
-		FROM orders;
+				FROM orders UNION ALL
+					SELECT '작업지시' AS 'title', work_order_date AS 'start', done_date AS 'end'
+						FROM test_work_order
+							WHERE done_date IS NOT NULL
   	</select>
   
 	
