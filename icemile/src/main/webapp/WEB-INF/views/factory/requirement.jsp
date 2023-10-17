@@ -64,7 +64,9 @@
 				<th>소요량</th>
 <!-- 				<th>소요량수정일</th> -->
 				<th>비고</th>
+				<c:if test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
 				<th>관리</th>
+				</c:if>
 		</tr>
 	</thead>
                                 
@@ -84,12 +86,14 @@
 				<td>${requirementDTO.req_amount }</td><!-- 소요량 -->
 <%-- 				<td>${fn:substring(requirementDTO.req_upDATEDATE, 0, 10)}</td><!-- 수정일 --> --%>
 				<td>${requirementDTO.req_note }</td><!-- 비고 -->
-				<td>
 				<c:if test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
+				<td>
+				
 				<input type="button" value="수정" onclick="requirementUpdate('${requirementDTO.req_code}')">
 				<input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/factory/deleteRequirement?req_code=${requirementDTO.req_code}')">
-				</c:if>
+				
 				</td>
+				</c:if>
 			</tr>
 			</c:forEach>
 		</tbody>                                  

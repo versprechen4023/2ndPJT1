@@ -70,4 +70,5 @@ public interface ShippingDAO {
 	//EPmodal
 	MemberDTO searchEPModal(String emp_num);
 
+
 }

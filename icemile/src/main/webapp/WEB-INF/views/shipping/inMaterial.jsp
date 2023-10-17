@@ -57,11 +57,16 @@
 <th>입고코드</th> <!-- IN+년월일+거래처코드+1 IN230924_1 -->
 <th>창고코드</th> <!-- 창고 팝업으로 리스트 불러오기 -->
 <th>발주코드</th> <!-- 발주코드 팝업 리스트/코드,주문량,입고예정일,진행상황,담당자 -->
+<th>원자재명</th> 
+<th>발주량</th>
+<th>입고량</th>
 <th>거래처</th>
 <th>담당자</th>   <!-- 입고담당자 팝업 리스트 불러오기 -->
 <th>입고현황</th>	<!-- 1(입고전),2(입고중),3(입고확정) -->
 <!-- <th>수정일</th> -->
+<c:if test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
 <th>관리</th>
+</c:if>
 </tr>
 </thead>
 
@@ -77,6 +82,9 @@
 <td>${inMaterialDTO.in_code }</td> <!-- 입고코드 -->
 <td>${inMaterialDTO.in_wh_code }</td> <!-- 창고코드 -->
 <td>${inMaterialDTO.raw_order_code }</td> <!-- 발주코드 -->
+<td>${inMaterialDTO.raw_name }</td> <!-- 원자재명 -->
+<td>${inMaterialDTO.raw_order_amount }</td> <!-- 발주량 -->
+<td>${inMaterialDTO.in_amount }</td> <!-- 입고량 -->
 <td>${inMaterialDTO.buy_name }</td><!-- 거래처 -->
 <td><a href="#" class="emp-num-link" data-emp-num="${inMaterialDTO.emp_num}">${inMaterialDTO.emp_num}</a></td>
 <%-- <td>${inMaterialDTO.emp_num }</td>	<!-- 담당자 --> --%>
@@ -90,12 +98,12 @@
 </td>
 <%-- <td>${inMaterialDTO.in_status}</td> <!-- 입고현황 --> --%>
 <%-- <td>${inMaterialDTO.updatedate }</td> --%>
-<td>
 <c:if test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
+<td>
 <input type="button" value="수정" ${inMaterialDTO.in_status == 3 ? 'disabled' : ''} onclick="inMaterialUpdate('${inMaterialDTO.in_code}')">
 <input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/shipping/deleteInMaterial?in_code=${inMaterialDTO.in_code }')">
-</c:if>
 </td>
+</c:if>
 </tr>
 </c:forEach>
 </tbody>
@@ -163,6 +171,9 @@ function inMateSearch() {
  				        	"<td>"+data.in_code+"</td>",
  				            "<td>"+data.in_wh_code+"</td>",
  				           	"<td>"+data.raw_order_code+"</td>",
+ 				           "<td>"+data.raw_name+"</td>",
+ 				          "<td>"+data.raw_order_amount+"</td>",
+ 				         "<td>"+data.in_amount+"</td>",
  				            "<td>"+data.buy_name+"</td>",
  				            "<td>"+data.emp_num+"</td>",
  				         	"<td>"+data.in_status+"</td>",

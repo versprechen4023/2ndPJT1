@@ -192,7 +192,8 @@ $(document).ready(function() {
 	      // 부모창으로 값을 전달한다
 	      opener.document.getElementById("raw_order_code").value = raw_order_code;
 	      opener.document.getElementById("buy_name").value = buy_name;
-	      
+	      opener.document.getElementById("raw_name").value = raw_name;
+	      opener.document.getElementById("raw_order_amount").value = raw_order_amount;
 	      // 부모창에서 가격값을 갱신하기위해 함수를 호출한다
 	      opener.openUpdate(); 
 	      

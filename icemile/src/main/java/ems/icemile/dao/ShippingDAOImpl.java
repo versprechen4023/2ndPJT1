@@ -83,6 +83,7 @@ public class ShippingDAOImpl implements ShippingDAO {
 		return sqlSession.selectList(namespace+"inMateSearch", json);
 	}
 	
+	// buy_code 받아오기
 	@Override
 	public String getBuy_code(InMaterialDTO inMaterialDTO) {
 		
