@@ -35,13 +35,13 @@
 					 <div id ="cardHeaderContainer" style="font-weight: bold;">
 					 <div class="cardHeaderFirstLine">
 						지시/수정날짜&nbsp;
-                        <input type="text" name="workOrderBegin" id="workOrderBegin"> ~
-                        <input type="text" name="workOrderEnd" class="cardHeaderTab" id="workOrderEnd" disabled>
+                        <input type="text" name="workOrderBegin" id="workOrderBegin" readonly> ~
+                        <input type="text" name="workOrderEnd" class="cardHeaderTab" id="workOrderEnd" disabled readonly>
                         
                         
                         완료 날짜&nbsp;
-                        <input type="text" name="workOrderDoneBegin" id="workOrderDoneBegin" > ~
-                        <input type="text" name="workOrderDoneEnd" id="workOrderDoneEnd"  disabled>
+                        <input type="text" name="workOrderDoneBegin" id="workOrderDoneBegin" readonly> ~
+                        <input type="text" name="workOrderDoneEnd" id="workOrderDoneEnd"  disabled readonly>
                         </div>                       
                         
 						
