@@ -61,7 +61,9 @@
 <th>담당자</th>   <!-- 입고담당자 팝업 리스트 불러오기 -->
 <th>입고현황</th>	<!-- 1(입고전),2(입고중),3(입고확정) -->
 <!-- <th>수정일</th> -->
+<c:if test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
 <th>관리</th>
+</c:if>
 </tr>
 </thead>
 
@@ -90,12 +92,12 @@
 </td>
 <%-- <td>${inMaterialDTO.in_status}</td> <!-- 입고현황 --> --%>
 <%-- <td>${inMaterialDTO.updatedate }</td> --%>
-<td>
 <c:if test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
+<td>
 <input type="button" value="수정" ${inMaterialDTO.in_status == 3 ? 'disabled' : ''} onclick="inMaterialUpdate('${inMaterialDTO.in_code}')">
 <input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/shipping/deleteInMaterial?in_code=${inMaterialDTO.in_code }')">
-</c:if>
 </td>
+</c:if>
 </tr>
 </c:forEach>
 </tbody>
