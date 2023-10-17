@@ -6,6 +6,8 @@
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
+<link href="../resources/css/mobiscroll.javascript.min.css" rel="stylesheet" />
+<script src="../resources/assets/demo/mobiscroll.javascript.min.js"></script>
     </head>
     <body class="sb-nav-fixed">  
 <!-- 헤더 -->
@@ -68,7 +70,8 @@
                                         <i class="fas fa-chart-area me-1"></i>
                                         월별판매실적
                                     </div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body">
+                                    <canvas id="myAreaChart" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
                             <div class="col-xl-6">
@@ -80,17 +83,27 @@
                                     <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
-                        </div>
 <!--                             <div class="col-xl-6"> -->
 <!--                                 <div class="card mb-4"> -->
 <!--                                     <div class="card-header"> -->
 <!--                                         <i class="fas fa-chart-bar me-1"></i> -->
-<!--                                         month agenda -->
+<!--                                         생산일정(달력) -->
 <!--                                     </div> -->
-<!--                                     <div class="card-body"><canvas id="calendar" width="100%" height="40"></canvas></div> -->
+<!--                                     <div class="card-body"><canvas id="demo-event-popover" width="100%" height="40"></canvas></div> -->
 <!--                                 </div> -->
 <!--                             </div> -->
-<!--                     </div> -->
+<!--                         </div> -->
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        생산 실적(%)
+                                    </div>
+                                    <div class="card-body"><canvas id="myChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                    </div>
+                            
                 <!-- 내용들어가는곳 -->	    
                 </main>
 
@@ -104,25 +117,10 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="../resources/assets/demo/chart-area-demo.js"></script>
         <script src="../resources/assets/demo/chart-bar-demo.js"></script>
+        <script src="../resources/assets/demo/chart-bar.js"></script>
         <script src="../resources/assets/demo/calendar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="../resources/js/datatables-simple-demo.js"></script>
-        <!-- fullcalendar css -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
-
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-<!-- fullcalendar 언어 설정관련 script -->
-<script
-	src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
-	
-<%-- <link href="${pageContext.request.contextPath }/resources/css/side.css" --%>
-<!-- 	rel="stylesheet" type="text/css"> -->
-<link href="${pageContext.request.contextPath }/resources/css/calendar.css"
-	rel="stylesheet" type="text/css">
-	
-        
+      
     </body>
 </html>
