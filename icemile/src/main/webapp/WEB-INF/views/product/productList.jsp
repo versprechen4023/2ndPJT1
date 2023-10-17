@@ -4,14 +4,14 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+<!-- 헤더 -->
+<jsp:include page="../include/header.jsp"></jsp:include>
+<!-- 헤더 -->
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
   <link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
 <!-- 헤드 -->
 </head>
-<!-- 헤더 -->
-<jsp:include page="../include/header.jsp"></jsp:include>
-<!-- 헤더 -->
 <body class="sb-nav-fixed">
 <div id="layoutSidenav">
 		<!-- 사이드바 -->
@@ -39,15 +39,14 @@
                         <div class="card mb-4">
                             <div class="card-header">
                              <div class="cardHeaderFirstLine">                            
-                          
+                           <input type="button" name="allList" value="전체목록" onclick="location.reload();">&nbsp;
 							<select id="category">
   								<option value="prod_code">코드</option>
   								<option value="prod_name">품명</option>
   								<option value="prod_type">종류</option>
 							</select>&nbsp;
 							<input type="text" name="content" size=60 placeholder="검색어를 입력하세요"	 id="content">&nbsp;
-							<input type="button" name="search" value="조회" onclick="productSearch()">&nbsp;
-							<input type="button" name="allList" value="전체목록" onclick="location.reload();">
+							<input type="button" name="search" value="조회" onclick="productSearch()">
                             </div>
                             </div>
                             <div class="card-body">
@@ -265,7 +264,7 @@ function formTest(formData) {
 	  }
 	  
 	  // 중복값 검사수행
-	  if (key === "prod_name" && value !== "") {
+	  if (key === "prod_name" && value !== "" && status !== "update") {
 		  // ajax 호출
 		  $.ajax({
 			  	type: "GET",
