@@ -4,27 +4,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<style>
-.modaldetail {
-	display: none;
-	position: absolute;
-	background-color: #fff;
-	border: 1px solid #000;
-	padding: 10px;
-	z-index: 1;
-}
-</style>
-<!-- 헤더 -->
-<jsp:include page="../include/header.jsp"></jsp:include>
-<!-- 헤더 -->
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
+  <link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
+  <link href="../resources/css/modal.css" rel="stylesheet" />  
 <!-- 로그인이 안되어 있을시 로그인 페이지로 바로가기 -->
 <c:if test="${empty sessionScope.emp_num}">
 	<c:redirect url="/member/login" />
 </c:if>
 </head>
+<!-- 헤더 -->
+<jsp:include page="../include/header.jsp"></jsp:include>
+<!-- 헤더 -->
 <body class="sb-nav-fixed">
 	<div id="layoutSidenav">
 		<!-- 사이드바 -->
@@ -57,16 +49,18 @@
 
 						<div class="card mb-4">
 								<div class="card-header">
-											<input type="button" name="allList" value="전체목록" onclick="location.reload();"> 
+								 <div class="cardHeaderFirstLine">
+											<input type="button" name="allList" value="전체목록" onclick="location.reload();"> &nbsp;
 											<select id="category">
 													<option value="out_code">출고 지점</option>
 													<option value="out_wh_code">창고코드</option>
 													<option value="order_code">수주코드</option>
 													<option value="out_status">담당자</option>
-											</select> 
-											<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content"> 
+											</select> &nbsp;
+											<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content"> &nbsp;
 											<input type="button" name="search" id="inputmtSearch" value="조회">
-								</div>
+								 </div>
+							    </div>	
 							<div class="card-body">
 
 								<table id="datatablesSimple">
@@ -176,15 +170,15 @@
             myModal.innerHTML = "";
 
             //닫기
-            myModal.innerHTML = `<span id="closeModalButton" style="cursor: pointer;">닫기</span><br>`;
+            myModal.innerHTML = `<span id="closeModalButton" style="cursor: pointer;">X</span><br>`;
 
             
             if(clickedElementValue.startsWith("WH")){
             	
-            	addInput("창고 위치:", "mv1Element");
-                addInput("창고 완제품:", "mv2Element");
-                addInput("창고 원제료:", "mv3Element");
-                addInput("창고 창고담당자:", "mv4Element");
+            	addInput("창고 위치 : ", "mv1Element");
+                addInput("창고 완제품 : ", "mv2Element");
+                addInput("창고 원재료 : ", "mv3Element");
+                addInput("창고 담당자 : ", "mv4Element");
             	
             	
             	//modal_ajax 
@@ -225,11 +219,11 @@
 
       	  }else if(clickedElementValue.startsWith("IM")){
       		  
-      		    addInput("이름:", "mv1Element");
-                addInput("부서:", "mv2Element");
-                addInput("직책:", "mv3Element");
-                addInput("전화 번호:", "mv4Element");
-                addInput("내선 번호:", "mv5Element");
+      		    addInput("이름 : ", "mv1Element");
+                addInput("부서 : ", "mv2Element");
+                addInput("직책 : ", "mv3Element");
+                addInput("전화 번호 : ", "mv4Element");
+                addInput("내선 번호 : ", "mv5Element");
       		  
       		    //modal_ajax 
             	$.ajax({
@@ -270,12 +264,12 @@
                
       	  }else{
       		 
-      		addInput("지점 코드:", "mv1Element");
-            addInput("제품명:", "mv2Element");
-            addInput("주문량:", "mv3Element");
-            addInput("수주일자:", "mv4Element");
-            addInput("납품예정일:", "mv5Element");
-            addInput("진행상황:", "mv6Element");
+      		addInput("지점 코드 : ", "mv1Element");
+            addInput("제품명 : ", "mv2Element");
+            addInput("주문량 : ", "mv3Element");
+            addInput("수주일자 : ", "mv4Element");
+            addInput("납품예정일 : ", "mv5Element");
+            addInput("진행상황 : ", "mv6Element");
       		  
       		//modal_ajax 
           	$.ajax({

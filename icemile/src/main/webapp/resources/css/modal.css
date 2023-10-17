@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+.modaldetail {
+	display: none;
+	position: absolute;
+	background-color: #fff;
+	border: 1px solid #000;
+	padding-top: 5px;
+	padding-bottom:10px;
+	padding-left:10px;
+	padding-right:10px;
+	z-index: 1;
+}
+span{
+float: right;
+font-weight: bold;
+}
+#mv1Element,#mv2Element,#mv3Element,#mv4Element,#mv5Element,#mv6Element{
+border: none;
+}

@@ -11,6 +11,7 @@
         <meta name="author" content="" />
         <title>아이스마일</title>
  	    <link href="../resources/css/login.css" rel="stylesheet" />
+ 	    <link rel="icon" href="../resources/assets/img/favicon.ico" type="image/x-icon">
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 <style type="text/css">
 
