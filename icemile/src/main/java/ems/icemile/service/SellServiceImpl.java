@@ -169,6 +169,14 @@ public class SellServiceImpl implements SellService{
 		
 		return sellDAO.getorderList();
 	}
+    
+    //수주 완료 서차
+    @Override
+	public List<ProOrderDTO> orderListSearch(HashMap<String, Object> json) {
+    	log.debug("수주 완료 서치 서비스");
+
+		return sellDAO.orderListSearch(json);
+	}
 
 
 

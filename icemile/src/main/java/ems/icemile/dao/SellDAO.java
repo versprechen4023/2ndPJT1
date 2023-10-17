@@ -57,5 +57,8 @@ public interface SellDAO {
     
 	//수주목록팝업 
 	public List<ProOrderDTO> getorderList();
+    
+	//수주 완료 서치
+	public List<ProOrderDTO> orderListSearch(HashMap<String, Object> json);
 
 }
