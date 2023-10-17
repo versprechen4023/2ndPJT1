@@ -322,7 +322,7 @@ var calendar_compare = null; // 전역변수용
 //      		var eventDate = moment(info.event.start);
 // 			var start = eventDate.format("YYYY-MM-DD");
 
-// //		    var start = info.event.start.toISOString().substring(0, 10);
+// 		    var start = info.event.start.toISOString().substring(0, 10);
 
 // 		    var otherDate = info.event.extendedProps.otherDate;
 // 		    var description = info.event.extendedProps.description;
