@@ -13,7 +13,6 @@
 <!-- 헤더 -->
 <jsp:include page="../include/header.jsp"></jsp:include>
 <!-- 헤더 -->
-
         <div id="layoutSidenav">
 <!-- 사이드바 -->
 <jsp:include page="../include/sidebar.jsp"></jsp:include>

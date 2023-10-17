@@ -73,14 +73,14 @@ public class BuyDAOImpl implements BuyDAO {
 	@Override
 	public boolean searchEmail(String buy_email) {
 		log.debug("구매처 이메일 중복 검사 DAO 도달");
-		String result = sqlSession.selectOne(namespace+"searchEmail", buy_email);
+		String result = sqlSession.selectOne(namespace+".searchEmail", buy_email);
 		return (result == null) ? false : true;
 	}
 
 	@Override
 	public boolean searchPhone(String buy_phone) {
 		log.debug("구매처 번호 중복 검사 DAO 도달");
-		String result = sqlSession.selectOne(namespace+"searchPhone", buy_phone);
+		String result = sqlSession.selectOne(namespace+".searchPhone", buy_phone);
 		return (result == null) ? false : true;
 	}
 	

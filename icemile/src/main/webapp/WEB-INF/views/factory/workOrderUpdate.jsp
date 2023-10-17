@@ -37,13 +37,13 @@
 						<!-- <td><input type="text" name="work_code" id="work_code"></td>  -->
 						<td><input type="text" name="emp_num" id="emp_num" value="${workOrderDTO.emp_num}"></td>  <!-- 사원 정보 가져오기 --> 
 						<td><input type="text" name="line_code" id="line_code" value="${workOrderDTO.line_code}"></td>  <!-- 라인 코드(정보) 가져오기 -->
-						<td><input type="text" name="line_name" id="line_name" value="${workOrderDTO.line_name}"></td>  <!-- 사원 코드 가져왔을시 자동으로 해당 라인 이름 등록 -->
+						<td><input type="text" name="line_name" id="line_name" value="${workOrderDTO.line_name}" readonly></td>  <!-- 사원 코드 가져왔을시 자동으로 해당 라인 이름 등록 -->
 						<td><input type="text" name="order_code" id="order_code" value="${workOrderDTO.order_code}"></td>  <!-- 수주 코드(정보) 가져오기 -->
-						<td><input type="text" name="prod_name" id="prod_name" value="${workOrderDTO.prod_name}"></td>   <!-- 수주 코드 가져왔을시 자동으로 해당 제품명 등록 -->
-						<td><input type="text" name="order_amount" id="order_amount" value="${workOrderDTO.order_amount}"></td>  <!-- 수주 코드 가져왔을시 자동으로 해당 지시량 등록 -->
-						<td><input type="text" name="line_process" id="line_process" value="${workOrderDTO.line_process}"></td>  <!-- 라인 코드 가져왔을시 자동으로 해당 라인 공정 등록 -->
+						<td><input type="text" name="prod_name" id="prod_name" value="${workOrderDTO.prod_name}" readonly></td>   <!-- 수주 코드 가져왔을시 자동으로 해당 제품명 등록 -->
+						<td><input type="text" name="order_amount" id="order_amount" value="${workOrderDTO.order_amount}" readonly></td>  <!-- 수주 코드 가져왔을시 자동으로 해당 지시량 등록 -->
+						<td><input type="text" name="line_process" id="line_process" value="${workOrderDTO.line_process}" readonly></td>  <!-- 라인 코드 가져왔을시 자동으로 해당 라인 공정 등록 -->
 						<!-- <td><input type="text" name="work_order_date" id="work_odrder_date"></td>  -->
-						<td><input type="text" name="branch_code" id="branch_code" value="${workOrderDTO.branch_code}"></td>  <!-- 수주 코드 가져왔을시 자동으로 해당 지점명 등록 -->
+						<td><input type="text" name="branch_code" id="branch_code" value="${workOrderDTO.branch_code}" readonly></td>  <!-- 수주 코드 가져왔을시 자동으로 해당 지점코드 등록 -->
 				
 		</tr>
 		</table>

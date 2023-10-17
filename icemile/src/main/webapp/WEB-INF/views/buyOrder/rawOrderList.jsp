@@ -310,7 +310,7 @@ function getDate() {
 }// end function
 
 function memberInfo(emp_num) {
-	window.open('${pageContext.request.contextPath }/member/managerInfo?emp_num='+ emp_num+'', '_blank', 'width=590px, height=770px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/member/managerInfo?emp_num='+ emp_num+'', '_blank', 'width=590px, height=700px, left=600px, top=300px');
 }
 //함수 시작지점
 $(document).ready(function() {

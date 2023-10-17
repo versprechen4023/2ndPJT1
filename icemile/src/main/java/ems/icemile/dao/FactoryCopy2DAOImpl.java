@@ -42,7 +42,8 @@ public class FactoryCopy2DAOImpl implements FactoryCopy2DAO {
 	public void workOrderAdd(WorkOrderDTO workOrderDTO) {
 		log.debug("작업 지시 추가 DAO");
 		 sqlSession.insert(namespace+".workOrderAdd", workOrderDTO);
-		
+		 // 수주 진행중으로 변경
+		 sqlSession.update(namespace+".proOrderProgress", workOrderDTO);
 		
 	}
 
@@ -75,6 +76,8 @@ public class FactoryCopy2DAOImpl implements FactoryCopy2DAO {
 	public void workOrderDone(String work_code) {
 		log.debug("작업 지시 완료 DAO");
 		sqlSession.update(namespace+".workOrderDone", work_code);
+		// 완료시 수주 상태 작업완료 로 업데이트
+		sqlSession.update(namespace+".proOrderDone", work_code);
 		
 	}
 

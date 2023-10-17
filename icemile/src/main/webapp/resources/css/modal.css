@@ -5,15 +5,18 @@
 	position: absolute;
 	background-color: #fff;
 	border: 1px solid #000;
-	padding-top: 5px;
-	padding-bottom:10px;
-	padding-left:10px;
-	padding-right:10px;
+	padding: 10px;
 	z-index: 1;
 }
 span{
-float: right;
-font-weight: bold;
+	cursor: pointer;
+	background-color: black;
+	color: white;
+	font-size: 15px;
+	margin-bottom: 5px;
+}
+span:hover{
+	color:silver;
 }
 #mv1Element,#mv2Element,#mv3Element,#mv4Element,#mv5Element,#mv6Element{
 border: none;

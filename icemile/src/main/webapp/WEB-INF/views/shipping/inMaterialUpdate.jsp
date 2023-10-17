@@ -11,7 +11,7 @@
 <meta name="author" content="" />
 <title>아이스마일</title>
 	  	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
- 		<link href="../resources/css/addTableVertical.css" rel="stylesheet" />
+ 		<link href="../resources/css/addTableHorizontal.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -24,6 +24,7 @@
 				<th>입고코드</th>
 				<th>창고코드</th>
 				<th>발주코드</th>
+				<th>입고량</th>
 				<th>담당자</th>
 				<th>입고현황</th>
 		</tr>
@@ -34,6 +35,8 @@
 				<td><input type="text" name="in_wh_code" value="${inMaterialDTO.in_wh_code }" id="in_wh_code"></td>
 				<!-- 발주 코드 -->
 				<td>${inMaterialDTO.raw_order_code }<input type="hidden" name="raw_order_code" value="${inMaterialDTO.raw_order_code }" id="raw_order_code" readonly ></td> 
+				<!-- 입고량 -->
+				<td><input type="text" name="in_amount" value="${inMaterialDTO.in_amount }" id="in_amount"></td>
 				<!-- 입고 담당자 -->
 				<td><input type="text" name="emp_num" value="${inMaterialDTO.emp_num }" id="emp_num"></td>
 				<!-- 입고 현황 -->
@@ -83,10 +86,10 @@ $(document).ready(function(){
         			Swal.fire('창고 코드를 선택해주세요.', '실패', 'error');
         			return false;
         		}
-//         		if($('#raw_order_code').val()==""){
-//         			Swal.fire('발주 코드를 선택해주세요.', '실패', 'error');
-//         			return false;
-//         		}
+        		if($('#in_amount').val()==""){
+        			Swal.fire('입고량을 입력해주세요.', '실패', 'error');
+        			return false;
+        		}
 //         		if($('#buy_code').val()==""){
 //         			Swal.fire('거래처를 선택해주세요.', '실패', 'error');
 //         			return false;
@@ -107,6 +110,8 @@ $(document).ready(function(){
         	 			in_code: $('#in_code').val(),
         	 			in_wh_code: $('#in_wh_code').val(),
         	 			raw_order_code: $('#raw_order_code').val(),
+        	 			raw_order_code: $('#raw_order_amount').val(),
+        	 			raw_order_code: $('#in_amount').val(),
         	 			emp_num: $('#emp_num').val(),
         	            in_status: $('#in_status').val()   	 			
         	 	}

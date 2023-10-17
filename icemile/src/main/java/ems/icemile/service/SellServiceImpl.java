@@ -111,10 +111,13 @@ public class SellServiceImpl implements SellService{
 		// 고유번호를 위한 날짜 재조정
 		String myDate = proOrderDTO.getOrder_date().substring(2).replace("-", "");
 		
+		// 고유 번호를 얻기위한 서치 코드 변수선언
+		String searchCode = "%"+myDate+"BR"+myCode+"%";
+		
 		// 날짜를 넘겨주기 위해 DTO에 저장
 		proOrderDTO.setMyDate(myDate);
 		// 고유 번호를 위한 순서번호 얻기
-		String getCode = sellDAO.getNewProOrderCode(proOrderDTO);
+		String getCode = sellDAO.getNewProOrderCode(searchCode);
 						
 		int codeNum = 0;
 						

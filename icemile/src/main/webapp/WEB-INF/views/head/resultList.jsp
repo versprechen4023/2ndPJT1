@@ -114,8 +114,9 @@
 </form>
                             </div>
                         </div>
-                      </div>
+                      
                       <input type="button" value="엑셀파일다운" id="excelRS">
+                    </div>  
                 <!-- 내용 들어가는 곳 -->   
                 </main>
                 

@@ -264,7 +264,7 @@ function formTest(formData) {
 	  }
 	  
 	  // 중복값 검사수행
-	  if (key === "prod_name" && value !== "") {
+	  if (key === "prod_name" && value !== "" && status !== "update") {
 		  // ajax 호출
 		  $.ajax({
 			  	type: "GET",

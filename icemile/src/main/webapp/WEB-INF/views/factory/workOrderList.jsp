@@ -4,14 +4,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 헤더 -->
-<jsp:include page="../include/header.jsp"></jsp:include>
-<!-- 헤더 -->
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
   <link href="../resources/css/rawOrderList.css" rel="stylesheet" />
 </head>
+<!-- 헤더 -->
+<jsp:include page="../include/header.jsp"></jsp:include>
+<!-- 헤더 -->
 <body class="sb-nav-fixed">
 <div id="layoutSidenav">
 		<!-- 사이드바 -->
@@ -20,7 +20,7 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">작업 지시 관리</h1>
+					<h1 class="mt-4">작업 지시</h1>
 					<ol class="breadcrumb mb-4">
 						<!--                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
 						<!--                             <li class="breadcrumb-item active">Tables</li> -->
@@ -35,13 +35,13 @@
 					 <div id ="cardHeaderContainer" style="font-weight: bold;">
 					 <div class="cardHeaderFirstLine">
 						지시/수정날짜&nbsp;
-                        <input type="text" name="workOrderBegin" id="workOrderBegin"> ~
-                        <input type="text" name="workOrderEnd" class="cardHeaderTab" id="workOrderEnd" disabled>
+                        <input type="text" name="workOrderBegin" id="workOrderBegin" readonly> ~
+                        <input type="text" name="workOrderEnd" class="cardHeaderTab" id="workOrderEnd" disabled readonly>
                         
                         
                         완료 날짜&nbsp;
-                        <input type="text" name="workOrderDoneBegin" id="workOrderDoneBegin" > ~
-                        <input type="text" name="workOrderDoneEnd" id="workOrderDoneEnd"  disabled>
+                        <input type="text" name="workOrderDoneBegin" id="workOrderDoneBegin" readonly> ~
+                        <input type="text" name="workOrderDoneEnd" id="workOrderDoneEnd"  disabled readonly>
                         </div>                       
                         
 						
@@ -285,16 +285,16 @@ function workOrderSearch() {
 
 // 작업 지시 추가관련 함수
 function workOrderAdd(){
-	window.open('${pageContext.request.contextPath }/factory/workOrderAdd', '_blank', 'width=1745px, height=315px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/factory/workOrderAdd', '_blank', 'width=1745px, height=343px, left=600px, top=300px');
 } //end function
 
 // 작업 지시 수정관련 함수
 function workOrderUpdate(work_code){
-	window.open('${pageContext.request.contextPath }/factory/workOrderUpdate?work_code='+work_code, '_blank', 'width=1745px, height=315px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/factory/workOrderUpdate?work_code='+work_code, '_blank', 'width=1745px, height=343px, left=600px, top=300px');
 }
 // 작업 지시 삭제관련 함수
 function workOrderDelete(work_code) {
-	alert(work_code);
+	// alert(work_code);
 	// sweetalert2 호출
 	Swal.fire({
 		   title: '작업 지시 삭제',
@@ -321,7 +321,7 @@ function workOrderDelete(work_code) {
 					  type : 'POST',
 					  success:function(data){
 							const result = $.trim(data);
-							alert(result)
+						//	alert(result)
 							if(result == "true"){
 							Swal.fire('삭제가 완료되었습니다.', '성공', 'success').then(result => {
 								if(result.isConfirmed){

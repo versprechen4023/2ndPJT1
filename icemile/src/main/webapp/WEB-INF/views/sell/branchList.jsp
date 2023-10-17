@@ -4,23 +4,15 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Tables - SB Admin</title>
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-        <link href="../resources/css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
-    </head>
-    
-     <body class="sb-nav-fixed">
-        
+<!-- 헤드 -->
+<jsp:include page="../include/head.jsp"></jsp:include>
+<!-- 헤드 -->
+  <link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
+    </head>           
 <!-- 헤더 -->
 <jsp:include page="../include/header.jsp"></jsp:include>
 <!-- 헤더 -->
+ <body class="sb-nav-fixed">
         <div id="layoutSidenav">
 <!-- 사이드바 -->
 <jsp:include page="../include/sidebar.jsp"></jsp:include>
@@ -47,14 +39,15 @@
                             <div class="card-header">
                              	<div class="cardHeaderFirstLine">
                              	  	<!-- 지점 검색 기능 -->
-                             	 	<input type="button" name="allList" value="전체목록" onclick="location.reload();">&nbsp;
+                             	 	
 										<select id="category">
   											<option value="branch_code">지점코드</option>
   											<option value="branch_name">지점명</option>
   											<option value="branch_phone">지점 연락처</option>
 										</select>&nbsp;
 								    <input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content">&nbsp;
-									<input type="button" name="search" value="조회" onclick="branchSearch()">
+									<input type="button" name="search" value="조회" onclick="branchSearch()">&nbsp;
+									<input type="button" name="allList" value="전체목록" onclick="location.reload();">
                            			<!-- 지점 검색 기능 -->
                              	</div>
 

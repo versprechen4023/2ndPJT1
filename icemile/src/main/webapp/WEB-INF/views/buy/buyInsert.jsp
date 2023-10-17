@@ -387,14 +387,16 @@ $(document).ready(function() {
         	 // 다입력되었다면 AJAX 폼태그 데이터 제출시작
         	 
     		// 폼 데이터 객체생성
-        	 var formData = new FormData(document.getElementById('registration'));
-              
+//         	 var formData = new FormData(document.getElementById('registration'));
+        	// 폼 데이터 객체생성
+        	 var formData = $('#registration').serialize();   
+    		
         	 $.ajax({
                  type: "POST",
                  url: "${pageContext.request.contextPath}/buy_ajax/insert",
                  data: formData,
-                 processData: false,
-                 contentType: false,
+//                  processData: false,
+//                  contentType: false,
                  success: function (response) {
                 	 
                 	 const result = $.trim(response);

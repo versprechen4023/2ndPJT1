@@ -64,7 +64,9 @@
 				<th>소요량</th>
 <!-- 				<th>소요량수정일</th> -->
 				<th>비고</th>
+				<c:if test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
 				<th>관리</th>
+				</c:if>
 		</tr>
 	</thead>
                                 
@@ -84,12 +86,14 @@
 				<td>${requirementDTO.req_amount }</td><!-- 소요량 -->
 <%-- 				<td>${fn:substring(requirementDTO.req_upDATEDATE, 0, 10)}</td><!-- 수정일 --> --%>
 				<td>${requirementDTO.req_note }</td><!-- 비고 -->
-				<td>
 				<c:if test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
+				<td>
+				
 				<input type="button" value="수정" onclick="requirementUpdate('${requirementDTO.req_code}')">
 				<input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/factory/deleteRequirement?req_code=${requirementDTO.req_code}')">
-				</c:if>
+				
 				</td>
+				</c:if>
 			</tr>
 			</c:forEach>
 		</tbody>                                  
@@ -195,6 +199,7 @@ function requirementSearch() {
  				         	"<td>"+data.req_note+"</td>",
  				         	 '<td>' +
  				            '<input type="button" value="수정" onclick="requirementUpdate(\'' + data.req_code + '\')">' +
+ 				            "&nbsp;"+
  				            '<input type="button" value="삭제" onclick="confirmDelete(\'' + '${pageContext.request.contextPath}/factory/deleteRequirement?req_code=' + data.req_code + '\')">' +
  				            '</td>' 
  				        	);
@@ -226,13 +231,13 @@ function confirmDelete(deleteUrl) {
 }
 // 등록 페이지 팝업
  function requirementAdd(){        
-	window.open('${pageContext.request.contextPath }/factory/requirementAdd', '_blank', 'width=968px, height=292px, left=400px, top=300px');
+	window.open('${pageContext.request.contextPath }/factory/requirementAdd', '_blank', 'width=968px, height=323px, left=400px, top=300px');
 } //end function
 
 // 수정 페이지 팝업
  function requirementUpdate(req_code){      
 // 	alert(req_code);
-	window.open('${pageContext.request.contextPath }/factory/requirementUpdate?req_code='+req_code+'', '_blank', 'width=1049px, height=286px, left=400px, top=300px');
+	window.open('${pageContext.request.contextPath }/factory/requirementUpdate?req_code='+req_code+'', '_blank', 'width=1049px, height=316px, left=400px, top=300px');
 } 
 	
 </script>
