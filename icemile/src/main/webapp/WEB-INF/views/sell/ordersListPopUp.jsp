@@ -46,7 +46,7 @@ window.addEventListener('DOMContentLoaded', event => {
 });
 
 //조회를 눌렀을때 실행되는 원자재 검색관련 함수
-function proOrderPopUpSearch() {
+function orderListSearch() {
 		
 	   // 값 전달 하기위한 JSON 타입 변수선언
 	   var json = {
@@ -56,7 +56,7 @@ function proOrderPopUpSearch() {
 	
 	   // 검색 결과값을 받아오기 위한 ajax 호출
  	   $.ajax({
- 			  url : '${pageContext.request.contextPath}/_ajax/facilitySearch',
+ 			  url : '${pageContext.request.contextPath}/sell_ajax/orderListSearch',
  			  // JSON타입의 변수를 스트링으로 변환한다
  			  data: JSON.stringify(json),
  			  // JSON타입의 변수를 전송한다
@@ -65,43 +65,43 @@ function proOrderPopUpSearch() {
  			  // 반환은 JSON 타입
  			  dataType: 'json',
  			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
- 			  success:function(json){
- 				  
- 				    // 아무것도 출력할게 없을때 선택자가 삭제되어 테이블을 더이상 초기화하지 못하는 문제가 있음
-				   	// 따라서 조건문으로 0개가 아닐때만 테이블을 삭제함
-				 	if(json.length !== 0){
-				    	simpleDataTableInstance.destroy();
-				 	}
- 				  
- 				    // tbody 내용을 초기화
- 				    $('tbody').empty();
-					
- 				    // 배열 크기만큼 반복
- 				    json.forEach(function (data) {
- 				    	// tr 태그 생성
- 				        var $tr = $('<tr>');
- 				    		//tr 에 내용추가
- 				        	$tr.append(
- 				        	"<td>"+data.order_code+"</td>",
- 				            "<td>"+data.pord_name+"</td>",
- 				           	"<td>"+data.order_amount+"</td>"
- 				           	"<td>"+data.branch_code+"</td>"
- 				           	);
- 				        // 생성한 <tr> 요소를 tbody에 추가
- 				        $('tbody').append($tr);
- 				    });
- 				    
- 				     // 테이블 재생성 마찬가지로 데이터가있는 경우에만 객체 재생성
- 		 			 if(json.length !== 0){
- 		 				simpleDataTable();
- 		 			 // 그렇지않은경우 기존 객체를 유지하고 페이징만 삭제
- 		 			 } else if(json.length === 0){
- 		 	 			// 페이징을 삭제
- 		 	 			$('.datatable-pagination-list').remove();
- 		 	 		 }
- 				    
- 					
- 		      }// 콜백함수 종료지점
+ 			 success: function(json) {
+ 			    // 아무것도 출력할게 없을 때 선택자가 삭제되어 테이블을 더 이상 초기화하지 못하는 문제가 있음
+ 			    // 따라서 조건문으로 0개가 아닐 때만 테이블을 삭제함
+ 			    if (json.length !== 0) {
+ 			        simpleDataTableInstance.destroy();
+ 			    }
+
+ 			    // tbody 내용을 초기화
+ 			    $('tbody').empty();
+
+ 			    // 배열 크기만큼 반복
+ 			    json.forEach(function(data) {
+ 			        // order_status가 3인 경우에만 데이터를 테이블에 추가
+ 			        if (data.order_status === 3) {
+ 			            // tr 태그 생성
+ 			            var $tr = $('<tr>');
+ 			            // tr에 내용 추가
+ 			            $tr.append(
+ 			                "<td>"+data.order_code+"</td>",
+ 			                "<td>"+data.prod_name+"</td>",
+ 			                "<td>"+data.order_amount+"</td>",
+ 			                "<td>"+data.branch_code+"</td>"
+ 			            );
+ 			            // 생성한 <tr> 요소를 tbody에 추가
+ 			            $('tbody').append($tr);
+ 			        }
+ 			    });
+
+ 			    // 테이블 재생성 마찬가지로 데이터가 있는 경우에만 객체 재생성
+ 			    if (json.some(data => data.order_status === 3)) {
+ 			        simpleDataTable();
+ 			    } else {
+ 			        // 그렇지 않은 경우 기존 객체를 유지하고 페이징만 삭제
+ 			        $('.datatable-pagination-list').remove();
+ 			    }
+ 			}
+
       });// end_of_ajax
 }// end function
 </script>
@@ -115,16 +115,10 @@ function proOrderPopUpSearch() {
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">수주관리</h1>
                         <ol class="breadcrumb mb-4">
-<!--                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li> -->
-<!--                             <li class="breadcrumb-item active">Tables</li> -->
                         </ol>
                         <div class="bnt">
                         </div>
                         <div class="card mb-4">
-<!--                             <div class="card-header"> -->
-<!--                                 <i class="fas fa-table me-1"></i> -->
-<!--                                 DataTable Example -->
-<!--                             </div> -->
                             <div class="card-body">
                             <input type="button" name="allList" value="전체목록" onclick="location.reload();">
 							<select id="category">
@@ -135,7 +129,7 @@ function proOrderPopUpSearch() {
 							</select>
 							<input type="text" name="content" size=20 placeholder="검색어를 입력하세요"
 								id="content">
-							<input type="button" name="search" value="조회" onclick="facilityPopUpSearch()">
+							<input type="button" name="search" value="조회" onclick="orderListSearch()">
 </form>
                                 <table id="datatablesSimple">
                                 
@@ -179,7 +173,6 @@ function proOrderPopUpSearch() {
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
-	<script src="../resources/js/productList_im.js"></script>
 	
 <script>
 // 함수 시작지점
@@ -198,9 +191,6 @@ $(document).ready(function() {
 		  
 	      // 부모창으로 값을 전달한다
 	      opener.document.getElementById("order_code").value = order_code;
-// 	      opener.document.getElementById("prod_name").value = prod_name;
-// 	      opener.document.getElementById("order_amount").value = order_amount;
-// 	      opener.document.getElementById("branch_code").value = branch_code;
 	      
 	      	  	      
 	      // 창을 종료한다
@@ -216,7 +206,6 @@ $(document).ready(function() {
 			// 폼 태그 제출을 막는다
 	 		event.preventDefault();
 			// 검색 함수를 실행한다
-	 		facilityPopUpSearch();
 			// 검색입력창을 초기화한다
 	 		$('#content').val("");
 		}// end if

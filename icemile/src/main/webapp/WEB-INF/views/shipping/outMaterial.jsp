@@ -7,8 +7,8 @@
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
-  <link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
   <link href="../resources/css/modal.css" rel="stylesheet" />  
+  <link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
 <!-- 로그인이 안되어 있을시 로그인 페이지로 바로가기 -->
 <c:if test="${empty sessionScope.emp_num}">
 	<c:redirect url="/member/login" />
@@ -46,6 +46,11 @@
 						<div class="card mb-4">
 								<div class="card-header">
 								 <div class="cardHeaderFirstLine">
+								 
+								            완료일자
+                                            <input type="text" name="done_dateBegin" id="done_dateBegin"> ~
+                                            <input type="text" name="done_dateEnd" id="done_dateEnd" disabled>
+                                            
 											
 											<select id="category">
 													<option value="out_code">출고 지점</option>
@@ -337,14 +342,21 @@
                
     </script>
 	<!-- 모달창 script -->
+	
+	
+	<!-- 데이트피커 J쿼리등을 사용하기위한 호출 -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-	<!-- 모달 alert를 위한 sweetalert 호출 -->
+<!--  데이트피커 커스텀 css-->
+<!-- <link rel="stylesheet" type="text/css" href="../resources/css/datepicker2.css"> -->
+
+<!-- 모달 alert를 위한 sweetalert 호출 -->
 	<link rel="stylesheet"
 		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 	<script
 		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-	<!-- J쿼리 호출 -->
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
@@ -352,12 +364,14 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
-	<!-- 엑셀파일 저장을 위한 스크립트 호출 -->
-	<script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
-	<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-
-	<script>
 	
+<!-- 엑셀파일 저장을 위한 스크립트 호출 -->
+	<script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+	
+
+	
+<script>
 //////////////////////////////////////////////추가, 수정 을 구분하기위한 전역변수선언/////////////////////////////////////////
 //Table 초기화를 위한 전역변수 선언
 var simpleDataTableInstance;
@@ -1168,6 +1182,49 @@ $("#excelProd").click(function(){
 });// end function
 
 /////////////////////////////////////////////이벤트 함수 종료//////////////////////////////////////////
+//////////////////////////////////출고 날짜 검색을 위한 설정/////////////////////////////////////////////////////////////
+//입고예정일 시작점
+$("#done_dateBegin").datepicker({
+dateFormat:'yy-mm-dd',
+prevText: '이전 달',
+nextText: '다음 달',
+monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+dayNames: ['일','월','화','수','목','금','토'],
+dayNamesShort: ['일','월','화','수','목','금','토'],
+dayNamesMin: ['일','월','화','수','목','금','토'],
+showMonthAfterYear:true,
+yearSuffix: '년',
+onSelect: function(selectedDate) {
+	
+	// 입고예정일 끝점(데이트피커)을 초기화하고 동적변경을 위해 데이트피커의 초기값을 변수에 담는다
+	var mySecondDatePicker = $("#done_dateEnd").datepicker({
+    dateFormat: 'yy-mm-dd',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+    monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+    dayNames: ['일','월','화','수','목','금','토'],
+    dayNamesShort: ['일','월','화','수','목','금','토'],
+    dayNamesMin: ['일','월','화','수','목','금','토'],
+    showMonthAfterYear:true,
+    yearSuffix: '년',
+    minDate: selectedDate
+	}); // end 끝점 데이트피커
+	
+	// 입고예정일 끝점을 선택할 수 있게한다
+	$("#done_dateEnd").removeAttr("disabled");
+	// 입고예정일 끝점을 초기화한다
+	$("#done_dateEnd").val("");
+	// 동적으로 minDate 를 업데이트한다
+	mySecondDatePicker.datepicker("option", "minDate", selectedDate);
+	
+}// end OnSelect
+
+}); // end 데이트피커
+
+//////////////////////////////////출고 날짜 검색을 위한 설정/////////////////////////////////////////////////////////////
+
 
 });//document
 

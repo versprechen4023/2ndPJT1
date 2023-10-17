@@ -51,5 +51,7 @@ public interface SellService {
     
 	//수주 목록팝업 가져오기
 	public List<ProOrderDTO> orderList();
+    
+	public List<ProOrderDTO> orderListSearch(HashMap<String, Object> json);
 
 }
