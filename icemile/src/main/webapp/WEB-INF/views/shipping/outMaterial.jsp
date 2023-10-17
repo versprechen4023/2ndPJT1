@@ -34,15 +34,11 @@
 
 							<c:if
 								test="${sessionScope.emp_role.charAt(3).toString() eq '1' }">
-								<input type="button" value="추가" id="mtAdd">
-								<span>&nbsp;</span>
-								<input type="button" value="수정" id="updateMt">
-								<span>&nbsp;</span>
-								<input type="button" value="삭제" id="deleteMt">
-								<span>&nbsp;</span>
-								<input type="button" value="취소" id="cancelMt" disabled>
-								<span>&nbsp;</span>
-								<input type="button" value="저장" id="saveMt" disabled>
+								<input type="button" class ="tableBtn" value="추가" id="mtAdd">							
+								<input type="button" class ="tableBtn" value="수정" id="updateMt">								
+								<input type="button" class ="tableBtn" value="삭제" id="deleteMt">								
+								<input type="button" class ="tableBtn" value="취소" id="cancelMt" disabled>								
+								<input type="button" class ="tableBtn" value="저장" id="saveMt" disabled>
 							</c:if>
 
 						</div>
@@ -171,7 +167,7 @@
             myModal.innerHTML = "";
 
             //닫기
-            myModal.innerHTML = `<span id="closeModalButton" style="cursor: pointer;">X</span><br>`;
+            myModal.innerHTML = `<span id="closeModalButton">&nbsp;창 닫기&nbsp;</span><br>`;
 
             
             if(clickedElementValue.startsWith("WH")){
