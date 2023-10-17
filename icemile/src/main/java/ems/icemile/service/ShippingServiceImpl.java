@@ -51,6 +51,7 @@ public class ShippingServiceImpl implements ShippingService {
 		// 코드 자동 부여 
 		// buy_code(거래처코드) 들고오기
 		inMaterialDTO.setBuy_code(shippingDAO.getBuy_code(inMaterialDTO));
+
 		String buy_code=inMaterialDTO.getBuy_code();
 		log.debug("buy값은 {} ",buy_code);
 		

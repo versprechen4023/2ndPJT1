@@ -25,6 +25,9 @@
 				<!-- <th>입고코드</th> -->
 				<th>창고코드</th>
 				<th>발주코드</th>
+				<th>원자재명</th>
+				<th>발주량</th>
+				<th>입고량</th>
 				<th>거래처</th>
 				<th>담당자</th>				
 				<th>입고현황</th>
@@ -34,7 +37,10 @@
 				<!-- <td><input type="text" name="in_code" id="in_code" size="12"></td> -->
 				<td><input type="text" name="in_wh_code" id="in_wh_code" ></td>  <!-- 입고 창고 코드 -->
 				<td><input type="text" name="raw_order_code" id="raw_order_code"  ></td>  <!-- 발주 코드 -->
-				<td><input type="text" name="buy_name" id="buy_name"></td>
+				<td><input type="text" name="raw_name" id="raw_name"  ></td>  <!-- 원자재명 -->
+				<td><input type="text" name="raw_order_amount" id="raw_order_amount"  ></td>  <!-- 발주량 -->
+				<td><input type="text" name="in_amount" id="in_amount"  ></td>  <!-- 입고량 -->
+				<td><input type="text" name="buy_name" id="buy_name"></td> <!-- 거래처명 -->
 				<td><input type="text" name="emp_num" id="emp_num" ></td>  <!-- 입고 담당자 -->
 				<td><input type="text" value="입고전" readonly></td>
 		</tr>
@@ -82,10 +88,10 @@ $(document).ready(function(){
 			Swal.fire('발주 코드를 선택해주세요.', '실패', 'error');
 			return false;
 		}
-// 		if($('#buy_code').val()==""){
-// 			Swal.fire('거래처를 선택해주세요.', '실패', 'error');
-// 			return false;
-// 		} 
+		if($('#in_amount').val()==""){
+			Swal.fire('입고량을 입력해주세요.', '실패', 'error');
+			return false;
+		} 
 		if($('#emp_num').val()==""){
 			Swal.fire('담당자를 선택해주세요.', '실패', 'error');
 			return false;
@@ -97,6 +103,9 @@ $(document).ready(function(){
 		var formData = {
 	 			in_wh_code: $('#in_wh_code').val(),
 	 			raw_order_code: $('#raw_order_code').val(),
+	 			raw_name: $('#raw_name').val(),
+	 			raw_order_amount: $('#raw_order_amount').val(),
+	 			in_amount: $('#in_amount').val(),
 	 			buy_code: $('#buy_name').val(),
 	 			emp_num: $('#emp_num').val() 	 			
 	 	}
