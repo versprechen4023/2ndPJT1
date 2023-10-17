@@ -294,7 +294,7 @@ function workOrderUpdate(work_code){
 }
 // 작업 지시 삭제관련 함수
 function workOrderDelete(work_code) {
-	alert(work_code);
+	// alert(work_code);
 	// sweetalert2 호출
 	Swal.fire({
 		   title: '작업 지시 삭제',
@@ -321,7 +321,7 @@ function workOrderDelete(work_code) {
 					  type : 'POST',
 					  success:function(data){
 							const result = $.trim(data);
-							alert(result)
+						//	alert(result)
 							if(result == "true"){
 							Swal.fire('삭제가 완료되었습니다.', '성공', 'success').then(result => {
 								if(result.isConfirmed){
