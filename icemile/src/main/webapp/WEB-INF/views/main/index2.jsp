@@ -90,7 +90,7 @@
                                         <i class="fas fa-chart-bar me-1"></i>
                                         생산일정(달력)
                                     </div>
-                                    <div id="calendar"></div>
+                                    <div id="calendar" style=""></div>
                                 </div>
                             </div>
                         </div>
@@ -161,25 +161,11 @@ function getDate() {
 
 function createCalendar(json) {
     var calendarSelector = document.getElementById('calendar');
-//     console.log(json)
     var calendar = new FullCalendar.Calendar(calendarSelector, {
-        // 기본 뷰 설정 (월간 뷰, 주간 뷰, 일간 뷰 등)
         initialView: 'dayGridMonth',
-//         titleFormat : function(date) { // title 설정
-//         	return date.date.year +"년 "+(date.date.month +1)+"월"; 
-//         },
-	
         initialDate: getDate(),
-        
-        // 이벤트 데이터를 렌더링할 소스 (배열, URL 등)
         events: json,
         locale: 'ko',
-        
-     	// 이벤트 클래스 동적 할당
-        eventRender: function(info) {
-            var eventTitle = info.event.title;
-            info.el.classList.add('event-' + eventTitle.toLowerCase()); // 클래스 추가
-        },
         
         // 이벤트 렌더링 시간 레이블 숨기기
         eventRender: function(info) {
@@ -189,24 +175,72 @@ function createCalendar(json) {
                 timeEl.style.display = 'none';
             }
         },
-        nowIndicator: true,
+        
+        eventContent: function(info) {
+            var eventEl = document.createElement('div');
+            eventEl.textContent = info.event.title;
+
+            if (info.event.title === '수주') {
+                eventEl.style.backgroundColor = '#6A5ACD';
+            } else if (info.event.title === '발주') {
+                eventEl.style.backgroundColor = '##FF8200';
+            } else {
+                eventEl.style.backgroundColor = '#828282'; // Default color
+            }
+
+            return { domNodes: [eventEl] };
+        }
+		,
+        
+        nowIndicator: true, // 이 부분이 올바르게 포함되었습니다.
+        
         // 캘린더 높이 설정 (옵션)
         height: 400,
         aspectRatio: 1,
+        
         // 이벤트 클릭 시 동작 설정 (팝업, 페이지 이동 등)
         eventClick: function(info) {
-        	console.log(info);
-        	var title = info.event.title;
-//         	alert(title);
-            // 클릭 이벤트 처리 로직
-            var message = "";
-            message += title;
-            Swal.fire({
-		 	    html: message,
-		        confirmButtonText: '확인'
+            console.log(info);
+            var title = info.event.title;
+ 			var eventDate = moment(info.event.start);
+ 			var eventDate2 = moment(info.event.end);
+			var start = eventDate.format("YYYY-MM-DD");
+			var end = eventDate2.format("YYYY-MM-DD");
+
+//		    var start = info.event.start.toISOString().substring(0, 10);
+
+		    var otherDate = info.event.extendedProps.otherDate;
+		   
+		    
+		    if (otherDate !== null) {
+		        var message ='<div style="text-align:left; padding-left:15%;">' + title + ' 기간 <br>: ' + start + ' ~ ' + end + '<br>' + '</div>';
+		    } else {
+		        var message ='<div style="text-align:left; padding-left:20%;">' + title + ' 기간 <br>: ' + start + ' ~ ' + end + '<br>' + '</div>';
+		    }
+//             var title = info.event.title;
+//             // 클릭 이벤트 처리 로직
+//             var message = "상세보기";
+//             message += title ;
+		    Swal.fire({
+		        html: message,
+		        confirmButtonText: title + '페이지 이동',
+		        showCancelButton: true, // "닫기" 버튼을 표시합니다.
+		        cancelButtonText: '닫기' 
+		    }).then((result) => {
+		        if (result.isConfirmed) {
+		            if (title === '수주') {
+		                // 수주 페이지로 이동
+		                window.location.href = '${pageContext.request.contextPath}/sell/proOrderList'; 
+		            } else if (title === '발주') {
+		                // 발주 페이지로 이동
+		                window.location.href = '${pageContext.request.contextPath}/buyOrder/rawOrderList'; 
+		            }
+		        }
 		    });
+
         }
     });
+
     
     calendar.render();
 }
