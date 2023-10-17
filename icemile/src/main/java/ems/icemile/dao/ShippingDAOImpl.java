@@ -136,8 +136,12 @@ public class ShippingDAOImpl implements ShippingDAO {
 	//출고 추가
 	public boolean mtInsert(outMaterialInsertDTO outmaterialInsertDTO) {
 		log.debug("mtInsert DAO 도달");
-
-		return sqlSession.insert(namespace2 + "mtInsert",outmaterialInsertDTO ) > 0;
+		
+		boolean result1 = sqlSession.insert(namespace2 + "mtInsert",outmaterialInsertDTO ) > 0;
+		
+		boolean result2 = sqlSession.update(namespace2 + "proOrderEnd",outmaterialInsertDTO ) > 0;
+		
+		return (result1 && result2);
 	}
     
 	@Override

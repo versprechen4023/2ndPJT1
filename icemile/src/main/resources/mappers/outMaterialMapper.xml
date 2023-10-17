@@ -50,6 +50,13 @@
 		VALUES(#{out_code}, #{out_wh_code}, #{order_code}, #{emp_num},
 		#{out_status},#{out_date})
 	</insert>
+	
+	<!-- 출고 추가 완료되면 수주 상태 납품 완료로 변경 -->
+	<update id="proOrderEnd">
+		UPDATE orders
+			SET order_status = 4
+				WHERE order_code = #{order_code}
+	</update>
 	<!-- 출고 추가 -->
 
 	<!-- 출고 삭제 -->
