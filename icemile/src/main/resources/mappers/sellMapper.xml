@@ -69,11 +69,10 @@
 						ORDER BY o.order_code DESC
   </select>
   
-   <select id="getNewProOrderCode" resultType="java.lang.String">
-   <bind name="myDate" value="'%' + myDate+ '%'"/>
+   <select id="getNewProOrderCode" resultType="java.lang.String" parameterType="String">
   	SELECT order_code
   		FROM orders
-  			WHERE order_code LIKE #{myDate}
+  			WHERE order_code LIKE #{searchCode}
   				ORDER BY order_code desc
   					LIMIT 1
   </select>

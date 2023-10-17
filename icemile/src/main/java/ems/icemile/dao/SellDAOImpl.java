@@ -91,9 +91,9 @@ public class SellDAOImpl implements SellDAO{
 	}
 	
 	@Override
-	public String getNewProOrderCode(ProOrderDTO proOrderDTO) {
+	public String getNewProOrderCode(String searchCode) {
 		log.debug("DAO| 수주 고유 번호 얻기");
-		return sqlSession.selectOne(namespace+"getNewProOrderCode", proOrderDTO);
+		return sqlSession.selectOne(namespace+"getNewProOrderCode", searchCode);
 	}
 	
 	@Override
