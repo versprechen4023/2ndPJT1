@@ -4,13 +4,16 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mes.icemile.mappers.outMaterialMapper">
 
-	<!-- 창고 리스트 가져오기 -->
+	<!-- 출고 리스트 가져오기 -->
 	<select id="outMaterialList"
 		resultType="ems.icemile.dto.outMaterialDTO">
-		SELECT *
-		FROM out_material
+		SELECT m.out_code, w.out_wh_code, o.order_code, e.emp_num, m.out_status, m.out_date
+        FROM out_material m
+        INNER JOIN warehouse w ON m.out_wh_code = w.wh_code
+        INNER JOIN orders o ON m.order_code = o.order_code
+        INNER JOIN emp e ON m.emp_num = e.emp_num;
 	</select>
-	<!-- 창고 리스트 가져오기 -->
+	<!-- 출고 리스트 가져오기 -->
 
 	<!-- 출고 창고 코드 중복검사 -->
 	<select id="searchOutCode" resultType="java.lang.String">
