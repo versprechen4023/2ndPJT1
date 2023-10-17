@@ -26,50 +26,49 @@
 <!--                      <li class="breadcrumb-item active">Dashboard</li> -->
                         </ol>
                         
-                        <div class="row">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">사원정보</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/member/memberList">바로가기</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">발주</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/buyOrder/rawOrderList">바로가기</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-success text-white mb-4">
-                                    <div class="card-body">작업지시</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/factory/workOrderList">바로가기</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">수주</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/sell/proOrderList">바로가기</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!--                         <div class="row"> -->
+<!--                             <div class="col-xl-3 col-md-6"> -->
+<!--                                 <div class="card bg-primary text-white mb-4"> -->
+<!--                                     <div class="card-body">사원정보</div> -->
+<!--                                     <div class="card-footer d-flex align-items-center justify-content-between"> -->
+<%--                                         <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/member/memberList">바로가기</a> --%>
+<!--                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                             <div class="col-xl-3 col-md-6"> -->
+<!--                                 <div class="card bg-warning text-white mb-4"> -->
+<!--                                     <div class="card-body">발주</div> -->
+<!--                                     <div class="card-footer d-flex align-items-center justify-content-between"> -->
+<%--                                         <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/buyOrder/rawOrderList">바로가기</a> --%>
+<!--                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                             <div class="col-xl-3 col-md-6"> -->
+<!--                                 <div class="card bg-success text-white mb-4"> -->
+<!--                                     <div class="card-body">작업지시</div> -->
+<!--                                     <div class="card-footer d-flex align-items-center justify-content-between"> -->
+<%--                                         <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/factory/workOrderList">바로가기</a> --%>
+<!--                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                             <div class="col-xl-3 col-md-6"> -->
+<!--                                 <div class="card bg-danger text-white mb-4"> -->
+<!--                                     <div class="card-body">수주</div> -->
+<!--                                     <div class="card-footer d-flex align-items-center justify-content-between"> -->
+<%--                                         <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/sell/proOrderList">바로가기</a> --%>
+<!--                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
                         <div class="row">
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
-                                        <i class="fas fa-chart-area me-1"></i>
-                                        월별판매실적
+                                        <div><i class="fas fa-chart-area me-1"></i>&nbsp;판매실적</div>
                                     </div>
                                     <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
                                 </div>
@@ -77,8 +76,7 @@
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        차트
+                                        <div><i class="fa-solid fa-chart-column"></i>&nbsp;차트</div>
                                     </div>
                                     <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
                                 </div>
@@ -86,8 +84,7 @@
                             <div class="col-xl-14">
                                 <div class="card mb-4">
                                     <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        생산일정(달력)
+                                   	 	<div><i class="fa-regular fa-calendar-days"></i>&nbsp;월간 일정</div>   
                                     </div>
                                     <div id="calendar" style=""></div>
                                 </div>
@@ -196,7 +193,7 @@ function createCalendar(json) {
         nowIndicator: true, // 이 부분이 올바르게 포함되었습니다.
         
         // 캘린더 높이 설정 (옵션)
-        height: 400,
+        height: 600,
         aspectRatio: 1,
         
         // 이벤트 클릭 시 동작 설정 (팝업, 페이지 이동 등)
