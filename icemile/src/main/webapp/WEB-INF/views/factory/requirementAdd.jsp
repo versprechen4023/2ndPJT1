@@ -81,7 +81,7 @@ $(document).ready(function(){
 			return false;
 		}
 		if($('#raw_code').val()==""){
-			Swal.fire('원재료를 선택해주세요.', '실패', 'error');
+			Swal.fire('원자재를 선택해주세요.', '실패', 'error');
 			return false;
 		}
 		if($('#req_amount').val()==""){

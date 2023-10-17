@@ -6,27 +6,21 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import ems.icemile.annotation.Production;
+import ems.icemile.annotation.Logistics;
 import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.dto.ProOrderDTO;
-import ems.icemile.dto.RequirementDTO;
 import ems.icemile.dto.WareHouseDTO;
-import ems.icemile.dto.WareHouseinsertDTO;
-import ems.icemile.dto.WorkOrderDTO;
 import ems.icemile.dto.outMaterialDTO;
 import ems.icemile.dto.outMaterialInsertDTO;
 import ems.icemile.service.ShippingServiceImpl;
@@ -55,7 +49,7 @@ public class ShippingAjaxController {
 		return inMaterialList;
 	} //inMateSearch
 	
-	@Production
+	@Logistics
     @PostMapping("/inMaterialInsert")
     public ResponseEntity<String> inMaterialInsert(InMaterialDTO inMaterialDTO) {
     	try {
@@ -68,7 +62,7 @@ public class ShippingAjaxController {
         }
     }
     
-	@Production
+	@Logistics
     @PostMapping("/updateInMaterial")
     public ResponseEntity<String> updateInMaterial(InMaterialDTO inMaterialDTO) {
         try {
@@ -90,7 +84,8 @@ public class ShippingAjaxController {
 
 		return shippingService.searchOutCode(out_code);
 	}
-
+    
+	@Logistics
 	@PostMapping("mtUpdate")
 	public String mtUpdate(outMaterialInsertDTO outmaterialInsertDTO) {
 
@@ -98,7 +93,8 @@ public class ShippingAjaxController {
 
 		return Boolean.toString(shippingService.mtUpdate(outmaterialInsertDTO));
 	}
-
+    
+	@Logistics
 	@PostMapping("/mtInsert")
 	public String mtInsert(outMaterialInsertDTO outmaterialInsertDTO) {
 
@@ -106,7 +102,8 @@ public class ShippingAjaxController {
 
 		return Boolean.toString(shippingService.mtInsert(outmaterialInsertDTO));
 	}
-
+	
+	@Logistics
 	@PostMapping("/mtDelete")
 	public String mtDelete(@RequestParam("selectedProId") String[] selectedProId) {
 

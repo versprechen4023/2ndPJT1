@@ -11,6 +11,40 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- 	자바스크립트 또 지랄나서 위치바꿈 -->
 <script type="text/javascript">
+//Table 초기화를 위한 전역변수 선언
+var simpleDataTableInstance;
+
+//테이블 초기화 함수
+function simpleDataTable() {
+	// 테이블의 선택자를 찾는다
+	const datatablesSimple = document.getElementById('datatablesSimple');
+		
+		// 테이블 객체를 생성하고 전역변수에 저장한다
+  	simpleDataTableInstance = new simpleDatatables.DataTable(datatablesSimple, {
+     
+   		// 페이지 표시 버튼 삭제
+   		perPageSelect : false,
+   		// 검색창 삭제
+   		searchable : false,
+   		// 페이지당 목록 10개
+   		perPage : 10,
+   
+   		//라벨 수정
+   		labels: {
+   		placeholder: "검색",
+   		noResults : "검색 결과가 없습니다",
+   		noRows : "데이터가 없습니다",
+   		info : ""
+   		}
+   }); // end 초기화
+ 
+}//end function
+
+//돔이 로드될떄 테이블 초기화
+window.addEventListener('DOMContentLoaded', event => {
+	simpleDataTable();
+});
+
 //조회를 눌렀을때 실행되는 원자재 검색관련 함수
 function branchSearch() {
 		
@@ -33,6 +67,12 @@ function branchSearch() {
  			  // 통신성공시 콜백함수 JSON매개변수에 JSON타입의 배열이 입력된다
  			  success:function(json){
  				  
+ 				    // 아무것도 출력할게 없을때 선택자가 삭제되어 테이블을 더이상 초기화하지 못하는 문제가 있음
+				   	// 따라서 조건문으로 0개가 아닐때만 테이블을 삭제함
+				 	if(json.length !== 0){
+				    	simpleDataTableInstance.destroy();
+				 	}
+ 				
  				    // tbody 내용을 초기화
  				    $('tbody').empty();
 					
@@ -53,91 +93,15 @@ function branchSearch() {
  				        $('tbody').append($tr);
  				    });
  				    
- 					// 페이징 동적 처리
- 				    // 태그 개수 구하기
- 				    var trCount = $('tbody tr').length;
- 				    // 페이징 처리를 위한 변수선언(태그 개수 계산)
- 				    // 페이지 수가 소수점 이하는 반올림 되어 계산이 된다. 예를 들어,25개의 데이터가 있으면 3페이지가 된다.
- 				    var pageCount = trCount / 10 + (trCount % 10 == 0 ? 0 : 1);
- 				    // 페이징 계산을 위한 삭제값을 담을 배열 변수선언
- 				    
- 				    // 빈 배열을 생성하여 페이징 버튼의 데이터 값을 저장할 배열을 초기화합니다.
- 				   	var dataPageValues = [];
- 				    	// 페이징 버튼의 밸류값을 추출 한다
- 				  		$('.datatable-pagination-list-item a').each(function() {
- 				  			// 각 링크 요소에 대해 함수를 실행한다. 여기서 'this'는 현재 순회 중인 'a'태그를 가리킨다.
- 				  			
- 				  			// $(this).data('page')는 현재 'a' 태그의 'data-page' 속성 값을 가져옵니다.
- 				  			
- 				  			// 'data-page' 속성에는 각 페이지 버튼의 페이지 번호가 저장되어 있습니다.
- 				      		var dataPageValue = $(this).data('page');
- 				  			
- 				      	    // dataPageValue를 dataPageValues 배열에 추가합니다.
- 				      		dataPageValues.push(dataPageValue);
- 				  		});
- 				    	
- 				  	// 삭제할 버튼값을 추출한다(페이징 카운트를 기준으로 한다)
- 				  	dataPageValues = dataPageValues.filter(function(value) {
- 				  		// 조건: value가 pageCount보다 큰 경우에만 해당 값을 남깁니다.
- 				  		// 이 때, value는 페이징 버튼의 페이지 번호를 나타내며, pageCount는 표시할 페이지 수를 나타냅니다.
-    					return value > parseInt(pageCount);
-					});
- 				  	
- 				  	// 중복을 삭제한다
- 				  	// 설명
- 				  	// dataPageValues 배열은 이전 단계에서 얻은 페이지 버튼의 값들을 저장한 배열입니다.
-
-                    // filter 함수를 사용하여 배열을 순회하면서 중복된 값을 필터링하려고 합니다.
-                    // filter 함수는 주어진 조건에 맞는 항목만을 남기는 데 사용됩니다.
-
-                    // filter 함수 내부의 콜백 함수는 세 가지 인자를 받습니다:
-
-                    // value: 배열의 현재 요소 값
-                    // index: 배열에서 현재 요소의 인덱스
-                    // self: 배열 자체
-                    // 중복된 값을 확인하기 위해 self.indexOf(value)를 사용합니다.
-                    // 이 메서드는 배열 self에서 value를 검색하고, 첫 번째로 발견된 인덱스를 반환합니다.
-
-                    // 중복되지 않는 값을 가진 항목은 self.indexOf(value)와 index가 동일하게 됩니다.
-                    // 그래서 이러한 조건을 만족하는 항목만 필터링됩니다.
-
-                    // 결과적으로, myArray 배열에는 중복을 제거한 dataPageValues 배열의 유일한 값들만이 저장됩니다.
-                    // 이 배열은 중복된 페이지 버튼 값이 없는 상태를 나타냅니다.
-
-                    // 이 코드를 사용하면 중복된 값을 가진 배열을 정리하고 유일한 값만을 가지는 배열을 얻을 수 있습니다.
-                    // 이후에 이러한 배열을 사용하여 페이지 버튼을 관리하거나 삭제하는 데 사용할 수 있습니다.
-
- 				  	var myArray = dataPageValues.filter(function(value, index, self) {
-    					return self.indexOf(value) === index;
-					});
- 				  	
- 				  	// 삭제할 for문의 시작점이될 최소값과 최대값 구하기
- 				  	// 설명
- 				    // myArray 배열은 이전 단계에서 중복을 제거한 페이지 버튼 값들을 저장한 배열입니다.
-
-                    // Math.min() 함수는 주어진 배열(또는 인수 목록)에서 가장 작은 값을 찾아냅니다.
-                    // 여기서는 myArray 배열 내에서 가장 작은 값을 찾아서 minValue 변수에 할당합니다.
-
-                    // Math.max() 함수는 주어진 배열(또는 인수 목록)에서 가장 큰 값을 찾아냅니다.
-                    // 여기서는 myArray 배열 내에서 가장 큰 값을 찾아서 maxValue 변수에 할당합니다.
-
-                    // 결과적으로, minValue 변수에는 myArray 배열에서 가장 작은 값이 저장되고, maxValue 변수에는 가장 큰 값이 저장됩니다.
-                    // 이 코드를 사용하면 특정 범위 내의 값 중에서 최소값과 최대값을 쉽게 찾을 수 있습니다.
-                    // 이러한 최소값과 최대값은 페이징 버튼의 범위를 결정하는 데 사용될 수 있습니다.
-                    
- 				  	var minValue = Math.min(myArray);
- 				  	var maxValue = Math.max(myArray);
- 				  	
- 				  	// 글이 11개 이하라면(즉 페이징이 필요없는경우)
- 				    if(trCount < 11){
- 				    	// 페이징을 삭제
- 				   	    $('.datatable-pagination-list').remove();
- 				    } else {
- 				    	// 그렇지 않은경우 글개수를 넘은 페이징버튼을 모두 삭제한다 
- 				    	for(var i = minValue; i<=maxValue; i++){
- 				    		$('.datatable-pagination-list-item a[data-page="'+i+'"]').remove();
- 				    	}
- 				    }
+ 				     // 테이블 재생성 마찬가지로 데이터가있는 경우에만 객체 재생성
+ 		 			 if(json.length !== 0){
+ 		 				simpleDataTable();
+ 		 			 // 그렇지않은경우 기존 객체를 유지하고 페이징만 삭제
+ 		 			 } else if(json.length === 0){
+ 		 	 			// 페이징을 삭제
+ 		 	 			$('.datatable-pagination-list').remove();
+ 		 	 		 }
+ 					
  		      }// 콜백함수 종료지점
       });// end_of_ajax
 }// end function
@@ -233,7 +197,7 @@ $(document).ready(function() {
 
 	      // 부모창으로 값을 전달한다
 	      // getElementById부모 창에서 해당 입력 필드를 찾고 값을 설정하기 위해 사용된다.
-	      opener.document.getElementById("branch").value = branch_code;
+	      opener.document.getElementById("branch_code").value = branch_code;
 	     
 	      // 창을 종료한다
 	      window.close();

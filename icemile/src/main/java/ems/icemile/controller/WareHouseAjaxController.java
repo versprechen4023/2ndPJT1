@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ems.icemile.annotation.Departments;
+import ems.icemile.annotation.Logistics;
+import ems.icemile.annotation.UnUseAOP;
 import ems.icemile.dto.ProductAllDTO;
 import ems.icemile.dto.ProductInsertDTO;
 import ems.icemile.dto.WareHouseDTO;
@@ -28,17 +31,17 @@ public class WareHouseAjaxController {
 
 	@Inject // 웨어하우스 서비스 의존성 주입
 	private WareHouseServiceImpl wareHouseService;
+    
 
 	@GetMapping("searchWhcode")
-	// 이 부분은 Spring Framework에서 사용되는 어노테이션입니다.
-	// Ajax 요청에서 "wh_code"이라는 파라미터를 받아서 이 메서드의 wh_code 매개변수에 할당합니다.
 	public boolean searchProName(@RequestParam("wh_code") String wh_code) {
 
 		log.debug("서치 웨어하우스 코드 AJAX 호출");
 
 		return wareHouseService.searchwhcode(wh_code);
 	}
-
+	
+	@Logistics
 	@PostMapping("/whUpdate")
 	public String warehouseUpdate(WareHouseinsertDTO warehouseinsertDTO) {
 
@@ -46,7 +49,8 @@ public class WareHouseAjaxController {
 
 		return Boolean.toString(wareHouseService.whUpdate(warehouseinsertDTO));
 	}
-
+    
+	@Logistics
 	@PostMapping("/whInsert")
 	public String warehouseInsert(WareHouseinsertDTO warehouseinsertDTO) {
 
@@ -54,7 +58,8 @@ public class WareHouseAjaxController {
 
 		return Boolean.toString(wareHouseService.whInsert(warehouseinsertDTO));
 	}
-
+    
+	@Logistics
 	@PostMapping("/whDelete")
 	// @RequestParam을 사용하면, 클라이언트에서 서버로 전송한 데이터 중에서 원하는 값을 추출할 수 있습니다.
 	public String warehouseDelete(@RequestParam("selectedProId") String[] selectedProId) {
@@ -150,7 +155,8 @@ public class WareHouseAjaxController {
 		// Boolean을 문자열로 변환하는것
 		return Boolean.toString(wareHouseService.whDelete(codeAndTypeList));
 	}
-
+    
+    
 	@PostMapping("search")
 	public List<WareHouseDTO> whSearch(@RequestBody HashMap<String, Object> json) {
 

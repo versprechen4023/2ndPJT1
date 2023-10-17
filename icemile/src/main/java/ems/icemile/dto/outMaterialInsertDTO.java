@@ -1,5 +1,9 @@
 package ems.icemile.dto;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,8 +28,11 @@ public class outMaterialInsertDTO {
   private String out_status;
   
   //지점코드
-  private String branch;
+  private String branch_code;
   
   //지점코드의 숫자
   private String trBranchNumber;
+  
+  //출고일자
+  private LocalDate out_date;
 }

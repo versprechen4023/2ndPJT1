@@ -4,13 +4,14 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-<!-- 헤더 -->
-<jsp:include page="../include/header.jsp"></jsp:include>
-<!-- 헤더 -->
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
+  <link href="../resources/css/rawOrderList.css" rel="stylesheet" />
 <!-- 헤드 -->
     </head>
+<!-- 헤더 -->
+<jsp:include page="../include/header.jsp"></jsp:include>
+<!-- 헤더 -->    
 <body class="sb-nav-fixed">
  <div id="layoutSidenav">
 	<!-- 사이드바 -->
@@ -28,43 +29,50 @@
                         </ol>
                         <div class="bnt">
                         <c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
-							<input type="button" value="수주추가" id="proOrderAdd">
-							<input type="button" value="수정" id="updateProOr">
-							<input type="button" value="삭제" id="deleteProOr">
-							<input type="button" value="취소" id="cancelProOr" disabled>
-							<input type="button" value="저장" id="saveProOr" disabled>
+							<input type="button" class="tableBtn" value="수주추가" id="proOrderAdd">
+							<input type="button" class="tableBtn" value="수정" id="updateProOr">
+							<input type="button" class="tableBtn" value="삭제" id="deleteProOr">
+							<input type="button" class="tableBtn" value="취소" id="cancelProOr" disabled>
+							<input type="button" class="tableBtn" value="저장" id="saveProOr" disabled>
 						</c:if>
 						</div>
                         <div class="card mb-4">
-<!--                             <div class="card-header"> -->
-<!--                                 <i class="fas fa-table me-1"></i> -->
-<!--                                 DataTable Example -->
-<!--                             </div> -->
-                            <div class="card-body">
-                            <input type="button" name="allList" value="전체목록" onclick="location.reload();">
-                            <br>
-                            
-                            수주일자
+                            <div class="card-header">
+                              			
+							<div id ="cardHeaderContainer" style="font-weight: bold;">
+                             <div class="cardHeaderFirstLine">
+							                   
+                            수주일자&nbsp;
                             <input type="text" name="proOrderBegin" id="proOrderBegin" readonly> ~
-                            <input type="text" name="proOrderEnd" id="proOrderEnd" readonly disabled>
-                            <br>
+                            <input type="text" name="proOrderEnd" class="cardHeaderTab" id="proOrderEnd" readonly disabled>
                             
-                            납품예정일
+                            
+                            납품예정일&nbsp;
                             <input type="text" name="proOrderOutBegin" id="proOrderOutBegin" readonly> ~
                             <input type="text" name="proOrderOutEnd" id="proOrderOutEnd" readonly disabled>
-                            <br>
                             
-                            진행상태
+                            </div><!-- cardHeaderFirstLine -->
+                            
+                            <div class="cardHeaderSecondLine">
+                            진행상태&nbsp;
 							<select id="status">
   								<option value="">전체</option>
   								<option value="1">대기중</option>
   								<option value="2">생산중</option>
   								<option value="3">생산완료</option>
   								<option value="4">납품완료</option>
-							</select>
-							<input type="text" name="content" size=60 placeholder="지점코드를 입력하십시오"
-								id="content">
-							<input type="button" name="search" value="조회" onclick="proOrderSearch()">
+							</select>&nbsp;
+							<input type="text" name="content" size=35 placeholder="지점코드를 입력하십시오"
+								id="content">&nbsp;
+							<input type="button" name="search" value="조회" onclick="proOrderSearch()">&nbsp;
+							<input type="button" name="allList" value="전체목록" onclick="location.reload();">
+							</div><!-- cardHeaderSecondLine -->
+							
+							</div><!-- cardHeaderContainer -->                          
+                                
+                            </div><!-- card-header -->
+                            <div class="card-body">
+                           
                                 <table id="datatablesSimple">
                                 
                                     <thead>

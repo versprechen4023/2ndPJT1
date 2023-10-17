@@ -245,8 +245,8 @@ function workOrderSearch() {
  				            "<td>" + (data.done_date != null ? data.done_date : "") + "</td>",
  				            "<td>" +
  				            (showDoneButton ?
- 				          	"<input type='button' value='수정' onclick='workOrderUpdate(\"" + data.workOrder_code + "\")' id='updateworkOrder'>" : "") +
- 				            "<input type='button' value='삭제' onclick='workOrderDelete(\"" + data.workOrder_code + "\")' id='deleteworkOrder'>" +
+ 				          	"<input type='button' value='수정' onclick='workOrderUpdate(\"" + data.work_code + "\")' id='updateworkOrder'>" : "") +
+ 				            "<input type='button' value='삭제' onclick='workOrderDelete(\"" + data.work_code + "\")' id='deleteworkOrder'>" +
  				           	(showDoneButton ?
  				            "<input type='button' value='완료' onclick='workOrderDone(\"" + data.work_code + "\")' id='doneWorkOrder'>" : "") +                    
  				            "</td>"
@@ -294,7 +294,7 @@ function workOrderUpdate(work_code){
 }
 // 작업 지시 삭제관련 함수
 function workOrderDelete(work_code) {
-	
+	alert(work_code);
 	// sweetalert2 호출
 	Swal.fire({
 		   title: '작업 지시 삭제',
@@ -321,7 +321,7 @@ function workOrderDelete(work_code) {
 					  type : 'POST',
 					  success:function(data){
 							const result = $.trim(data);
-							
+							alert(result)
 							if(result == "true"){
 							Swal.fire('삭제가 완료되었습니다.', '성공', 'success').then(result => {
 								if(result.isConfirmed){

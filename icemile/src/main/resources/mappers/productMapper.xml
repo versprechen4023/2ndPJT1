@@ -22,11 +22,10 @@
   </select>
   
   <select id="getProductList" resultType="ems.icemile.dto.ProductAllDTO">
-  	SELECT prod_code, prod_name, prod_taste as 'prod_type', prod_unit, prod_amount, prod_price, 
-  		prod_exp, prod_note, branch_code as 'deal_code', wh_code
+  	SELECT prod_code, prod_name, prod_taste as 'prod_type', prod_price, prod_note
   			FROM product
   			UNION
-  	SELECT raw_code, raw_name, raw_type, raw_unit, raw_amount, raw_price, raw_exp, raw_note, buy_code, wh_code
+  	SELECT raw_code, raw_name, raw_type, raw_price, raw_note
   			FROM raw_material
   </select>
   
@@ -34,18 +33,14 @@
   INSERT INTO
   		<choose>
     		<when test='type == "P"'>
-      		product(prod_code, prod_name, prod_taste, prod_unit, prod_amount, prod_price, 
-      		prod_exp, prod_note, branch_code, wh_code)
+      		product(prod_code, prod_name, prod_taste, prod_price, prod_note)
       		
-      		VALUES(#{prod_code}, #{prod_name}, #{prod_type}, #{prod_unit}, #{prod_amount}, #{prod_price}, 
-      		#{prod_exp}, #{prod_note}, #{deal_code}, #{wh_code})
+      		VALUES(#{prod_code}, #{prod_name}, #{prod_type}, #{prod_price}, #{prod_note})
     		</when>
     		<when test='type == "R"'>
-      		raw_material(raw_code, raw_name, raw_type, raw_unit, raw_amount, raw_price, 
-      		raw_exp, raw_note, buy_code, wh_code)
+      		raw_material(raw_code, raw_name, raw_type, raw_price, raw_note)
       		
-      		VALUES(#{prod_code}, #{prod_name}, #{prod_type}, #{prod_unit}, #{prod_amount}, #{prod_price}, 
-      		#{prod_exp}, #{prod_note}, #{deal_code}, #{wh_code})
+      		VALUES(#{prod_code}, #{prod_name}, #{prod_type}, #{prod_price}, #{prod_note})
     		</when>
   		</choose>
   </insert>
@@ -54,15 +49,13 @@
   UPDATE
   		<choose>
     		<when test='type == "P"'>
-      		product SET prod_name = #{prod_name}, prod_taste = #{prod_type}, prod_unit = #{prod_unit},
-      					prod_amount = #{prod_amount}, prod_price = #{prod_price}, prod_exp = #{prod_exp},
-      					prod_note = #{prod_note}, branch_code = #{deal_code}, wh_code = #{wh_code}
+      		product SET prod_name = #{prod_name}, prod_taste = #{prod_type}, prod_price = #{prod_price},
+      					prod_note = #{prod_note}
       				WHERE prod_code = #{prod_code}
     		</when>
     		<when test='type == "R"'>
-      		raw_material SET raw_name = #{prod_name}, raw_type = #{prod_type}, raw_unit = #{prod_unit},
-      					 	 raw_amount = #{prod_amount}, raw_price = #{prod_price}, raw_exp = #{prod_exp},
-      					 	 raw_note = #{prod_note}, buy_code = #{deal_code}, wh_code = #{wh_code}
+      		raw_material SET raw_name = #{prod_name}, raw_type = #{prod_type}, raw_price = #{prod_price},
+      					 	 raw_note = #{prod_note}
       					 WHERE raw_code = #{prod_code}
     		</when>
   		</choose>
@@ -86,11 +79,10 @@
  	<bind name="content" value="'%' + content + '%'"/>
  	SELECT *
 			FROM(
-				SELECT prod_code, prod_name, prod_taste as prod_type, prod_unit, prod_amount, prod_price, 
-  				prod_exp, prod_note, branch_code as 'deal_code', wh_code
+				SELECT prod_code, prod_name, prod_taste as prod_type, prod_price, prod_note
   					FROM product
   				UNION
-  				SELECT raw_code, raw_name, raw_type, raw_unit, raw_amount, raw_price, raw_exp, raw_note, buy_code, wh_code
+  				SELECT raw_code, raw_name, raw_type, raw_price, raw_note
   					FROM raw_material
 				) AS myTable
 					WHERE myTable.${category} LIKE #{content}
