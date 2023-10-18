@@ -72,8 +72,9 @@
 											<th data-sortable="false"><input type="checkbox"
 												name="selectedAllProId"></th>
 											<th>출고 지점</th>
-											<th>창고 코드</th>
 											<th>수주 코드</th>
+											<th>완제품 제고</th>
+											<th>창고 코드</th>
 											<th>담당자</th>
 											<th>출고현황</th>
 										</tr>
@@ -88,11 +89,14 @@
 												</td>
 												<td>${outMaterialDTO.out_code}</td>
 												<td><input type="button" onclick="openModal(this)"
-													name="${outMaterialDTO.out_wh_code}"
-													value="${outMaterialDTO.out_wh_code}"></td>
-												<td><input type="button" onclick="openModal(this)"
 													name="${outMaterialDTO.order_code}"
 													value="${outMaterialDTO.order_code}"></td>
+												<td><input type="button" onclick="openModal(this)"
+													name="${outMaterialDTO.stock_code}"
+													value="${outMaterialDTO.stock_code}"></td>
+												<td><input type="button" onclick="openModal(this)"
+													name="${outMaterialDTO.out_wh_code}"
+													value="${outMaterialDTO.out_wh_code}"></td>
 												<td><input type="button" onclick="openModal(this)"
 													name="${outMaterialDTO.emp_num}"
 													value="${outMaterialDTO.emp_num}"></td>
@@ -180,8 +184,10 @@
             		
             	addInput("창고 위치 : ", "mv1Element");
                 addInput("창고 완제품 : ", "mv2Element");
-                addInput("창고 원재료 : ", "mv3Element");
-                addInput("창고 담당자 : ", "mv4Element");
+                addInput("창고 완제품 이름: ", "mv3Element");
+                addInput("창고 원재료 : ", "mv4Element");
+                addInput("창고 원재료 이름: ", "mv5Element");
+                addInput("창고 담당자 : ", "mv6Element");
             	
             	
             	//modal_ajax 
@@ -200,8 +206,10 @@
                     	// 값 할당
                           document.getElementById("mv1Element").value = json.wh_name;
                           document.getElementById("mv2Element").value = json.prod_code;
-                          document.getElementById("mv3Element").value = json.raw_code;
-                          document.getElementById("mv4Element").value = json.emp_num;
+                          document.getElementById("mv3Element").value = json.prod_name;
+                          document.getElementById("mv4Element").value = json.raw_code;
+                          document.getElementById("mv5Element").value = json.raw_name;
+                          document.getElementById("mv6Element").value = json.emp_num;
                           
                     	} else {
                     	    // JSON 데이터가 없거나 빈 경우에 대한 처리를 추가
@@ -272,7 +280,6 @@
             addInput("주문량 : ", "mv3Element");
             addInput("수주일자 : ", "mv4Element");
             addInput("납품예정일 : ", "mv5Element");
-            addInput("진행상황 : ", "mv6Element");
       		  
       		//modal_ajax 
           	$.ajax({
@@ -294,18 +301,6 @@
                         document.getElementById("mv4Element").value = json.order_date;
                         document.getElementById("mv5Element").value = json.out_plan_date;
                         
-                        // mv6Element에 수주 상태 문자열 설정
-                        var orderStatus = "알 수 없음"; // 기본 값
-                        if (json.order_status === 1) {
-                            orderStatus = "수주 전";
-                        } else if (json.order_status === 2) {
-                            orderStatus = "수주 중";
-                        } else if (json.order_status === 3) {
-                            orderStatus = "수주 확정";
-                        }
-                        document.getElementById("mv6Element").value = orderStatus;
-
-                    	
                   	} else {
                   	    // JSON 데이터가 없거나 빈 경우에 대한 처리를 추가
                   	    console.error("JSON 데이터가 비어 있거나 유효하지 않습니다. json: " + JSON.stringify(json));
@@ -537,14 +532,14 @@ $(document).ready(function() {
 	row += "<input type='text' name='branch_code' id='branch_code' size='7' required class='#datatablesSimple tr' placeholder='지점 검색' style='text-align: center; text-align-last: center;'>";	
 	row += "</td>";
 
-	//창고 코드 
-	row += "<td>";
-	row += "<input type='text' name='out_wh_code' id='out_wh_code' size='10' required class='#datatablesSimple tr' placeholder='창고 검색' style='text-align: center;'>";
-	row += "</td>";
-
 	//수주 코드 
 	row += "<td>";
 	row += "<input type='text' name='order_code' id='order_code' size='10' required class='#datatablesSimple tr' placeholder='수주 코드 검색' style='text-align: center;'>";
+	row += "</td>";
+	
+	//창고 코드 
+	row += "<td>";
+	row += "<input type='text' name='out_wh_code' id='out_wh_code' size='10' required class='#datatablesSimple tr' placeholder='창고 검색' style='text-align: center;'>";
 	row += "</td>";
 
 	//담당자 

@@ -78,7 +78,9 @@
 											<th>창고 전화번호</th>
 											<th>창고 가용상태</th>
 											<th>완제품 코드</th>
+											<th>완제품 이름</th>
 											<th>원자재 코드</th>
+											<th>원자재 이름</th>
 											<th>창고 담당자</th>
 											<th>비고</th>
 										</tr>
@@ -106,7 +108,9 @@
 												</c:choose>
 
 												<td>${WareHouseDTO.prod_code}</td>
+												<td>${WareHouseDTO.prod_name}</td>
 												<td>${WareHouseDTO.raw_code}</td>
+												<td>${WareHouseDTO.raw_name}</td>
 								                <td><a href="#" onclick="memberInfo('${WareHouseDTO.emp_num}')" style="text-decoration: none; color: #808080;">${WareHouseDTO.emp_num}</a></td>
 												<td>${WareHouseDTO.wh_note}</td>
 											</tr>
@@ -366,17 +370,25 @@ row += "</td>";
 //완재품 코드
 row += "<td>";
 row += "<input type='text' name='prod_code' id='prod_code' size='5' required class='#datatablesSimple tr'>"
-row += "<input type='hidden' name='prod_name' id='prod_name' class='#datatablesSimple tr'>"
 row += "<input type='hidden' name='prod_taste' id='prod_taste' class='#datatablesSimple tr'>"
 row += "<input type='hidden' name='prod_price' id='prod_price' class='#datatablesSimple tr'>"
+row += "</td>";
+
+//완재품 코드
+row += "<td>";
+row += "<input type='text' name='prod_name' id='prod_name' size='5' required class='#datatablesSimple tr'>"
 row += "</td>";
 
 //원자재 코드
 row += "<td>";
 row += "<input type='text' name='raw_code' id='raw_code' size='5' required class='#datatablesSimple tr'>"
-row += "<input type='hidden' name='raw_name' id='raw_name' class='#datatablesSimple tr'>"
 row += "<input type='hidden' name='raw_type' id='raw_type' class='#datatablesSimple tr'>"
 row += "<input type='hidden' name='raw_price' id='raw_price' class='#datatablesSimple tr'>"
+row += "</td>";
+
+//원자재 코드
+row += "<td>";
+row += "<input type='text' name='raw_name' id='raw_name' size='5' required class='#datatablesSimple tr'>"
 row += "</td>";
 
 //담당자
@@ -540,7 +552,9 @@ $("#updateWh").click(function(){
 			"wh_phone",
 			"wh_status",
 			"prod_code",
+			"prod_name",
 			"raw_code",
+			"raw_name",
 			"emp_num",
 			"wh_note"
 		];
@@ -554,7 +568,9 @@ $("#updateWh").click(function(){
 			"wh_phone",
 			"wh_status",
 			"prod_code",
+			"prod_name",
 			"raw_code",
+			"raw_name",
 			"emp_num",
 			"wh_note"
 		];
@@ -603,11 +619,9 @@ $("#updateWh").click(function(){
           	  //추가 popup창에 쓸모 없는 value값을 hidden에 넣어서 처리하게 함
         	  var additionalInputsHTML = '';
               if (cellName === 'prod_code') {
-              additionalInputsHTML += '<input type="hidden" name="prod_name" id="prod_name" value="" size="5">';
               additionalInputsHTML += '<input type="hidden" name="prod_taste" id="prod_taste" value="" size="5">';
               additionalInputsHTML += '<input type="hidden" name="prod_price" id="prod_price" value="" size="5">';
-              } else if (cellName === 'raw_code') {
-              additionalInputsHTML += '<input type="hidden" name="raw_name" id="raw_name" value="" size="5">';
+              } else if (cellName === 'raw_code') {          
               additionalInputsHTML += '<input type="hidden" name="raw_type" id="raw_type" value="" size="5">';
               additionalInputsHTML += '<input type="hidden" name="raw_price" id="raw_price" value="" size="5">';
               } 
@@ -620,17 +634,23 @@ $("#updateWh").click(function(){
 		// Wh_type 값을 가져와서 해당 값에 따라 prod_code와 raw_code 입력란을 활성화 또는 비활성화합니다.
 		var whTypeValue = row.find("input[name='wh_type']").val();
 		var prodCodeInput = row.find("input[name='prod_code']");
+		var prodNameInput = row.find("input[name='prod_name']");
 		var rawCodeInput = row.find("input[name='raw_code']");
+		var rawNameInput = row.find("input[name='raw_name']");
 
 		if (whTypeValue === 'P') {
 		    prodCodeInput.removeAttr("disabled");
 		    rawCodeInput.attr("disabled", "disabled");
+		    rawNameInput.attr("disabled", "disabled");
 		} else if (whTypeValue === 'R') {
 		    rawCodeInput.removeAttr("disabled");
 		    prodCodeInput.attr("disabled", "disabled");
+		    prodNameInput.attr("disabled", "disabled");
 		} else {
 		    prodCodeInput.removeAttr("disabled");
+		    prodNameInput.removeAttr("disabled");
 		    rawCodeInput.removeAttr("disabled");
+		    rawNameInput.removeAttr("disabled");
 		}
 	    
 		// 품목수정중에 품목추가,수정,삭제 버튼을 비활성화한다
@@ -821,7 +841,9 @@ function enterwhSearch() {
 				         	"<td>"+data.wh_phone+"</td>",
 				         	"<td>"+ (statusText[data.wh_status] || '알 수 없음') +"</td>",
 				         	"<td>" + (data.prod_code || '') + "</td>", // null인 경우 공백 문자열로 처리
+				         	"<td>" + (data.prod_name || '') + "</td>", // null인 경우 공백 문자열로 처리
 				            "<td>" + (data.raw_code || '') + "</td>", // null인 경우 공백 문자열로 처리
+				            "<td>" + (data.raw_name || '') + "</td>", // null인 경우 공백 문자열로 처리
 				            '<td><a href="#" onclick="memberInfo(\'' + data.emp_num + '\')"  style="text-decoration: none; color: #808080;">' + data.emp_num + '</a></td>',
 				         	"<td>"+data.wh_note+"</td>"
 				         	
@@ -907,7 +929,9 @@ $("#inputwhSearch").click(function()  {
 				         	"<td>"+data.wh_phone+"</td>",
 				         	"<td>"+ (statusText[data.wh_status] || '알 수 없음') +"</td>",
 				         	"<td>" + (data.prod_code || '') + "</td>", // null인 경우 공백 문자열로 처리
+				         	"<td>" + (data.prod_name || '') + "</td>", // null인 경우 공백 문자열로 처리
 				            "<td>" + (data.raw_code || '') + "</td>", // null인 경우 공백 문자열로 처리
+				            "<td>" + (data.raw_name || '') + "</td>", // null인 경우 공백 문자열로 처리
 				         	'<td><a href="#" onclick="memberInfo(\'' + data.emp_num + '\')"  style="text-decoration: none; color: #808080;">' + data.emp_num + '</a></td>',
 				         	"<td>"+data.wh_note+"</td>"
 				        	);
@@ -1014,11 +1038,13 @@ $('input[name="selectedAllProId"]').click(function() {
         $("#wh_type").val("R");
         // "prod_code" 비활성화, "raw_code" 활성화
         $("#prod_code").prop("disabled", true);
+        $("#prod_name").prop("disabled", true);
         $("#raw_code").prop("disabled", false);
     } else if (selectedType === "P") {
         $("#wh_type").val("P");
         // "raw_code" 비활성화, "prod_code" 활성화
         $("#raw_code").prop("disabled", true);
+        $("#raw_name").prop("disabled", true);
         $("#prod_code").prop("disabled", false);
     }
     
