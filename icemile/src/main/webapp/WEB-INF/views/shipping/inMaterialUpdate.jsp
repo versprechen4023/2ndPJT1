@@ -24,6 +24,7 @@
 				<th>입고코드</th>
 				<th>창고코드</th>
 				<th>발주코드</th>
+<!-- 				<th>발주량</th> -->
 				<th>입고량</th>
 				<th>담당자</th>
 				<th>입고현황</th>
@@ -34,7 +35,9 @@
 				<!-- 창고 코드 -->
 				<td><input type="text" name="in_wh_code" value="${inMaterialDTO.in_wh_code }" id="in_wh_code"></td>
 				<!-- 발주 코드 -->
-				<td>${inMaterialDTO.raw_order_code }<input type="hidden" name="raw_order_code" value="${inMaterialDTO.raw_order_code }" id="raw_order_code" readonly ></td> 
+				<td>${inMaterialDTO.raw_order_code }<input type="hidden" name="raw_order_code" value="${inMaterialDTO.raw_order_code }" id="raw_order_code" ></td> 
+				<!-- 발주량 -->
+<%-- 				<td>${inMaterialDTO.raw_order_amount }<input type="hidden" name="raw_order_amount" value="${inMaterialDTO.raw_order_amount }" id="raw_order_amount"></td> --%>
 				<!-- 입고량 -->
 				<td><input type="text" name="in_amount" value="${inMaterialDTO.in_amount }" id="in_amount"></td>
 				<!-- 입고 담당자 -->
@@ -110,8 +113,8 @@ $(document).ready(function(){
         	 			in_code: $('#in_code').val(),
         	 			in_wh_code: $('#in_wh_code').val(),
         	 			raw_order_code: $('#raw_order_code').val(),
-        	 			raw_order_code: $('#raw_order_amount').val(),
-        	 			raw_order_code: $('#in_amount').val(),
+//         	 			raw_order_code: $('#raw_order_amount').val(),
+        	 			in_amount: $('#in_amount').val(),
         	 			emp_num: $('#emp_num').val(),
         	            in_status: $('#in_status').val()   	 			
         	 	}
