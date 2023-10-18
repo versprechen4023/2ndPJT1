@@ -294,10 +294,10 @@ function monthlySaleChart(data) {
 			label:'',
 			data:data,
 			lineTension: 0.3,
-			backgroundColor: "rgba(2,117,216,0.2)",
-			borderColor: "rgba(2,117,216,1)",
+			backgroundColor: "rgba(203, 170, 203,0.2)",
+			borderColor: "rgba(203, 170, 203,1)",
 			pointRadius: 5,
-			pointBackgroundColor: "rgba(2,117,216,1)",
+			pointBackgroundColor: "rgba(203, 170, 203,1)",
 			pointBorderColor: "rgba(255,255,255,0.8)",
 			pointHoverRadius: 5,
 			pointHoverBackgroundColor: "rgba(2,117,216,1)",
@@ -371,14 +371,14 @@ function monthlyProdChart(data) {
 	  datasets: [{
 	  label:'양품',
 	  data: gData ,
-	  backgroundColor: "rgba(2,117,216,1)",
-	  borderColor: "rgba(2,117,216,1)"
+	  backgroundColor: "rgba(198, 219, 218, 1.0)",
+	  borderColor: "rgba(198, 219, 218, 1.0)"
       },
       {
         label: '불량품',
         data: fData,
-        backgroundColor: "rgba(255,87,34,1)",
-        borderColor: "rgba(255,87,34,1)"
+        backgroundColor: "rgba(255, 255, 181, 1)",
+        borderColor: "rgba(255, 255, 181, 1)"
 	}]
 	},
 	  options: {
