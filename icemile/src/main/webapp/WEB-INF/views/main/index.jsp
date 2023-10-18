@@ -69,17 +69,17 @@
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
-                                        <div><i class="fas fa-chart-area me-1"></i>&nbsp;판매실적</div>
+                                        <div><i class="fas fa-chart-area me-1"></i>&nbsp;월별 판매 실적</div>
                                     </div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body"><canvas id="monthlySale" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
-                                        <div><i class="fa-solid fa-chart-column"></i>&nbsp;차트</div>
+                                        <div><i class="fa-solid fa-chart-column"></i>&nbsp;월별 생산 실적</div>
                                     </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body"><canvas id="monthlyProd" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
                             <div class="col-xl-14">
@@ -274,6 +274,159 @@ var calendar_compare = null; // 전역변수용
 					}
 				});
 			}
+			
+			
+// 라인 차트 생성 함수 
+function monthlySaleChart(data) {
+
+	var context = document.getElementById('monthlySale').getContext('2d');
+
+	if (data && data.length > 0) { 
+
+		var labels = data.map(function(item) { return item.label; });
+		var data   = data.map(function(item) { return item.data; });
+
+		var monthlySale = new Chart(context, {
+			type: 'line',
+			data: {
+			labels: labels,
+			datasets: [{
+			label:'',
+			data:data,
+			lineTension: 0.3,
+			backgroundColor: "rgba(2,117,216,0.2)",
+			borderColor: "rgba(2,117,216,1)",
+			pointRadius: 5,
+			pointBackgroundColor: "rgba(2,117,216,1)",
+			pointBorderColor: "rgba(255,255,255,0.8)",
+			pointHoverRadius: 5,
+			pointHoverBackgroundColor: "rgba(2,117,216,1)",
+			pointHitRadius: 50,
+			pointBorderWidth: 2
+		}]
+	},
+			options: {
+			   scales: {
+			   xAxes: [{
+			   time: {
+			   unit: 'date'
+			 },
+			   gridLines: {
+			   display: false
+			 },
+			   ticks: {
+			   maxTicksLimit: 7
+			}
+		}],
+			  yAxes: [{
+			  ticks: {
+			  min: 0,
+			  max: 400000,
+			  maxTicksLimit: 5
+			},
+			  gridLines: {
+			  color: "rgba(0, 0, 0, .125)",
+			}
+		}],
+		},
+			  legend: {
+			  display: false
+			}
+		} //options
+			     });
+			   } else {
+			     console.error('데이터가 없습니다.');
+			   }
+			}
+
+
+
+	//AJAX 요청을 통해 서버에서 데이터 가져오기 및 차트 생성 시작하기
+	$.ajax({
+	url: '${pageContext.request.contextPath}/chart_ajax/monthlySale',
+	type: 'GET',
+	}).done(function(data){
+	monthlySaleChart(data);
+	}).fail(function(xhr, status, error){
+	console.error('데이터를 가져오지 못했습니다.', error);
+	});
+
+
+
+// 바 차트 생성 함수 
+function monthlyProdChart(data) {
+	
+	var context = document.getElementById('monthlyProd').getContext('2d');
+
+	if (data && data.length > 0) { 
+
+	var labels = data.map(function(item) { return item.label; });
+	var gData   = data.map(function(item) { return item.data; });// good_prod 데이터 추출
+ 	var fData   = data.map(function(item) { return item.data1; }); // faulty_prod 데이터 추출
+
+	var monthlyProd = new Chart(context, {
+	  type: 'bar',
+	  data: {
+	  labels: labels,
+	  datasets: [{
+	  label:'양품',
+	  data: gData ,
+	  backgroundColor: "rgba(2,117,216,1)",
+	  borderColor: "rgba(2,117,216,1)"
+      },
+      {
+        label: '불량품',
+        data: fData,
+        backgroundColor: "rgba(255,87,34,1)",
+        borderColor: "rgba(255,87,34,1)"
+	}]
+	},
+	  options: {
+		scales: {
+		xAxes: [{
+		time: {
+		unit: 'date'
+		},
+		gridLines: {
+		display: false
+		},
+		ticks: {
+		maxTicksLimit: 6
+		}
+	}],
+		yAxes: [{
+		ticks: {
+		min: 0,
+		max: 300,
+		maxTicksLimit: 5
+	},
+		gridLines: {
+			display: true
+		}
+		}],
+		},
+			legend: {
+			display: true
+		},
+		barThickness: 4, // 막대의 두께를 20픽셀로 설정
+	} //options
+		});
+		} else {
+			console.error('데이터가 없습니다.');
+		}
+		}
+
+
+		//AJAX 요청을 통해 서버에서 데이터 가져오기 및 차트 생성 시작하기
+		$.ajax({
+		url: '${pageContext.request.contextPath}/chart_ajax/monthlyProd',
+		type: 'GET',
+		}).done(function(data){
+		monthlyProdChart(data);
+		}).fail(function(xhr, status, error){
+			console.error('데이터를 가져오지 못했습니다.', error);
+		});
+			
 	</script>
     </body>
 </html>
