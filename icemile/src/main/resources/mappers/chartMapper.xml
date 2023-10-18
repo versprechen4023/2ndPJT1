@@ -17,7 +17,7 @@
   </select>  
   
     <select id="getMonthlyProd" resultType="ems.icemile.dto.ChartDTO">
-		SELECT DATE_FORMAT(done_date, '%Y-%m')AS label, good_prod AS data, faulty_prod  AS data
+		SELECT DATE_FORMAT(done_date, '%Y-%m')AS label, good_prod AS data, faulty_prod AS data1
 		FROM result
 		GROUP BY DATE_FORMAT(done_date, '%Y-%m')
 		ORDER BY done_date ASC
