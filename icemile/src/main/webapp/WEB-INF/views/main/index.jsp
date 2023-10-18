@@ -21,7 +21,8 @@
                 <main>
                 <!-- 내용들어가는곳 -->
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">아이스마일</h1>
+<!--                         <h1 class="mt-4">아이스마일</h1> -->
+                        <img src="../resources/assets/img/icemilelogo.png" width="250" style="margin-top: 1rem;">
                         <ol class="breadcrumb mb-4">
 <!--                      <li class="breadcrumb-item active">Dashboard</li> -->
                         </ol>

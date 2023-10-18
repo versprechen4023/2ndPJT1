@@ -2,16 +2,16 @@
     pageEncoding="UTF-8"%>
 
             <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                   <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Core</div>
+<!--                             <div class="sb-sidenav-menu-heading"> -->
+<!--                             <img src="../resources/assets/img/icemilep.png" width="190" height="175" style="margin-bottom: 5px;"> -->
+<!--                             </div> -->
                             <a class="nav-link" href="${pageContext.request.contextPath}/main/index">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
                                 메인
-                            </a>
-                            <div class="sb-sidenav-menu-heading">Interface</div>
-<!--                           
+                            </a>                  
                             <!-- 사원정보 -->
                               <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTest0" aria-expanded="false" aria-controls="#collapseTest">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-address-card"></i></div>
@@ -44,7 +44,7 @@
                             <!-- 추가 -->
                             <!-- 원자재 -->
                               <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTest2" aria-expanded="false" aria-controls="#collapseTest">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-prescription-bottle"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-prescription-bottle" style="margin-left: 3px; margin-right: 2px;"></i></div>
                                 원자재
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
