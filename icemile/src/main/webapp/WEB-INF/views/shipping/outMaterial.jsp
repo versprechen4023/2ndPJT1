@@ -7,7 +7,6 @@
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
-  <link href="../resources/css/modal.css" rel="stylesheet" />  
   <link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
 <!-- 로그인이 안되어 있을시 로그인 페이지로 바로가기 -->
 <c:if test="${empty sessionScope.emp_num}">
@@ -50,6 +49,7 @@
 								            완료일자
                                             <input type="text" name="done_dateBegin" id="done_dateBegin"> ~
                                             <input type="text" name="done_dateEnd" id="done_dateEnd" disabled>
+                                            <br>
                                             
 											
 											<select id="category">
@@ -174,9 +174,10 @@
             //닫기
             myModal.innerHTML = `<span id="closeModalButton">&nbsp;창 닫기&nbsp;</span><br>`;
 
+
             
             if(clickedElementValue.startsWith("WH")){
-            	
+            		
             	addInput("창고 위치 : ", "mv1Element");
                 addInput("창고 완제품 : ", "mv2Element");
                 addInput("창고 원재료 : ", "mv3Element");
@@ -350,7 +351,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!--  데이트피커 커스텀 css-->
-<!-- <link rel="stylesheet" type="text/css" href="../resources/css/datepicker2.css"> -->
+<link rel="stylesheet" type="text/css" href="../resources/css/datepicker2.css">
 
 <!-- 모달 alert를 위한 sweetalert 호출 -->
 	<link rel="stylesheet"
@@ -463,7 +464,7 @@ $(document).ready(function() {
 	  
 	  // 검색칸은 비어있어도 상관없음
 	  // 검사에서 제외사항
-	  if ((key === "content") && value === ""){
+	  if ((key === "content" || key === "done_dateBegin" || key === "done_dateEnd") && value === ""){
 		  continue;
 	  }
 	  
@@ -1193,8 +1194,7 @@ monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월'
 dayNames: ['일','월','화','수','목','금','토'],
 dayNamesShort: ['일','월','화','수','목','금','토'],
 dayNamesMin: ['일','월','화','수','목','금','토'],
-showMonthAfterYear:true,
-yearSuffix: '년',
+yearSuffix: "년",
 onSelect: function(selectedDate) {
 	
 	// 입고예정일 끝점(데이트피커)을 초기화하고 동적변경을 위해 데이트피커의 초기값을 변수에 담는다
@@ -1207,8 +1207,7 @@ onSelect: function(selectedDate) {
     dayNames: ['일','월','화','수','목','금','토'],
     dayNamesShort: ['일','월','화','수','목','금','토'],
     dayNamesMin: ['일','월','화','수','목','금','토'],
-    showMonthAfterYear:true,
-    yearSuffix: '년',
+    yearSuffix: "년",
     minDate: selectedDate
 	}); // end 끝점 데이트피커
 	
@@ -1219,12 +1218,12 @@ onSelect: function(selectedDate) {
 	// 동적으로 minDate 를 업데이트한다
 	mySecondDatePicker.datepicker("option", "minDate", selectedDate);
 	
+	
 }// end OnSelect
 
 }); // end 데이트피커
 
 //////////////////////////////////출고 날짜 검색을 위한 설정/////////////////////////////////////////////////////////////
-
 
 });//document
 
