@@ -298,9 +298,9 @@ function monthlySaleChart(data) {
 			borderColor: "rgba(203, 170, 203,1)",
 			pointRadius: 5,
 			pointBackgroundColor: "rgba(203, 170, 203,1)",
-			pointBorderColor: "rgba(255,255,255,0.8)",
+			pointBorderColor: "rgba(203, 170, 203,0.8)",
 			pointHoverRadius: 5,
-			pointHoverBackgroundColor: "rgba(2,117,216,1)",
+			pointHoverBackgroundColor: "rgba(203, 170, 203,1)",
 			pointHitRadius: 50,
 			pointBorderWidth: 2
 		}]
