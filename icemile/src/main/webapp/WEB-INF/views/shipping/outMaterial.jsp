@@ -7,7 +7,8 @@
 <!-- 헤드 -->
 <jsp:include page="../include/head.jsp"></jsp:include>
 <!-- 헤드 -->
-  <link href="../resources/css/cardHeaderDefault.css" rel="stylesheet" />
+  <link href="../resources/css/outMaterial.css" rel="stylesheet" />
+  <link href="../resources/css/modal.css" rel="stylesheet" />
 <!-- 로그인이 안되어 있을시 로그인 페이지로 바로가기 -->
 <c:if test="${empty sessionScope.emp_num}">
 	<c:redirect url="/member/login" />
@@ -44,25 +45,27 @@
 
 						<div class="card mb-4">
 								<div class="card-header">
-								 <div class="cardHeaderFirstLine">
 								 
-								            완료일자
+								 <div id ="cardHeaderContainer" style="font-weight: bold;"> 
+                            		<div class="cardHeaderFirstLine"> 
+								 		
+								            완료일자&nbsp;
                                             <input type="text" name="done_dateBegin" id="done_dateBegin"> ~
-                                            <input type="text" name="done_dateEnd" id="done_dateEnd" disabled>
-                                            <br>
+                                            <input type="text" name="done_dateEnd" class="cardHeaderTab" id="done_dateEnd" disabled>
                                             
-											
+                                            
 											<select id="category">
 													<option value="out_code">출고 지점</option>
 													<option value="out_wh_code">창고코드</option>
 													<option value="order_code">수주코드</option>
 													<option value="out_status">담당자</option>
 											</select> &nbsp;
-											<input type="text" name="content" size=60 placeholder="검색어를 입력하세요" id="content"> &nbsp;
+											<input type="text" name="content" size=35 placeholder="검색어를 입력하세요" id="content"> &nbsp;
 											<input type="button" name="search" id="inputmtSearch" value="조회">&nbsp;
 											<input type="button" name="allList" value="전체목록" onclick="location.reload();"> 
 								 </div>
 							    </div>	
+							  </div>  
 							<div class="card-body">
 
 								<table id="datatablesSimple">
