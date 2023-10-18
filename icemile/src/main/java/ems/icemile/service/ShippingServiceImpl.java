@@ -76,7 +76,7 @@ public class ShippingServiceImpl implements ShippingService {
 			String[] parts = getNum.split("_");
 			String lastPart = parts[parts.length-1];
 			codeNum=Integer.parseInt(lastPart);
-			codeNum++;
+			codeNum+=1;
 		}
 		
 		String numStr = String.format("%04d", codeNum);
