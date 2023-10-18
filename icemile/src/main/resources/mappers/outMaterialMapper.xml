@@ -7,11 +7,11 @@
 	<!-- 출고 리스트 가져오기 -->
 	<select id="outMaterialList"
 		resultType="ems.icemile.dto.outMaterialDTO">
-		SELECT m.out_code, w.out_wh_code, o.order_code, e.emp_num, m.out_status, m.out_date
+		SELECT m.out_code, m.out_wh_code, o.order_code, e.emp_num, m.out_status, m.out_date
         FROM out_material m
-        INNER JOIN warehouse w ON m.out_wh_code = w.wh_code
-        INNER JOIN orders o ON m.order_code = o.order_code
-        INNER JOIN emp e ON m.emp_num = e.emp_num;
+        LEFT JOIN warehouse w ON m.out_wh_code = w.wh_code
+        LEFT JOIN orders o ON m.order_code = o.order_code
+        LEFT JOIN emp e ON m.emp_num = e.emp_num;
 	</select>
 	<!-- 출고 리스트 가져오기 -->
 
