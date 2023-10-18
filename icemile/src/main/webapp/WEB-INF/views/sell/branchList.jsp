@@ -33,8 +33,11 @@
                         <c:if test="${sessionScope.emp_role.charAt(1).toString() eq '1' }">
                        <input type="button" value="지점 등록" onclick="branchReg()">
                         </c:if>
-                       </div> 
                         
+                        </div>
+                        
+                        </div>
+
                         <div class="card mb-4">
                             <div class="card-header">
                              	<div class="cardHeaderFirstLine">
