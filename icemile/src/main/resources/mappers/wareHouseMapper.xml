@@ -113,6 +113,25 @@ LEFT JOIN emp e ON w.emp_num = e.emp_num;
 	WHERE myTable.${category} LIKE #{content}
  </select>
 <!-- 창고 검색 -->
-  
+
+<!--   완재품 리스트 가져오기 -->
+  <select id="productList" resultType="ems.icemile.dto.StockDTO">
+  SELECT s.*,s.prod_code, p.prod_name, p.prod_taste
+  FROM stock s
+  LEFT JOIN product p ON s.prod_code = p.prod_code
+  WHERE s.prod_code IS NOT NULL; 
+  </select>
+<!--   완재품 리스트 가져오기 -->
+
+<!--   완재품 리스트 서치 가져오기 -->
+ <select id="prodStockSearchPopUp" resultType="ems.icemile.dto.StockDTO">
+  <bind name="content" value="'%' + content + '%'"/>
+  SELECT s.*, s.prod_code, p.prod_name, p.prod_taste
+  FROM stock s
+  LEFT JOIN product p ON s.prod_code = p.prod_code
+  WHERE s.${category} LIKE #{content} AND s.prod_code IS NOT NULL
+</select>
+<!--   완재품 리스트 서치 가져오기 -->
+ 
   </mapper>
   

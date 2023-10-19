@@ -4,6 +4,7 @@ package ems.icemile.dao;
 import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.dto.ProOrderDTO;
+import ems.icemile.dto.StockDTO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +70,9 @@ public interface ShippingDAO {
     
 	//EPmodal
 	MemberDTO searchEPModal(String emp_num);
+    
+	//SKmodal
+	StockDTO searchSKModal(String stock_code);
 
 
 }

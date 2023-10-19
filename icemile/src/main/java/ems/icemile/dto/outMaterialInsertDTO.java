@@ -35,4 +35,7 @@ public class outMaterialInsertDTO {
   
   //출고일자
   private LocalDate out_date;
+  
+  // 재고 코드
+  private String stock_code;
 }

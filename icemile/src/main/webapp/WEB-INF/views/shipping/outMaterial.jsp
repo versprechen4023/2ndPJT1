@@ -47,11 +47,10 @@
 								 <div class="cardHeaderFirstLine">
 								 
 								            완료일자
-                                            <input type="text" name="done_dateBegin" id="done_dateBegin"> ~
-                                            <input type="text" name="done_dateEnd" id="done_dateEnd" disabled>
+                                            <input type="text" name="mt_dateBegin" id="mt_dateBegin"> ~
+                                            <input type="text" name="mt_dateEnd" id="mt_dateEnd" disabled>
                                             <br>
                                             
-											
 											<select id="category">
 													<option value="out_code">출고 지점</option>
 													<option value="out_wh_code">창고코드</option>
@@ -91,7 +90,7 @@
 												<td><input type="button" onclick="openModal(this)"
 													name="${outMaterialDTO.order_code}"
 													value="${outMaterialDTO.order_code}"></td>
-												<td><input type="button" onclick="openModal(this)"
+											    <td><input type="button" onclick="openModal(this)"
 													name="${outMaterialDTO.stock_code}"
 													value="${outMaterialDTO.stock_code}"></td>
 												<td><input type="button" onclick="openModal(this)"
@@ -273,7 +272,7 @@
             	});
         		
                
-      	  }else{
+      	  }else if(clickedElementValue.startsWith("OS")){
       		 
       		addInput("지점 코드 : ", "mv1Element");
             addInput("제품명 : ", "mv2Element");
@@ -316,10 +315,61 @@
         	    }
         	});
       		
+      	  }else{
+      		  
+      		addInput(" 완제품 코드: ", "mv1Element");
+            addInput(" 완제품 이름: ", "mv2Element");
+            addInput(" 완제품 종류: ", "mv3Element");
+            addInput(" 재고 현황: ", "mv4Element");
+            addInput(" 재고 실사: ", "mv5Element");
+            addInput(" 재고 체크 날짜: ", "mv6Element");
+            addInput(" 재고 관리 담당자: ", "mv7Element");
+            addInput(" 창고 코드: ", "mv8Element");
+      		  
+      		//modal_ajax 
+          	$.ajax({
+          	  url : '${pageContext.request.contextPath}/Shipping_ajax/modalSKSearch',
+          	  
+          	  data: {stock_code : clickedElementValue},
+          	  
+          	  type : 'GET',
+          	  
+          	  dataType:'json',
+          	  
+          	  success: function (json) {
+                    if (json && typeof json === 'object') {
+                    	
+                    	// 값 할당
+                        document.getElementById("mv1Element").value = json.prod_code;
+                        document.getElementById("mv2Element").value = json.prod_name;
+                        document.getElementById("mv3Element").value = json.prod_taste;
+                        document.getElementById("mv4Element").value = json.stock_status;
+                        document.getElementById("mv5Element").value = json.stock_amount;
+                        document.getElementById("mv6Element").value = json.stock_date;
+                        document.getElementById("mv7Element").value = json.emp_num;
+                        document.getElementById("mv8Element").value = json.wh_code;
+                        
+                  	} else {
+                  	    // JSON 데이터가 없거나 빈 경우에 대한 처리를 추가
+                  	    console.error("JSON 데이터가 비어 있거나 유효하지 않습니다. json: " + JSON.stringify(json));
+                  	}
+
+                }
+            });
+        	
+        	//기존 닫기 창 함수 
+        	closeModalButton.addEventListener("click", function (e) {
+        	    if (e.target === closeModalButton) {
+        	        myModal.style.display = "none";
+        	    }
+        	});
+      		  
       	  }
          
         }//ajax
             
+        
+        
             //input시 동적으로 생성하기 위한 함수
             function addInput(label, id, value) {
                 const div = document.createElement("div");
@@ -435,7 +485,8 @@ $(document).ready(function() {
 	"order_code": "수주 코드",
 	"emp_num": "출고 담당자",
 	"out_status": "출고 현황",
-	"branch_code":"출고 지점"
+	"branch_code":"출고 지점",
+	"stock_code":"완제품 코드"
 };
   
 // 반복문을 사용하여 각 항목을 검사한다
@@ -459,7 +510,7 @@ $(document).ready(function() {
 	  
 	  // 검색칸은 비어있어도 상관없음
 	  // 검사에서 제외사항
-	  if ((key === "content" || key === "done_dateBegin" || key === "done_dateEnd") && value === ""){
+	  if ((key === "content" || key === "mt_dateBegin" || key === "mt_dateEnd") && value === ""){
 		  continue;
 	  }
 	  
@@ -537,11 +588,16 @@ $(document).ready(function() {
 	row += "<input type='text' name='order_code' id='order_code' size='10' required class='#datatablesSimple tr' placeholder='수주 코드 검색' style='text-align: center;'>";
 	row += "</td>";
 	
+	//완제품 코드 
+	row += "<td>";
+	row += "<input type='text' name='stock_code' id='stock_code' size='10' required class='#datatablesSimple tr' placeholder='완제품 코드 검색' style='text-align: center;'>";
+	row += "</td>";
+	
 	//창고 코드 
 	row += "<td>";
 	row += "<input type='text' name='out_wh_code' id='out_wh_code' size='10' required class='#datatablesSimple tr' placeholder='창고 검색' style='text-align: center;'>";
 	row += "</td>";
-
+	
 	//담당자 
 	row += "<td>";
 	row += "<input type='text' name='emp_num' id='emp_num' size='9' required class='#datatablesSimple tr' placeholder='담당자 검색' style='text-align: center;'>";
@@ -689,7 +745,7 @@ $(document).ready(function() {
         // 텍스트태그를 추가할 tr태그를 선택한다
         var row = selectedCheckbox.closest("tr");
         
-        var statusCell = row.find("td:nth-child(6)");
+        var statusCell = row.find("td:nth-child(7)");
 
         // 출고 확정 상태인 경우 수정 버튼 비활성화
         if (statusCell.text().trim() === "출고 확정") {
@@ -698,17 +754,19 @@ $(document).ready(function() {
         }
 
             var cellNames = [
-                "out_code", 
-                "out_wh_code", 
+                "out_code",
                 "order_code", 
+                "stock_code",
+                "out_wh_code", 
                 "emp_num",
                 "out_status",
             ];
             
             var cellIds = [
-                "out_code", 
-                "out_wh_code", 
+                "out_code",
                 "order_code", 
+                "stock_code",
+                "out_wh_code", 
                 "emp_num",
                 "out_status",
             ];
@@ -874,9 +932,11 @@ $(document).ready(function() {
 	function entermtSearch() {
 		   // 값 전달 하기위한 JSON 타입 변수선언
 		   var json = {
+				   mt_dateBegin: $('#mt_dateBegin').val(),
+				   mt_dateEnd: $('#mt_dateEnd').val(),
 	     			category: $('#category').val(),
 	     			content: $('#content').val()
-	    			  };
+	    			   };
 		   
 		   function getStatusText(status) {
 			    if (status === "1") {
@@ -933,8 +993,9 @@ $(document).ready(function() {
 					      $tr.append(
 					          '<td><input type="checkbox" name="selectedProId" value="' + data.out_code + '" class="eachCheckbox"></td>',
 					          '<td>' + data.out_code + '</td>',
-					          '<td><input type="button" onclick="openModal(this)" name="' + data.out_wh_code + '" value="' + data.out_wh_code + '"></td>',
 					          '<td><input type="button" onclick="openModal(this)" name="' + data.order_code + '" value="' + data.order_code + '"></td>',
+					          '<td><input type="button" onclick="openModal(this)" name="' + data.stock_code + '" value="' + data.stock_code + '"></td>',
+					          '<td><input type="button" onclick="openModal(this)" name="' + data.out_wh_code + '" value="' + data.out_wh_code + '"></td>',
 					          '<td><input type="button" onclick="openModal(this)" name="' + data.emp_num + '" value="' + data.emp_num + '"></td>',
 					          "<td>" + getStatusText(data.out_status) + "</td>",					       
 						      );
@@ -961,6 +1022,8 @@ $(document).ready(function() {
 	$("#inputmtSearch").click(function()  {
 		   // 값 전달 하기위한 JSON 타입 변수선언
 		   var json = {
+				   mt_dateBegin: $('#mt_dateBegin').val(),
+				   mt_dateEnd: $('#mt_dateEnd').val(),
 	     			category: $('#category').val(),
 	     			content: $('#content').val()
 	    			  };
@@ -1021,8 +1084,9 @@ $(document).ready(function() {
 						      $tr.append(
 						          '<td><input type="checkbox" name="selectedProId" value="' + data.out_code + '" class="eachCheckbox"></td>',
 						          '<td>' + data.out_code + '</td>',
-						          '<td><input type="button" onclick="openModal(this)" name="' + data.out_wh_code + '" value="' + data.out_wh_code + '"></td>',
 						          '<td><input type="button" onclick="openModal(this)" name="' + data.order_code + '" value="' + data.order_code + '"></td>',
+						          '<td><input type="button" onclick="openModal(this)" name="' + data.stock_code + '" value="' + data.stock_code + '"></td>',
+						          '<td><input type="button" onclick="openModal(this)" name="' + data.out_wh_code + '" value="' + data.out_wh_code + '"></td>',
 						          '<td><input type="button" onclick="openModal(this)" name="' + data.emp_num + '" value="' + data.emp_num + '"></td>',
 						          "<td>" + getStatusText(data.out_status) + "</td>",					       
 							      );
@@ -1091,6 +1155,12 @@ $(document).on("click", "input[name='branch_code']", function() {
 
 $(document).on("click", "input[name='out_wh_code']", function() {
 	window.open('${pageContext.request.contextPath }/warehouse/warehouseListPopUp', '_blank', 'width=800px, height=770px, left=600px, top=300px');
+});// end function
+
+////////////////////////////////////창고 코드을 클릭하면 새창을 여는 이벤트 리스너 ///////////////////////////////////
+
+$(document).on("click", "input[name='stock_code']", function() {
+	window.open('${pageContext.request.contextPath }/warehouse/prodStockListPopUp', '_blank', 'width=800px, height=770px, left=600px, top=300px');
 });// end function
 
 ////////////////////////////////////수주 코드을 클릭하면 새창을 여는 이벤트 리스너 ///////////////////////////////////
@@ -1180,7 +1250,7 @@ $("#excelProd").click(function(){
 /////////////////////////////////////////////이벤트 함수 종료//////////////////////////////////////////
 //////////////////////////////////출고 날짜 검색을 위한 설정/////////////////////////////////////////////////////////////
 //입고예정일 시작점
-$("#done_dateBegin").datepicker({
+$("#mt_dateBegin").datepicker({
 dateFormat:'yy-mm-dd',
 prevText: '이전 달',
 nextText: '다음 달',
@@ -1193,7 +1263,7 @@ yearSuffix: "년",
 onSelect: function(selectedDate) {
 	
 	// 입고예정일 끝점(데이트피커)을 초기화하고 동적변경을 위해 데이트피커의 초기값을 변수에 담는다
-	var mySecondDatePicker = $("#done_dateEnd").datepicker({
+	var mySecondDatePicker = $("#mt_dateEnd").datepicker({
     dateFormat: 'yy-mm-dd',
     prevText: '이전 달',
     nextText: '다음 달',
@@ -1207,9 +1277,9 @@ onSelect: function(selectedDate) {
 	}); // end 끝점 데이트피커
 	
 	// 입고예정일 끝점을 선택할 수 있게한다
-	$("#done_dateEnd").removeAttr("disabled");
+	$("#mt_dateEnd").removeAttr("disabled");
 	// 입고예정일 끝점을 초기화한다
-	$("#done_dateEnd").val("");
+	$("#mt_dateEnd").val("");
 	// 동적으로 minDate 를 업데이트한다
 	mySecondDatePicker.datepicker("option", "minDate", selectedDate);
 	

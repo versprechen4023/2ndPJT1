@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ems.icemile.annotation.UnUseAOP;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.dto.SellDTO;
+import ems.icemile.dto.StockDTO;
 import ems.icemile.dto.WareHouseDTO;
 import ems.icemile.service.WareHouseServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -75,6 +76,23 @@ public class WareHouseController {
 
 		return "/warehouse/warehouseListPopUp";
 	}
+	
+	
+	@GetMapping("prodStockListPopUp")
+	public String getprodStockListPopUp(Model model) {
+		
+		//완제품 리스트
+		log.debug("productList");
+		
+		//완제품리스트를 가져오기 위한 완제품리스트 객체 생성
+		List<StockDTO> productList  = new ArrayList<StockDTO>();
+		productList= warehouseService.getproductList();
+		
+		model.addAttribute("productList",productList);
+		
+		return "/warehouse/prodStockListPopUp";
+	}
+	
 	
 	@GetMapping("/inWhListPopUp")
 	public String inWhListPopUp(Model model) {
