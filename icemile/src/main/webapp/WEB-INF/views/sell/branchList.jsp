@@ -127,39 +127,68 @@
 		crossorigin="anonymous"></script>
 <!-- 	<script src="../resources/js/branchList_im.js"></script> -->
 <script type="text/javascript">
-//Table 초기화를 위한 전역변수 선언
+//테이블 초기화를 위한 전역변수 선언
 var simpleDataTableInstance;
 
-//테이블 초기화 함수
-function simpleDataTable() {
-	// 테이블의 선택자를 찾는다
-	const datatablesSimple = document.getElementById('datatablesSimple');
-		
-		// 테이블 객체를 생성하고 전역변수에 저장한다
-  	simpleDataTableInstance = new simpleDatatables.DataTable(datatablesSimple, {
-     
-   		// 페이지 표시 버튼 삭제
-   		perPageSelect : false,
-   		// 검색창 삭제
-   		searchable : false,
-   		// 페이지당 목록 10개
-   		perPage : 10,
-   
-   		//라벨 수정
-   		labels: {
-   		placeholder: "검색",
-   		noResults : "검색 결과가 없습니다",
-   		noRows : "데이터가 없습니다",
-   		info : ""
-   		}
-   }); // end 초기화
- 
-}//end function
+// branch_phone 형식을 변경하는 함수
+function formatBranchPhone() {
+    var branchPhones = document.querySelectorAll("#datatablesSimple td:nth-child(5)");
+    branchPhones.forEach(function (branchPhoneCell) {
+        var branchPhone = branchPhoneCell.textContent.trim();
+        var formattedPhone = branchPhone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+        branchPhoneCell.textContent = formattedPhone;
+    });
+}
 
-//돔이 로드될떄 테이블 초기화
+// branch_reg 형식을 변경하는 함수
+function formatBranchReg() {
+    var branchRegs = document.querySelectorAll("#datatablesSimple td:nth-child(3)");
+    branchRegs.forEach(function (branchRegCell) {
+        var branchReg = branchRegCell.textContent.trim();
+        var formattedBranchReg = branchReg.replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3');
+        branchRegCell.textContent = formattedBranchReg;
+    });
+}
+
+// 테이블 내용 형식화 함수
+function formatTableContent() {
+    formatBranchPhone();
+    formatBranchReg();
+}
+
+// 테이블 초기화 함수
+function simpleDataTable() {
+    const datatablesSimple = document.getElementById('datatablesSimple');
+
+    // 테이블 객체를 생성하고 전역변수에 저장합니다
+    simpleDataTableInstance = new simpleDatatables.DataTable(datatablesSimple, {
+        // 페이지 표시 버튼 삭제
+        perPageSelect: false,
+        // 검색창 삭제
+        searchable: false,
+        // 페이지당 목록 10개
+        perPage: 10,
+        // 라벨 수정
+        labels: {
+            placeholder: "검색",
+            noResults: "검색 결과가 없습니다",
+            noRows: "데이터가 없습니다",
+            info: ""
+        }
+    });
+
+    // 페이지 변경 이벤트를 수신하기 위한 리스너 추가
+    simpleDataTableInstance.on('datatable.page', function () {
+        formatTableContent(); // 페이지를 변경할 때 형식을 다시 적용합니다
+    });
+}
+
+// DOM이 로드될 때 테이블 초기화 함수를 호출
 window.addEventListener('DOMContentLoaded', event => {
-	simpleDataTable();
+    simpleDataTable();
 });
+
+
 
 // 직원 팝업 관련 함수
 $(document).ready(function() {
@@ -285,6 +314,8 @@ $(document).ready(function() {
     				    
     				 	   // 테이블 재생성 마찬가지로 데이터가있는 경우에만 객체 재생성
     	 				   if(json.length !== 0){
+    	 					   formatBranchPhone();
+    	 		               formatBranchReg();
     	 				       simpleDataTable();
     	 				   // 그렇지않은경우 기존 객체를 유지하고 페이징만 삭제
     	 				   } else if(json.length === 0){
@@ -353,7 +384,7 @@ $(document).ready(function() {
    }// end_of_function
    
 
-   // branch_phone 형식을 000-0000-0000으로 변경하는 함수
+  // branch_phone 형식을 000-0000-0000으로 변경하는 함수
    function formatBranchPhone() {
        var branchPhones = document.querySelectorAll("#datatablesSimple td:nth-child(5)");
        branchPhones.forEach(function (branchPhoneCell) {
