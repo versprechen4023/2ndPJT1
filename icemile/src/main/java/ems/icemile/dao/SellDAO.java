@@ -60,5 +60,8 @@ public interface SellDAO {
     
 	//수주 완료 서치
 	public List<ProOrderDTO> orderListSearch(HashMap<String, Object> json);
+	
+	// 수주 완제품 재고 관련 결과 반환
+	public Integer proOrderResult(ProOrderDTO proOrderDTO);
 
 }

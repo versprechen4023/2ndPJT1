@@ -123,7 +123,7 @@ public class SellAjaxController {
 	@PostMapping("/proOrderSearch")
 	public List<HashMap<String, Object>> proOrderSearch(@RequestBody HashMap<String, Object> json) {
 
-		log.debug("발주 검색");
+		log.debug("수주 검색");
 
 		// 값 확인
 		for (Entry<String, Object> entry : json.entrySet()) {
@@ -178,6 +178,15 @@ public class SellAjaxController {
 
 		// 콜백 함수에 결과값 리턴
 		return ordersList;
+	}
+	
+	@PostMapping("proOrderResult")
+	public int proOrderResult(ProOrderDTO proOrderDTO) {
+		
+		log.debug("수주 재고 관련 결과 반환");
+
+		// 콜백 함수에 결과값 리턴
+		return sellService.proOrderResult(proOrderDTO);
 	}
 
 }

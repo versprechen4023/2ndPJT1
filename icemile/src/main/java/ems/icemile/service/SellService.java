@@ -53,5 +53,8 @@ public interface SellService {
 	public List<ProOrderDTO> orderList();
     
 	public List<ProOrderDTO> orderListSearch(HashMap<String, Object> json);
+	
+	// 수주 완제품 재고 관련 결과 반환
+	public int proOrderResult(ProOrderDTO proOrderDTO);
 
 }
