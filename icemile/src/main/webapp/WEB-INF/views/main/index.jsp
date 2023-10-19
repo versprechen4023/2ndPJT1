@@ -126,8 +126,9 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
         <!-- fullcalendar css -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
+<!--  <link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">  -->
+	<link rel="stylesheet" type="text/css" href="../resources/css/main.css">
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
 <script
@@ -176,22 +177,27 @@ function createCalendar(json) {
         eventContent: function(info) {
             var eventEl = document.createElement('div');
             eventEl.textContent = info.event.title;
-
+            
             if (info.event.title === '수주') {
-                eventEl.style.backgroundColor = '#6A5ACD';
+            	eventEl.style.backgroundColor = '#C6BFDA';
+            	eventEl.style.border = '!important 2px solid #C6BFDA';
             } else if (info.event.title === '발주') {
-                eventEl.style.backgroundColor = '#1E90FF';
+                eventEl.style.backgroundColor = '#A0BFDA';
+                eventEl.style.border = '2px solid #A0BFDA';
             } else if (info.event.title === '작업지시') {
-                eventEl.style.backgroundColor = '#46B4B4';
+                eventEl.style.backgroundColor = '#B4C7A9';
+                eventEl.style.border = '2px solid #B4C7A9'; 
             } else {
-                eventEl.style.backgroundColor = '#828282'; // Default color
+                eventEl.style.backgroundColor = '#828282'; 
+                eventEl.style.border = '2px solid #828282'; 
             }
+
 
             return { domNodes: [eventEl] };
         }
 		,
         
-        nowIndicator: true, // 이 부분이 올바르게 포함되었습니다.
+        nowIndicator: true, 
         
         // 캘린더 높이 설정 (옵션)
         height: 600,
