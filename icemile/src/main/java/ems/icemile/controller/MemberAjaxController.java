@@ -61,7 +61,7 @@ public class MemberAjaxController {
 	@PostMapping("/insert")
 	public String memberInsert(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file, HttpSession session) throws Exception {
 		
-		log.debug("값 잘 넘어오나 "+memberDTO.toString());
+		log.debug("값 잘 넘어오나 {}",memberDTO.toString());
 		
 		// 프로필 사진 업로드 처리
 		// 파일이 있다면 업로드 처리 시작
@@ -71,7 +71,7 @@ public class MemberAjaxController {
 			String uploadDir = "/resources/upload"; 
 			String saveDir = session.getServletContext().getRealPath(uploadDir);
 			
-			log.debug("실제 파일 업로드 주소 : "+saveDir);
+			log.debug("실제 파일 업로드 주소 : {} ",saveDir);
 			
 			// 폴더가 없다면 생성
 			File uploadFolder = new File(saveDir);
@@ -96,7 +96,7 @@ public class MemberAjaxController {
 	@PostMapping("/update")
 	public String memberUpdate(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file, HttpSession session) throws Exception {
 		
-		log.debug("값 잘 넘어오나 "+memberDTO.toString());
+		log.debug("값 잘 넘어오나 {}",memberDTO.toString());
 		
 		// 프로필 사진 업로드 처리
 		// 파일이 있다면 업로드 처리 시작
@@ -106,7 +106,7 @@ public class MemberAjaxController {
 			String uploadDir = "/resources/upload"; 
 			String saveDir = session.getServletContext().getRealPath(uploadDir);
 			
-			log.debug("실제 파일 업로드 주소 : "+saveDir);
+			log.debug("실제 파일 업로드 주소 : {} ",saveDir);
 			
 			// 폴더가 없다면 생성
 			File uploadFolder = new File(saveDir);
@@ -129,7 +129,7 @@ public class MemberAjaxController {
 	@PostMapping("/userUpdate")
 	public String userUpdate(MemberDTO memberDTO, @RequestParam(value ="file") MultipartFile file, HttpSession session) throws Exception {
 		
-		log.debug("값 잘 넘어오나 "+memberDTO.toString());
+		log.debug("값 잘 넘어오나 {}",memberDTO.toString());
 		
 		// 프로필 사진 업로드 처리
 		// 파일이 있다면 업로드 처리 시작
@@ -139,7 +139,7 @@ public class MemberAjaxController {
 			String uploadDir = "/resources/upload"; 
 			String saveDir = session.getServletContext().getRealPath(uploadDir);
 			
-			log.debug("실제 파일 업로드 주소 : "+saveDir);
+			log.debug("실제 파일 업로드 주소 : {} ",saveDir);
 			
 			// 폴더가 없다면 생성
 			File uploadFolder = new File(saveDir);
