@@ -68,7 +68,9 @@ public class SellAjaxController {
 
 		return Boolean.toString(sellService.branchReg(sellDTO));
 	}
-
+	
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@PostMapping("/update")
 	public String branchUpdate(SellDTO sellDTO) throws Exception {
 
@@ -92,7 +94,9 @@ public class SellAjaxController {
 
 		return Boolean.toString(sellService.searchPhone(branch_phone));
 	}
-
+	
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@PostMapping("proOrderUpdate")
 	public boolean proOrderUpdate(ProOrderDTO proOrderDTO) {
 
@@ -100,7 +104,9 @@ public class SellAjaxController {
 
 		return sellService.proOrderUpdate(proOrderDTO);
 	}
-
+	
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@PostMapping("proOrderInsert")
 	public boolean proOrderInsert(ProOrderDTO proOrderDTO) {
 
@@ -108,7 +114,9 @@ public class SellAjaxController {
 
 		return sellService.proOrderInsert(proOrderDTO);
 	}
-
+	
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@PostMapping("proOrderDelete")
 	public boolean proOrderDelete(@RequestParam("selectedProOrderId") String[] selectedProOrderId) {
 
@@ -180,6 +188,8 @@ public class SellAjaxController {
 		return ordersList;
 	}
 	
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@PostMapping("proOrderResult")
 	public int proOrderResult(ProOrderDTO proOrderDTO) {
 		

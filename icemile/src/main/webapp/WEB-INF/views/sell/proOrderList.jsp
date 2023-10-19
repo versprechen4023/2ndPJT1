@@ -633,7 +633,6 @@ $(document).ready(function() {
 		                	             	data: formData,
 		                	             	// 통신성공시 콜백함수 status매개변수에 결과값이 입력된다
 		                	             	success: function(status) {
-		                	             		alert(status);
 		                	             		if(status === 1){
 		                	             			Swal.fire({
 		                	             				title: '재고량이 충분합니다 출고 페이지로 이동하시겠습니까?',
@@ -644,6 +643,8 @@ $(document).ready(function() {
 		                	             			}).then(result => {
 		                	             				if(result.isConfirmed){
 		                	             					window.location.href = '${pageContext.request.contextPath}/shipping/outMaterial'; 
+		                	             				} else {
+		                	             					location.reload();
 		                	             				}
 		                	             			});
 		                	             		} else if(status === 2){
@@ -656,6 +657,8 @@ $(document).ready(function() {
 		                	             			}).then(result => {
 		                	             				if(result.isConfirmed){
 		                	             					window.location.href = '${pageContext.request.contextPath}/factory/workOrderList'; 
+		                	             				} else {
+		                	             					location.reload();
 		                	             				}
 		                	             			});
 		                	             		// 이부분은 에러처리용 걍 아무것도 안뛰움
