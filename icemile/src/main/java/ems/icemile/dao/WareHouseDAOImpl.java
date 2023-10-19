@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import ems.icemile.dto.StockDTO;
 import ems.icemile.dto.WareHouseDTO;
 import ems.icemile.dto.WareHouseinsertDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -105,6 +106,24 @@ public class WareHouseDAOImpl implements WareHouseDAO {
 
 		return sqlSession.selectList(namespace + "whSearch", json);
 
+	}
+    
+	//완제품ListPopUP
+	@Override
+	public List<StockDTO> getproductList() {
+		
+		log.debug("getproductList DAO 도달");
+
+		return sqlSession.selectList(namespace + "productList");
+	}
+    
+	//완제품 팝업 검색 리스트
+    @Override
+	public List<StockDTO> prodStockSearchPopUp(HashMap<String, Object> json) {
+    	
+	    log.debug("WareHouseDAO prodStockSearch()");
+		
+		return sqlSession.selectList(namespace+"prodStockSearchPopUp", json);
 	}
 
 }//

@@ -140,7 +140,6 @@ function orderListSearch() {
                                             <th>제품명</th>
                                             <th>주문량</th>
                                             <th>지점코드</th>
-                                            
                                         </tr>
                                     </thead>
                                     <tbody>

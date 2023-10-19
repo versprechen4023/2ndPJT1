@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import ems.icemile.dao.WareHouseDAOImpl;
+import ems.icemile.dto.StockDTO;
 import ems.icemile.dto.WareHouseDTO;
 import ems.icemile.dto.WareHouseinsertDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -148,6 +149,24 @@ public class WareHouseServiceImpl implements WareHouseService {
 		log.debug("웨어하우스 서치 서비스");
 
 		return wareHouseDAO.whSearch(json);
+	}
+    
+	//완제품 List 검색
+	@Override
+	public List<StockDTO> getproductList() {
+		
+		log.debug("완제품 list");
+		
+		return wareHouseDAO.getproductList();
+	}
+    
+	//완제품 팝업 검색 리스트
+	@Override
+	public List<StockDTO> prodStockSearchPopUp(HashMap<String, Object> json) {
+		
+	    log.debug("WareHouseService prodStockSearchPopUp()");
+		
+		return wareHouseDAO.prodStockSearchPopUp(json);
 	}
 
 }

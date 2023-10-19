@@ -36,7 +36,7 @@ public class StockDTO {
 	  // 재고 현황
 	  private int stock_status;
 	  
-	  // 재고 실사
+	  //재고 실사
 	  private int stock_amount;
 	  
 	  // 재고 체크 날짜
