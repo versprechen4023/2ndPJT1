@@ -41,7 +41,14 @@ public class ShippingServiceImpl implements ShippingService {
 		log.debug("ShippingService deleteInMaterial");
 		shippingDAO.deleteInMaterial(inMaterialDTO);
 	}// deleteInMaterial
-
+	
+	// 보히작업
+	@Override
+	public void deleteInMaterialByRawOrderCode(String rawOrderCode) {
+		   log.debug("ShippingService deleteInMaterialByRawOrderCode");
+		   shippingDAO.deleteInMaterial(rawOrderCode);
+		}
+	
 	// 입고 등록
 	@Override
 	public boolean inMaterialInsert(InMaterialDTO inMaterialDTO) {

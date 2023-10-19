@@ -44,7 +44,7 @@
 				<td><input type="text" name="emp_num" value="${inMaterialDTO.emp_num }" id="emp_num"></td>
 				<!-- 입고 현황 -->
 				<td><select name="in_status" id="in_status">
-					<option >현황 선택</option>
+					<option value="">현황 선택</option>
    					<option value="1">입고전</option>
     				<option value="2">입고중</option>
     				<option value="3">입고확정</option>
