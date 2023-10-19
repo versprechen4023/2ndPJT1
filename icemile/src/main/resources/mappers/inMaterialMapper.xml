@@ -17,6 +17,11 @@
   		DELETE FROM in_material
   		WHERE in_code = #{in_code}
   	</delete>
+  	
+  	<delete id="deleteInMaterial2">
+  		DELETE FROM in_material
+  		WHERE raw_order_code = #{raw_order_code}
+  	</delete>
 	
 	<select id="getNewIn_code" resultType="java.lang.String">
 	  <bind name="trBuy_codeNum" value="'%\\_' + trBuy_codeNum + '%'"/>

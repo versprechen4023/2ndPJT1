@@ -12,6 +12,7 @@ import ems.icemile.dao.ShippingDAOImpl;
 import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.dto.ProOrderDTO;
+import ems.icemile.dto.StockDTO;
 import ems.icemile.dto.WareHouseDTO;
 import ems.icemile.dto.WorkOrderDTO;
 import ems.icemile.dto.outMaterialDTO;
@@ -41,7 +42,14 @@ public class ShippingServiceImpl implements ShippingService {
 		log.debug("ShippingService deleteInMaterial");
 		shippingDAO.deleteInMaterial(inMaterialDTO);
 	}// deleteInMaterial
-
+	
+	// 보히작업
+	@Override
+	public void deleteInMaterialByRawOrderCode(String rawOrderCode) {
+		   log.debug("ShippingService deleteInMaterialByRawOrderCode");
+		   shippingDAO.deleteInMaterial(rawOrderCode);
+		}
+	
 	// 입고 등록
 	@Override
 	public boolean inMaterialInsert(InMaterialDTO inMaterialDTO) {
@@ -301,6 +309,15 @@ public class ShippingServiceImpl implements ShippingService {
 		log.debug("서치 modal EP 서비스");
 
 		return shippingDAO.searchEPModal(emp_num);
+	}
+    
+	@Override
+	//SKmodal
+	public StockDTO searchSKModal(String stock_code) {
+		
+		log.debug("서치 modal SK 서비스");
+
+		return shippingDAO.searchSKModal(stock_code);
 	}
 
 }

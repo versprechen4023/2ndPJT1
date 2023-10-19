@@ -20,6 +20,7 @@ import ems.icemile.annotation.Logistics;
 import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.dto.ProOrderDTO;
+import ems.icemile.dto.StockDTO;
 import ems.icemile.dto.WareHouseDTO;
 import ems.icemile.dto.outMaterialDTO;
 import ems.icemile.dto.outMaterialInsertDTO;
@@ -141,7 +142,7 @@ public class ShippingAjaxController {
 		// 콜백 함수에 결과값 리턴
 		return outMaterialList;
 	}
-
+	
 	///////////////////////////////////////////////// WHmodal////////////////////////////////////
 	@GetMapping("modalSearch")
 	public WareHouseDTO modalSearch(@RequestParam("wh_code") String wh_code) {
@@ -171,5 +172,14 @@ public class ShippingAjaxController {
     return shippingService.searchEPModal(emp_num);
 
     }
+   /////////////////////////////////////////////////SKmodal//////////////////////////////////// 
+   @GetMapping("modalSKSearch")
+   public StockDTO modalSKSearch(@RequestParam("stock_code") String stock_code) {
+
+   log.debug("서치 EPmodal AJAX 호출");
+
+   return shippingService.searchSKModal(stock_code);
+
+}
 
 }

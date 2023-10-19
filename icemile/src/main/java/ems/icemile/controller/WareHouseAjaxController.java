@@ -19,6 +19,7 @@ import ems.icemile.annotation.Logistics;
 import ems.icemile.annotation.UnUseAOP;
 import ems.icemile.dto.ProductAllDTO;
 import ems.icemile.dto.ProductInsertDTO;
+import ems.icemile.dto.StockDTO;
 import ems.icemile.dto.WareHouseDTO;
 import ems.icemile.dto.WareHouseinsertDTO;
 import ems.icemile.service.WareHouseServiceImpl;
@@ -189,5 +190,20 @@ public class WareHouseAjaxController {
 		// 콜백 함수에 결과값 리턴
 		return warehouseList;
 	}
+	
+    /////////////////////////////////productListPopUP search/////////////////////////////////////
+    // 완제품 재고 검색
+    @PostMapping("/prodStockSearchPopUp")
+    public List<StockDTO> prodStockSearchPopUp(@RequestBody HashMap<String, Object> json) {
+
+    log.debug("WareHouseAjaxController prodStockSearchPopUp");
+
+    // 물품리스트를 가져오기위한 물품리스트 객체생성
+    List<StockDTO> prodStockList = new ArrayList<StockDTO>();
+    //결과값에 따라 물품 리스트를 가져온다
+    prodStockList = wareHouseService.prodStockSearchPopUp(json);
+
+    return prodStockList;
+    }
 
 }

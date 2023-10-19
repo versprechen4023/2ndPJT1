@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ems.icemile.dto.StockDTO;
 import ems.icemile.dto.WareHouseDTO;
 import ems.icemile.dto.WareHouseinsertDTO;
 
@@ -32,5 +33,13 @@ public interface WareHouseDAO {
     
 	//창고 검색
 	List<WareHouseDTO> whSearch(HashMap<String, Object> json);
+    
+	//완제품ListPopUp
+	List<StockDTO> getproductList();
+    
+	//완제품 팝업 검색 리스트
+	List<StockDTO> prodStockSearchPopUp(HashMap<String, Object> json);
+    
+	
 
 }
