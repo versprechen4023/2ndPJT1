@@ -56,12 +56,27 @@ public class BuyOrderService {
 		
 		return buyOrderDAO.getRawOrderList();
 	}
-
+	//--보히작업
+	@Inject
+	//--
+	private ShippingServiceImpl shippingService;
 	public boolean rawOrderDelete(List<String> deleteRawList) {
 		
 		log.debug("rawOrderDelete 서비스");
 		
-		return buyOrderDAO.rawOrderDelete(deleteRawList);
+		//--보히작업
+		// 먼저 발주 목록을 삭제
+	    boolean isBuyOrderDeleted = buyOrderDAO.rawOrderDelete(deleteRawList);
+	    
+	    // 발주 삭제에 성공한 경우, 연결된 입고 목록을 삭제
+	    if (isBuyOrderDeleted) {
+	        for (String raw_order_code : deleteRawList) {
+	        	 shippingService.deleteInMaterialByRawOrderCode(raw_order_code);
+	        }
+	    }
+	    //--
+		
+		return isBuyOrderDeleted;
 	}
 
 	public boolean rawOrderUpdate(RawOrderDTO rawOrderDTO) {

@@ -62,6 +62,8 @@ public interface ShippingService {
    
 	//EPmodal
 	public MemberDTO searchEPModal(String emp_num);
+	//-보히작업
+	public void deleteInMaterialByRawOrderCode(String raw_order_code);
     
 
 }
