@@ -42,7 +42,7 @@ public class MemberController {
 		// 기존페이지로 이동하기위해 헤더의 리퍼러(요청을 보낸 페이지)값을 변수에 저장한다
 		String uri = request.getHeader("Referer");
 		
-		// 사용자가 직접 이동했거나 login페이지가 아니라면 세션에 레퍼값을 저장한다
+		// 사용자가 직접 이동했거나 login페이지가 아니라면 세션에 리퍼러값을 저장한다
 		if(uri != null && !uri.contains("/login")) {
 			request.getSession().setAttribute("prevPage", uri);
 		}
