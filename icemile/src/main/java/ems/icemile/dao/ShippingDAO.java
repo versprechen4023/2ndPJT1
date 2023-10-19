@@ -69,6 +69,9 @@ public interface ShippingDAO {
     
 	//EPmodal
 	MemberDTO searchEPModal(String emp_num);
+	
+	// 보히작업
+	public void deleteInMaterial(String raw_order_code);
 
 
 }

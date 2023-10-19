@@ -186,6 +186,13 @@ public class ShippingDAOImpl implements ShippingDAO {
 		return sqlSession.selectOne(namespace2 + "searchEPModal", emp_num );
     	
 	}
+    
+    // 보히작업
+    @Override
+    public void deleteInMaterial(String raw_order_code) {
+    	   log.debug("ShippingDAO deleteInMaterial");
+    	   sqlSession.delete(namespace + "deleteInMaterial2", raw_order_code);
+    	}
 	
 
 }
