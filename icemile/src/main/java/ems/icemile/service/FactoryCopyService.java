@@ -25,4 +25,5 @@ public interface FactoryCopyService {
 	//검색
 	public List<RequirementDTO> requirementSearch(HashMap<String, Object> json);
 	
+	
 }

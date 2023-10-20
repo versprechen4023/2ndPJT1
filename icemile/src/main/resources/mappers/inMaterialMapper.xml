@@ -43,9 +43,9 @@
 <!-- 		VALUES(#{in_code}, #{in_wh_code}, #{raw_order_code}, #{emp_num}, #{in_status}, #{buy_code}) -->
 <!-- 	</insert> -->
 	<insert id="inMaterialInsert">
-	INSERT INTO in_material (in_code, in_wh_code, raw_order_code, in_amount, emp_num, in_status, buy_code)
+	INSERT INTO in_material (in_code, in_wh_code, raw_order_code, in_amount, emp_num, in_status, raw_name, buy_code)
 	VALUES (
-    #{in_code}, #{in_wh_code}, #{raw_order_code}, #{in_amount}, #{emp_num}, #{in_status},
+    #{in_code}, #{in_wh_code}, #{raw_order_code}, #{in_amount}, #{emp_num}, #{in_status}, #{raw_name},
     (SELECT b.buy_code
      FROM raw_order r
      INNER JOIN buy b ON r.buy_name = b.buy_name
@@ -54,8 +54,9 @@
 	</insert>
 	
 	<select id="getInMaterial" resultType="ems.icemile.dto.InMaterialDTO">
-	 SELECT * 
-	 FROM in_material
+	 SELECT i.*, r.raw_order_amount 
+	 FROM in_material i LEFT JOIN raw_order r
+	 ON i.raw_order_code = r.raw_order_code
 	 WHERE in_code = #{in_code} 
 	</select>
 	

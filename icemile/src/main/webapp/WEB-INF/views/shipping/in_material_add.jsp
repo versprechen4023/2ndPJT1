@@ -96,9 +96,14 @@ $(document).ready(function(){
 			Swal.fire('담당자를 선택해주세요.', '실패', 'error');
 			return false;
 		}
-// 		Swal.fire('등록되었습니다.', '성공', 'success');
-// 		this.submit();
 		event.preventDefault();
+		
+		// in_amount와 raw_order_amount의 값을 가져오기
+        var inAmount = parseInt($('#in_amount').val(), 10);
+        var rawOrderAmount = parseInt($('#raw_order_amount').val(), 10);
+        if (inAmount > rawOrderAmount) {
+            Swal.fire('발주량보다 입고량이 많습니다.', '실패', 'error');
+        }else{
 		
 		var formData = {
 	 			in_wh_code: $('#in_wh_code').val(),
@@ -130,7 +135,7 @@ $(document).ready(function(){
     		        Swal.fire('서버 통신에 문제가 발생했습니다.', '실패', 'error');
     		    }
     		});
-    	
+        }
     });
 });//submit기능 제어 끝
 

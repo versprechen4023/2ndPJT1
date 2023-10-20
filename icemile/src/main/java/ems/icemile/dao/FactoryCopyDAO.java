@@ -29,4 +29,6 @@ public interface FactoryCopyDAO {
 	// 검색
 	public List<RequirementDTO> requirementSearch(HashMap<String, Object> json);
 
+	public boolean checkRawCode(String prod_code, String raw_code);
+
 }
