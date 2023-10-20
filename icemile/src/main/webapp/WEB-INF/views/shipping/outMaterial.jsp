@@ -49,11 +49,9 @@
 								 <div id ="cardHeaderContainer" style="font-weight: bold;"> 
                             		<div class="cardHeaderFirstLine"> 
 
-								            완료일자
+								            완료일자&nbsp;
                                             <input type="text" name="mt_dateBegin" id="mt_dateBegin"> ~
-                                            <input type="text" name="mt_dateEnd" id="mt_dateEnd" disabled>
-                                            <br>
-
+                                            <input type="text" name="mt_dateEnd" id="mt_dateEnd" disabled>                                           
                                          
 											<select id="category">
 													<option value="out_code">출고 지점</option>
@@ -61,7 +59,7 @@
 													<option value="order_code">수주코드</option>
 													<option value="out_status">담당자</option>
 											</select> &nbsp;
-											<input type="text" name="content" size=35 placeholder="검색어를 입력하세요" id="content"> &nbsp;
+											<input type="text" name="content" size=30 placeholder="검색어를 입력하세요" id="content"> &nbsp;
 											<input type="button" name="search" id="inputmtSearch" value="조회">&nbsp;
 											<input type="button" name="allList" value="전체목록" onclick="location.reload();"> 
 								 </div>
