@@ -127,8 +127,22 @@
   </select>
   
   <select id="orderList" resultType="ems.icemile.dto.ProOrderDTO">
-	SELECT * FROM orders
+	SELECT * FROM orders where order_status=3
 	</select>
+
+   <select id="orderListSearch" resultType="ems.icemile.dto.ProOrderDTO">
+    <bind name="content" value="'%' + content + '%'"/>
+	SELECT * FROM orders WHERE ${category} LIKE #{content}
+	</select>
+	
+	<select id="proOrderResult" resultType="Integer">
+		 SELECT stock_amount
+                FROM stock
+                	WHERE prod_code = (SELECT prod_code
+								       		FROM product
+                                   				WHERE prod_name = #{prod_name});
+	</select>
+	
 	
 	
 	

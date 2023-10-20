@@ -21,73 +21,71 @@
                 <main>
                 <!-- 내용들어가는곳 -->
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">아이스마일</h1>
+<!--                         <h1 class="mt-4">아이스마일</h1> -->
+                        <img src="../resources/assets/img/icemilelogo.png" width="250" style="margin-top: 1rem;">
                         <ol class="breadcrumb mb-4">
 <!--                      <li class="breadcrumb-item active">Dashboard</li> -->
                         </ol>
                         
-                        <div class="row">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">사원정보</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/member/memberList">바로가기</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body">발주</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/buyOrder/rawOrderList">바로가기</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-success text-white mb-4">
-                                    <div class="card-body">작업지시</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/factory/workOrderList">바로가기</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-danger text-white mb-4">
-                                    <div class="card-body">수주</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/sell/proOrderList">바로가기</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!--                         <div class="row"> -->
+<!--                             <div class="col-xl-3 col-md-6"> -->
+<!--                                 <div class="card bg-primary text-white mb-4"> -->
+<!--                                     <div class="card-body">사원정보</div> -->
+<!--                                     <div class="card-footer d-flex align-items-center justify-content-between"> -->
+<%--                                         <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/member/memberList">바로가기</a> --%>
+<!--                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                             <div class="col-xl-3 col-md-6"> -->
+<!--                                 <div class="card bg-warning text-white mb-4"> -->
+<!--                                     <div class="card-body">발주</div> -->
+<!--                                     <div class="card-footer d-flex align-items-center justify-content-between"> -->
+<%--                                         <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/buyOrder/rawOrderList">바로가기</a> --%>
+<!--                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                             <div class="col-xl-3 col-md-6"> -->
+<!--                                 <div class="card bg-success text-white mb-4"> -->
+<!--                                     <div class="card-body">작업지시</div> -->
+<!--                                     <div class="card-footer d-flex align-items-center justify-content-between"> -->
+<%--                                         <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/factory/workOrderList">바로가기</a> --%>
+<!--                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                             <div class="col-xl-3 col-md-6"> -->
+<!--                                 <div class="card bg-danger text-white mb-4"> -->
+<!--                                     <div class="card-body">수주</div> -->
+<!--                                     <div class="card-footer d-flex align-items-center justify-content-between"> -->
+<%--                                         <a class="small text-white stretched-link" href="${pageContext.request.contextPath}/sell/proOrderList">바로가기</a> --%>
+<!--                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
                         <div class="row">
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
-                                        <i class="fas fa-chart-area me-1"></i>
-                                        월별판매실적
+                                        <div><i class="fas fa-chart-area me-1"></i>&nbsp;월별 판매 실적</div>
                                     </div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body"><canvas id="monthlySale" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        차트
+                                        <div><i class="fa-solid fa-chart-column"></i>&nbsp;월별 생산 실적</div>
                                     </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body"><canvas id="monthlyProd" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
                             <div class="col-xl-14">
                                 <div class="card mb-4">
                                     <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        생산일정(달력)
+                                   	 	<div><i class="fa-regular fa-calendar-days"></i>&nbsp;월간 일정</div>   
                                     </div>
                                     <div id="calendar" style=""></div>
                                 </div>
@@ -128,8 +126,9 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
         <!-- fullcalendar css -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
+<!--  <link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">  -->
+	<link rel="stylesheet" type="text/css" href="../resources/css/main.css">
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
 <script
@@ -178,25 +177,30 @@ function createCalendar(json) {
         eventContent: function(info) {
             var eventEl = document.createElement('div');
             eventEl.textContent = info.event.title;
-
+            
             if (info.event.title === '수주') {
-                eventEl.style.backgroundColor = '#6A5ACD';
+            	eventEl.style.backgroundColor = '#C6BFDA';
+            	eventEl.style.border = '!important 2px solid #C6BFDA';
             } else if (info.event.title === '발주') {
-                eventEl.style.backgroundColor = '#1E90FF';
+                eventEl.style.backgroundColor = '#A0BFDA';
+                eventEl.style.border = '2px solid #A0BFDA';
             } else if (info.event.title === '작업지시') {
-                eventEl.style.backgroundColor = '#46B4B4';
+                eventEl.style.backgroundColor = '#B4C7A9';
+                eventEl.style.border = '2px solid #B4C7A9'; 
             } else {
-                eventEl.style.backgroundColor = '#828282'; // Default color
+                eventEl.style.backgroundColor = '#828282'; 
+                eventEl.style.border = '2px solid #828282'; 
             }
+
 
             return { domNodes: [eventEl] };
         }
 		,
         
-        nowIndicator: true, // 이 부분이 올바르게 포함되었습니다.
+        nowIndicator: true, 
         
         // 캘린더 높이 설정 (옵션)
-        height: 400,
+        height: 600,
         aspectRatio: 1,
         
         // 이벤트 클릭 시 동작 설정 (팝업, 페이지 이동 등)
@@ -276,6 +280,159 @@ var calendar_compare = null; // 전역변수용
 					}
 				});
 			}
+			
+			
+// 라인 차트 생성 함수 
+function monthlySaleChart(data) {
+
+	var context = document.getElementById('monthlySale').getContext('2d');
+
+	if (data && data.length > 0) { 
+
+		var labels = data.map(function(item) { return item.label; });
+		var data   = data.map(function(item) { return item.data; });
+
+		var monthlySale = new Chart(context, {
+			type: 'line',
+			data: {
+			labels: labels,
+			datasets: [{
+			label:'',
+			data:data,
+			lineTension: 0.3,
+			backgroundColor: "rgba(182, 207, 182,0.2)",
+			borderColor: "rgba(182, 207, 182,1)",
+			pointRadius: 5,
+			pointBackgroundColor: "rgba(182, 207, 182,1)",
+			pointBorderColor: "rgba(182, 207, 182,0.8)",
+			pointHoverRadius: 5,
+			pointHoverBackgroundColor: "rgba(182, 207, 182,1)",
+			pointHitRadius: 50,
+			pointBorderWidth: 2
+		}]
+	},
+			options: {
+			   scales: {
+			   xAxes: [{
+			   time: {
+			   unit: 'date'
+			 },
+			   gridLines: {
+			   display: false
+			 },
+			   ticks: {
+			   maxTicksLimit: 7
+			}
+		}],
+			  yAxes: [{
+			  ticks: {
+			  min: 0,
+			  max: 400000,
+			  maxTicksLimit: 5
+			},
+			  gridLines: {
+			  color: "rgba(0, 0, 0, .125)",
+			}
+		}],
+		},
+			  legend: {
+			  display: false
+			}
+		} //options
+			     });
+			   } else {
+			     console.error('데이터가 없습니다.');
+			   }
+			}
+
+
+
+	//AJAX 요청을 통해 서버에서 데이터 가져오기 및 차트 생성 시작하기
+	$.ajax({
+	url: '${pageContext.request.contextPath}/chart_ajax/monthlySale',
+	type: 'GET',
+	}).done(function(data){
+	monthlySaleChart(data);
+	}).fail(function(xhr, status, error){
+	console.error('데이터를 가져오지 못했습니다.', error);
+	});
+
+
+
+// 바 차트 생성 함수 
+function monthlyProdChart(data) {
+	
+	var context = document.getElementById('monthlyProd').getContext('2d');
+
+	if (data && data.length > 0) { 
+
+	var labels = data.map(function(item) { return item.label; });
+	var gData   = data.map(function(item) { return item.data; });// good_prod 데이터 추출
+ 	var fData   = data.map(function(item) { return item.data1; }); // faulty_prod 데이터 추출
+
+	var monthlyProd = new Chart(context, {
+	  type: 'bar',
+	  data: {
+	  labels: labels,
+	  datasets: [{
+	  label:'양품',
+	  data: gData ,
+	  backgroundColor: "rgba(198, 219, 218, 1.0)",
+	  borderColor: "rgba(198, 219, 218, 1.0)"
+      },
+      {
+        label: '불량품',
+        data: fData,
+        backgroundColor: "rgba(236, 213, 227, 1)",
+        borderColor: "rgba(236, 213, 227, 1)"
+	}]
+	},
+	  options: {
+		scales: {
+		xAxes: [{
+		time: {
+		unit: 'date'
+		},
+		gridLines: {
+		display: false
+		},
+		ticks: {
+		maxTicksLimit: 6
+		}
+	}],
+		yAxes: [{
+		ticks: {
+		min: 0,
+		max: 300,
+		maxTicksLimit: 5
+	},
+		gridLines: {
+			display: true
+		}
+		}],
+		},
+			legend: {
+			display: true
+		},
+		barThickness: 4, // 막대의 두께를 20픽셀로 설정
+	} //options
+		});
+		} else {
+			console.error('데이터가 없습니다.');
+		}
+		}
+
+
+		//AJAX 요청을 통해 서버에서 데이터 가져오기 및 차트 생성 시작하기
+		$.ajax({
+		url: '${pageContext.request.contextPath}/chart_ajax/monthlyProd',
+		type: 'GET',
+		}).done(function(data){
+		monthlyProdChart(data);
+		}).fail(function(xhr, status, error){
+			console.error('데이터를 가져오지 못했습니다.', error);
+		});
+			
 	</script>
     </body>
 </html>

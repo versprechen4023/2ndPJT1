@@ -85,10 +85,11 @@ function warehouseSearch() {
  				        	"<td>"+data.wh_code+"</td>",
  				            "<td>"+data.wh_name+"</td>",
  				           	"<td>"+data.wh_phone+"</td>",
- 				            "<td>"+data.prod_code+"</td>",
- 				            "<td>"+data.raw_code+"</td>",
+ 				            "<td>"+ (data.prod_code|| '') +"</td>",
+ 				            "<td>"+ (data.prod_name|| '') +"</td>",
+ 				            "<td>"+ (data.raw_code|| '') +"</td>",
+ 				            "<td>"+ (data.raw_name|| '') +"</td>",
  				            "<td>"+data.emp_num+"</td>"
- 	                        
  				        	);
  				        // 생성한 <tr> 요소를 tbody에 추가
  				        $('tbody').append($tr);
@@ -141,7 +142,9 @@ function warehouseSearch() {
                                             <th>창고 이름</th>
                                             <th>창고 전화번호</th>
                                             <th>완제품 코드</th>
+                                            <th>완제품 이름</th>
                                             <th>원자재 코드</th>
+                                            <th>원자제 이름</th>
                                             <th>창고 담당자</th>
                                         </tr>
                                     </thead>
@@ -152,7 +155,9 @@ function warehouseSearch() {
                                             <td>${WarehouseInsertDTO.wh_name}</td>
                                             <td>${WarehouseInsertDTO.wh_phone}</td>                                       
                                             <td>${WarehouseInsertDTO.prod_code}</td>                                       
+                                            <td>${WarehouseInsertDTO.prod_name}</td>                                       
                                             <td>${WarehouseInsertDTO.raw_code}</td>                                       
+                                            <td>${WarehouseInsertDTO.raw_name}</td>                                       
                                             <td>${WarehouseInsertDTO.emp_num}</td>                                       
                                         </tr>
                                     </c:forEach>
@@ -177,7 +182,6 @@ function warehouseSearch() {
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
-	<script src="../resources/js/productList_im.js"></script>
 	
 <script>
 // 함수 시작지점

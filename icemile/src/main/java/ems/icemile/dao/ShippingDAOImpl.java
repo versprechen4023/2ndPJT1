@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.dto.ProOrderDTO;
+import ems.icemile.dto.StockDTO;
 import ems.icemile.dto.WareHouseDTO;
 import ems.icemile.dto.outMaterialDTO;
 import ems.icemile.dto.outMaterialInsertDTO;
@@ -136,8 +137,12 @@ public class ShippingDAOImpl implements ShippingDAO {
 	//출고 추가
 	public boolean mtInsert(outMaterialInsertDTO outmaterialInsertDTO) {
 		log.debug("mtInsert DAO 도달");
-
-		return sqlSession.insert(namespace2 + "mtInsert",outmaterialInsertDTO ) > 0;
+		
+		boolean result1 = sqlSession.insert(namespace2 + "mtInsert",outmaterialInsertDTO ) > 0;
+		
+		boolean result2 = sqlSession.update(namespace2 + "proOrderEnd",outmaterialInsertDTO ) > 0;
+		
+		return (result1 && result2);
 	}
     
 	@Override
@@ -159,6 +164,7 @@ public class ShippingDAOImpl implements ShippingDAO {
 	//modal
 	@Override	
 	public WareHouseDTO searchModalwh(String wh_code) {
+		
 		log.debug("searchModalwh DAO 도달");
 
 		return sqlSession.selectOne(namespace2 + "searchModalwh", wh_code);
@@ -168,6 +174,7 @@ public class ShippingDAOImpl implements ShippingDAO {
 	//OSmodal
     @Override
 	public ProOrderDTO searchOSModal(String order_code) {
+    	
     	log.debug("searchOSModal DAO 도달");
 
 		return sqlSession.selectOne(namespace2 + "searchOSModal", order_code );
@@ -177,11 +184,29 @@ public class ShippingDAOImpl implements ShippingDAO {
     //EPmodal
     @Override
 	public MemberDTO searchEPModal(String emp_num) {
+    	
     	log.debug("searchOSModal DAO 도달");
 
 		return sqlSession.selectOne(namespace2 + "searchEPModal", emp_num );
     	
 	}
+    
+    // 보히작업
+    @Override
+    public void deleteInMaterial(String raw_order_code) {
+    	   log.debug("ShippingDAO deleteInMaterial");
+    	   sqlSession.delete(namespace + "deleteInMaterial2", raw_order_code);
+    	}
+
+    //SKmodal
+    @Override
+	public StockDTO searchSKModal(String stock_code) {
+    	
+    	log.debug("searchSKModal DAO 도달");
+
+		return sqlSession.selectOne(namespace2 + "searchSKModal", stock_code );
+	}
+
 	
 
 }

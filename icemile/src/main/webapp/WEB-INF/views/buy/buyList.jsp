@@ -130,6 +130,30 @@
 //Table 초기화를 위한 전역변수 선언
 var simpleDataTableInstance;
 
+//buy_phone 형식을 변경하는 함수
+function formatBuyPhone() {
+    var buyPhones = document.querySelectorAll("#datatablesSimple td:nth-child(5)");
+    buyPhones.forEach(function (branchPhoneCell) {
+        var buyPhone = buyPhoneCell.textContent.trim();
+        var formattedPhone = buyPhone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+        buyPhoneCell.textContent = formattedPhone;
+    });
+}
+//buy_reg 형식을 변경하는 함수
+function formatBuyReg() {
+    var buyRegs = document.querySelectorAll("#datatablesSimple td:nth-child(3)");
+    buyRegs.forEach(function (buyRegCell) {
+        var buyReg = buyRegCell.textContent.trim();
+        var formattedBuyReg = buyReg.replace(/(\d{3})(\d{2})(\d{5})/, '$1-$2-$3');
+        buyRegCell.textContent = formattedBuyReg;
+    });
+}
+
+// 테이블 내용 형식화 함수
+function formatTableContent() {
+    formatBuyPhone();
+    formatBuyReg();
+}
 // 테이블 초기화 함수
 function simpleDataTable() {
 	// 테이블의 선택자를 찾는다
@@ -153,6 +177,11 @@ function simpleDataTable() {
       		info : ""
       		}
       }); // end 초기화
+      
+     	 // 페이지 변경 이벤트를 수신하기 위한 리스너 추가
+        simpleDataTableInstance.on('datatable.page', function () {
+            formatTableContent(); // 페이지를 변경할 때 형식을 다시 적용합니다
+        });
     
 }//end function
 
@@ -286,6 +315,8 @@ function buySearch() {
  				    
  				   // 테이블 재생성 마찬가지로 데이터가있는 경우에만 객체 재생성
   				   if(json.length !== 0){
+  					   formatBuyPhone();
+  	                   formatBuyReg();
   				       simpleDataTable();
   				   // 그렇지않은경우 기존 객체를 유지하고 페이징만 삭제
   				   } else if(json.length === 0){

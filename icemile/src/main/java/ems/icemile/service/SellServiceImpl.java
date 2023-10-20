@@ -103,6 +103,8 @@ public class SellServiceImpl implements SellService{
 	public boolean proOrderInsert(ProOrderDTO proOrderDTO) {
 		log.debug("서비스 | 수주 추가");
 				
+		log.debug(proOrderDTO.toString());
+		
 		// 고유 번호를 위한 지점 번호 얻기
 		String getBranchCode = proOrderDTO.getBranch_code();
 		
@@ -171,6 +173,37 @@ public class SellServiceImpl implements SellService{
 		log.debug("서비스 | 수주 목록 가져오기");
 		
 		return sellDAO.getorderList();
+	}
+    
+    //수주 완료 서차
+    @Override
+	public List<ProOrderDTO> orderListSearch(HashMap<String, Object> json) {
+    	log.debug("수주 완료 서치 서비스");
+
+		return sellDAO.orderListSearch(json);
+	}
+
+    
+	public int proOrderResult(ProOrderDTO proOrderDTO) {
+		
+		int result = 0;
+		
+		log.debug("수주 시 원자재 재고 관련 결과 반환 서비스");
+		
+		int stock_amount = sellDAO.proOrderResult(proOrderDTO);
+		
+		// 재고량이 주문량보다 많다면 "1"을 반환한다
+		// 재고량이 주문량보다 적다면 "2"를 반환한다
+		// 그외의 값 null 등의 에러라면 "-1"을 반환한다
+		if(stock_amount >= proOrderDTO.getOrder_amount()) {
+			result = 1;
+		} else if(stock_amount < proOrderDTO.getOrder_amount()) {
+			result = 2;
+		} else if(stock_amount == -1){
+			result = -1;
+		}
+		
+		return result;
 	}
 
 

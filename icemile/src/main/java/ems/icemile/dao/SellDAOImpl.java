@@ -119,6 +119,28 @@ public class SellDAOImpl implements SellDAO{
 		log.debug("DAO| 수주 목록");
 		return sqlSession.selectList(namespace+"orderList");
 	}
+    
+	@Override
+	public List<ProOrderDTO> orderListSearch(HashMap<String, Object> json) {
+		log.debug("DAO| 수주완료 도달");
+
+		return sqlSession.selectList(namespace + "orderListSearch", json);
+	}
+	
+	@Override
+	public Integer proOrderResult(ProOrderDTO proOrderDTO) {
+		
+		log.debug("DAO| 수주 원자재재고 결과 검색 도달");
+		
+		Integer result = sqlSession.selectOne(namespace + "proOrderResult", proOrderDTO);
+		
+		// 연게에 문제가 있다면 null 이 반환될 것이므로 그거에 대한 예외처리
+		if(result == null) {
+			result = -1;
+		}
+		
+		return result;
+	}
 
 
 }

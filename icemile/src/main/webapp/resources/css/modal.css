@@ -8,14 +8,14 @@
 	padding: 10px;
 	z-index: 1;
 }
-span{
+#closeModalButton{
 	cursor: pointer;
 	background-color: black;
 	color: white;
 	font-size: 15px;
 	margin-bottom: 5px;
 }
-span:hover{
+#closeModalButton:hover{
 	color:silver;
 }
 #mv1Element,#mv2Element,#mv3Element,#mv4Element,#mv5Element,#mv6Element{
