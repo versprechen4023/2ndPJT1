@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import ems.icemile.dao.HeadDAOImpl;
+import ems.icemile.dao.WareHouseCopyDAOImpl;
 import ems.icemile.dto.ResultDTO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,6 +18,9 @@ public class HeadServiceImpl implements HeadService{
 
 	@Inject // DAO 의존성 주입
 	private HeadDAOImpl headDAO;
+	
+	@Inject // 완제품 수정에 의한 DAO 의존성 주입
+	private WareHouseCopyDAOImpl wareHouseDAO;
 
 	@Override
 	public List<ResultDTO> getResultList() {
@@ -48,8 +52,10 @@ public class HeadServiceImpl implements HeadService{
 		//고유 번호 부여
 		resultDTO.setResult_code(Integer.toString(result_code));
 		
-				
-		return headDAO.resultInsert(resultDTO);
+		headDAO.resultInsert(resultDTO);
+		
+		// 생산 실적이 추가 되면 완제품 수량 업데이트
+		return wareHouseDAO.updateProdAmount(resultDTO);
 	}
 
 	@Override

@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import ems.icemile.dto.InMaterialDTO;
+import ems.icemile.dto.ResultDTO;
 import ems.icemile.dto.StockDTO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -102,6 +104,24 @@ public class WareHouseCopyDAOImpl implements WareHouseCopyDAO {
 		log.debug("WareHouseDAO prodStockSearch()");
 		
 		return sqlSession.selectList(namespace+"prodStockSearch", json);
+	}
+
+
+	@Override
+	public void updateRawAmount(InMaterialDTO inMaterialDTO) {
+		
+		log.debug("WareHouseDAO updateRawAmount()");
+		
+		sqlSession.update(namespace+"updateRawAmount", inMaterialDTO);
+	}
+
+
+	@Override
+	public boolean updateProdAmount(ResultDTO resultDTO) {
+		
+		log.debug("WareHouseDAO updateProdAmount()");
+		
+		return sqlSession.update(namespace+"updateProdAmount", resultDTO) > 0;
 	}
 
 
