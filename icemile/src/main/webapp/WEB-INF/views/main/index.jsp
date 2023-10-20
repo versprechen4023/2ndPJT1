@@ -222,15 +222,7 @@ function createCalendar(json) {
                 } else {
                     var message = '<div style="text-align:left; padding-left:20%;">' + title + ' 기간 <br>: ' + start + ' ~ ' + end + '<br>' + '</div>';
                 }
-//             else {
-//                 // 유효하지 않은 날짜 처리
-//                 var message = "유효하지 않은 날짜";
-//             }
 
-//             var title = info.event.title;
-//             // 클릭 이벤트 처리 로직
-//             var message = "상세보기";
-//             message += title ;
 		    Swal.fire({
 		        html: message,
 		        confirmButtonText: title + '페이지 이동',
