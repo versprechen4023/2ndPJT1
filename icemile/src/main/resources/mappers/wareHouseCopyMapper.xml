@@ -7,15 +7,15 @@
   
   	<!-- 원자재 재고 리스트 -->
   	<select id="getRawStockList" resultType="ems.icemile.dto.StockDTO">
-		SELECT s.stock_code, r.raw_name, r.raw_code, r.raw_type, SUM(i.in_amount) AS 'stock_status', 
+		SELECT s.stock_code, r.raw_name, s.raw_code, r.raw_type, s.stock_status, 
        		   s.stock_amount, w.emp_num, w.wh_code, s.stock_date
 		FROM raw_material r LEFT JOIN stock s 
 		ON r.raw_code = s.raw_code
-		JOIN warehouse w
+		LEFT JOIN warehouse w
 		ON r.raw_code = w.raw_code
-		JOIN in_material i
+		LEFT JOIN in_material i
 		ON w.wh_code = i.in_wh_code
-		GROUP BY w.wh_code
+		GROUP BY r.raw_code
   	</select>
   	
   	
@@ -52,6 +52,20 @@
 	</update>
 	
 	
+	<!-- 원자재 재고 수정 -->
+	<update id="updateRawAmount" parameterType="ems.icemile.dto.InMaterialDTO">
+		UPDATE stock
+		SET stock_status = (SELECT in_amount
+							FROM in_material
+							WHERE in_code = #{in_code})
+		WHERE raw_code = (SELECT raw_code
+							FROM raw_material
+							WHERE raw_name = (SELECT raw_name
+											  FROM in_material
+											  WHERE in_code = #{in_code}))
+	</update>
+	
+	
 	<!-- 원자재 재고 검색 -->
 	<select id="rawStockSearch" resultType="ems.icemile.dto.StockDTO">
 	<bind name="content" value="'%' + content + '%'"/>
@@ -64,13 +78,13 @@
 	
 	<!-- 완제품 재고 리스트 -->
   	<select id="getProdStockList" resultType="ems.icemile.dto.StockDTO">
-		SELECT s.stock_code, p.prod_name, p.prod_code, p.prod_taste, re.good_prod AS 'stock_status', 
+		SELECT s.stock_code, p.prod_name, p.prod_code, p.prod_taste, s.stock_status, 
        		   s.stock_amount, w.emp_num, w.wh_code, s.stock_date
 		FROM product p LEFT JOIN stock s 
 		ON p.prod_code = s.prod_code
 		LEFT JOIN warehouse w
 		ON p.prod_code = w.prod_code
-		JOIN result re
+		LEFT JOIN result re
 		ON p.prod_name = re.prod_name
   	</select>
   	
@@ -80,6 +94,22 @@
 		UPDATE stock
 		SET stock_amount = #{stock_amount}, stock_date = now(), emp_num = #{emp_num}
 		WHERE stock_code = #{stock_code}
+	</update>
+	
+	
+	<!-- 완제품 재고 수정 -->
+	<update id="updateProdAmount" parameterType="ems.icemile.dto.ResultDTO">
+		UPDATE stock
+		SET stock_status = (SELECT good_prod
+							FROM result
+							ORDER BY result_code DESC
+							LIMIT 1)
+		WHERE prod_code = (SELECT prod_code
+							FROM product
+							WHERE prod_name = (SELECT prod_name
+											   FROM result
+											   ORDER BY result_code DESC
+											   LIMIT 1))
 	</update>
 	
 	

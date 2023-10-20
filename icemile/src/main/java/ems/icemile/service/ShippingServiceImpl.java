@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import ems.icemile.dao.ShippingDAOImpl;
+import ems.icemile.dao.WareHouseCopyDAOImpl;
 import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.MemberDTO;
 import ems.icemile.dto.ProOrderDTO;
@@ -28,6 +29,9 @@ public class ShippingServiceImpl implements ShippingService {
 
 	@Inject
 	private ShippingDAOImpl shippingDAO;
+	
+	@Inject // 원자재 수정에 의한 DAO 의존성 주입
+	private WareHouseCopyDAOImpl wareHouseDAO;
 
 	// 입고 리스트
 	@Override
@@ -120,6 +124,14 @@ public class ShippingServiceImpl implements ShippingService {
 	@Override
 	public void updateInMaterial(InMaterialDTO inMaterialDTO) {
 		log.debug("ShippingService updateInMaterial");
+		
+		// 입고확정이 됐을 때 원자재 재고 수량 업데이트
+		int status = inMaterialDTO.getIn_status();
+		
+		if(status == 3) {
+			wareHouseDAO.updateRawAmount(inMaterialDTO);
+		}
+
 		shippingDAO.updateInMaterial(inMaterialDTO);
 	}
 	
