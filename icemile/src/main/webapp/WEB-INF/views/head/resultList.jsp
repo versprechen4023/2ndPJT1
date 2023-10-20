@@ -231,13 +231,6 @@ function resultSearch(){
 				    // 배열 크기만큼 반복
 				    json.forEach(function (data) {
 				    	
-// 				    	// 상태표현을 위한변수 선언
-// 				    	var status = "";
-// 				    	if(data.rs_process == 0){
-// 				    		status = "진행중";
-// 				    	} else {
-// 				    		status = "마감";
-// 				    	}
 				    	// tr 태그 생성
 				        var $tr = $('<tr>');
 				    	//tr 에 내용추가
