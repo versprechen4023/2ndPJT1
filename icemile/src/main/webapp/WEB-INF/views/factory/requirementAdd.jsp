@@ -24,7 +24,9 @@
 
 				<!-- <th>소요량 코드</th> 소요량 코드는 자동추가를 하기때문에 필요없을 듯.. -->
 				<th>완제품 코드</th>
+				<th>완제품명</th>
 				<th>원자재 코드</th>
+				<th>원자재명</th>
 				<th>소요량</th>
 <!-- 				<th>등록일</th> -->
 <!-- 				<th>수정일</th> -->
@@ -32,7 +34,9 @@
 		</tr>
 		<tr>
 				<td><input type="text" name="prod_code" id="prod_code" ></td>  <!-- 완제품 코드 -->
+				<td><input type="text" name="prod_name" id="prod_name" ></td> <!-- 완제품명 -->
 				<td><input type="text" name="raw_code" id="raw_code"></td>  <!-- 원자재 코드 -->
+				<td><input type="text" name="raw_name" id="raw_name" ></td> <!-- 원자재명 -->
 				<td><input type="text" name="req_amount" id="req_amount"></td>  <!-- 소요량 -->
 <!-- 				<td><input type="date" name="req_insertDATE" id="req_insertDATE" ></td> 등록일 -->
 <!-- 				<td><input type="date" name="req_upDATEDATE" id="req_upDATEDATE"></td>  수정일 -->
@@ -52,11 +56,9 @@
 <jsp:include page="../include/footer.jsp"></jsp:include>
 <!-- 푸터 -->  
 
-<input type="hidden" name="prod_name" id="prod_name" value="">
 <input type="hidden" name="prod_taste" id="prod_taste" value="">
 <input type="hidden" name="prod_price" id="prod_price" value="">
 
-<input type="hidden" name="raw_name" id="raw_name" value="">
 <input type="hidden" name="raw_type" id="raw_type" value="">
 <input type="hidden" name="raw_price" id="raw_price" value="">				
 <!-- 내용들어가는곳 -->
@@ -93,7 +95,9 @@ $(document).ready(function(){
          
           var formData = {
             prod_code: $('#prod_code').val(),
+            prod_name: $('#prod_name').val(),
             raw_code: $('#raw_code').val(),
+            raw_name: $('#raw_name').val(),
             req_amount: $('#req_amount').val(),
 //             req_insertDATE: $('#req_insertDATE').val(),
 //             req_upDATEDATE: $('#req_upDATEDATE').val(),
@@ -106,6 +110,7 @@ $(document).ready(function(){
     		    data: formData,
     		    success: function(response) {
     		    	const result = $.trim(response);
+    		    
     		    	
     		        if (result === "true") {
     		            Swal.fire('정보 입력이 완료되었습니다.', '성공', 'success').then(result => {

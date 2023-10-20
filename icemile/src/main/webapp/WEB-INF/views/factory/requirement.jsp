@@ -59,7 +59,9 @@
 				<th>순서</th>
 				<th>코드</th>
 				<th>완제품 코드</th>
+				<th>완제품명</th>
 				<th>원자재 코드</th>
+				<th>원자재명</th>
 <!-- 				<th>소요량등록일</th> -->
 				<th>소요량</th>
 <!-- 				<th>소요량수정일</th> -->
@@ -81,7 +83,9 @@
 				<td>${rowNum}</td> <!-- 순서 -->
 				<td>${requirementDTO.req_code}</td> <!--소요량 코드 -->
 				<td>${requirementDTO.prod_code}</td> <!-- 완제품 코드 -->
+				<td>${requirementDTO.prod_name }</td> <!-- 완제품명 -->
 				<td>${requirementDTO.raw_code }</td> <!-- 원자재 코드 -->
+				<td>${requirementDTO.raw_name }</td> <!-- 원자재명 -->
 <%-- 				<td>${fn:substring(requirementDTO.req_insertDATE, 0, 10)}</td><!--  소요량 등록일--> --%>
 				<td>${requirementDTO.req_amount }</td><!-- 소요량 -->
 <%-- 				<td>${fn:substring(requirementDTO.req_upDATEDATE, 0, 10)}</td><!-- 수정일 --> --%>
@@ -194,7 +198,9 @@ function requirementSearch() {
  				        	"<td>"+num+"</td>",
  				        	"<td>"+data.req_code+"</td>",
  				            "<td>"+data.prod_code+"</td>",
+ 				           "<td>"+data.prod_name+"</td>",
  				           	"<td>"+data.raw_code+"</td>",
+ 				           "<td>"+data.raw_name+"</td>",
  				         	"<td>"+data.req_amount+"</td>",
  				         	"<td>"+data.req_note+"</td>",
  				         	 '<td>' +

@@ -2,6 +2,7 @@ package ems.icemile.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -52,6 +53,21 @@ public class FactoryCopyDAOImpl implements FactoryCopyDAO {
 		return sqlSession.insert(namespace+"insertRequirement",requirementDTO) > 0;
 	}//insertRequirement
 	
+	@Override
+	public boolean checkRawCode(String prod_code, String raw_code) {
+		 Map<String, String> params = new HashMap<>();
+		    params.put("prod_code", prod_code);
+		    params.put("raw_code", raw_code);
+		    boolean result = false;
+		    String result2 = sqlSession.selectOne(namespace + "checkRawCode", params);
+		    if(result2==null) {
+		    	result=false;
+		    }else {
+		     result = true;
+		    }
+		    return result;
+	}
+	
 	// 소요량 수정 페이지 req_code 값 받아서
 	public RequirementDTO getRequirement(String req_code) {
 	return sqlSession.selectOne(namespace+"getRequirement",req_code);
@@ -68,5 +84,5 @@ public class FactoryCopyDAOImpl implements FactoryCopyDAO {
 		log.debug("FactoryDAO requirementSearch");
 		return sqlSession.selectList(namespace+"requirementSearch", json);
 	}
-
+	
 }

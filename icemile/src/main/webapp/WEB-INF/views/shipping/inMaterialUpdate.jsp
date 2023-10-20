@@ -24,7 +24,7 @@
 				<th>입고코드</th>
 				<th>창고코드</th>
 				<th>발주코드</th>
-<!-- 				<th>발주량</th> -->
+				<th>발주량</th>
 				<th>입고량</th>
 				<th>담당자</th>
 				<th>입고현황</th>
@@ -37,7 +37,7 @@
 				<!-- 발주 코드 -->
 				<td>${inMaterialDTO.raw_order_code }<input type="hidden" name="raw_order_code" value="${inMaterialDTO.raw_order_code }" id="raw_order_code" ></td> 
 				<!-- 발주량 -->
-<%-- 				<td>${inMaterialDTO.raw_order_amount }<input type="hidden" name="raw_order_amount" value="${inMaterialDTO.raw_order_amount }" id="raw_order_amount"></td> --%>
+				<td>${inMaterialDTO.raw_order_amount }<input type="hidden" name="raw_order_amount" value="${inMaterialDTO.raw_order_amount }" id="raw_order_amount"></td> 
 				<!-- 입고량 -->
 				<td><input type="text" name="in_amount" value="${inMaterialDTO.in_amount }" id="in_amount"></td>
 				<!-- 입고 담당자 -->
@@ -109,11 +109,18 @@ $(document).ready(function(){
 //         		this.submit();
         		event.preventDefault();
         		
+        		// in_amount와 raw_order_amount의 값을 가져오기
+        		var inAmount = parseInt($('#in_amount').val());
+                var rawOrderAmount = parseInt($('#raw_order_amount').val());
+                if (inAmount > rawOrderAmount) {              
+                    Swal.fire('발주량보다 입고량이 많습니다.', '실패', 'error');
+                }else{
+                	              
         	 	var formData = {
         	 			in_code: $('#in_code').val(),
         	 			in_wh_code: $('#in_wh_code').val(),
         	 			raw_order_code: $('#raw_order_code').val(),
-//         	 			raw_order_code: $('#raw_order_amount').val(),
+        	 			raw_order_amount: $('#raw_order_amount').val(),
         	 			in_amount: $('#in_amount').val(),
         	 			emp_num: $('#emp_num').val(),
         	            in_status: $('#in_status').val()   	 			
@@ -139,7 +146,7 @@ $(document).ready(function(){
             		        Swal.fire('서버 통신에 문제가 발생했습니다.', '실패', 'error');
             		    }
             		});
-            	
+                }
             });
         });//submit기능 제어 끝
 

@@ -37,8 +37,14 @@ public class FactoryCopyServiceImpl implements FactoryCopyService {
 	@Override
 	public boolean insertRequirement(RequirementDTO requirementDTO) {
 		log.debug("FactoryService insertRequirement");
-		// 소요량 코드 자동부여 
-//		requirementDTO.setReq_code(Integer.toString(factoryCopyDAO.getNewReq_code()));
+	    
+		  // 원하는 prod_code와 raw_code를 사용하여 기존 데이터를 가져오기
+	    String prod_code = requirementDTO.getProd_code();
+	    String raw_code = requirementDTO.getRaw_code();
+
+	  if (!checkRawCode(prod_code, raw_code)) {
+	    // 소요량 코드 자동부여 
+	    //		requirementDTO.setReq_code(Integer.toString(factoryCopyDAO.getNewReq_code()));
 		String getCode = factoryCopyDAO.getNewReq_code();
 		int codeNum = 0;
 		
@@ -50,8 +56,15 @@ public class FactoryCopyServiceImpl implements FactoryCopyService {
 		
 		requirementDTO.setReq_code(Integer.toString(codeNum));
 		return factoryCopyDAO.insertRequirement(requirementDTO);
+	  }else {
+	    	return false;
+	    }
 	}
 	
+	private boolean checkRawCode(String prod_code, String raw_code) {
+		return factoryCopyDAO.checkRawCode(prod_code, raw_code);
+	}
+
 	// 소요량 수정 페이지 req_code 값 받아서. 
 	@Override
 	public RequirementDTO getRequirement(String req_code) {

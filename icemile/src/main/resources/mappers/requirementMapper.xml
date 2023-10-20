@@ -39,10 +39,17 @@
 
 <!-- 등록일과 수정일은 오늘 날짜,시간으로 자동등록 -->
 <insert id="insertRequirement">
-    INSERT INTO requirement(req_code, prod_code, raw_code, req_amount, req_note)
-    VALUES(CONCAT('RE', LPAD(#{req_code}, 4, '0')), #{prod_code}, #{raw_code}, #{req_amount}
+    INSERT INTO requirement(req_code, prod_code,prod_name, raw_code, raw_name, req_amount, req_note)
+    VALUES(CONCAT('RE', LPAD(#{req_code}, 4, '0')), #{prod_code}, #{prod_name}, #{raw_code}, #{raw_name}, #{req_amount}
     , #{req_note})
 </insert>
+
+<select id="checkRawCode" parameterType="map" resultType="String">
+	SELECT 1
+	FROM requirement
+	WHERE prod_code=#{prod_code} AND raw_code=#{raw_code}
+	LIMIT 1
+</select>
 
 	<select id="getRequirement" resultType="ems.icemile.dto.RequirementDTO">
 	 SELECT *
