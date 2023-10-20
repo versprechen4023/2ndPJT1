@@ -35,8 +35,14 @@ public class WareHouseDTO {
 	  //완제품 코드 
 	  private String prod_code;
 	  
+	  //완제품 이름 
+	  private String prod_name;
+	  
 	  //원자재 코드 
 	  private String raw_code;
+	  
+	  //원자재 이름 
+	  private String raw_name;
 	  
 	  //창고 담당자 
 	  private String emp_num;

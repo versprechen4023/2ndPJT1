@@ -56,12 +56,12 @@
 								<thead>
 									<!-- "테이블 머리글"을 나타냅니다. 이 부분은 테이블의 제목 행들을 담습니다. 보통 테이블의 컬럼명이나 제목이 들어갑니다. -->
 									<tr>
+										<th>사원번호</th>
 										<th>이름</th>
 										<th>직급</th>
 										<th>내선번호</th>
 										<th>부서</th>
 										<th>이메일</th>
-										<th>생일</th>
 										<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
 										<th data-sortable="false">관리</th>
 										</c:if>
@@ -71,12 +71,12 @@
 								<tbody id="tbody">
 									<c:forEach var="memberDTO" items="${memberList}">
 										<tr>
+											<td><a href="#" onclick="memberInfo('${memberDTO.emp_num}')">${memberDTO.emp_num}</a></td>
 											<td>${memberDTO.emp_name}</td>
 											<td>${memberDTO.position}</td>
 											<td>${memberDTO.hotline}</td>
 											<td>${memberDTO.dept_name}</td>
 											<td>${memberDTO.email}</td>
-											<td>${memberDTO.birthdate }</td>
 											<c:if test="${sessionScope.emp_role.charAt(0).toString() eq '1' }">
 											<td><input type="button" value="수정"
 												onclick="memberUpdate('${memberDTO.emp_num}')" id="updateEmp">
@@ -193,12 +193,12 @@ function memberSearch() {
  				    	// 권한이있으면 수정 삭제 버튼도 같이 출력
  				    	if(role.charAt(0) === '1'){
  				        	$tr.append(
+ 				        	'<td><a href="#" onclick="memberInfo(\'' + data.emp_num + '\')">' + data.emp_num + '</a></td>',
  				            "<td>"+data.emp_name+"</td>",
  				           	"<td>"+data.position+"</td>",
  				         	"<td>"+data.hotline+"</td>",
  				         	"<td>"+data.dept_name+"</td>",
  				         	"<td>"+data.email+"</td>",
- 				         	"<td>"+data.birthdate+"</td>",
  				            "<td>" +
  				          	"<input type='button' value='수정' onclick='memberUpdate(\"" + data.emp_num + "\")' id='updateEmp'>" +
  				          	"&nbsp;"+
@@ -209,12 +209,12 @@ function memberSearch() {
  				        	);
  				    	} else {
  				    		 $tr.append(
+ 				    		 '<td><a href="#" onclick="memberInfo(\'' + data.emp_num + '\')">' + data.emp_num + '</a></td>',
  		 				     "<td>"+data.emp_name+"</td>",
  		 				     "<td>"+data.position+"</td>",
  		 				     "<td>"+data.hotline+"</td>",
  		 				     "<td>"+data.dept_name+"</td>",
- 		 				     "<td>"+data.email+"</td>",
- 		 				     "<td>"+data.birthdate+"</td>",
+ 		 				     "<td>"+data.email+"</td>"
  		 				     );
  				    	}
  				        // 생성한 <tr> 요소를 tbody에 추가
@@ -234,11 +234,17 @@ function memberSearch() {
       });// end_of_ajax
 }// end function
 
+// 멤버 정보 관련 함수
+function memberInfo(emp_num) {
+	window.open('${pageContext.request.contextPath }/member/managerInfo?emp_num='+ emp_num+'', '_blank', 'width=590px, height=700px, left=600px, top=300px');
+}
+
 // 멤버 추가관련 함수
 function memberInsert(){
 	window.open('${pageContext.request.contextPath }/member/memberInsert', '_blank', 'width=590px, height=672px, left=600px, top=300px');
 } //end function
 
+// 멤버 수정관련 함수
 function memberUpdate(emp_num){
 	window.open('${pageContext.request.contextPath }/member/memberUpdate?emp_num='+emp_num, '_blank', 'width=600px, height=672px, left=600px, top=300px');
 }

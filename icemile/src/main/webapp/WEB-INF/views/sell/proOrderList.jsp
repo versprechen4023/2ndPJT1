@@ -627,7 +627,46 @@ $(document).ready(function() {
 	                    		 Swal.fire('수주 추가가 완료되었습니다.', '성공', 'success').then(result => {
 	    					 	 	// 사용자가 확인창을 누르면 실행
 	                    		 	if(result.isConfirmed){
-	    					 			location.reload(); // 성공 시 새로고침한다
+	                    		 		$.ajax({
+		                	             	type: "POST",
+		                	             	url: "${pageContext.request.contextPath}/sell_ajax/proOrderResult",
+		                	             	data: formData,
+		                	             	// 통신성공시 콜백함수 status매개변수에 결과값이 입력된다
+		                	             	success: function(status) {
+		                	             		if(status === 1){
+		                	             			Swal.fire({
+		                	             				title: '재고량이 충분합니다 출고 페이지로 이동하시겠습니까?',
+		                	             				icon: 'question',
+		                	             				confirmButtonText: '페이지 이동',
+		                	            		        showCancelButton: true,
+		                	            		        cancelButtonText: '닫기' 
+		                	             			}).then(result => {
+		                	             				if(result.isConfirmed){
+		                	             					window.location.href = '${pageContext.request.contextPath}/shipping/outMaterial'; 
+		                	             				} else {
+		                	             					location.reload();
+		                	             				}
+		                	             			});
+		                	             		} else if(status === 2){
+		                	             			Swal.fire({
+		                	             				title: '재고량이 부족합니다 작업지시 페이지로 이동하시겠습니까?',
+		                	             				icon: 'question',
+		                	             				confirmButtonText: '페이지 이동',
+		                	            		        showCancelButton: true,
+		                	            		        cancelButtonText: '닫기' 
+		                	             			}).then(result => {
+		                	             				if(result.isConfirmed){
+		                	             					window.location.href = '${pageContext.request.contextPath}/factory/workOrderList'; 
+		                	             				} else {
+		                	             					location.reload();
+		                	             				}
+		                	             			});
+		                	             		// 이부분은 에러처리용 걍 아무것도 안뛰움
+		                	             		} else if(status === -1){
+		                	             			location.reload();
+		                	             		}
+		                	             	}
+		                		 		});
 	    					 		}// end alert_if
 	    					 	});// end alert
 	                     	} else {

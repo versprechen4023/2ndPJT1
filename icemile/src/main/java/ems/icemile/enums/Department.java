@@ -3,6 +3,7 @@ package ems.icemile.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+// 권한을 담당하는 이넘클래스
 @Getter
 @AllArgsConstructor
 public enum Department {

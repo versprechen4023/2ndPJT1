@@ -68,7 +68,9 @@ public class SellAjaxController {
 
 		return Boolean.toString(sellService.branchReg(sellDTO));
 	}
-
+	
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@PostMapping("/update")
 	public String branchUpdate(SellDTO sellDTO) throws Exception {
 
@@ -92,7 +94,9 @@ public class SellAjaxController {
 
 		return Boolean.toString(sellService.searchPhone(branch_phone));
 	}
-
+	
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@PostMapping("proOrderUpdate")
 	public boolean proOrderUpdate(ProOrderDTO proOrderDTO) {
 
@@ -100,7 +104,9 @@ public class SellAjaxController {
 
 		return sellService.proOrderUpdate(proOrderDTO);
 	}
-
+	
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@PostMapping("proOrderInsert")
 	public boolean proOrderInsert(ProOrderDTO proOrderDTO) {
 
@@ -108,7 +114,9 @@ public class SellAjaxController {
 
 		return sellService.proOrderInsert(proOrderDTO);
 	}
-
+	
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
 	@PostMapping("proOrderDelete")
 	public boolean proOrderDelete(@RequestParam("selectedProOrderId") String[] selectedProOrderId) {
 
@@ -123,7 +131,7 @@ public class SellAjaxController {
 	@PostMapping("/proOrderSearch")
 	public List<HashMap<String, Object>> proOrderSearch(@RequestBody HashMap<String, Object> json) {
 
-		log.debug("발주 검색");
+		log.debug("수주 검색");
 
 		// 값 확인
 		for (Entry<String, Object> entry : json.entrySet()) {
@@ -178,6 +186,17 @@ public class SellAjaxController {
 
 		// 콜백 함수에 결과값 리턴
 		return ordersList;
+	}
+	
+	// 영업 권한제어를 위한 어노테이션 선언
+	@Business
+	@PostMapping("proOrderResult")
+	public int proOrderResult(ProOrderDTO proOrderDTO) {
+		
+		log.debug("수주 재고 관련 결과 반환");
+
+		// 콜백 함수에 결과값 리턴
+		return sellService.proOrderResult(proOrderDTO);
 	}
 
 }
