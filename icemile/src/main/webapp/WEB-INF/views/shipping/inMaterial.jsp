@@ -102,7 +102,7 @@
 <td>
 <input type="button" value="수정" ${inMaterialDTO.in_status == 3 ? 'disabled' : ''} onclick="inMaterialUpdate('${inMaterialDTO.in_code}')">
 <%-- <input type="button" value="삭제" onclick="confirmDelete('${pageContext.request.contextPath}/shipping/deleteInMaterial?in_code=${inMaterialDTO.in_code }')"> --%>
-<input type="button" value="삭제" ${inMaterialDTO.in_status == 3 ? 'disabled' : ''} onclick="deleteInMaterial('${inMaterialDTO.in_code}')">
+<input type="button" value="삭제" ${inMaterialDTO.in_status == 3 ? 'disabled' : ''} onclick="confirmDelete('${pageContext.request.contextPath}/shipping/deleteInMaterial?in_code=${inMaterialDTO.in_code }')">
 </td>
 </c:if>
 </tr>
