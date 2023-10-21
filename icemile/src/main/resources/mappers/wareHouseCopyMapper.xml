@@ -66,6 +66,23 @@
 	</update>
 	
 	
+	<!-- 원자재 재고 감하는 수정 -->
+	<update id="updateRawSubtract" parameterType="ems.icemile.dto.WorkOrderDTO">
+	UPDATE stock
+    SET stock_status = stock_status - (
+        SELECT req.req_amount * wo.order_amount
+        FROM requirement req JOIN test_work_order wo
+        ON req.prod_name = wo.prod_name
+        WHERE wo.work_code = #{work_code})
+    WHERE raw_code = (SELECT raw_code 
+    					  FROM requirement
+    					  WHERE prod_name = (SELECT prod_name
+    									 	  FROM test_work_order
+    									 	  WHERE work_code = #{work_code}))
+
+	</update>
+	
+	
 	<!-- 원자재 재고 검색 -->
 	<select id="rawStockSearch" resultType="ems.icemile.dto.StockDTO">
 	<bind name="content" value="'%' + content + '%'"/>
@@ -113,7 +130,7 @@
 	</update>
 	
 	
-	<!-- 원자재 재고 검색 -->
+	<!-- 완제품 재고 검색 -->
 	<select id="prodStockSearch" resultType="ems.icemile.dto.StockDTO">
 	<bind name="content" value="'%' + content + '%'"/>
 		SELECT s.*, p.prod_name, p.prod_taste

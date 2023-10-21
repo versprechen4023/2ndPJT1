@@ -33,5 +33,7 @@ public class WorkOrderDTO {
 	private String done_date;
 	// 지점 코드
 	private String branch_code;
+	// 재고 코드
+	private String stock_code;
 	
 }

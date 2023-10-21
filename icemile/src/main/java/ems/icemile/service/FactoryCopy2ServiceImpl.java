@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import ems.icemile.dao.FactoryCopy2DAOImpl;
+import ems.icemile.dao.WareHouseCopyDAOImpl;
 import ems.icemile.dto.WorkOrderDTO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +21,9 @@ public class FactoryCopy2ServiceImpl implements FactoryCopy2Service {
 	// DAO 의존성 주입
 	@Inject
 	private FactoryCopy2DAOImpl factoryCopy2DAO;
+	
+	@Inject // 원자재 수정에 의한 DAO 의존성 주입
+	private WareHouseCopyDAOImpl wareHouseDAO;
 
 	@Override
 	public List<WorkOrderDTO> workOrderList() {
@@ -48,9 +52,18 @@ public class FactoryCopy2ServiceImpl implements FactoryCopy2Service {
 		}
 		
 		// 구매처 코드 부여
-		workOrderDTO.setWork_code(Integer.toString(codeNum));
-			
+		workOrderDTO.setWork_code("WO" + String.format("%04d", codeNum));
+		
+		// 생산 라인으로 작업 지시 추가 시 원자제 재고 수량 감하는 업데이트
+		String lCode = workOrderDTO.getLine_name();
+		log.debug(lCode);
+		
+		// 작업 코드 추가
 		factoryCopy2DAO.workOrderAdd(workOrderDTO);
+		
+		if(lCode.equals("생산 라인")) {
+			wareHouseDAO.updateRawSubtract(workOrderDTO);
+		}
 		
 	}
 	

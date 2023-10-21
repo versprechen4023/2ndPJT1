@@ -49,7 +49,7 @@
     <!-- work_order_date 컬럼을 명시적으로 지정하지 않고 현재 시간 사용 / 후에 test테이블 변경. 변경시에 insert 구문 변경-->
     INSERT INTO test_work_order(work_code, emp_num, line_code, line_name, order_code, prod_name, 
         order_amount, line_process, work_order_date, branch_code)
-    VALUES(CONCAT('WO', LPAD(#{work_code}, 4, '0')), #{emp_num}, #{line_code}, 
+    VALUES(#{work_code}, #{emp_num}, #{line_code}, 
         #{line_name}, #{order_code}, #{prod_name}, #{order_amount}, #{line_process},
         NOW(), #{branch_code})
 	</insert>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.ResultDTO;
 import ems.icemile.dto.StockDTO;
+import ems.icemile.dto.WorkOrderDTO;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository
@@ -122,6 +123,15 @@ public class WareHouseCopyDAOImpl implements WareHouseCopyDAO {
 		log.debug("WareHouseDAO updateProdAmount()");
 		
 		return sqlSession.update(namespace+"updateProdAmount", resultDTO) > 0;
+	}
+
+
+	@Override
+	public void updateRawSubtract(WorkOrderDTO workOrderDTO) {
+		
+		log.debug("WareHouseDAO updateRawSubtract()");
+		
+		sqlSession.update(namespace+"updateRawSubtract", workOrderDTO);
 	}
 
 
