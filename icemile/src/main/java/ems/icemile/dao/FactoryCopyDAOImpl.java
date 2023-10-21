@@ -61,9 +61,9 @@ public class FactoryCopyDAOImpl implements FactoryCopyDAO {
 		    boolean result = false;
 		    String result2 = sqlSession.selectOne(namespace + "checkRawCode", params);
 		    if(result2==null) {
-		    	result=false;
+		    	result=true;
 		    }else {
-		     result = true;
+		     result = false;
 		    }
 		    return result;
 	}

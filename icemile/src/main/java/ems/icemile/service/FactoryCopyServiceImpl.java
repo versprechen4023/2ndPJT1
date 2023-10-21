@@ -42,7 +42,7 @@ public class FactoryCopyServiceImpl implements FactoryCopyService {
 	    String prod_code = requirementDTO.getProd_code();
 	    String raw_code = requirementDTO.getRaw_code();
 
-	  if (!checkRawCode(prod_code, raw_code)) {
+	  if (checkRawCode(prod_code, raw_code)) {
 	    // 소요량 코드 자동부여 
 	    //		requirementDTO.setReq_code(Integer.toString(factoryCopyDAO.getNewReq_code()));
 		String getCode = factoryCopyDAO.getNewReq_code();
@@ -56,7 +56,7 @@ public class FactoryCopyServiceImpl implements FactoryCopyService {
 		
 		requirementDTO.setReq_code(Integer.toString(codeNum));
 		return factoryCopyDAO.insertRequirement(requirementDTO);
-	  }else {
+	  } else {
 	    	return false;
 	    }
 	}

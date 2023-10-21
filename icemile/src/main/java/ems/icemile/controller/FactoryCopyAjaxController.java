@@ -27,8 +27,12 @@ public class FactoryCopyAjaxController {
     @PostMapping("/insertRequirement")
     public ResponseEntity<String> insertRequirement(RequirementDTO requirementDTO) {
         try {
-            factoryCopyService.insertRequirement(requirementDTO);
-            return new ResponseEntity<>("true", HttpStatus.OK); // 성공 시 "true" 반환
+            boolean result = factoryCopyService.insertRequirement(requirementDTO);
+            if(result) {
+            	return new ResponseEntity<>("true", HttpStatus.OK); // 성공 시 "true" 반환
+            } else {
+            	return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         } catch (Exception e) {
             log.error("Error during insertRequirement: {}", e.getMessage());
             return new ResponseEntity<>("false", HttpStatus.INTERNAL_SERVER_ERROR); // 실패 시 "false" 반환
