@@ -6,6 +6,7 @@ import java.util.List;
 import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.ResultDTO;
 import ems.icemile.dto.StockDTO;
+import ems.icemile.dto.WorkOrderDTO;
 
 public interface WareHouseCopyDAO {
 
@@ -23,6 +24,9 @@ public interface WareHouseCopyDAO {
 	
 	// 원자재 수량 수정
 	public void updateRawAmount(InMaterialDTO inMaterialDTO);
+	
+	// 원자재 수량 감하는 수정
+	public void updateRawSubtract(WorkOrderDTO workOrderDTO);
 
 	// 원자재 검색
 	public List<StockDTO> rawStockSearch(HashMap<String, Object> json);
@@ -35,6 +39,7 @@ public interface WareHouseCopyDAO {
 	
 	// 완제품 수량 수정
 	public boolean updateProdAmount(ResultDTO resultDTO);
+	
 	
 	// 완제품 검색
 	public List<StockDTO> prodStockSearch(HashMap<String, Object> json);
