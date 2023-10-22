@@ -54,7 +54,7 @@ public class FactoryCopy2ServiceImpl implements FactoryCopy2Service {
 		// 구매처 코드 부여
 		workOrderDTO.setWork_code("WO" + String.format("%04d", codeNum));
 		
-		// 생산 라인으로 작업 지시 추가 시 원자제 재고 수량 감하는 업데이트
+		// 생산 라인으로 작업 지시 추가 시 원자재 재고 수량 감하는 업데이트
 		String lCode = workOrderDTO.getLine_name();
 		log.debug(lCode);
 		

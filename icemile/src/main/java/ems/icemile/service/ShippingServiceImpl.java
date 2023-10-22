@@ -274,6 +274,9 @@ public class ShippingServiceImpl implements ShippingService {
         
 		log.debug("출고 테스트 출력" + outmaterialInsertDTO.toString());
 		
+		// 출고되면 완제품 재고 수량에서 감하는 업데이트
+		wareHouseDAO.updateProdSubtract(outmaterialInsertDTO);
+		
 		return shippingDAO.mtInsert(outmaterialInsertDTO);
 	}
 

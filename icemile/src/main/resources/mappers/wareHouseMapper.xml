@@ -116,7 +116,7 @@ LEFT JOIN emp e ON w.emp_num = e.emp_num;
 
 <!--   완재품 리스트 가져오기 -->
   <select id="productList" resultType="ems.icemile.dto.StockDTO">
-  SELECT s.*,s.prod_code, p.prod_name, p.prod_taste
+  SELECT s.*,p.prod_name, p.prod_taste
   FROM stock s
   LEFT JOIN product p ON s.prod_code = p.prod_code
   WHERE s.prod_code IS NOT NULL; 

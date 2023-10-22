@@ -12,6 +12,7 @@ import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.ResultDTO;
 import ems.icemile.dto.StockDTO;
 import ems.icemile.dto.WorkOrderDTO;
+import ems.icemile.dto.outMaterialInsertDTO;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository
@@ -99,6 +100,7 @@ public class WareHouseCopyDAOImpl implements WareHouseCopyDAO {
 	}// updateProdStock
 
 
+	// 완제품 재고 검색
 	@Override
 	public List<StockDTO> prodStockSearch(HashMap<String, Object> json) {
 		
@@ -108,6 +110,7 @@ public class WareHouseCopyDAOImpl implements WareHouseCopyDAO {
 	}
 
 
+	// 원자재 재고 수량 수정
 	@Override
 	public void updateRawAmount(InMaterialDTO inMaterialDTO) {
 		
@@ -117,6 +120,7 @@ public class WareHouseCopyDAOImpl implements WareHouseCopyDAO {
 	}
 
 
+	// 완제품 재고 수량 수정
 	@Override
 	public boolean updateProdAmount(ResultDTO resultDTO) {
 		
@@ -126,12 +130,22 @@ public class WareHouseCopyDAOImpl implements WareHouseCopyDAO {
 	}
 
 
+	// 원자재 재고 감하는 수정
 	@Override
 	public void updateRawSubtract(WorkOrderDTO workOrderDTO) {
 		
 		log.debug("WareHouseDAO updateRawSubtract()");
 		
 		sqlSession.update(namespace+"updateRawSubtract", workOrderDTO);
+	}
+
+
+	// 완제품 감하는 수정
+	public void updateProdSubtract(outMaterialInsertDTO outmaterialInsertDTO) {
+		
+		log.debug("WareHouseDAO updateProdSubtract()");
+		
+		sqlSession.update(namespace+"updateProdSubtract", outmaterialInsertDTO);
 	}
 
 

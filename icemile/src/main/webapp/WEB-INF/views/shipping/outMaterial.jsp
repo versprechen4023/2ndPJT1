@@ -1163,7 +1163,7 @@ $(document).on("click", "input[name='out_wh_code']", function() {
 ////////////////////////////////////창고 코드을 클릭하면 새창을 여는 이벤트 리스너 ///////////////////////////////////
 
 $(document).on("click", "input[name='stock_code']", function() {
-	window.open('${pageContext.request.contextPath }/warehouse/prodStockListPopUp', '_blank', 'width=800px, height=770px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/product/productListPopUp', '_blank', 'width=800px, height=770px, left=600px, top=300px');
 });// end function
 
 ////////////////////////////////////수주 코드을 클릭하면 새창을 여는 이벤트 리스너 ///////////////////////////////////

@@ -129,6 +129,16 @@
 											   LIMIT 1))
 	</update>
 	
+	<!-- 완제품 재고 감하는 수정 -->
+	<update id="updateProdSubtract" parameterType="ems.icemile.dto.outMaterialInsertDTO">
+		UPDATE stock
+		SET stock_status = stock_status - (
+			SELECT out_amount
+			FROM out_material
+			WHERE out_code = #{out_code})
+		WHERE stock_code = #{stock_code}
+	</update>
+	
 	
 	<!-- 완제품 재고 검색 -->
 	<select id="prodStockSearch" resultType="ems.icemile.dto.StockDTO">

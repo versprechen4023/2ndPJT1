@@ -7,6 +7,7 @@ import ems.icemile.dto.InMaterialDTO;
 import ems.icemile.dto.ResultDTO;
 import ems.icemile.dto.StockDTO;
 import ems.icemile.dto.WorkOrderDTO;
+import ems.icemile.dto.outMaterialInsertDTO;
 
 public interface WareHouseCopyDAO {
 
@@ -40,6 +41,8 @@ public interface WareHouseCopyDAO {
 	// 완제품 수량 수정
 	public boolean updateProdAmount(ResultDTO resultDTO);
 	
+	// 완제품 감하는 수정
+	public void updateProdSubtract(outMaterialInsertDTO outmaterialInsertDTO);
 	
 	// 완제품 검색
 	public List<StockDTO> prodStockSearch(HashMap<String, Object> json);
