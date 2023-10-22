@@ -120,7 +120,9 @@ public class ShippingDAOImpl implements ShippingDAO {
 	//출고 수정
 	public boolean mtUpdate(outMaterialInsertDTO outmaterialInsertDTO) {
 		log.debug("mtUpdate DAO 도달");
-
+        
+		
+		
 		// >0; 한행이라도 업데이트가 되었는가를 말하는 것이다.
 		return sqlSession.update(namespace2 + "mtUpdate", outmaterialInsertDTO) > 0;
 	}

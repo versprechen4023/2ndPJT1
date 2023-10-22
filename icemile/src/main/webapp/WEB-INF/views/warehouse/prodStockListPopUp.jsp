@@ -106,6 +106,7 @@ function prodStockSearchPopUp() {
                                             <th>완제품 품명</th>
                                             <th>완제품 종류</th>
                                             <th>완제품 실수량</th>
+                                            <th>창고 코드</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -115,7 +116,8 @@ function prodStockSearchPopUp() {
                                             <td>${StockDTO.prod_code}</td>
                                             <td>${StockDTO.prod_name}</td>
                                             <td>${StockDTO.prod_taste}</td>
-                                            <td>${StockDTO.stock_amount}</td>                                      
+                                            <td>${StockDTO.stock_amount}</td>
+                                            <td>${StockDTO.wh_code}</td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -184,13 +186,16 @@ $(document).ready(function() {
 		  // 값을 전달하기 위한 변수선언
 		  // 이벤트가 발생되는 테이블의 첫번째(0)부터 4번째 까지 텍스트를 변수에 저장한다
 	      var stock_code = $(this).find("td:eq(0)").text();
-	      var prod_name = $(this).find("td:eq(1)").text();
-	      var prod_taste = $(this).find("td:eq(2)").text();
-	      var stock_amount = $(this).find("td:eq(3)").text();
+	      var prod_code = $(this).find("td:eq(1)").text();
+	      var prod_name = $(this).find("td:eq(2)").text();
+	      var prod_taste = $(this).find("td:eq(3)").text();
+	      var stock_amount = $(this).find("td:eq(4)").text();
+	      var wh_code = $(this).find("td:eq(5)").text();
 		  
 
 	      // 부모창으로 값을 전달한다
 	      opener.document.getElementById("stock_code").value = stock_code;
+	      opener.document.getElementById("out_wh_code").value = wh_code;
 	      
 	      // 창을 종료한다
 	      window.close();

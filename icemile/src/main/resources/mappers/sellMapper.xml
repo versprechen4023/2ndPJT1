@@ -137,7 +137,7 @@
 	
 	<select id="proOrderResult" resultType="Integer">
 		 SELECT stock_amount
-                FROM stock
+                FROM stock-
                 	WHERE prod_code = (SELECT prod_code
 								       		FROM product
                                    				WHERE prod_name = #{prod_name});

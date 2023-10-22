@@ -344,7 +344,7 @@ row += "<td>";
 row += "<select name='wh_type' id='wh_type' required class='#datatablesSimple tr'>";
 row += "<option value='' >--선택--</option>";
 row += "<option value='R'>R:원자재</option>";
-row += "<option value='P'>P:완재품</option>";
+row += "<option value='P'>P:완제품</option>";
 row += "</select>";
 row += "</td>";
 
