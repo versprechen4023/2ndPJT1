@@ -147,10 +147,15 @@
 
 		        // stock_amount 행의 HTML 수정
 		        var stockAmountCell = row.find("td:nth-child(6)"); // stock_amount 열 선택
+		        var whCodeCell = row.find("td:nth-child(7)"); // wh_code 열 선택
 		        var empNumCell = row.find("td:nth-child(8)"); // emp_num 행 선택
+		        
 		        var stockAmountValue = stockAmountCell.text().trim(); // stock_amount 현재 값 가져오기
+		        var whCodeValue = whCodeCell.text().trim(); // wh_code 현재 값 가져오기
 		        var empNumValue = empNumCell.text().trim(); // stock_amount 현재 값 가져오기
+		        
 		        stockAmountCell.html('<input type="text" name="stock_amount" value="' + stockAmountValue + '">');
+		        whCodeCell.html('<input type="text" name="wh_code" value="' + whCodeValue + '">');
 		        empNumCell.html('<input type="text" id="emp_num" name="emp_num" value="' + empNumValue + '">');
 
 		        // hidden input에 stock_code 추가
