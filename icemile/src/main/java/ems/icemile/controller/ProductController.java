@@ -68,6 +68,7 @@ public class ProductController {
 		
 		return "product/productListPopUp";
 	}
+	
 	@GetMapping("/productListPopUp2")
 	public String productList2PopUp2(Model model) {
 		

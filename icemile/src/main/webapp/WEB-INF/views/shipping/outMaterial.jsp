@@ -76,6 +76,7 @@
 											<th>출고 지점</th>
 											<th>수주 코드</th>
 											<th>완제품 제고</th>
+											<th>출고 량</th>
 											<th>창고 코드</th>
 											<th>담당자</th>
 											<th>출고현황</th>
@@ -96,6 +97,7 @@
 											    <td><input type="button" onclick="openModal(this)"
 													name="${outMaterialDTO.stock_code}"
 													value="${outMaterialDTO.stock_code}"></td>
+											    <td>${outMaterialDTO.out_amount}</td>
 												<td><input type="button" onclick="openModal(this)"
 													name="${outMaterialDTO.out_wh_code}"
 													value="${outMaterialDTO.out_wh_code}"></td>
@@ -489,7 +491,8 @@ $(document).ready(function() {
 	"emp_num": "출고 담당자",
 	"out_status": "출고 현황",
 	"branch_code":"출고 지점",
-	"stock_code":"완제품 코드"
+	"stock_code":"완제품 코드",
+	"out_amount":"출고 "
 };
   
 // 반복문을 사용하여 각 항목을 검사한다
@@ -596,6 +599,11 @@ $(document).ready(function() {
 	row += "<input type='text' name='stock_code' id='stock_code' size='10' required class='#datatablesSimple tr' placeholder='완제품 코드 검색' style='text-align: center;'>";
 	row += "</td>";
 	
+	//출고량  
+	row += "<td>";
+	row += "<input type='number' name='out_amount' id='out_amount' size='5' required class='#datatablesSimple tr' placeholder='출고 량' style='text-align: center;'>";
+	row += "</td>";
+	
 	//창고 코드 
 	row += "<td>";
 	row += "<input type='text' name='out_wh_code' id='out_wh_code' size='10' required class='#datatablesSimple tr' placeholder='창고 검색' style='text-align: center;'>";
@@ -609,10 +617,8 @@ $(document).ready(function() {
 	//출고현황 	
 	row += "<td>";
 	row += "<select name='out_status' id='out_status' required class='#datatablesSimple tr'>";
-	row += "<option value='' > 출고 현황을 선택하십시오</option>";
 	row += "<option value='1'>출고전</option>";
 	row += "<option value='2'>출고중</option>";
-	row += "<option value='3'>출고확정</option>";
 	row += "</select>";
 	row += "</td>";
 
@@ -748,7 +754,7 @@ $(document).ready(function() {
         // 텍스트태그를 추가할 tr태그를 선택한다
         var row = selectedCheckbox.closest("tr");
         
-        var statusCell = row.find("td:nth-child(7)");
+        var statusCell = row.find("td:nth-child(8)");
 
         // 출고 확정 상태인 경우 수정 버튼 비활성화
         if (statusCell.text().trim() === "출고 확정") {
@@ -760,6 +766,7 @@ $(document).ready(function() {
                 "out_code",
                 "order_code", 
                 "stock_code",
+                "out_amount",
                 "out_wh_code", 
                 "emp_num",
                 "out_status",
@@ -769,6 +776,7 @@ $(document).ready(function() {
                 "out_code",
                 "order_code", 
                 "stock_code",
+                "out_amount",
                 "out_wh_code", 
                 "emp_num",
                 "out_status",
@@ -802,7 +810,10 @@ $(document).ready(function() {
                                        '</select>';
                     
                     $(this).html(selectHTML);
-                } else {
+                }else if (cellName === "out_amount") {
+                    // 만약 cellName이 "out_amount"인 경우, type을 "number"로 설정
+                    $(this).html('<input type="number" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + '  size="18">');
+                }else {
                     $(this).html('<input type="text" name="' + cellName + '" id="' + cellId + '" value="' + cellValue + '"' + cellOption + '  size="18">');
                 }
             });
@@ -998,6 +1009,7 @@ $(document).ready(function() {
 					          '<td>' + data.out_code + '</td>',
 					          '<td><input type="button" onclick="openModal(this)" name="' + data.order_code + '" value="' + data.order_code + '"></td>',
 					          '<td><input type="button" onclick="openModal(this)" name="' + data.stock_code + '" value="' + data.stock_code + '"></td>',
+					          '<td>' + data.out_amount + '</td>',
 					          '<td><input type="button" onclick="openModal(this)" name="' + data.out_wh_code + '" value="' + data.out_wh_code + '"></td>',
 					          '<td><input type="button" onclick="openModal(this)" name="' + data.emp_num + '" value="' + data.emp_num + '"></td>',
 					          "<td>" + getStatusText(data.out_status) + "</td>",					       
@@ -1089,6 +1101,7 @@ $(document).ready(function() {
 						          '<td>' + data.out_code + '</td>',
 						          '<td><input type="button" onclick="openModal(this)" name="' + data.order_code + '" value="' + data.order_code + '"></td>',
 						          '<td><input type="button" onclick="openModal(this)" name="' + data.stock_code + '" value="' + data.stock_code + '"></td>',
+						          '<td>' + data.out_amount + '</td>',
 						          '<td><input type="button" onclick="openModal(this)" name="' + data.out_wh_code + '" value="' + data.out_wh_code + '"></td>',
 						          '<td><input type="button" onclick="openModal(this)" name="' + data.emp_num + '" value="' + data.emp_num + '"></td>',
 						          "<td>" + getStatusText(data.out_status) + "</td>",					       
@@ -1160,10 +1173,10 @@ $(document).on("click", "input[name='out_wh_code']", function() {
 	window.open('${pageContext.request.contextPath }/warehouse/warehouseListPopUp', '_blank', 'width=800px, height=770px, left=600px, top=300px');
 });// end function
 
-////////////////////////////////////창고 코드을 클릭하면 새창을 여는 이벤트 리스너 ///////////////////////////////////
+////////////////////////////////////완제품 코드을 클릭하면 새창을 여는 이벤트 리스너 ///////////////////////////////////
 
 $(document).on("click", "input[name='stock_code']", function() {
-	window.open('${pageContext.request.contextPath }/product/productListPopUp', '_blank', 'width=800px, height=770px, left=600px, top=300px');
+	window.open('${pageContext.request.contextPath }/warehouse/prodStockListPopUp', '_blank', 'width=800px, height=770px, left=600px, top=300px');
 });// end function
 
 ////////////////////////////////////수주 코드을 클릭하면 새창을 여는 이벤트 리스너 ///////////////////////////////////

@@ -38,4 +38,7 @@ public class outMaterialInsertDTO {
   
   // 재고 코드
   private String stock_code;
+  
+  //출고량 
+  private int out_amount;
 }
