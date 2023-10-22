@@ -109,7 +109,7 @@
   	<!-- 완제품 재고 수정 -->
 	<update id="updateProdStock" parameterType="ems.icemile.dto.StockDTO">
 		UPDATE stock
-		SET stock_amount = #{stock_amount}, stock_date = now(), emp_num = #{emp_num}
+		SET stock_amount = #{stock_amount}, wh_code = #{wh_code}, stock_date = now(), emp_num = #{emp_num}
 		WHERE stock_code = #{stock_code}
 	</update>
 	
@@ -129,6 +129,7 @@
 											   LIMIT 1))
 	</update>
 	
+	
 	<!-- 완제품 재고 감하는 수정 -->
 	<update id="updateProdSubtract" parameterType="ems.icemile.dto.outMaterialInsertDTO">
 		UPDATE stock
@@ -138,6 +139,7 @@
 			WHERE out_code = #{out_code})
 		WHERE stock_code = #{stock_code}
 	</update>
+
 	
 	
 	<!-- 완제품 재고 검색 -->

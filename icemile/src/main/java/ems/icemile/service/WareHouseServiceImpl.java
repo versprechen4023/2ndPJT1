@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import ems.icemile.dao.WareHouseCopyDAOImpl;
 import ems.icemile.dao.WareHouseDAOImpl;
 import ems.icemile.dto.StockDTO;
 import ems.icemile.dto.WareHouseDTO;
@@ -20,6 +21,9 @@ public class WareHouseServiceImpl implements WareHouseService {
 
 	@Inject // DAO 의존성 주입
 	private WareHouseDAOImpl wareHouseDAO;
+	
+	@Inject // 정에 의한 DAO 의존성 주입
+	private WareHouseCopyDAOImpl wareHouseCopyDAO;
 
 	// 창고 list 가져오기
 	@Override
@@ -129,7 +133,8 @@ public class WareHouseServiceImpl implements WareHouseService {
 
 		// 값을 한번다 호출해 본다.
 		log.debug("웨어하우스 테스트 출력" + warehouseinsertDTO.toString());
-
+		
+		
 		return wareHouseDAO.whInsert(warehouseinsertDTO);
 	}
 
