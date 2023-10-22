@@ -190,8 +190,8 @@ $(document).ready(function() {
 		  
 	      // 부모창으로 값을 전달한다
 	      opener.document.getElementById("order_code").value = order_code;
-	      
-	      	  	      
+	      opener.document.getElementById("out_amount").value = order_amount;
+	     
 	      // 창을 종료한다
 	      window.close();
 	      

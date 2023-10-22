@@ -73,8 +73,8 @@
 										<tr>
 											<th data-sortable="false"><input type="checkbox"
 												name="selectedAllProId"></th>
-											<th>출고 지점</th>
 											<th>수주 코드</th>
+											<th>출고 지점</th>
 											<th>완제품 제고</th>
 											<th>출고 량</th>
 											<th>창고 코드</th>
@@ -90,10 +90,10 @@
 												<td><input type="checkbox" name="selectedProId"
 													value="${outMaterialDTO.out_code}" class="eachCheckbox">
 												</td>
-												<td>${outMaterialDTO.out_code}</td>
 												<td><input type="button" onclick="openModal(this)"
 													name="${outMaterialDTO.order_code}"
 													value="${outMaterialDTO.order_code}"></td>
+												<td>${outMaterialDTO.out_code}</td>
 											    <td><input type="button" onclick="openModal(this)"
 													name="${outMaterialDTO.stock_code}"
 													value="${outMaterialDTO.stock_code}"></td>
@@ -584,19 +584,19 @@ $(document).ready(function() {
 	row += '<input type="checkbox" name="selectedLineCo" disabled>';
 	row += "</td>";
 
-	//출고 코드 	
-	row += "<td>";
-	row += "<input type='text' name='branch_code' id='branch_code' size='7' required class='#datatablesSimple tr' placeholder='지점 검색' style='text-align: center; text-align-last: center;'>";	
-	row += "</td>";
-
 	//수주 코드 
 	row += "<td>";
 	row += "<input type='text' name='order_code' id='order_code' size='10' required class='#datatablesSimple tr' placeholder='수주 코드 검색' style='text-align: center;'>";
 	row += "</td>";
 	
+	//출고 코드 	
+	row += "<td>";
+	row += "<input type='text' name='branch_code' id='branch_code' size='7' required class='#datatablesSimple tr' placeholder='지점 검색' style='text-align: center; text-align-last: center;'>";	
+	row += "</td>";
+	
 	//완제품 코드 
 	row += "<td>";
-	row += "<input type='text' name='stock_code' id='stock_code' size='10' required class='#datatablesSimple tr' placeholder='완제품 코드 검색' style='text-align: center;'>";
+	row += "<input type='text' name='stock_code' id='stock_code' size='10' required class='#datatablesSimple tr' placeholder='완제품 검색' style='text-align: center;'>";
 	row += "</td>";
 	
 	//출고량  
@@ -763,8 +763,8 @@ $(document).ready(function() {
         }
 
             var cellNames = [
-                "out_code",
                 "order_code", 
+                "out_code",
                 "stock_code",
                 "out_amount",
                 "out_wh_code", 
@@ -773,8 +773,8 @@ $(document).ready(function() {
             ];
             
             var cellIds = [
+            	"order_code", 
                 "out_code",
-                "order_code", 
                 "stock_code",
                 "out_amount",
                 "out_wh_code", 
@@ -785,8 +785,7 @@ $(document).ready(function() {
             row.find("td:not(:first-child)").each(function(index) {
                 // 기존 텍스트 값을 변수에 저장한다
                 var cellValue = $(this).find('input').val() || $(this).text().trim();
-
-                var cellOption = index === 0 ? "readonly" : "";
+                var cellOption = (index === 0 || index === 1) ? "readonly" : "";
                 var cellName = cellNames[index];
                 var cellId = cellIds[index];
 
@@ -1006,8 +1005,8 @@ $(document).ready(function() {
 					      // td 태그 생성
 					      $tr.append(
 					          '<td><input type="checkbox" name="selectedProId" value="' + data.out_code + '" class="eachCheckbox"></td>',
-					          '<td>' + data.out_code + '</td>',
 					          '<td><input type="button" onclick="openModal(this)" name="' + data.order_code + '" value="' + data.order_code + '"></td>',
+					          '<td>' + data.out_code + '</td>',
 					          '<td><input type="button" onclick="openModal(this)" name="' + data.stock_code + '" value="' + data.stock_code + '"></td>',
 					          '<td>' + data.out_amount + '</td>',
 					          '<td><input type="button" onclick="openModal(this)" name="' + data.out_wh_code + '" value="' + data.out_wh_code + '"></td>',
@@ -1098,8 +1097,8 @@ $(document).ready(function() {
 						      // td 태그 생성
 						      $tr.append(
 						          '<td><input type="checkbox" name="selectedProId" value="' + data.out_code + '" class="eachCheckbox"></td>',
-						          '<td>' + data.out_code + '</td>',
 						          '<td><input type="button" onclick="openModal(this)" name="' + data.order_code + '" value="' + data.order_code + '"></td>',
+						          '<td>' + data.out_code + '</td>',
 						          '<td><input type="button" onclick="openModal(this)" name="' + data.stock_code + '" value="' + data.stock_code + '"></td>',
 						          '<td>' + data.out_amount + '</td>',
 						          '<td><input type="button" onclick="openModal(this)" name="' + data.out_wh_code + '" value="' + data.out_wh_code + '"></td>',

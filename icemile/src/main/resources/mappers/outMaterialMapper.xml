@@ -29,9 +29,15 @@
 		UPDATE out_material
 		SET out_wh_code = #{out_wh_code},
 		order_code = #{order_code},stock_code = #{stock_code},out_amount = #{out_amount},
-		emp_num = #{emp_num}, out_status =
-		#{out_status}
+		emp_num = #{emp_num}, out_status = #{out_status}
 		WHERE out_code = #{out_code}
+		
+		 <!-- Check if out_status is 3 and update order table -->
+         <if test="out_status == 3">
+          UPDATE stock
+          SET stock_amount = stock_amount - #{out_amount}
+          WHERE stock_code = #{stock_code};
+        </if>
 	</update>
 	<!-- 출고수정 -->
 
@@ -136,10 +142,11 @@
     
     <!--     modal_SK -->
     <select id="searchSKModal" resultType="ems.icemile.dto.StockDTO">
-        SELECT *
-		FROM stock
-		WHERE stock_code = #{stock_code}
-		limit 1
+       SELECT s.*,p.prod_name, p.prod_taste
+       FROM stock s
+       LEFT JOIN product p ON s.prod_code = p.prod_code
+       WHERE stock_code = #{stock_code}
+       limit 1
     </select>
     <!--     modal_SK -->
     
