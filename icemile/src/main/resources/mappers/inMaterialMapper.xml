@@ -49,7 +49,7 @@
     (SELECT b.buy_code
      FROM raw_order r
      INNER JOIN buy b ON r.buy_name = b.buy_name
-     WHERE r.raw_order_code = #{raw_order_code}), #{raw_name}
+     WHERE r.raw_order_code = #{raw_order_code})
      )
 	</insert>
 	
