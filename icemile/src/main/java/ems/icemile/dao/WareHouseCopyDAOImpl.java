@@ -141,13 +141,7 @@ public class WareHouseCopyDAOImpl implements WareHouseCopyDAO {
 	}
 
 
-	// 완제품 감하는 수정
-	public void updateProdSubtract(outMaterialInsertDTO outmaterialInsertDTO) {
-		
-		log.debug("WareHouseDAO updateProdSubtract()");
-		
-		sqlSession.update(namespace+"updateProdSubtract", outmaterialInsertDTO);
-	}
+
 
 
 

@@ -34,10 +34,10 @@
 		
 		 <!-- Check if out_status is 3 and update order table -->
          <if test="out_status == 3">
-          UPDATE stock
-          SET stock_amount = stock_amount - #{out_amount}
+          ;UPDATE stock
+          SET stock_amount = stock_amount - #{out_amount}, stock_status = stock_status - #{out_amount}
           WHERE stock_code = #{stock_code};
-        </if>
+        </if> 
 	</update>
 	<!-- 출고수정 -->
 
