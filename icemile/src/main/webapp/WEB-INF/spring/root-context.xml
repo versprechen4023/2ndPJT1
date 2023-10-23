@@ -10,9 +10,9 @@
 	<!-- 히카리 커넥션풀 설정 -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
         <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
-        <property name="jdbcUrl" value="jdbc:log4jdbc:mysql://itwillbs-rds-class1-team1.cwyqfeylunq5.ap-northeast-2.rds.amazonaws.com:3306/icemile?allowMultiQueries=true"/>
-        <property name="username" value="root"/>
-        <property name="password" value="class10420"/>
+        <property name="jdbcUrl" value="jdbc:log4jdbc:mysql://c1d2304t12.itwillbs.com:3306/c1d2304t12?allowMultiQueries=true&amp;serverTimezone=Asia/Seoul"/>
+        <property name="username" value="c1d2304t12"/>
+        <property name="password" value="1234"/>
     </bean>
     <!-- 히카리 커넥션풀 설정 End-->
 
