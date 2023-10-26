@@ -186,6 +186,7 @@ $(document).ready(function() {
         
      	// 권한 초기화
         $('[name="role"]').prop('checked', false);
+        $('[name="role"]').prop('disabled', true);
      
         // 해당 부서에 대한 권한 체크박스 checked로 변경
         // 관리자일경우에는 전체체크 및 직급 관리자 자동 설정
