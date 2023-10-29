@@ -2,6 +2,7 @@ package ems.icemile.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -63,9 +64,34 @@ public class MemberAjaxController {
 		
 		log.debug("값 잘 넘어오나 {}",memberDTO.toString());
 		
+		String test = file.getOriginalFilename();
+		
+		boolean isOkay = false;
+		
+		if (test != null && file.getSize() > 0) {
+		    int findDot = test.lastIndexOf(".");
+		    
+		    if (findDot >= 0) {
+		    	
+		    	// 대소문자 검증
+		        String fileExtension = test.substring(findDot + 1).toLowerCase(); 
+
+		        // 허용할 확장자
+		        List<String> allow = Arrays.asList("jpg", "jpeg", "png", "gif");
+
+		        if (allow.contains(fileExtension)) {
+		            isOkay = true;
+		        } else {
+		        	isOkay = false;
+		        }
+		    } else {
+		    	isOkay = false;
+		    }
+		}
+		
 		// 프로필 사진 업로드 처리
 		// 파일이 있다면 업로드 처리 시작
-		if(file.getSize() > 0 ) {
+		if(isOkay) {
 	        
 			// 업로드 경로 지정
 			String uploadDir = "/resources/upload"; 
@@ -98,9 +124,34 @@ public class MemberAjaxController {
 		
 		log.debug("값 잘 넘어오나 {}",memberDTO.toString());
 		
+		String test = file.getOriginalFilename();
+		
+		boolean isOkay = false;
+		
+		if (test != null && file.getSize() > 0) {
+		    int findDot = test.lastIndexOf(".");
+		    
+		    if (findDot >= 0) {
+		    	
+		    	// 대소문자 검증
+		        String fileExtension = test.substring(findDot + 1).toLowerCase(); 
+
+		        // 허용할 확장자
+		        List<String> allow = Arrays.asList("jpg", "jpeg", "png", "gif");
+
+		        if (allow.contains(fileExtension)) {
+		            isOkay = true;
+		        } else {
+		        	isOkay = false;
+		        }
+		    } else {
+		    	isOkay = false;
+		    }
+		}
+		
 		// 프로필 사진 업로드 처리
 		// 파일이 있다면 업로드 처리 시작
-		if(file.getSize() > 0 ) {
+		if(isOkay) {
 	        
 			// 업로드 경로 지정
 			String uploadDir = "/resources/upload"; 
@@ -131,9 +182,34 @@ public class MemberAjaxController {
 		
 		log.debug("값 잘 넘어오나 {}",memberDTO.toString());
 		
+		String test = file.getOriginalFilename();
+		
+		boolean isOkay = false;
+		
+		if (test != null && file.getSize() > 0) {
+		    int findDot = test.lastIndexOf(".");
+		    
+		    if (findDot >= 0) {
+		    	
+		    	// 대소문자 검증
+		        String fileExtension = test.substring(findDot + 1).toLowerCase(); 
+
+		        // 허용할 확장자
+		        List<String> allow = Arrays.asList("jpg", "jpeg", "png", "gif");
+
+		        if (allow.contains(fileExtension)) {
+		            isOkay = true;
+		        } else {
+		        	isOkay = false;
+		        }
+		    } else {
+		    	isOkay = false;
+		    }
+		}
+		
 		// 프로필 사진 업로드 처리
 		// 파일이 있다면 업로드 처리 시작
-		if(file.getSize() > 0 ) {
+		if(isOkay) {
 	        
 			// 업로드 경로 지정
 			String uploadDir = "/resources/upload"; 
