@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ems.icemile.annotation.Departments;
 import ems.icemile.dto.MemberDTO;
+import ems.icemile.handler.FileHandler;
 import ems.icemile.service.MemberServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -66,28 +67,8 @@ public class MemberAjaxController {
 		
 		String test = file.getOriginalFilename();
 		
-		boolean isOkay = false;
-		
-		if (test != null && file.getSize() > 0) {
-		    int findDot = test.lastIndexOf(".");
-		    
-		    if (findDot >= 0) {
-		    	
-		    	// 대소문자 검증
-		        String fileExtension = test.substring(findDot + 1).toLowerCase(); 
-
-		        // 허용할 확장자
-		        List<String> allow = Arrays.asList("jpg", "jpeg", "png", "gif");
-
-		        if (allow.contains(fileExtension)) {
-		            isOkay = true;
-		        } else {
-		        	isOkay = false;
-		        }
-		    } else {
-		    	isOkay = false;
-		    }
-		}
+		// 파일 검증
+		boolean isOkay = new FileHandler().handleFileUpload(file);
 		
 		// 프로필 사진 업로드 처리
 		// 파일이 있다면 업로드 처리 시작
@@ -124,30 +105,8 @@ public class MemberAjaxController {
 		
 		log.debug("값 잘 넘어오나 {}",memberDTO.toString());
 		
-		String test = file.getOriginalFilename();
-		
-		boolean isOkay = false;
-		
-		if (test != null && file.getSize() > 0) {
-		    int findDot = test.lastIndexOf(".");
-		    
-		    if (findDot >= 0) {
-		    	
-		    	// 대소문자 검증
-		        String fileExtension = test.substring(findDot + 1).toLowerCase(); 
-
-		        // 허용할 확장자
-		        List<String> allow = Arrays.asList("jpg", "jpeg", "png", "gif");
-
-		        if (allow.contains(fileExtension)) {
-		            isOkay = true;
-		        } else {
-		        	isOkay = false;
-		        }
-		    } else {
-		    	isOkay = false;
-		    }
-		}
+		// 파일 검증
+		boolean isOkay = new FileHandler().handleFileUpload(file);
 		
 		// 프로필 사진 업로드 처리
 		// 파일이 있다면 업로드 처리 시작
@@ -182,30 +141,8 @@ public class MemberAjaxController {
 		
 		log.debug("값 잘 넘어오나 {}",memberDTO.toString());
 		
-		String test = file.getOriginalFilename();
-		
-		boolean isOkay = false;
-		
-		if (test != null && file.getSize() > 0) {
-		    int findDot = test.lastIndexOf(".");
-		    
-		    if (findDot >= 0) {
-		    	
-		    	// 대소문자 검증
-		        String fileExtension = test.substring(findDot + 1).toLowerCase(); 
-
-		        // 허용할 확장자
-		        List<String> allow = Arrays.asList("jpg", "jpeg", "png", "gif");
-
-		        if (allow.contains(fileExtension)) {
-		            isOkay = true;
-		        } else {
-		        	isOkay = false;
-		        }
-		    } else {
-		    	isOkay = false;
-		    }
-		}
+		// 파일 검증
+		boolean isOkay = new FileHandler().handleFileUpload(file);
 		
 		// 프로필 사진 업로드 처리
 		// 파일이 있다면 업로드 처리 시작

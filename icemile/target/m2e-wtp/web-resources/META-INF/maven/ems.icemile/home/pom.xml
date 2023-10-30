@@ -229,6 +229,12 @@
 			<version>2.0.1</version>
 		</dependency>
 		
+		<!-- 파일 검증을 위한 아파치 티카 추가 -->	
+		<dependency>
+			<groupId>org.apache.tika</groupId>
+			<artifactId>tika-core</artifactId>
+			<version>1.24.1</version>
+		</dependency>
 		<!--외부 의존성 추가 리스트 끝 -->
 	</dependencies>
 	<build>
