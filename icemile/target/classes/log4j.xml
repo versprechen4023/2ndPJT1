@@ -54,12 +54,12 @@
 	</logger>
 	<!-- 사용되는 SQL구문을 기록한다 SQL구문에 값이 제대로 넘어가는지 확인하기위해 필요 -->
 	<logger name="jdbc.sqlonly" additivity="false"> 
-		<level value="info"/> 
+		<level value="warn"/> 
 		<appender-ref ref="console"/> 
 	</logger>
     <!-- SQL 쿼리 결과를 기록한다 조회가 제대로 되는지 확인하기위해 필요 -->
 	<logger name="jdbc.resultsettable" additivity="false"> 
-		<level value="info"/>  
+		<level value="warn"/>  
 		<appender-ref ref="console"/> 
 	</logger>
 	<!-- 쿼리 검색과 결과도출까지 걸린 시간을 출력한다 SQL의 속도가 느려지면 정확하게 검색에 얼마나 소요되는지 확인하기위해 필요 -->
