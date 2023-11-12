@@ -71,6 +71,7 @@
 <!-- 세션 유효 시간을 2시간으로 설정 -->
     <session-config>
     	<session-timeout>120</session-timeout>
+    	<tracking-mode>COOKIE</tracking-mode>
 	</session-config>
 <!-- 세션 유효 시간 설정 end -->
 
