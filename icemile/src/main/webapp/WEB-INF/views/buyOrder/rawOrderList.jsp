@@ -547,13 +547,24 @@ $(document).ready(function() {
 					// 텍스트 태그의 값을 찾는다
 					var cellValue = $(this).find("input").val();
 					
-					if ($(this).find("select").length) {
+					if ($(this).find("input[name='emp_num']").length){
+						
+						// 태그가 있는경우 아래와 같이 전환
+						var inputValue = $(this).find("input[name='emp_num']").val();
+						
+						var href = '<a href="#" onclick="memberInfo(\'' + inputValue + '\')">' + inputValue + '</a>';
+						$(this).html(href);
+					}
+					
+					else if ($(this).find("select").length) {
 						// 셀렉트 텍스트값(발주중)을 변수에 삽입한다
 						var selected = $(this).find("select option:selected").text();
 						// 셀렉트가 있는 경우 셀렉트가 선택된 옵션의 텍스트로 변경 한다(어짜피 발주확정 상태 에서는 수정할수없으므로 항시 발주중이된다)
 						// 만약 발주확정 상태에서도 수정하게 하려면 삼항연산자로 추가 수정등에 selected옵션을 부여해야한다 
 						$(this).html(selected);
-					}else {
+					} 
+					
+					else {
 						// 텍스트 태그를 삭제하고 값만 td태그에 삽입한다
 						$(this).html(cellValue);
 					}

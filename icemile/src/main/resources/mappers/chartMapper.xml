@@ -7,11 +7,11 @@
 
   
   <select id="getMonthlySale" resultType="ems.icemile.dto.ChartDTO">
-		SELECT DATE_FORMAT(o.out_plan_DATE, '%Y-%m') AS label, o.order_amount * p.prod_price AS data
+		SELECT DATE_FORMAT(o.out_plan_DATE, '%Y-%m') AS label, (o.order_amount * p.prod_price) AS data
 		FROM orders o JOIN product p
 		ON o.prod_name = p.prod_name
 		WHERE o.order_amount IS NOT NULL
-		GROUP BY DATE_FORMAT(o.out_plan_DATE, '%Y-%m')
+		GROUP BY DATE_FORMAT(o.out_plan_DATE, '%Y-%m'), o.order_amount, o.out_plan_DATE, p.prod_price
 		ORDER BY o.out_plan_DATE ASC
 		LIMIT 6
   </select>  
@@ -19,7 +19,7 @@
     <select id="getMonthlyProd" resultType="ems.icemile.dto.ChartDTO">
 		SELECT DATE_FORMAT(done_date, '%Y-%m')AS label, good_prod AS data, faulty_prod AS data1
 		FROM result
-		GROUP BY DATE_FORMAT(done_date, '%Y-%m')
+		GROUP BY DATE_FORMAT(done_date, '%Y-%m'), good_prod, faulty_prod, done_date
 		ORDER BY done_date ASC
 		LIMIT 6
   </select>  

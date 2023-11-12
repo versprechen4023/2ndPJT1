@@ -20,7 +20,6 @@ public class FactoryCopy2DAOImpl implements FactoryCopy2DAO {
 	private SqlSession sqlSession;
 	
 	// 네임스페이스 사용을 위한 변수 선언
-	@Inject
 	private static final String namespace = "ems.icemile.mappers.workOrderMapper";
 
 	@Override

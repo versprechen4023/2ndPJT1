@@ -21,7 +21,7 @@
 	    	b.buy_code, b.buy_name, o.raw_order_amount, r.raw_price,
         	o.raw_order_date, o.in_plan_date, o.raw_status, o.emp_num
 				FROM raw_order o JOIN raw_material r
-					ON (o.prod_name = r.raw_name)
+					ON (o.raw_name = r.raw_name)
 						JOIN buy b
 							ON (o.buy_name = b.buy_name)
 								ORDER BY o.raw_order_code DESC
@@ -46,7 +46,7 @@
 	    	b.buy_code, b.buy_name, o.raw_order_amount, r.raw_price,
         	o.raw_order_date, o.in_plan_date, o.raw_status, o.emp_num
 				FROM raw_order o JOIN raw_material r
-					ON (o.prod_name = r.raw_name)
+					ON (o.raw_name = r.raw_name)
 						JOIN buy b
 							ON (o.buy_name = b.buy_name)
 								<where>

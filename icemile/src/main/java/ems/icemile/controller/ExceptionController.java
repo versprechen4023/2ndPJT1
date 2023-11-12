@@ -61,7 +61,7 @@ public class ExceptionController {
 			}
 			// 예외의 이유가 ServiceUnavailableException이라면 500(INTERNAL_SERVER_ERROR)세션 없음을 반환한다
 			if(e.getCause() instanceof ServiceUnavailableException) {
-				ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No login Session");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No login Session");
 			}
 		}
 		// 그외에는 500(INTERNAL_SERVER_ERROR) 에러 발생을 반환한다

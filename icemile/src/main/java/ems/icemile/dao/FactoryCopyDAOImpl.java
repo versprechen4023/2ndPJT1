@@ -19,7 +19,6 @@ public class FactoryCopyDAOImpl implements FactoryCopyDAO {
 	@Inject 
 	private SqlSession sqlSession;
 	
-	@Inject
 	private static final String namespace = "mes.icemile.mappers.requirementMapper.";
 	
 	// 소요량 리스트

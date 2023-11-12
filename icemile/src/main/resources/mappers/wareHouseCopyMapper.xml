@@ -15,7 +15,6 @@
 		ON r.raw_code = w.raw_code
 		LEFT JOIN in_material i
 		ON w.wh_code = i.in_wh_code
-		GROUP BY r.raw_code
   	</select>
   	
   	

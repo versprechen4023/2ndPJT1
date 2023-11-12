@@ -28,7 +28,6 @@ public class ShippingDAOImpl implements ShippingDAO {
 	@Inject
 	private SqlSession sqlSession;
 	
-	@Inject
 	private static final String namespace = "mes.icemile.mappers.inMaterialMapper.";
 	
 	// 입고 리스트
